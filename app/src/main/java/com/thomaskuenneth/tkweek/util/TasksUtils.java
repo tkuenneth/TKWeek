@@ -78,7 +78,7 @@ public class TasksUtils {
     private static final String MARK_FINISHED = "_markFinished";
 
     // Zugriff auf https://code.google.com/apis/console beantragen
-    private static final String API_KEY = "AIzaSyCMZJ8fniE83au2QdekokVD-okynjGoa4A";
+    private static final String API_KEY = "...";
 
     private final Message message;
     private final Activity _a;

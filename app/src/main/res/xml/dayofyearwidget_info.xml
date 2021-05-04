@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+	dayofyearwidget_info.xml
+	TKWeek (c) Thomas Künneth 2011 - 2012
+	Alle Rechte beim Autoren. All rights reserved.
+-->
+
+<appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
+	android:minWidth="@dimen/AppWidget_1Cell"
+	android:minHeight="@dimen/AppWidget_1Cell"
+    android:updatePeriodMillis="1800000"
+    android:previewImage="@drawable/preview_dayofyearwidget"
+    android:initialLayout="@layout/widget_initial_layout"
+/>

@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+	date_calculator_activity.xml
+	TKWeek (c) Thomas Künneth 2009 - 2021
+	Alle Rechte beim Autoren. All rights reserved.
+-->
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp">
+
+        <DatePicker
+            android:id="@+id/date_calculator_datepicker"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:calendarViewShown="false"
+            android:datePickerMode="spinner" />
+
+        <TableLayout
+            android:id="@+id/date_calculator_layout_table1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/date_calculator_datepicker"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="4dp">
+
+            <!-- Tage und Wochen -->
+
+            <TableRow>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="2dp"
+                    android:gravity="end"
+                    android:labelFor="@id/days"
+                    android:text="@string/days"
+                    android:textAppearance="?android:attr/textAppearanceSmall" />
+
+                <EditText
+                    android:id="@+id/days"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ems="4"
+                    android:importantForAutofill="no"
+                    android:inputType="numberDecimal"
+                    android:singleLine="true" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="2dp"
+                    android:gravity="end"
+                    android:labelFor="@id/weeks"
+                    android:text="@string/weeks"
+                    android:textAppearance="?android:attr/textAppearanceSmall" />
+
+                <EditText
+                    android:id="@+id/weeks"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ems="4"
+                    android:importantForAutofill="no"
+                    android:inputType="numberDecimal"
+                    android:singleLine="true" />
+
+            </TableRow>
+
+            <!-- Monate und Jahre -->
+
+            <TableRow>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="2dp"
+                    android:gravity="end"
+                    android:labelFor="@id/months"
+                    android:text="@string/months"
+                    android:textAppearance="?android:attr/textAppearanceSmall" />
+
+                <EditText
+                    android:id="@+id/months"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ems="4"
+                    android:importantForAutofill="no"
+                    android:inputType="numberDecimal"
+                    android:singleLine="true" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="2dp"
+                    android:gravity="end"
+                    android:labelFor="@id/years"
+                    android:text="@string/years"
+                    android:textAppearance="?android:attr/textAppearanceSmall" />
+
+                <EditText
+                    android:id="@+id/years"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ems="4"
+                    android:importantForAutofill="no"
+                    android:inputType="numberDecimal"
+                    android:singleLine="true" />
+
+            </TableRow>
+
+        </TableLayout>
+
+        <!-- Checkboxen -->
+
+        <RelativeLayout
+            android:id="@+id/date_calculator_layout_reuse"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/date_calculator_layout_table1"
+            android:gravity="center_horizontal">
+
+            <CheckBox
+                android:id="@+id/date_calculator_count_business_days_only"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/count_business_days_only" />
+
+            <CheckBox
+                android:id="@+id/date_calculator_reuse_result"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/date_calculator_count_business_days_only"
+                android:text="@string/reuse_result" />
+
+        </RelativeLayout>
+
+        <!-- Schaltflächen -->
+
+        <RelativeLayout
+            android:id="@+id/date_calculator_layout_buttons"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/date_calculator_layout_reuse"
+            android:gravity="center_horizontal">
+
+            <Button
+                android:id="@+id/date_calculator_clear"
+                android:layout_width="80dip"
+                style="?android:attr/buttonBarButtonStyle"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:text="@string/clear" />
+
+            <Button
+                android:id="@+id/date_calculator_subtract"
+                android:layout_width="80dip"
+                style="?android:attr/buttonBarButtonStyle"
+                android:layout_height="wrap_content"
+                android:layout_toStartOf="@id/date_calculator_clear"
+                android:text="@string/subtract" />
+
+            <Button
+                android:id="@+id/date_calculator_add"
+                android:layout_width="80dip"
+                style="?android:attr/buttonBarButtonStyle"
+                android:layout_height="wrap_content"
+                android:layout_toStartOf="@id/date_calculator_subtract"
+                android:text="@string/add" />
+
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/date_calculator_result"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/date_calculator_layout_buttons"
+            android:layout_alignParentStart="true"
+            android:gravity="center_horizontal"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    </RelativeLayout>
+
+</ScrollView>

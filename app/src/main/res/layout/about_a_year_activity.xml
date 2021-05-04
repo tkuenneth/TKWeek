@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+	about_a_year_activity.xml
+	TKWeek (c) Thomas Künneth 2010 - 2021
+	Alle Rechte beim Autoren. All Ends reserved.
+-->
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dip">
+
+        <RelativeLayout
+            android:id="@+id/year_selection"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true">
+
+            <Button
+                android:id="@+id/about_a_year_down"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="@string/minus" />
+
+            <TextView
+                android:id="@+id/about_a_year_year"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@id/about_a_year_down"
+                android:gravity="center"
+                android:padding="8dp"
+                android:textSize="48sp" />
+
+            <Button
+                android:id="@+id/about_a_year_up"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toEndOf="@id/about_a_year_year"
+                android:text="@string/plus" />
+
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/about_a_year_roman"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/year_selection"
+            android:layout_centerHorizontal="true"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
+
+        <TextView
+            android:id="@+id/leapyear_is_leap_year"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/about_a_year_roman"
+            android:layout_centerHorizontal="true"
+            android:text="@string/leap_year"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
+
+        <LinearLayout
+            android:id="@+id/leap_year_buttons"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/leapyear_is_leap_year"
+            android:orientation="horizontal"
+            android:weightSum="1.0">
+
+            <Button
+                android:id="@+id/leapyear_previous_year"
+                style="?android:attr/buttonBarButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                android:text="@string/previous_leap_year" />
+
+            <Button
+                android:id="@+id/leapyear_next_year"
+                style="?android:attr/buttonBarButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                android:text="@string/next_leap_year" />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/about_a_year_label1"
+            style="?android:attr/listSeparatorTextViewStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/leap_year_buttons"
+            android:layout_alignParentStart="true"
+            android:text="@string/about_a_year_label1"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        <TextView
+            android:id="@+id/about_a_year_months"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/about_a_year_label1"
+            android:layout_alignParentStart="true"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
+
+        <TextView
+            android:id="@+id/about_a_year_daylight_savings"
+            style="?android:attr/listSeparatorTextViewStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/about_a_year_months"
+            android:layout_marginTop="16dp"
+            android:text="@string/daylight_savings" />
+
+        <TextView
+            android:id="@+id/about_a_year_daylight_savings_from_to"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/about_a_year_daylight_savings"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        <TextView
+            android:id="@+id/about_a_year_seasons"
+            style="?android:attr/listSeparatorTextViewStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/about_a_year_daylight_savings_from_to"
+            android:layout_marginTop="16dp"
+            android:text="@string/seasons" />
+
+        <RelativeLayout
+            android:id="@+id/about_a_year_layout_spring"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/about_a_year_seasons">
+
+            <TextView
+                android:id="@+id/about_a_year_label_spring"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall" />
+
+            <TextView
+                android:id="@+id/about_a_year_spring"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@id/about_a_year_label_spring"
+                android:layout_marginStart="6dip"
+                android:layout_toEndOf="@id/about_a_year_label_spring"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/about_a_year_layout_summer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/about_a_year_layout_spring">
+
+            <TextView
+                android:id="@+id/about_a_year_label_summer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall" />
+
+            <TextView
+                android:id="@+id/about_a_year_summer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@id/about_a_year_label_summer"
+                android:layout_marginStart="6dip"
+                android:layout_toEndOf="@id/about_a_year_label_summer"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/about_a_year_layout_autumn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/about_a_year_layout_summer">
+
+            <TextView
+                android:id="@+id/about_a_year_label_autumn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall" />
+
+            <TextView
+                android:id="@+id/about_a_year_autumn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@id/about_a_year_label_autumn"
+                android:layout_marginStart="6dip"
+                android:layout_toEndOf="@id/about_a_year_label_autumn"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/about_a_year_layout_winter"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/about_a_year_layout_autumn">
+
+            <TextView
+                android:id="@+id/about_a_year_label_winter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall" />
+
+            <TextView
+                android:id="@+id/about_a_year_winter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@id/about_a_year_label_winter"
+                android:layout_marginStart="6dip"
+                android:layout_toEndOf="@id/about_a_year_label_winter"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/about_a_year_weekday_distribution"
+            style="?android:attr/listSeparatorTextViewStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/about_a_year_layout_winter"
+            android:layout_marginTop="16dp"
+            android:text="@string/about_a_year_weekday_distribution" />
+
+        <include
+            android:id="@+id/about_a_year_layout_weekinfo"
+            layout="@layout/weekinfo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/about_a_year_weekday_distribution" />
+
+    </RelativeLayout>
+
+</ScrollView>

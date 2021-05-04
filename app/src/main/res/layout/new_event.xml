@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+	new_event.xml
+	TKWeek (c) Thomas Künneth 2009 - 2021
+	Alle Rechte beim Autoren. All rights reserved.
+-->
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="16dp">
+
+        <EditText
+            android:id="@+id/new_event_descr"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="fill_horizontal"
+            android:hint="@string/description"
+            android:importantForAutofill="no"
+            android:inputType="textAutoCorrect"
+            android:scrollHorizontally="true"
+            android:singleLine="true" />
+
+        <CheckBox
+            android:id="@+id/new_event_annually_repeating"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/new_event_descr"
+            android:layout_alignParentStart="true"
+            android:text="@string/annually_repeating" />
+
+        <DatePicker
+            android:id="@+id/new_event_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/new_event_annually_repeating"
+            android:layout_centerHorizontal="true"
+            android:calendarViewShown="false"
+            android:datePickerMode="calendar" />
+
+    </RelativeLayout>
+</ScrollView>

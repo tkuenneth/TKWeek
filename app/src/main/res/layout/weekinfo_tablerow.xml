@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+	weekinfo_tablerow.xml
+	TKWeek (c) Thomas Künneth 2013
+	Alle Rechte beim Autoren. All rights reserved.
+-->
+
+<TableRow xmlns:android="http://schemas.android.com/apk/res/android"
+    android:gravity="center"
+>
+
+    <TextView
+		style="@style/WeekInfo.Small"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
+		style="@style/WeekInfo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
+		style="@style/WeekInfo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
+		style="@style/WeekInfo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
+		style="@style/WeekInfo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
+		style="@style/WeekInfo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
+		style="@style/WeekInfo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
+		style="@style/WeekInfo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
+		style="@style/WeekInfo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+</TableRow>

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+	datewidget_layout.xml
+	TKWeek (c) Thomas Künneth 2011 - 2017
+	Alle Rechte beim Autoren. All rights reserved.
+-->
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:id="@+id/datewidget_id"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:layout_margin="@dimen/widget_margin"
+	android:background="#80000000"
+	android:orientation="vertical"
+>
+
+    <TextView
+        android:id="@+id/text_day"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="@android:color/white"
+		android:gravity="center"
+		android:includeFontPadding="false"
+    />
+
+    <TextView
+        android:id="@+id/text_month"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+		android:layout_above="@id/text_day"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="@android:color/white"
+		android:gravity="bottom"
+		android:includeFontPadding="false"
+    />
+
+    <TextView
+        android:id="@+id/text_weekday"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+		android:layout_below="@id/text_day"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="@android:color/white"
+		android:gravity="top"
+		android:includeFontPadding="false"
+    />
+
+</RelativeLayout>

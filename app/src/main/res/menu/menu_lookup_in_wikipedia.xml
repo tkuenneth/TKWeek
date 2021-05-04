@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+	menu_lookup_in_wikipedia.xml
+	TKWeek (c) Thomas Künneth 2013 - 2021
+	Alle Rechte beim Autoren. All rights reserved.
+-->
+
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/look_up_in_wikipedia"
+        android:title="@string/look_up_in_wikipedia"
+        app:showAsAction="never" />
+
+</menu>

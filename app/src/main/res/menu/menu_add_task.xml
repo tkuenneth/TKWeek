@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+	menu_add_task.xml
+	TKWeek (c) Thomas Künneth 2013 - 2021
+	Alle Rechte beim Autoren. All rights reserved.
+-->
+
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/add_task"
+        android:title="@string/add_task"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/show_or_hide_done_tasks"
+        android:title="@string/hide_completed_tasks"
+        app:showAsAction="never" />
+
+</menu>

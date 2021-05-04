@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+	days_between_dates_activity.xml
+	TKWeek (c) Thomas Künneth 2009 - 2021
+	Alle Rechte beim Autoren. All Ends reserved.
+-->
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dip">
+
+        <TextView
+            android:id="@+id/label_first_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:text="@string/first_date" />
+
+        <Button
+            android:id="@+id/first_date_pick"
+            style="?android:attr/buttonBarButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/label_first_date"
+            android:layout_alignParentEnd="true"
+            android:text="@string/pick" />
+
+        <Button
+            android:id="@+id/first_date_today"
+            style="?android:attr/buttonBarButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/label_first_date"
+            android:layout_toStartOf="@id/first_date_pick"
+            android:text="@string/today" />
+
+        <TextView
+            android:id="@+id/first_date"
+            android:layout_width="0dip"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/label_first_date"
+            android:layout_alignBaseline="@id/first_date_today"
+            android:layout_alignParentStart="true"
+            android:layout_toStartOf="@id/first_date_today"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        <CheckBox
+            android:id="@+id/checkbox_include_first_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/first_date_today"
+            android:text="@string/include_first_date" />
+
+        <TextView
+            android:id="@+id/label_second_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/checkbox_include_first_date"
+            android:text="@string/second_date" />
+
+        <Button
+            android:id="@+id/second_date_pick"
+            style="?android:attr/buttonBarButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/label_second_date"
+            android:layout_alignParentEnd="true"
+            android:text="@string/pick" />
+
+        <Button
+            android:id="@+id/second_date_today"
+            style="?android:attr/buttonBarButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/label_second_date"
+            android:layout_toStartOf="@id/second_date_pick"
+            android:text="@string/today" />
+
+        <TextView
+            android:id="@+id/second_date"
+            android:layout_width="0dip"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/label_second_date"
+            android:layout_alignBaseline="@id/second_date_today"
+            android:layout_alignParentStart="true"
+            android:layout_toStartOf="@id/second_date_today"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        <TextView
+            android:id="@+id/days_between_dates_from_to"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/second_date_today"
+            android:layout_marginTop="10dip"
+            android:gravity="center_horizontal"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        <TextView
+            android:id="@+id/days_between_dates_total"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/days_between_dates_from_to"
+            android:gravity="center_horizontal"
+            android:textSize="48sp" />
+
+        <ProgressBar
+            android:id="@+id/days_between_dates_progressbar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/days_between_dates_from_to"
+            android:layout_centerInParent="true"
+            android:indeterminate="true"
+            android:visibility="invisible" />
+
+        <TextView
+            android:id="@+id/days_between_dates_about_business_days"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/days_between_dates_total"
+            android:layout_alignParentStart="true"
+            android:paddingBottom="8dp"
+            android:text="@string/days_between_dates_about_business_days" />
+
+        <TextView
+            android:id="@+id/days_between_dates_weekends"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/days_between_dates_about_business_days"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        <TextView
+            android:id="@+id/days_between_dates_weeks"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/days_between_dates_weekends"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        <TextView
+            android:id="@+id/days_between_dates_months"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/days_between_dates_weeks"
+            android:layout_alignParentStart="true"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        <TextView
+            android:id="@+id/days_between_dates_years"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/days_between_dates_months"
+            android:layout_alignParentStart="true"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    </RelativeLayout>
+
+</ScrollView>

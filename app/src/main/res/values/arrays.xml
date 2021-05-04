@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+	arrays.xml
+	TKWeek (c) Thomas Künneth 2009 - 2015
+	Alle Rechte beim Autoren. All rights reserved.
+-->
+
+<resources>
+
+    <string-array name="values_012">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>    
+    
+    <string-array name="annual_event_backup_restore">
+        <item>Backup</item>
+        <item>Restore</item>
+    </string-array>
+
+    <string-array name="entries_recent_events">
+        <item>A week</item>
+        <item>One day</item>
+        <item>None</item>
+    </string-array>
+
+    <string-array name="values_recent_events">
+        <item>-7</item>
+        <item>-1</item>
+        <item>0</item>
+    </string-array>    
+
+    <string-array name="entries_annual_events_preference">
+        <item>@string/hide</item>
+        <item>Western Churches</item>
+        <item>Orthodox Churches</item>
+    </string-array>
+
+    <string-array name="values_annual_events_preference">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>    
+
+    <string-array name="entries_thanksgiving">
+        <item>@string/hide</item>
+        <item>USA</item>
+        <item>Canada</item>
+    </string-array>
+
+    <string-array name="entries_fathersday">
+        <item>@string/hide</item>
+        <item>@string/third_sunday_of_june</item>
+        <item>@string/first_sunday_of_september</item>
+        </string-array>
+    
+    <string-array name="eintraege_wochenanfang">
+        <item>@string/standard</item>
+        <item>@string/samstag</item>
+        <item>@string/sonntag</item>
+        <item>@string/montag</item>
+    </string-array>
+    
+    <string-array name="werte_wochenanfang">
+        <item>-1</item>
+        <item>7</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+
+</resources>

@@ -1,0 +1,423 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+	strings.xml
+	TKWeek (c) Thomas Künneth 2009 - 2021
+	Alle Rechte beim Autoren. All rights reserved.
+-->
+
+<resources>
+
+    <!-- application -->
+    <string name="four_strings_two_lines" translatable="false">%1$s %2$s\n%3$s %4$s</string>
+    <string name="tag_module_selection" translatable="false">module_selection</string>
+    <string name="leap_year">Leap Year</string>
+    <string name="minus" translatable="false">-</string>
+    <string name="plus" translatable="false">+</string>
+    <string name="app_name" translatable="false">TKWeek</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="today">Today</string>
+    <string name="goto_date">Goto date</string>
+    <string name="tomorrow">Tomorrow</string>
+    <string name="yesterday">Yesterday</string>
+    <string name="in_x_days">%1$d days</string>
+    <string name="x_days_ago">%1$d days ago</string>
+    <string name="pick">Pick</string>
+    <string name="number_0" translatable="false">0</string>
+    <string name="dialog_title_error">An error occurred</string>
+    <string name="menu_delete">Delete</string>
+    <string name="settings">Settings</string>
+    <string name="unknown">unknown</string>
+    <string name="loading_data">loading data</string>
+    <string name="main">Main Activity</string>
+    <string name="infinity" translatable="false">\u221e</string>
+    <string name="string1_string2" translatable="false">%1$s (%2$s)</string>
+    <string name="begin">First day of %1$s</string>
+    <string name="end">Last day of %1$s</string>
+    <string name="day_x_of_y">Day %1$d of %2$d %3$s</string>
+    <string name="string1_dash_string2" translatable="false">%1$s - %2$s</string>
+    <string name="previous_leap_year">Previous Leap Year</string>
+    <string name="next_leap_year">Next Leap Year</string>
+    <string name="int_slash_int" translatable="false">%1$d / %2$d</string>
+    <string name="my_email" translatable="false">tkweek@thomaskuenneth.com</string>
+    <string name="action_could_not_be_completed">The action could not be completed.</string>
+    <string name="dpi" translatable="false">dpi</string>
+    <string name="times_symbol" translatable="false">\ud7</string>
+    <string name="pixel">pixel</string>
+    <string name="dp">Density-independent pixels</string>
+    <string name="none">none</string>
+    <string name="sigma" translatable="false">\u3A3</string>
+    <string name="spring">First Day of Spring</string>
+    <string name="summer">First Day of Summer</string>
+    <string name="autumn">First Day of Autumn</string>
+    <string name="winter">First Day of Winter</string>
+    <string name="hide">Hide</string>
+    <string name="grant">Grant</string>
+    <string name="close">Close</string>
+    <string name="title">title</string>
+    <string name="notes">notes</string>
+    <string name="error_call_log">Cannot display call log</string>
+    <string name="edit">Edit</string>
+    <string name="saved">%1$s saved</string>
+    <string name="widget_retired">This TKWeek widget is no longer supported. Please remove.</string>
+    <string name="number_of_events">%1$d events</string>
+
+    <!-- Schulferien -->
+    <string name="herbstferien">Autumn holiday</string>
+    <string name="weihnachtsferien">Christmas holidays</string>
+    <string name="winterferien">Winter holidays</string>
+    <string name="osterferien">Easter holidays</string>
+    <string name="pfingstferien">Whitsun holidays</string>
+    <string name="sommerferien">Summer holidays</string>
+
+    <!-- moon phases -->
+    <string name="new_moon">New Moon</string>
+    <string name="first_quarter">First Quarter</string>
+    <string name="full_moon">Full Moon</string>
+    <string name="last_quarter">Last Quarter</string>
+
+    <!-- astrological signs -->
+    <string name="aries">Aries</string>
+    <string name="taurus">Taurus</string>
+    <string name="gemini">Gemini</string>
+    <string name="cancer">Cancer</string>
+    <string name="leo">Leo</string>
+    <string name="virgo">Virgo</string>
+    <string name="libra">Libra</string>
+    <string name="scorpius">Scorpio</string>
+    <string name="sagittarius">Sagittarius</string>
+    <string name="capricornus">Capricorn</string>
+    <string name="aquarius">Aquarius</string>
+    <string name="pisces">Pisces</string>
+
+    <!-- Ice Saints -->
+    <string name="mamertus" translatable="false">Mamertus</string>
+    <string name="pankratius" translatable="false">Pankratius</string>
+    <string name="servatius" translatable="false">Servatius</string>
+    <string name="bonifatius" translatable="false">Bonifatius</string>
+    <string name="sophie" translatable="false">Sophie</string>
+
+    <!-- TKWeek -->
+    <string name="welcome_to_tkweek">Welcome to TKWeek</string>
+    <string name="week_activity_text1">Convert date and week</string>
+    <string name="week_activity_text2">Find the week number of a date or vice versa</string>
+    <string name="days_between_dates_activity_text1">Days between dates</string>
+    <string name="days_between_dates_activity_text2">Number of days between two dates</string>
+    <string name="date_calculator_activity_text1">Date calculator</string>
+    <string name="date_calculator_activity_text2">Add or subtract days, weeks, …</string>
+    <string name="annual_events_activity_text1">Events</string>
+    <string name="annual_events_activity_text2">Display and maintain events</string>
+    <string name="about_a_year_activity_text1">Information about a year</string>
+    <string name="about_a_year_activity_text2">Leap year, Friday 13th, …</string>
+    <string name="about_activity_text1">About TKWeek</string>
+    <string name="about_activity_text2">Some information about this app and the system</string>
+    <string name="calendar_activity_text1">Calendar</string>
+    <string name="calendar_activity_text2">A simple calendar</string>
+    <string name="myday_activity_text1">My day</string>
+    <string name="myday_activity_text2">Events, appointments, tasks and more</string>
+    <string name="str_permission_read_calendar">TKWeek would like to
+access your calendar data to display events and appointments. You can deactivate this in Settings</string>
+    <string name="str_permission_read_calendar2">TKWeek would like to
+access your calendar data to display all-day events. You can deactivate this in Settings</string>
+    <string name="str_permission_read_contacts">TKWeek would like to
+access your contacts data to display birthdays and anniversaries. You can deactivate this in Settings</string>
+
+    <!-- TKWeekPrefsActivity -->
+    <string name="pick_fathersday">Pick Father’s Day date</string>
+    <string name="week_activity_hide_allday_events">Hide Android calendar all-day events</string>
+    <string name="week_activity_iso_week_title">ISO week numbers</string>
+    <string name="week_activity_iso_week_summary">Calculate week numbers according to the ISO 8601 date and time standard</string>
+    <string name="pick_churches">Pick Churches</string>
+    <string name="week_activity_hide_builtins_title">Hide builtin events</string>
+    <string name="pick_thanksgiving">Pick Thanksgiving date</string>
+    <string name="national_holidays">National Holidays</string>
+    <string name="show_national_holidays">Pick countries</string>
+    <string name="misc_category">Miscellaneous</string>
+    <string name="business_days_title">Business days</string>
+    <string name="business_days_summary">Official working days of the week</string>
+    <string name="business_days_dialog_title">Select business days</string>
+    <string name="week_activity_hide_birthdays">Hide birthdays and anniversaries</string>
+    <string name="recent_events_title">Recent Events</string>
+    <string name="recent_events_summary">Days displayed at top of events list</string>
+    <string name="widget_appearance">Widget appearance</string>
+    <string name="myday_activity_hide_nameday">Hide name day</string>
+    <string name="hide_seasons">Hide seasons</string>
+    <string name="hide_astrological_sign">Hide Sign of the Zodiac</string>
+    <string name="third_sunday_of_june">Third Sunday of June</string>
+    <string name="first_sunday_of_september">First Sunday of September</string>
+    <string name="myday_activity_hide_missed_calls">Hide missed calls</string>
+    <string name="set_alarm">Show upcoming events as notifications</string>
+    <string name="set_alarm_description">Configure notification delivery</string>
+    <string name="show_notifications">Show notifications</string>
+    <string name="moon_phases">Moon phases</string>
+    <string name="show_moon_phases">Show Moon phases</string>
+    <string name="configure_moon_phases">Configure moon phases visibility</string>
+    <string name="play_sound">Play sound</string>
+    <string name="vibrate">Vibrate</string>
+    <string name="myday_activity_hide_appointments">Hide appointments</string>
+
+    <!-- Wochenanfang -->
+    <string name="wochenanfang">First day of week</string>
+    <string name="samstag">Saturday</string>
+    <string name="sonntag">Sunday</string>
+    <string name="montag">Monday</string>
+    <string name="standard">default</string>
+
+    <!-- WidgetPreference -->
+    <string name="widget_opacity">Opacity</string>
+
+    <!-- WeekActivity -->
+    <string name="date_within_week">date within week</string>
+    <string name="week_number">week number</string>
+    <string name="week_number_iso">ISO week number</string>
+    <string name="first_and_last_day_of_week">first (%1$s) and last (%2$s) day of week</string>
+
+    <!-- AboutAYear -->
+    <string name="about_a_year_label1">Friday the 13th</string>
+    <string name="about_a_year_weekday_distribution">Weekday distribution</string>
+    <string name="daylight_savings">daylight savings</string>
+    <string name="seasons">Seasons</string>
+
+    <!-- DateInfoActivity -->
+    <string name="day_of_week">Day of week:</string>
+    <string name="label_day_of_year">Day of year:</string>
+    <string name="day_of_year">%1$d of %2$d (%3$d left)</string>
+    <string name="is_leap_year">Leap year:</string>
+    <string name="astrological_sign">Sign of the Zodiac:</string>
+    <string name="nameday">Name day:</string>
+    <string name="look_up_in_wikipedia">Look up in Wikipedia</string>
+
+    <!-- DaysBetweenDatesActivity -->
+    <string name="first_date">From:</string>
+    <string name="second_date">To:</string>
+    <string name="days_from_to">Days (business days) between %1$s and %2$s</string>
+    <string name="days_total" translatable="false">%1$d (%2$d)</string>
+    <string name="days_between_dates_weekends">%1$d weekend(s)</string>
+    <string name="days_between_dates_weeks">about %1$d weeks total</string>
+    <string name="days_between_dates_months">about %1$d months total</string>
+    <string name="days_between_dates_yearss">about %1$d years total</string>
+    <string name="days_between_dates_about_business_days">Open preferences to select business days.</string>
+    <string name="include_first_date">Include first day</string>
+
+    <!-- DateCalculatorActivity -->
+    <string name="days">days</string>
+    <string name="weeks">weeks</string>
+    <string name="months">months</string>
+    <string name="years">years</string>
+    <string name="add" translatable="false">+</string>
+    <string name="subtract" translatable="false">-</string>
+    <string name="clear">Clear</string>
+    <string name="date_calculator_info">Please tap + or -</string>
+    <string name="reuse_result">Set result as new date</string>
+    <string name="count_business_days_only">Only count business days</string>
+
+    <!-- AnnualEventsActivity -->
+    <string name="national_doughnut_day">National Doughnut Day</string>
+    <string name="template_anniversary">%1$d times since %5$d on %2$s, %3$s %4$d</string>
+    <string name="erntedank">Erntedankfest</string>
+    <string name="australia_day">Australia Day</string>
+    <string name="gustav_adolf_tag">Gustaf Adolfsdagen</string>
+    <string name="midsommar">Midsommar</string>
+    <string name="nationalfeiertag_se">National Day of Sweden</string>
+    <string name="ostermontag">Easter Monday</string>
+    <string name="reformationstag">Reformation Day</string>
+    <string name="nikolaus">Saint Nicholas</string>
+    <string name="pakjesavond">Pakjesavond</string>
+    <string name="josefstag">Josefstag</string>
+    <string name="leopolditag_at">Leopolditag</string>
+    <string name="augsburger_friedensfest">Augsburger Hohes Friedensfest</string>
+    <string name="fathersday">Father’s Day</string>
+    <string name="johanni">Nativity of St. John the Baptist</string>
+    <string name="siebenschlaefer">Seven Sleepers Day</string>
+    <string name="weiberfastnacht">Thursday before Shrove Tuesday</string>
+    <string name="mariae_lichtmess">Presentation of Jesus at the Temple</string>
+    <string name="zweiter_weihnachtstag">Boxing Day</string>
+    <string name="martini">St. Martin&#x2019;s Day</string>
+    <string name="black_friday">Black Friday</string>
+    <string name="columbus_day">Columbus Day</string>
+    <string name="labour_day_usa">Labor Day</string>
+    <string name="national_flag_day_ru">National Flag Day (Russia)</string>
+    <string name="koninginnedag">Koninginnedag</string>
+    <string name="koningsdag">Koningsdag</string>
+    <string name="aschermittwoch">Ash Wednesday</string>
+    <string name="veterans_day_us">Veterans Day</string>
+    <string name="tag_der_erde">Earth Day</string>
+    <string name="groundhog_day_us">Groundhog Day</string>
+    <string name="election_day_us">Election Day</string>
+    <string name="karfreitag">Good Friday</string>
+    <string name="lincolns_birthday">Lincoln’s Birthday</string>
+    <string name="flag_day_usa">Flag Day</string>
+    <string name="st_patricks_day">St. Patrick’s Day</string>
+    <string name="erster_weihnachtstag">Christmas</string>
+    <string name="nationalfeiertag_no">Norwegian Constitution Day</string>
+    <string name="sg_national_day">National Day (Singapore)</string>
+    <string name="presidents_day">Presidents\' Day</string>
+    <string name="mlk_day">Martin Luther King Day</string>
+    <string name="memorial_day">Memorial Day</string>
+    <string name="weltfrauentag">International Women&#x2019;s Day</string>
+    <string name="birthday">Birthday of %1$s</string>
+    <string name="birthday_past">turned %1$d on %2$s, %3$s %4$d (born %5$d)</string>
+    <string name="birthday_future">turns %1$d on %2$s, %3$s %4$d (born %5$d)</string>
+    <string name="anniversary">anniversary</string>
+    <string name="custom">custom event</string>
+    <string name="other">other event</string>
+    <string name="event">%1$s of %2$s</string>
+    <string name="erscheinung_des_herrn">Epiphany</string>
+    <string name="nationalfeiertag_sc">Swiss National Day</string>
+    <string name="nationalfeiertag_at">Austrian National Day</string>
+    <string name="nationalfeiertag_fr">Bastille Day</string>
+    <string name="advent">%1$d. Advent</string>
+    <string name="independence_day_usa">Independence Day</string>
+    <string name="thanksgiving">Thanksgiving</string>
+    <string name="tag_der_deutschen_einheit">German Unity Day</string>
+    <string name="bloomsday">Bloomsday</string>
+    <string name="peter_und_paul">Feast of Saints Peter and Paul</string>
+    <string name="maria_himmelfahrt">Assumption of Mary</string>
+    <string name="dst_begin">Begin Daylight Saving Time</string>
+    <string name="dst_end">End Daylight Saving Time</string>
+    <string name="erster_april">April Fools&#x2019; Day</string>
+    <string name="palmsonntag">Palm Sunday</string>
+    <string name="rosenmontag">Shrove Monday</string>
+    <string name="allerheiligen">All Saints</string>
+    <string name="fronleichnam">Corpus Christi</string>
+    <string name="christi_himmelfahrt">Ascension of Jesus</string>
+    <string name="pfingsten">Pentecost</string>
+    <string name="pfingstmontag">Whit Monday</string>
+    <string name="ostersonntag">Easter Sunday</string>
+    <string name="tag_der_arbeit">International Workers&#x2019; Day</string>
+    <string name="valentinstag">Valentine&#x2019;s Day</string>
+    <string name="muttertag">Mother&#x2019;s Day</string>
+    <string name="halloween">Halloween</string>
+    <string name="silvester">New Year&#x2019;s Eve</string>
+    <string name="heiliger_abend">Christmas Eve</string>
+    <string name="neujahr">New Year</string>
+    <string name="new_event">New user event</string>
+    <string name="annual_event_backup_restore">Backup / Restore</string>
+    <string name="mark_as_day_off">Mark as a day off</string>
+    <string name="remove_day_off_tag">Remove day off tag</string>
+    <string name="mark_as_holiday">Mark as a holiday</string>
+    <string name="remove_holiday_tag">Remove holiday tag</string>
+    <string name="channel_events">Events</string>
+
+    <!-- PickADateActivity -->
+    <string name="description">description</string>
+    <string name="no_description">no description</string>
+    <string name="annually_repeating">annually repeating</string>
+
+    <!-- About -->
+    <string name="about_version_name">App version:</string>
+    <string name="about_language">Language:</string>
+    <string name="about_country">Country:</string>
+    <string name="about_timezone">Time zone:</string>
+    <string name="about_calendar_class">Calendar class:</string>
+    <string name="about_density">Screen density:</string>
+    <string name="about_size_in_pixel">Screen size:</string>
+
+    <!-- CalendarActivity -->
+    <string name="calendar_number_of_business_days">%1$d business days</string>
+    <string name="calendar_number_days_off">%1$d days off</string>
+    <string name="calendar_recently_clicked">Recently clicked</string>
+
+    <!-- MyDayActivity -->
+    <string name="appointments">appointments</string>
+    <string name="from_to">%1$s until %2$s%3$s</string>
+    <string name="minute">minute</string>
+    <string name="minutes">minutes</string>
+    <string name="hour">hour</string>
+    <string name="hours">hours</string>
+    <string name="day">day</string>
+    <string name="day_off">marked as day off</string>
+    <string name="tasks">tasks</string>
+    <string name="add_task">New task</string>
+    <string name="events">events</string>
+    <string name="toast_task_completed">Task completed.</string>
+    <string name="missed_calls">missed calls</string>
+	<string name="str_need_call_log_permission">To display missed calls,
+TKWeek needs to access the call log. If you do not want to see
+missed calls, you can hide them in Settings.</string>
+	<string name="missing_right_create_task">To create tasks,
+you need to grant access to contacts in system settings.</string>
+	<string name="needed_right_create_task">To create tasks,
+TKWeek needs to access your contacts.</string>
+    <string name="hide_completed_tasks">Hide completed tasks</string>
+    <string name="show_completed_tasks">Show completed tasks</string>
+    <string name="no_title">(no title)</string>
+    <string name="new_appointment">New appointment</string>
+    <string name="no_notes">no notes</string>
+    <string name="no_permission">no permission</string>
+
+    <!-- EnterTaskActivity -->
+    <string name="toast_create_task_success">Task saved.</string>
+    <string name="enter_task_has_duedate">due date</string>
+
+    <!-- EventsListWidget -->
+    <string name="eventslistwidget_name">Events list</string>
+
+    <!-- EventsWidget -->
+    <string name="eventswidget_name">Events</string>
+    <string name="eventswidget_several_events">%1$d events</string>
+    <string name="eventswidget_no_events">No upcoming events</string>
+
+    <!-- WeekInfoWidget -->
+    <string name="weekinfowidget_name">Week Info</string>
+    <string name="weekinfowidget_medium_name">Week Info (medium size)</string>
+    <string name="weekinfowidget_template">%1$s %2$d of %3$d</string>
+    <string name="weekinfowidget_from">from (%1$s)</string>
+    <string name="weekinfowidget_to">to (%1$s)</string>
+
+    <!-- DateWidget -->
+    <string name="datewidget_name">Current date</string>
+
+    <!-- DayOfYearWidget -->
+    <string name="dayofyearwidget_name">Day of year</string>
+
+    <!-- WhatsNew -->
+    <string name="welcome">Welcome</string>
+    <string name="alert_dialog_continue">Continue</string>
+    <string name="alert_dialog_abort">Abort</string>
+    <string name="welcome_text"><b>Thank you very much for downloading this app. 
+If you have any suggestions, please feel free to contact me at %1$s.</b>
+\n\nPrivacy Policy
+\n\nThis privacy policy contains information about how TKWeek handles user data.
+\n\nWe do not sell or let any other third parties use your data.
+The app contains no advertisements.
+\n\nThe usage of personal data
+\nWhen you send an email to the TKWeek support,
+we keep a record of our communication, usually until the support case is closed.
+This includes your email, name and the conversation history. This is the
+only personal information we store. We may need to keep the communication record for legal reasons.
+\n\nTo fulfill its purpose, the app must access user account data,
+your calendar, your call log and the contacts database.
+TKWeek does not process the data in unexpected or hidden ways.
+Specifically it does not send the data to thrid party servers.
+Please refer to the section Use of other services.
+\n\nThe usage of non-personal data
+\nNon-personal information is anonymous data with which you cannot uniquely identify a specific individual.
+TKWeek does not collect or store non-personal information.
+\n\nUse of other services
+\nTKWeek heavily relies on core Google Android Platform services, the Google Contacts API,
+Google Calendar API and Google Tasks API. How and what data these services process
+may not be controllable by TKWeek. You can find their privacy policy
+here: http://www.google.com/policies/privacy.
+Also, TKWeek links to sites maintained by the Wikimedia Foundation.
+You can find their privacy policy here: https://wikimediafoundation.org/wiki/Privacy_policy
+\n\n<b>Terms of use</b>\nThis
+program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\nThe author may not be held responsible
+for any problems caused by using this program. You use <b>TKWeek</b> completely
+at your own risk.
+	</string>
+	<string name="welcome_continue">Please click <b>Continue</b> 
+if you agree with our privacy policy and the terms of use. <b>Abort</b> quits the program.
+	</string>
+    <string name="buss_und_bettag_de">day of repentance and prayer</string>
+    <string name="weltkindertag">Universal Children\'s Day</string>
+    <string name="schulferien_bundesland">School holidays</string>
+    <string name="search">Search</string>
+    <string name="search_hint">Name of an event</string>
+    <string name="filtered">filtered</string>
+    <string name="show_school_holidays">Pick state</string>
+    <string name="load_all_user_events">Load all user events</string>
+
+</resources>

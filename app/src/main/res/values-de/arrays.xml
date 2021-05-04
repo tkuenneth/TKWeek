@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+	arrays.xml (de)
+	TKWeek (c) Thomas Künneth 2009 - 2015
+	Alle Rechte beim Autoren. All rights reserved.
+-->
+
+<resources>
+
+    <string-array name="annual_event_backup_restore">
+        <item>Sichern</item>
+        <item>Wiederherstellen</item>
+    </string-array>
+    
+    <string-array name="entries_recent_events">
+        <item>Eine Woche</item>
+        <item>Ein Tag</item>
+        <item>Keine</item>
+    </string-array>
+
+    <string-array name="entries_annual_events_preference">
+        <item>@string/hide</item>
+        <item>Westliche Kirchen</item>
+        <item>Orthodoxe Kirchen</item>
+    </string-array>
+
+    <string-array name="entries_thanksgiving">
+        <item>@string/hide</item>
+        <item>USA</item>
+        <item>Kanada</item>
+    </string-array>
+        
+</resources>

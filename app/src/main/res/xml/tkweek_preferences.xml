@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+	tkweek_preferences.xml
+	TKWeek (c) Thomas Künneth 2010 - 2021
+	Alle Rechte beim Autoren. All rights reserved.
+-->
+
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory android:title="@string/week_activity_text1">
+
+        <CheckBoxPreference
+            android:key="use_iso_weeks"
+            android:summary="@string/week_activity_iso_week_summary"
+            android:title="@string/week_activity_iso_week_title" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/annual_events_activity_text1">
+
+        <ListPreference
+            android:defaultValue="-7"
+            android:dialogTitle="@string/recent_events_title"
+            android:entries="@array/entries_recent_events"
+            android:entryValues="@array/values_recent_events"
+            android:key="recent_events"
+            android:summary="@string/recent_events_summary"
+            android:title="@string/recent_events_title" />
+
+        <ListPreference
+            android:defaultValue="1"
+            android:dialogTitle="@string/pick_churches"
+            android:entries="@array/entries_annual_events_preference"
+            android:entryValues="@array/values_annual_events_preference"
+            android:key="ostersonntag"
+            android:summary="@string/pick_churches"
+            android:title="@string/ostersonntag" />
+
+        <ListPreference
+            android:defaultValue="1"
+            android:dialogTitle="@string/pick_thanksgiving"
+            android:entries="@array/entries_thanksgiving"
+            android:entryValues="@array/values_012"
+            android:key="thanksgiving"
+            android:summary="@string/pick_thanksgiving"
+            android:title="@string/thanksgiving" />
+
+        <ListPreference
+            android:defaultValue="0"
+            android:dialogTitle="@string/pick_fathersday"
+            android:entries="@array/entries_fathersday"
+            android:entryValues="@array/values_012"
+            android:key="fathersday"
+            android:summary="@string/pick_fathersday"
+            android:title="@string/fathersday" />
+
+        <!--
+        <com.thomaskuenneth.tkweek.preference.PickCountriesPreference
+            android:dialogTitle="@string/show_national_holidays"
+            android:summary="@string/show_national_holidays"
+            android:title="@string/national_holidays" />
+-->
+
+        <ListPreference
+            android:defaultValue="@string/hide"
+            android:dialogTitle="@string/show_school_holidays"
+            android:key="schulferien_bundesland"
+            android:summary="@string/show_school_holidays"
+            android:title="@string/schulferien_bundesland" />
+
+        <!--
+        <com.thomaskuenneth.tkweek.preference.AlarmPreference
+            android:summary="@string/set_alarm_description"
+            android:dialogTitle="@string/set_alarm_description"
+            android:dialogLayout="@layout/alarm_preference"
+            android:title="@string/set_alarm" />
+
+        <com.thomaskuenneth.tkweek.preference.MoonPhasesPreference
+            android:summary="@string/configure_moon_phases"
+            android:dialogTitle="@string/configure_moon_phases"
+            android:title="@string/moon_phases" />
+-->
+
+        <CheckBoxPreference
+            android:key="hide_allday_events"
+            android:title="@string/week_activity_hide_allday_events" />
+
+        <CheckBoxPreference
+            android:key="hide_builtin_events"
+            android:title="@string/week_activity_hide_builtins_title" />
+
+        <CheckBoxPreference
+            android:key="hide_birthdays"
+            android:title="@string/week_activity_hide_birthdays" />
+
+        <CheckBoxPreference
+            android:key="hide_seasons"
+            android:title="@string/hide_seasons" />
+
+        <CheckBoxPreference
+            android:key="load_all_user_events"
+            android:title="@string/load_all_user_events" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/myday_activity_text1">
+
+        <CheckBoxPreference
+            android:key="hide_astrological_sign"
+            android:title="@string/hide_astrological_sign" />
+
+        <CheckBoxPreference
+            android:key="hide_nameday"
+            android:title="@string/myday_activity_hide_nameday" />
+
+        <CheckBoxPreference
+            android:key="hide_missed_calls"
+            android:title="@string/myday_activity_hide_missed_calls" />
+
+        <CheckBoxPreference
+            android:key="hide_appointments"
+            android:title="@string/myday_activity_hide_appointments" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/misc_category">
+
+        <!--
+        <com.thomaskuenneth.tkweek.preference.PickBusinessDaysPreference
+            android:dialogTitle="@string/business_days_dialog_title"
+            android:summary="@string/business_days_summary"
+            android:title="@string/business_days_title" />
+-->
+
+        <!--
+        <com.thomaskuenneth.tkweek.preference.WidgetPreference
+            android:dialogTitle="@string/widget_appearance"
+            android:title="@string/widget_appearance" />
+-->
+        <ListPreference
+            android:defaultValue="-1"
+            android:entries="@array/eintraege_wochenanfang"
+            android:entryValues="@array/werte_wochenanfang"
+            android:key="wochenanfang"
+            android:title="@string/wochenanfang" />
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

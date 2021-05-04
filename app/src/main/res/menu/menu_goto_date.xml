@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+	menu_goto_date.xml
+	TKWeek (c) Thomas Künneth 2021
+	Alle Rechte beim Autoren. All rights reserved.
+-->
+
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/goto_date"
+        android:icon="@drawable/ic_baseline_date_range_24"
+        android:title="@string/goto_date"
+        app:showAsAction="ifRoom" />
+
+</menu>

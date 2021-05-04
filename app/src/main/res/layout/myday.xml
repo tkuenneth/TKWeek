@@ -1,0 +1,257 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+	myday.xml
+	TKWeek (c) Thomas Künneth 2012 - 2021
+	Alle Rechte beim Autoren. All rights reserved.
+-->
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp">
+
+        <TextView
+            android:id="@+id/myday_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:gravity="center"
+            android:paddingBottom="16dp"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
+
+        <RelativeLayout
+            android:id="@+id/myday_layout_week_number"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/myday_date">
+
+            <TextView
+                android:id="@+id/myday_label_week_number"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/week_number"
+                android:textAppearance="?android:attr/textAppearanceSmall" />
+
+            <TextView
+                android:id="@+id/myday_week_number"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@id/myday_label_week_number"
+                android:layout_marginStart="6dip"
+                android:layout_toEndOf="@id/myday_label_week_number"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/myday_layout_day_in_year"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/myday_layout_week_number">
+
+            <TextView
+                android:id="@+id/myday_label_day_in_year"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/label_day_of_year"
+                android:textAppearance="?android:attr/textAppearanceSmall" />
+
+            <TextView
+                android:id="@+id/myday_day_in_year"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@id/myday_label_day_in_year"
+                android:layout_marginStart="6dip"
+                android:layout_toEndOf="@id/myday_label_day_in_year"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/myday_layout_is_leap_year"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/myday_layout_day_in_year">
+
+            <TextView
+                android:id="@+id/myday_label_is_leap_year"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/is_leap_year"
+                android:textAppearance="?android:attr/textAppearanceSmall" />
+
+            <TextView
+                android:id="@+id/myday_is_leap_year"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@id/myday_label_is_leap_year"
+                android:layout_marginStart="6dip"
+                android:layout_toEndOf="@id/myday_label_is_leap_year"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/myday_layout_astrological_sign"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/myday_layout_is_leap_year">
+
+            <TextView
+                android:id="@+id/myday_label_astrological_sign"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/astrological_sign"
+                android:textAppearance="?android:attr/textAppearanceSmall" />
+
+            <TextView
+                android:id="@+id/myday_astrological_sign"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@id/myday_label_astrological_sign"
+                android:layout_marginStart="6dip"
+                android:layout_toEndOf="@id/myday_label_astrological_sign"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/myday_layout_nameday"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/myday_layout_astrological_sign">
+
+            <TextView
+                android:id="@+id/myday_label_nameday"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/nameday"
+                android:textAppearance="?android:attr/textAppearanceSmall" />
+
+            <TextView
+                android:id="@+id/myday_nameday"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@id/myday_label_nameday"
+                android:layout_marginStart="6dip"
+                android:layout_toEndOf="@id/myday_label_nameday"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/myday_layout_notes"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/myday_layout_nameday">
+
+            <TextView
+                android:id="@+id/myday_label_notes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/notes"
+                android:textAppearance="?android:attr/textAppearanceSmall" />
+
+            <Button
+                android:id="@+id/myday_symbol_notes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true"
+                android:text="@string/edit" />
+
+            <TextView
+                android:id="@+id/myday_notes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@id/myday_label_notes"
+                android:layout_marginStart="6dip"
+                android:layout_toStartOf="@id/myday_symbol_notes"
+                android:layout_toEndOf="@id/myday_label_notes"
+                android:hint="@string/no_notes"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/myday_label_missed_calls"
+            style="?android:attr/listSeparatorTextViewStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/myday_layout_notes"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="8dp"
+            android:text="@string/missed_calls" />
+
+        <LinearLayout
+            android:id="@+id/myday_missed_calls"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/myday_label_missed_calls"
+            android:layout_alignParentStart="true"
+            android:orientation="vertical" />
+
+        <TextView
+            android:id="@+id/myday_label_events"
+            style="?android:attr/listSeparatorTextViewStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/myday_missed_calls"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="8dp"
+            android:text="@string/events" />
+
+        <LinearLayout
+            android:id="@+id/myday_events"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/myday_label_events"
+            android:layout_alignParentStart="true"
+            android:orientation="vertical" />
+
+        <TextView
+            android:id="@+id/myday_label_appointments"
+            style="?android:attr/listSeparatorTextViewStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/myday_events"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="8dp"
+            android:text="@string/appointments" />
+
+        <LinearLayout
+            android:id="@+id/myday_appointments"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/myday_label_appointments"
+            android:layout_alignParentStart="true"
+            android:orientation="vertical" />
+
+        <TextView
+            android:id="@+id/myday_label_tasks"
+            style="?android:attr/listSeparatorTextViewStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/myday_appointments"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="8dp"
+            android:text="@string/tasks"
+            android:visibility="gone" />
+
+        <LinearLayout
+            android:id="@+id/myday_tasks"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/myday_label_tasks"
+            android:layout_alignParentStart="true"
+            android:animateLayoutChanges="true"
+            android:orientation="vertical"
+            android:visibility="gone" />
+
+    </RelativeLayout>
+
+</ScrollView>

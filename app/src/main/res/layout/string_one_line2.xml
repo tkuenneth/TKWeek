@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+	string_one_line2.xml
+	TKWeek (c) Thomas Künneth 2012 - 2021
+	Alle Rechte beim Autoren. All rights reserved.
+-->
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:paddingBottom="8dp"
+>
+
+    <com.thomaskuenneth.tkweek.util.BorderView
+        android:id="@+id/string_one_line2_color"
+        android:layout_width="16dp"
+        android:layout_height="match_parent"
+        android:layout_marginEnd="8dp"
+        android:background="#ff000000"
+    />
+    
+	<TextView
+	    android:id="@+id/string_one_line2_text"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+		android:maxLines="4"
+        android:ellipsize="end"
+	    android:textAppearance="?android:attr/textAppearanceLarge"
+	/>
+	
+</LinearLayout>

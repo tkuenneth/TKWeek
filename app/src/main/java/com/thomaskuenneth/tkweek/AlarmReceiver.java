@@ -2,7 +2,7 @@
  * AlarmReceiver.java
  *
  * Copyright 2016 - 2020 Thomas Künneth
- * Copyright 2021 MATHEMA GmbH 2021
+ * Copyright 2021 MATHEMA GmbH
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in

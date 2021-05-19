@@ -39,7 +39,7 @@
     <string name="previous_leap_year">Previous Leap Year</string>
     <string name="next_leap_year">Next Leap Year</string>
     <string name="int_slash_int" translatable="false">%1$d / %2$d</string>
-    <string name="my_email" translatable="false">tkweek@thomaskuenneth.com</string>
+    <string name="my_email" translatable="false">mobile@mathema.de</string>
     <string name="action_could_not_be_completed">The action could not be completed.</string>
     <string name="dpi" translatable="false">dpi</string>
     <string name="times_symbol" translatable="false">\ud7</string>
@@ -376,7 +376,7 @@ TKWeek needs to access your contacts.</string>
     <string name="alert_dialog_continue">Continue</string>
     <string name="alert_dialog_abort">Abort</string>
     <string name="welcome_text"><b>Thank you very much for downloading this app. 
-If you have any suggestions, please feel free to contact me at %1$s.</b>
+If you have any suggestions, please feel free to contact MATHEMA GmbH at %1$s.</b>
 \n\nPrivacy Policy
 \n\nThis privacy policy contains information about how TKWeek handles user data.
 \n\nWe do not sell or let any other third parties use your data.
@@ -398,15 +398,25 @@ TKWeek does not collect or store non-personal information.
 \nTKWeek heavily relies on core Google Android Platform services, the Google Contacts API,
 Google Calendar API and Google Tasks API. How and what data these services process
 may not be controllable by TKWeek. You can find their privacy policy
-here: http://www.google.com/policies/privacy.
+at http://www.google.com/policies/privacy.
 Also, TKWeek links to sites maintained by the Wikimedia Foundation.
-You can find their privacy policy here: https://wikimediafoundation.org/wiki/Privacy_policy
-\n\n<b>Terms of use</b>\nThis
-program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\nThe author may not be held responsible
-for any problems caused by using this program. You use <b>TKWeek</b> completely
-at your own risk.
+You can find their privacy policy at https://wikimediafoundation.org/wiki/Privacy_policy
+\n\n<b>Terms of use</b>\n\nCopyright (c) 2021 MATHEMA GmbH\n
+\nPermission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the \"Software\"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:\n
+\nThe above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.\n
+\nTHE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
 	</string>
 	<string name="welcome_continue">Please click <b>Continue</b> 
 if you agree with our privacy policy and the terms of use. <b>Abort</b> quits the program.

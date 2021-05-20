@@ -251,7 +251,6 @@
     <string name="add_task">Neue Aufgabe</string>
     <string name="events">Ereignisse</string>
     <string name="toast_task_completed">Aufgabe abgeschlossen.</string>
-    <string name="missed_calls">Entgangene Anrufe</string>
 	<string name="str_need_call_log_permission">Um entgangene Anrufe anzeigen zu können,
 muss TKWeek auf die Anrufhistorie zugreifen. Wenn Sie keine entgangenen Anrufe
 sehen möchten, können Sie dies in den Einstellungen ausschalten.</string>

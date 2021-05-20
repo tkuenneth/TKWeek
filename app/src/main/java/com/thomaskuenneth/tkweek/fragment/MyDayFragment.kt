@@ -1,8 +1,25 @@
 /*
  * MyDayFragment.kt
  *
- * TKWeek (c) Thomas Künneth 2021
- * Alle Rechte beim Autoren. All rights reserved.
+ * Copyright 2009 - 2020 Thomas Künneth
+ * Copyright 2021 MATHEMA GmbH
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy of
+ * this software and associated documentation files (the "Software"), to deal in
+ * the Software without restriction, including without limitation the rights to use,
+ * copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the
+ * Software, and to permit persons to whom the Software is furnished to do so,
+ * subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all copies
+ * or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
+ * INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
+ * PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+ * HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
+ * CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
+ * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 package com.thomaskuenneth.tkweek.fragment
 
@@ -12,14 +29,12 @@ import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.database.ContentObserver
 import android.database.Cursor
 import android.net.Uri
 import android.os.*
 import android.provider.CalendarContract
 import android.provider.CallLog.Calls
 import android.provider.ContactsContract
-import android.telephony.PhoneNumberUtils
 import android.util.Log
 import android.view.*
 import android.widget.*
@@ -62,7 +77,6 @@ class MyDayFragment : TKWeekBaseFragment<MydayBinding>(),
 
     private var cal: Calendar? = null
     private var tasksNeedUpdate = false
-    private var contentObserver: ContentObserver? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -97,11 +111,6 @@ class MyDayFragment : TKWeekBaseFragment<MydayBinding>(),
         ) {
             permissins.add(Manifest.permission.READ_CALENDAR)
         }
-        if (isShowMissedCalls()) {
-            if (!TKWeekUtils.canReadCallLog(requireContext()) && !shouldShowPermissionReadCallLogRationale()) {
-                permissins.add(Manifest.permission.READ_CALL_LOG)
-            }
-        }
         if (!TKWeekUtils.canGetAccounts(requireContext())) {
             //       permissins.add(Manifest.permission.GET_ACCOUNTS)
         }
@@ -120,9 +129,6 @@ class MyDayFragment : TKWeekBaseFragment<MydayBinding>(),
     ) {
         for (i in grantResults.indices) {
             when {
-                Manifest.permission.READ_CALL_LOG == permissions[i] -> {
-                    updateMissedCalls()
-                }
                 Manifest.permission.GET_ACCOUNTS == permissions[i] -> {
                     prepareEventsLoader()
                 }
@@ -211,25 +217,11 @@ class MyDayFragment : TKWeekBaseFragment<MydayBinding>(),
 
     override fun onResume() {
         super.onResume()
-        contentObserver = object : ContentObserver(Handler()) {
-            override fun onChange(selfChange: Boolean) {
-                updateMissedCalls()
-            }
-        }
-        if (requireContext().checkSelfPermission(Manifest.permission.READ_CALL_LOG) == PackageManager.PERMISSION_GRANTED) {
-            requireContext().contentResolver.registerContentObserver(
-                Calls.CONTENT_URI,
-                false, contentObserver!!
-            )
-        }
         prepareEventsLoader()
-        updateMissedCalls()
     }
 
     override fun onPause() {
         cancelEventsLoader()
-        requireContext().contentResolver.unregisterContentObserver(contentObserver!!)
-        contentObserver = null
         super.onPause()
     }
 
@@ -243,7 +235,6 @@ class MyDayFragment : TKWeekBaseFragment<MydayBinding>(),
 
     override fun preferencesFinished(resultCode: Int, data: Intent?) {
         updateViews()
-        updateMissedCalls()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -363,111 +354,6 @@ class MyDayFragment : TKWeekBaseFragment<MydayBinding>(),
         binding.mydayNameday.text = Namenstage.getNameDays(requireContext(), date)
         prepareEventsLoader()
         updateNotes()
-    }
-
-    private fun isShowMissedCalls(): Boolean {
-        var show = hasTelephony
-        if (show) {
-            val prefs = PreferenceManager
-                .getDefaultSharedPreferences(requireContext())
-            show = !prefs.getBoolean("hide_missed_calls", false)
-        }
-        return show
-    }
-
-    private fun updateMissedCalls() {
-        val now = Calendar.getInstance()
-        val current = Calendar.getInstance()
-        val inflater = layoutInflater
-        val show = isShowMissedCalls()
-        binding.mydayLabelMissedCalls.visibility = if (show) View.VISIBLE else View.GONE
-        binding.mydayMissedCalls.visibility = if (show) View.VISIBLE else View.GONE
-        if (show) {
-            binding.mydayMissedCalls.removeAllViews()
-            // permission granted?
-            if (TKWeekUtils.canReadCallLog(requireContext())) {
-                val list = getMissedCalls()
-                for (position in list.indices) {
-                    val parent =
-                        inflater.inflate(R.layout.two_line_item, binding.mydayMissedCalls, false)
-                    binding.mydayMissedCalls.addView(parent)
-                    // divider
-                    if (position > 0) {
-                        val divider = parent.findViewById<View>(R.id.divider)
-                        divider.visibility = View.VISIBLE
-                    }
-                    val text1 = parent.findViewById<TextView>(R.id.text1)
-                    val text2 = parent.findViewById<TextView>(R.id.text2)
-                    val text3 = parent.findViewById<TextView>(R.id.text3)
-                    val text4 = parent.findViewById<TextView>(R.id.text4)
-                    val call = list[position]
-                    parent.setOnClickListener {
-                        val uri = Uri.withAppendedPath(
-                            Calls.CONTENT_URI,
-                            call._id.toString()
-                        )
-                        val intent = Intent(Intent.ACTION_VIEW, uri)
-                        intent.type = Calls.CONTENT_TYPE
-                        try {
-                            startActivityForResult(intent, RQ_ADD_TASK)
-                        } catch (e: ActivityNotFoundException) {
-                            Log.e(TAG, "updateMissedCalls()", e)
-                            Toast.makeText(
-                                requireContext(),
-                                R.string.error_call_log, Toast.LENGTH_LONG
-                            ).show()
-                        }
-                    }
-                    var number = call.number
-                    number = if ("-1" == number) {
-                        getString(R.string.unknown)
-                    } else {
-                        PhoneNumberUtils.formatNumber(number, Locale.getDefault().country) ?: number
-                    }
-                    if (call.name.isNotEmpty()) {
-                        text1.text = call.name
-                        text2.text = getString(
-                            R.string.string1_string2,
-                            call.label, number
-                        )
-                    } else {
-                        text1.text = number
-                        text2.visibility = View.GONE
-                    }
-                    current.timeInMillis = call.date
-                    val time = current.time
-                    val days = DateUtilities.diffDayPeriods(
-                        now,
-                        current
-                    )
-                    text3.text = AnnualEventsListAdapter.getDaysAsString(
-                        inflater,
-                        days
-                    )
-                    text4.text = TKWeekActivity.FORMAT_TIME_SHORT.format(time)
-                    text4.visibility = View.VISIBLE
-                }
-                maybeAddNone(inflater, binding.mydayMissedCalls)
-            } else {
-                val layout =
-                    inflater.inflate(
-                        R.layout.message_link_to_settings,
-                        binding.mydayMissedCalls,
-                        false
-                    ) as RelativeLayout
-                linkToSettings(layout, requireActivity(), R.string.str_need_call_log_permission)
-                val button = layout.findViewById<Button>(R.id.button)
-                button.setOnClickListener {
-                    requestPermissions(
-                        arrayOf(Manifest.permission.READ_CALL_LOG),
-                        0
-                    )
-                }
-                button.visibility = if (shouldShowPermissionReadCallLogRationale()
-                ) View.VISIBLE else View.GONE
-                binding.mydayMissedCalls.addView(layout)
-            }
-        }
     }
 
     private fun updateTasks(list: List<Task>?) {

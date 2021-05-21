@@ -283,7 +283,6 @@ class MyDayFragment : TKWeekBaseFragment<MydayBinding>(),
                     requireContext(),
                     cal,
                     cal,
-                    false,
                     true,
                     null
                 )

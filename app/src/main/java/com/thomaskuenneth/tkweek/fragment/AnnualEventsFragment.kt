@@ -334,7 +334,7 @@ class AnnualEventsFragment : TKWeekBaseFragment<EventsBinding>(),
                 }
                 return AnnualEventsListAdapter.create(
                     requireContext(),
-                    restore, search
+                    search
                 )
             }
 

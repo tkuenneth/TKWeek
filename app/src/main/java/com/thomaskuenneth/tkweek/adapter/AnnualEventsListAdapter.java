@@ -172,7 +172,6 @@ public class AnnualEventsListAdapter extends BaseAdapter implements
     private final SharedPreferences prefs;
 
     public static AnnualEventsListAdapter create(Context context,
-                                                 boolean restore,
                                                  String search) {
         SharedPreferences prefs = PreferenceManager
                 .getDefaultSharedPreferences(context);
@@ -184,7 +183,6 @@ public class AnnualEventsListAdapter extends BaseAdapter implements
         return new AnnualEventsListAdapter(context,
                 calFrom,
                 calTo,
-                restore,
                 false,
                 search);
     }
@@ -195,14 +193,12 @@ public class AnnualEventsListAdapter extends BaseAdapter implements
      * @param context            context
      * @param calFrom            start date (must not be null)
      * @param calTo              end date (must not be null)
-     * @param restore            restore user events from sd card?
      * @param expandAllDayEvents expand a multiple day event?
      * @param search             filter events
      */
     public AnnualEventsListAdapter(Context context,
                                    Calendar calFrom,
                                    Calendar calTo,
-                                   boolean restore,
                                    boolean expandAllDayEvents,
                                    String search) {
         assert calFrom != null;
@@ -896,7 +892,6 @@ public class AnnualEventsListAdapter extends BaseAdapter implements
                                 final int yearTo) {
         FileReader fr = null;
         BufferedReader br = null;
-        boolean result = false;
         try {
             if (file.exists()) {
                 fr = new FileReader(file);
@@ -971,7 +966,6 @@ public class AnnualEventsListAdapter extends BaseAdapter implements
                                 year != _from), forceLoaded);
                     }
                 }
-                result = true;
             }
         } catch (Throwable tr) {
             Log.e(TAG, "loadUserEvents()", tr);

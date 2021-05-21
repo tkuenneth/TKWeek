@@ -55,7 +55,6 @@ public class EventsListWidget extends AppWidgetProvider {
             @Override
             protected AnnualEventsListAdapter doInBackground(Void... params) {
                 return AnnualEventsListAdapter.create(context,
-                        false,
                         null);
             }
 

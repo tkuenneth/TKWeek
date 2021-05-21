@@ -82,7 +82,7 @@ public class AlarmReceiver extends BroadcastReceiver {
             int offsetTo = prefs.getInt(AlarmPreference.KEY_NOTIFICATIONSOFFSETTO, 1);
             calTo.add(Calendar.DAY_OF_YEAR, offsetTo);
             AnnualEventsListAdapter listAdapter = new AnnualEventsListAdapter(context,
-                    calFrom, calTo, false, false, null);
+                    calFrom, calTo, false, null);
             List<NotificationCompat.Builder> builders = new ArrayList<>();
             long when = System.currentTimeMillis();
             int numEvents = listAdapter.getCount();

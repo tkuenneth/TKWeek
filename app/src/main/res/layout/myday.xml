@@ -148,32 +148,35 @@
             android:id="@+id/myday_layout_notes"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/myday_layout_nameday">
+            android:layout_below="@id/myday_layout_nameday"
+            android:paddingTop="16dp">
 
-            <TextView
-                android:id="@+id/myday_label_notes"
+            <ImageButton
+                android:id="@+id/myday_symbol_delete"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/notes"
-                android:textAppearance="?android:attr/textAppearanceSmall" />
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true"
+                android:contentDescription="@string/delete"
+                android:src="@drawable/ic_baseline_delete_24" />
 
             <ImageButton
                 android:id="@+id/myday_symbol_notes"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentEnd="true"
-                android:src="@drawable/ic_baseline_edit_24"
-                android:contentDescription="@string/edit" />
+                android:layout_alignBaseline="@+id/myday_symbol_delete"
+                android:layout_toStartOf="@id/myday_symbol_delete"
+                android:contentDescription="@string/edit"
+                android:src="@drawable/ic_baseline_edit_24" />
 
             <TextView
                 android:id="@+id/myday_notes"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignBaseline="@id/myday_label_notes"
+                android:layout_alignBaseline="@id/myday_symbol_delete"
+                android:layout_alignParentStart="true"
                 android:layout_marginStart="6dip"
                 android:layout_toStartOf="@id/myday_symbol_notes"
-                android:layout_toEndOf="@id/myday_label_notes"
                 android:hint="@string/no_notes"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
 

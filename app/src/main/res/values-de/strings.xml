@@ -374,4 +374,5 @@ Sie dieser Lizenzvereinbarung zustimmen. <b>Abbruch</b> beendet das Programm.</s
     <string name="next_leap_year">Nächstes Schaltjahr</string>
     <string name="number_of_events">%1$d Ereignisse</string>
     <string name="goto_date">Gehe zu Datum</string>
+    <string name="delete">Löschen</string>
 </resources>

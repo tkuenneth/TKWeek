@@ -428,5 +428,6 @@ if you agree with our privacy policy and the terms of use. <b>Abort</b> quits th
     <string name="filtered">filtered</string>
     <string name="show_school_holidays">Pick state</string>
     <string name="load_all_user_events">Load all user events</string>
+    <string name="delete">Delete</string>
 
 </resources>

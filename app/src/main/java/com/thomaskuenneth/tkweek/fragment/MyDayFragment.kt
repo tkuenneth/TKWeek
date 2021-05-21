@@ -1,7 +1,6 @@
 /*
  * MyDayFragment.kt
  *
- * Copyright 2009 - 2020 Thomas Künneth
  * Copyright 2021 MATHEMA GmbH
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
@@ -28,18 +27,13 @@ import android.app.Activity
 import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
-import android.content.pm.PackageManager
-import android.database.Cursor
 import android.net.Uri
 import android.os.*
 import android.provider.CalendarContract
-import android.provider.CallLog.Calls
-import android.provider.ContactsContract
 import android.util.Log
 import android.view.*
 import android.widget.*
 import androidx.preference.PreferenceManager
-import com.thomaskuenneth.tkweek.EnterNoteActivity
 import com.thomaskuenneth.tkweek.EnterTaskActivity
 import com.thomaskuenneth.tkweek.R
 import com.thomaskuenneth.tkweek.activity.TKWeekActivity
@@ -47,7 +41,10 @@ import com.thomaskuenneth.tkweek.adapter.AnnualEventsListAdapter
 import com.thomaskuenneth.tkweek.databinding.MydayBinding
 import com.thomaskuenneth.tkweek.fragment.CalendarFragment.Companion.isDayOff
 import com.thomaskuenneth.tkweek.fragment.WeekFragment.Companion.prepareCalendar
-import com.thomaskuenneth.tkweek.types.*
+import com.thomaskuenneth.tkweek.types.Event
+import com.thomaskuenneth.tkweek.types.Namenstage
+import com.thomaskuenneth.tkweek.types.Task
+import com.thomaskuenneth.tkweek.types.Zodiac
 import com.thomaskuenneth.tkweek.util.CalendarContractUtils
 import com.thomaskuenneth.tkweek.util.DateUtilities
 import com.thomaskuenneth.tkweek.util.TKWeekUtils
@@ -73,8 +70,6 @@ class MyDayFragment : TKWeekBaseFragment<MydayBinding>(),
 
     private var eventsLoader: AsyncTask<Void, Void, AnnualEventsListAdapter>? = null
 
-    private var hasTelephony = false
-
     private var cal: Calendar? = null
     private var tasksNeedUpdate = false
 
@@ -89,12 +84,18 @@ class MyDayFragment : TKWeekBaseFragment<MydayBinding>(),
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         eventsLoader = null
         binding.mydaySymbolNotes.setOnClickListener {
-            val i = Intent(requireContext(), EnterNoteActivity::class.java)
-            i.putExtra(EnterNoteActivity.EXTRA_NOTES, binding.mydayNotes.text.toString())
-            startActivityForResult(i, RQ_ENTER_NOTES)
+            val fragment = EditNotesFragment(binding.mydayNotes.text.toString()) { note ->
+                saveNoteAndUpdateUI(note)
+            }
+            fragment.show(
+                parentFragmentManager,
+                EditNotesFragment.TAG
+            )
+        }
+        binding.mydaySymbolDelete.setOnClickListener {
+            saveNoteAndUpdateUI("")
         }
         val pm = requireContext().packageManager
-        hasTelephony = pm.hasSystemFeature(PackageManager.FEATURE_TELEPHONY)
         cal = Calendar.getInstance()
         arguments?.run {
             val time = getLong(DATE)
@@ -251,12 +252,6 @@ class MyDayFragment : TKWeekBaseFragment<MydayBinding>(),
 //                        }
 //                    }
                 }
-                RQ_ENTER_NOTES -> if (data != null) {
-                    val note = data.getStringExtra(EnterNoteActivity.EXTRA_NOTES)
-                    if (TKWeekUtils.save(requireContext(), getNameForNotes(), note)) {
-                        binding.mydayNotes.text = note
-                    }
-                }
             }
         }
     }
@@ -269,7 +264,7 @@ class MyDayFragment : TKWeekBaseFragment<MydayBinding>(),
     }
 
     private fun hasGoogleAccount(): Boolean {
-        return TasksUtils.hasGoogleAccount(requireActivity())
+        return false // TasksUtils.hasGoogleAccount(requireActivity())
     }
 
     private fun prepareEventsLoader() {
@@ -598,64 +593,6 @@ class MyDayFragment : TKWeekBaseFragment<MydayBinding>(),
         startActivity(viewIntent)
     }
 
-    private fun getMissedCalls(): List<Call> {
-        val missedCalls: MutableList<Call> = ArrayList()
-        val projection = arrayOf(
-            Calls.NUMBER, Calls.DATE, Calls.CACHED_NAME,
-            Calls.CACHED_NUMBER_TYPE, Calls.CACHED_NUMBER_LABEL, Calls._ID
-        )
-        val selection = Calls.TYPE + " = ?"
-        val selectionArgs = arrayOf(Calls.MISSED_TYPE.toString())
-        var c: Cursor? = null
-        try {
-            c = requireActivity().contentResolver.query(
-                Calls.CONTENT_URI, projection,
-                selection, selectionArgs, Calls.DEFAULT_SORT_ORDER
-            )
-        } catch (e: SecurityException) {
-            Log.e(TAG, "getMissedCalls()", e)
-        }
-        if (c != null) {
-            val idxNumber = c.getColumnIndex(Calls.NUMBER)
-            val idxDate = c.getColumnIndex(Calls.DATE)
-            val idxCachedName = c.getColumnIndex(Calls.CACHED_NAME)
-            val idxCachedNumberType = c
-                .getColumnIndex(Calls.CACHED_NUMBER_TYPE)
-            val idxCachedNumberLabel = c
-                .getColumnIndex(Calls.CACHED_NUMBER_LABEL)
-            val idxID = c.getColumnIndex(Calls._ID)
-            while (c.moveToNext()) {
-                var number = ""
-                if (number.isEmpty()) {
-                    number = TKWeekUtils.getStringNotNull(
-                        c
-                            .getString(idxNumber)
-                    )
-                }
-                val date = c.getLong(idxDate)
-                val name = TKWeekUtils.getStringNotNull(
-                    c
-                        .getString(idxCachedName)
-                )
-                var label = TKWeekUtils.getStringNotNull(
-                    c
-                        .getString(idxCachedNumberLabel)
-                )
-                if (label.isEmpty()) {
-                    val type = c.getInt(idxCachedNumberType)
-                    val resId = ContactsContract.CommonDataKinds.Phone
-                        .getTypeLabelResource(type)
-                    label = getString(resId)
-                }
-                val idx = c.getInt(idxID)
-                val call = Call(number, date, name, label, idx)
-                missedCalls.add(call)
-            }
-            c.close()
-        }
-        return missedCalls
-    }
-
     private fun maybeAddNone(inflater: LayoutInflater, layout: LinearLayout) {
         if (layout.childCount == 0) {
             val tv = inflater.inflate(
@@ -691,7 +628,7 @@ class MyDayFragment : TKWeekBaseFragment<MydayBinding>(),
 
     private fun updateNotes() {
         val note = TKWeekUtils.load(requireContext(), getNameForNotes())
-        binding.mydayNotes.text = note
+        updateNoteAndDeleteButton(note)
     }
 
     private fun getNameForNotes(): String {
@@ -737,5 +674,16 @@ class MyDayFragment : TKWeekBaseFragment<MydayBinding>(),
             }
             a.requireActivity().runOnUiThread(r)
         }
+    }
+
+    private fun saveNoteAndUpdateUI(note: String) {
+        if (TKWeekUtils.save(requireContext(), getNameForNotes(), note)) {
+            updateNoteAndDeleteButton(note)
+        }
+    }
+
+    private fun updateNoteAndDeleteButton(note: String) {
+        binding.mydayNotes.text = note
+        binding.mydaySymbolDelete.isEnabled = note.isNotEmpty()
     }
 }

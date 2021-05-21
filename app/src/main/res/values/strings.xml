@@ -145,7 +145,6 @@ access your contacts data to display birthdays and anniversaries. You can deacti
     <string name="hide_astrological_sign">Hide Sign of the Zodiac</string>
     <string name="third_sunday_of_june">Third Sunday of June</string>
     <string name="first_sunday_of_september">First Sunday of September</string>
-    <string name="myday_activity_hide_missed_calls">Hide missed calls</string>
     <string name="set_alarm">Show upcoming events as notifications</string>
     <string name="set_alarm_description">Configure notification delivery</string>
     <string name="show_notifications">Show notifications</string>
@@ -214,18 +213,16 @@ access your contacts data to display birthdays and anniversaries. You can deacti
     <!-- AnnualEventsActivity -->
     <string name="national_doughnut_day">National Doughnut Day</string>
     <string name="template_anniversary">%1$d times since %5$d on %2$s, %3$s %4$d</string>
-    <string name="erntedank">Erntedankfest</string>
-    <string name="australia_day">Australia Day</string>
-    <string name="gustav_adolf_tag">Gustaf Adolfsdagen</string>
-    <string name="midsommar">Midsommar</string>
+    <string name="australia_day" translatable="false">Australia Day</string>
+    <string name="gustav_adolf_tag" translatable="false">Gustaf Adolfsdagen</string>
+    <string name="midsommar" translatable="false">Midsommar</string>
     <string name="nationalfeiertag_se">National Day of Sweden</string>
     <string name="ostermontag">Easter Monday</string>
     <string name="reformationstag">Reformation Day</string>
     <string name="nikolaus">Saint Nicholas</string>
-    <string name="pakjesavond">Pakjesavond</string>
-    <string name="josefstag">Josefstag</string>
-    <string name="leopolditag_at">Leopolditag</string>
-    <string name="augsburger_friedensfest">Augsburger Hohes Friedensfest</string>
+    <string name="pakjesavond" translatable="false">Pakjesavond</string>
+    <string name="josefstag" translatable="false">Josefstag</string>
+    <string name="leopolditag_at" translatable="false">Leopolditag</string>
     <string name="fathersday">Father’s Day</string>
     <string name="johanni">Nativity of St. John the Baptist</string>
     <string name="siebenschlaefer">Seven Sleepers Day</string>
@@ -233,27 +230,27 @@ access your contacts data to display birthdays and anniversaries. You can deacti
     <string name="mariae_lichtmess">Presentation of Jesus at the Temple</string>
     <string name="zweiter_weihnachtstag">Boxing Day</string>
     <string name="martini">St. Martin&#x2019;s Day</string>
-    <string name="black_friday">Black Friday</string>
+    <string name="black_friday" translatable="false">Black Friday</string>
     <string name="columbus_day">Columbus Day</string>
     <string name="labour_day_usa">Labor Day</string>
-    <string name="national_flag_day_ru">National Flag Day (Russia)</string>
-    <string name="koninginnedag">Koninginnedag</string>
-    <string name="koningsdag">Koningsdag</string>
+    <string name="national_flag_day_ru" translatable="false">National Flag Day (Russia)</string>
+    <string name="koninginnedag" translatable="false">Koninginnedag</string>
+    <string name="koningsdag" translatable="false">Koningsdag</string>
     <string name="aschermittwoch">Ash Wednesday</string>
     <string name="veterans_day_us">Veterans Day</string>
     <string name="tag_der_erde">Earth Day</string>
     <string name="groundhog_day_us">Groundhog Day</string>
-    <string name="election_day_us">Election Day</string>
+    <string name="election_day_us" translatable="false">Election Day</string>
     <string name="karfreitag">Good Friday</string>
-    <string name="lincolns_birthday">Lincoln’s Birthday</string>
-    <string name="flag_day_usa">Flag Day</string>
-    <string name="st_patricks_day">St. Patrick’s Day</string>
+    <string name="lincolns_birthday" translatable="false">Lincoln’s Birthday</string>
+    <string name="flag_day_usa" translatable="false">Flag Day</string>
+    <string name="st_patricks_day" translatable="false">St. Patrick’s Day</string>
     <string name="erster_weihnachtstag">Christmas</string>
     <string name="nationalfeiertag_no">Norwegian Constitution Day</string>
     <string name="sg_national_day">National Day (Singapore)</string>
-    <string name="presidents_day">Presidents\' Day</string>
-    <string name="mlk_day">Martin Luther King Day</string>
-    <string name="memorial_day">Memorial Day</string>
+    <string name="presidents_day" translatable="false">Presidents\' Day</string>
+    <string name="mlk_day" translatable="false">Martin Luther King Day</string>
+    <string name="memorial_day" translatable="false">Memorial Day</string>
     <string name="weltfrauentag">International Women&#x2019;s Day</string>
     <string name="birthday">Birthday of %1$s</string>
     <string name="birthday_past">turned %1$d on %2$s, %3$s %4$d (born %5$d)</string>
@@ -266,11 +263,10 @@ access your contacts data to display birthdays and anniversaries. You can deacti
     <string name="nationalfeiertag_sc">Swiss National Day</string>
     <string name="nationalfeiertag_at">Austrian National Day</string>
     <string name="nationalfeiertag_fr">Bastille Day</string>
-    <string name="advent">%1$d. Advent</string>
+    <string name="advent" translatable="false">%1$d. Advent</string>
     <string name="independence_day_usa">Independence Day</string>
-    <string name="thanksgiving">Thanksgiving</string>
     <string name="tag_der_deutschen_einheit">German Unity Day</string>
-    <string name="bloomsday">Bloomsday</string>
+    <string name="bloomsday" translatable="false">Bloomsday</string>
     <string name="peter_und_paul">Feast of Saints Peter and Paul</string>
     <string name="maria_himmelfahrt">Assumption of Mary</string>
     <string name="dst_begin">Begin Daylight Saving Time</string>
@@ -331,9 +327,6 @@ access your contacts data to display birthdays and anniversaries. You can deacti
     <string name="add_task">New task</string>
     <string name="events">events</string>
     <string name="toast_task_completed">Task completed.</string>
-	<string name="str_need_call_log_permission">To display missed calls,
-TKWeek needs to access the call log. If you do not want to see
-missed calls, you can hide them in Settings.</string>
 	<string name="missing_right_create_task">To create tasks,
 you need to grant access to contacts in system settings.</string>
 	<string name="needed_right_create_task">To create tasks,
@@ -388,7 +381,7 @@ only personal information we store. We may need to keep the communication record
 \n\nTo fulfill its purpose, the app must access user account data,
 your calendar, your call log and the contacts database.
 TKWeek does not process the data in unexpected or hidden ways.
-Specifically it does not send the data to thrid party servers.
+Specifically it does not send the data to third party servers.
 Please refer to the section Use of other services.
 \n\nThe usage of non-personal data
 \nNon-personal information is anonymous data with which you cannot uniquely identify a specific individual.
@@ -400,7 +393,7 @@ may not be controllable by TKWeek. You can find their privacy policy
 at http://www.google.com/policies/privacy.
 Also, TKWeek links to sites maintained by the Wikimedia Foundation.
 You can find their privacy policy at https://wikimediafoundation.org/wiki/Privacy_policy
-\n\n<b>Terms of use</b>\n\nCopyright (c) 2021 MATHEMA GmbH\n
+\n\n<b>Terms of use</b>\n\nCopyright © 2021 MATHEMA GmbH\n
 \nPermission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the \"Software\"), to deal
 in the Software without restriction, including without limitation the rights
@@ -429,5 +422,7 @@ if you agree with our privacy policy and the terms of use. <b>Abort</b> quits th
     <string name="show_school_holidays">Pick state</string>
     <string name="load_all_user_events">Load all user events</string>
     <string name="delete">Delete</string>
+    <string name="thanksgiving">Thanksgiving</string>
+    <string name="augsburger_friedensfest">Augsburg Peace Festival</string>
 
 </resources>

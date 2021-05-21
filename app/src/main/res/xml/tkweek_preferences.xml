@@ -61,12 +61,14 @@
             android:title="@string/national_holidays" />
 -->
 
+        <!--
         <ListPreference
             android:defaultValue="@string/hide"
             android:dialogTitle="@string/show_school_holidays"
             android:key="schulferien_bundesland"
             android:summary="@string/show_school_holidays"
             android:title="@string/schulferien_bundesland" />
+        -->
 
         <!--
         <com.thomaskuenneth.tkweek.preference.AlarmPreference
@@ -112,10 +114,6 @@
         <CheckBoxPreference
             android:key="hide_nameday"
             android:title="@string/myday_activity_hide_nameday" />
-
-        <CheckBoxPreference
-            android:key="hide_missed_calls"
-            android:title="@string/myday_activity_hide_missed_calls" />
 
         <CheckBoxPreference
             android:key="hide_appointments"

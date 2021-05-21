@@ -665,7 +665,7 @@ public class AnnualEventsListAdapter extends BaseAdapter implements
                                         Calendar.DAY_OF_WEEK, Calendar.SUNDAY,
                                         true), Calendar.DAY_OF_MONTH, 1);
                 add(new FixedEvent(cal,
-                        context.getString(R.string.erntedank), true), false);
+                        context.getString(R.string.thanksgiving), true), false);
                 cal = CalendarIterator.iterateUntil(DateUtilities
                                 .getCalendar(year, Calendar.NOVEMBER, 22),
                         CalendarCondition.createCalendarCondition(

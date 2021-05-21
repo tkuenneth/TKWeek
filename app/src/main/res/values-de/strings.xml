@@ -81,13 +81,13 @@
     <string name="myday_activity_text2">Ereignisse, Termine, Aufgaben und mehr</string>
 
     <!-- TKWeekPrefsActivity -->
-    <string name="pick_fathersday">Kalenderdaten zugreifen, um Ereignisse und Termine anzuzeigen.</string>
+    <string name="pick_fathersday">Datum des Vatertags wählen</string>
     <string name="week_activity_hide_allday_events">Ganztägige Android Kalender-Ereignisse ausblenden</string>
     <string name="week_activity_iso_week_title">ISO-Wochennummern</string>
     <string name="week_activity_iso_week_summary">Berechnung gemäß dem Standard ISO 8601</string>
     <string name="pick_churches">Kirchen auswählen</string>
     <string name="week_activity_hide_builtins_title">Eingebaute Ereignisse ausblenden</string>
-    <string name="pick_thanksgiving">Datum von Thanksgiving wählen</string>
+    <string name="pick_thanksgiving">Datum des Erntedankfests wählen</string>
     <string name="national_holidays">Nationalfeiertage</string>
     <string name="show_national_holidays">Länder auswählen</string>
     <string name="misc_category">Verschiedenes</string>
@@ -103,7 +103,6 @@
     <string name="hide_astrological_sign">Tierkreiszeichen ausblenden</string>
     <string name="third_sunday_of_june">3. Sonntag im Juni</string>
     <string name="first_sunday_of_september">1. Sonntag im September</string>
-    <string name="myday_activity_hide_missed_calls">Entgangene Anrufe ausblenden</string>
     <string name="myday_activity_hide_appointments">Termine ausblenden</string>
 
     <!-- Wochenanfang -->
@@ -251,9 +250,6 @@
     <string name="add_task">Neue Aufgabe</string>
     <string name="events">Ereignisse</string>
     <string name="toast_task_completed">Aufgabe abgeschlossen.</string>
-	<string name="str_need_call_log_permission">Um entgangene Anrufe anzeigen zu können,
-muss TKWeek auf die Anrufhistorie zugreifen. Wenn Sie keine entgangenen Anrufe
-sehen möchten, können Sie dies in den Einstellungen ausschalten.</string>
 	<string name="missing_right_create_task">Um Aufgaben anlegen zu können, müssen
 Sie TKWeek in den Systemeinstellungen den Zugriff auf Kontakte gewähren.</string>
 	<string name="needed_right_create_task">Um Aufgaben anlegen zu können, müssen
@@ -324,7 +320,7 @@ Daten verarbeiten, kann möglicherweise nicht durch TKWeek kontrolliert werden. 
 Datenschutzerklärung hier: http://www.google.com/policies/privacy.
 Außerdem verlinkt TKWeek auf Seiten der Wikimedia Foundation.
 Sie finden deren Datenschutzerklärung hier: https://wikimediafoundation.org/wiki/Privacy_policy
-\n\n<b>Lizenzvereinbarung</b>\n\nCopyright (c) 2021 MATHEMA GmbH\n
+\n\n<b>Lizenzvereinbarung</b>\n\nCopyright © 2021 MATHEMA GmbH\n
 \nPermission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the \"Software\"), to deal
 in the Software without restriction, including without limitation the rights
@@ -375,4 +371,11 @@ Sie dieser Lizenzvereinbarung zustimmen. <b>Abbruch</b> beendet das Programm.</s
     <string name="number_of_events">%1$d Ereignisse</string>
     <string name="goto_date">Gehe zu Datum</string>
     <string name="delete">Löschen</string>
+    <string name="national_doughnut_day">Tag des Donuts</string>
+    <string name="thanksgiving">Erntedankfest</string>
+    <string name="augsburger_friedensfest">Augsburger Hohes Friedensfest</string>
+    <string name="labour_day_usa">Tag der Arbeit</string>
+    <string name="columbus_day">Kolumbus-Tag</string>
+    <string name="veterans_day_us">Tag der Veteranen</string>
+    <string name="groundhog_day_us">Murmeltiertag</string>
 </resources>

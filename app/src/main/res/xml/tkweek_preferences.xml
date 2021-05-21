@@ -54,12 +54,11 @@
             android:summary="@string/pick_fathersday"
             android:title="@string/fathersday" />
 
-        <!--
         <com.thomaskuenneth.tkweek.preference.PickCountriesPreference
+            android:key="countries"
             android:dialogTitle="@string/show_national_holidays"
             android:summary="@string/show_national_holidays"
             android:title="@string/national_holidays" />
--->
 
         <!--
         <ListPreference

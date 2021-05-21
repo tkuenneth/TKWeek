@@ -1,90 +1,78 @@
 /*
  * PickCountriesPreference.java
  *
- * TKWeek (c) Thomas Künneth 2010 - 2021
- * Alle Rechte beim Autoren. All rights reserved.
+ * Copyright 2010 - 2020 Thomas Künneth
+ * Copyright 2021 MATHEMA GmbH
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy of
+ * this software and associated documentation files (the "Software"), to deal in
+ * the Software without restriction, including without limitation the rights to use,
+ * copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the
+ * Software, and to permit persons to whom the Software is furnished to do so,
+ * subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all copies
+ * or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
+ * INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
+ * PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+ * HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
+ * CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
+ * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 package com.thomaskuenneth.tkweek.preference;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
-import android.preference.DialogPreference;
 import android.util.AttributeSet;
-import android.view.View;
-import android.widget.CheckBox;
-import android.widget.LinearLayout;
-import android.widget.ScrollView;
+
+import androidx.collection.ArraySet;
+import androidx.preference.MultiSelectListPreference;
+import androidx.preference.PreferenceManager;
 
 import com.thomaskuenneth.tkweek.util.TKWeekUtils;
 
-import java.util.Enumeration;
-import java.util.Hashtable;
+import java.util.ArrayList;
 import java.util.Locale;
-import java.util.Objects;
 
-public class PickCountriesPreference extends DialogPreference {
+public class PickCountriesPreference extends MultiSelectListPreference {
 
-    private static final String TAG = PickCountriesPreference.class
-            .getSimpleName();
+    private static final ArrayList<CharSequence> entries = new ArrayList<>();
+    private static final ArrayList<CharSequence> values = new ArrayList<>();
+    private static final ArraySet<String> defaults = new ArraySet<>();
 
-    private SharedPreferences prefs;
-
-    private final Hashtable<String, CheckBox> ht;
+    static {
+        addCountry(Locale.GERMANY);
+        addCountry(Locale.US);
+        addCountry(Locale.FRANCE);
+        addCountry(TKWeekUtils.AUSTRIA);
+        addCountry(TKWeekUtils.NORWAY);
+        addCountry(TKWeekUtils.SWITZERLAND);
+        addCountry(TKWeekUtils.SINGAPORE);
+        addCountry(TKWeekUtils.NETHERLANDS);
+        addCountry(TKWeekUtils.RUSSIA);
+        addCountry(TKWeekUtils.SWEDEN);
+        addCountry(TKWeekUtils.IRELAND);
+        addCountry(TKWeekUtils.AUSTRALIA);
+    }
 
     public PickCountriesPreference(Context context, AttributeSet attrs) {
         super(context, attrs);
-        ht = new Hashtable<>();
+        setEntries(entries.toArray(new CharSequence[0]));
+        setEntryValues(values.toArray(new CharSequence[0]));
+        setValues(defaults);
     }
 
     public static boolean isSelected(Context context, Locale l) {
-        SharedPreferences prefs = context.getSharedPreferences(TAG,
-                Context.MODE_PRIVATE);
-        return prefs.getBoolean(l.getCountry(), true);
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        return prefs.getStringSet("countries", defaults).contains(l.getCountry());
     }
 
-    @Override
-    protected View onCreateDialogView() {
-        Context context = getContext();
-        prefs = context.getSharedPreferences(TAG, Context.MODE_PRIVATE);
-        ScrollView v = new ScrollView(context);
-        LinearLayout layout = new LinearLayout(context);
-        layout.setOrientation(LinearLayout.VERTICAL);
-        v.addView(layout);
-        layout.addView(getCheckbox(context, Locale.GERMANY));
-        layout.addView(getCheckbox(context, Locale.US));
-        layout.addView(getCheckbox(context, Locale.FRANCE));
-        layout.addView(getCheckbox(context, TKWeekUtils.AUSTRIA));
-        layout.addView(getCheckbox(context, TKWeekUtils.NORWAY));
-        layout.addView(getCheckbox(context, TKWeekUtils.SWITZERLAND));
-        layout.addView(getCheckbox(context, TKWeekUtils.SINGAPORE));
-        layout.addView(getCheckbox(context, TKWeekUtils.NETHERLANDS));
-        layout.addView(getCheckbox(context, TKWeekUtils.RUSSIA));
-        layout.addView(getCheckbox(context, TKWeekUtils.SWEDEN));
-        layout.addView(getCheckbox(context, TKWeekUtils.IRELAND));
-        layout.addView(getCheckbox(context, TKWeekUtils.AUSTRALIA));
-        return v;
-    }
-
-    private View getCheckbox(Context context, Locale l) {
-        CheckBox cb = new CheckBox(context);
+    private static void addCountry(Locale l) {
         String country = l.getCountry();
-        ht.put(country, cb);
-        cb.setText(l.getDisplayCountry());
-        cb.setChecked(prefs.getBoolean(country, true));
-        return cb;
-    }
-
-    @Override
-    protected void onDialogClosed(boolean positiveResult) {
-        if (positiveResult) {
-            Editor editor = prefs.edit();
-            Enumeration<String> e = ht.keys();
-            while (e.hasMoreElements()) {
-                String country = e.nextElement();
-                editor.putBoolean(country, Objects.requireNonNull(ht.get(country)).isChecked());
-            }
-            editor.apply();
-        }
+        defaults.add(country);
+        values.add(country);
+        entries.add(l.getDisplayCountry());
     }
 }

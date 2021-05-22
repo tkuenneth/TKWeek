@@ -1,7 +1,9 @@
-<?xml version="1.0" encoding="utf-8"?><!--
+<?xml version="1.0" encoding="utf-8"?>
+<!--
 	strings.xml (de)
-	TKWeek (c) Thomas Künneth 2009 - 2017
-	Alle Rechte beim Autoren. All rights reserved.
+	TKWeek (c) 2009 - 2020 Thomas Künneth
+	           2021 MATHEMA GmbH
+	All rights reserved.
 -->
 
 <resources>
@@ -270,11 +272,7 @@ Sie TKWeek den Zugriff auf Kontakte gestatten.</string>
 
     <!-- EventsListWidget -->
     <string name="eventslistwidget_name">Ereignisliste</string>
-
-    <!-- EventsWidget -->
-    <string name="eventswidget_name">Ereignisse</string>
-    <string name="eventswidget_several_events">%1$d Ereignisse</string>
-    <string name="eventswidget_no_events">Keine Ereignisse</string>
+    <string name="eventslistwidget_no_events">Keine Ereignisse</string>
 
     <!-- WeekInfoWidget -->
     <string name="weekinfowidget_name">Wocheninfo</string>

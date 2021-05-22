@@ -94,11 +94,11 @@ class MyDayFragment : TKWeekBaseFragment<MydayBinding>(),
         binding.mydaySymbolDelete.setOnClickListener {
             saveNoteAndUpdateUI("")
         }
-        val pm = requireContext().packageManager
         cal = Calendar.getInstance()
         arguments?.run {
             val time = getLong(DATE)
-            cal?.time = Date(time)
+            if (time > 0)
+                cal?.time = Date(time)
         }
         val permissins = ArrayList<String>()
         if (shouldShowBirthdays() && !TKWeekUtils.canReadContacts(requireContext())

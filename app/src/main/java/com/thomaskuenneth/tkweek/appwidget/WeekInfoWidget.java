@@ -42,6 +42,7 @@ import java.util.Date;
 public class WeekInfoWidget extends AppWidgetProvider {
 
     private static final String TAG = WeekInfoWidget.class.getSimpleName();
+    private static final int REQUEST_CODE = 2;
 
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager,
@@ -60,7 +61,9 @@ public class WeekInfoWidget extends AppWidgetProvider {
             Log.e(TAG, "updateWidgets", e);
         }
         updateViews.setOnClickPendingIntent(R.id.weekinfowidget_id,
-                TKWeekActivity.createPendingIntentToLaunchTKWeek(context, WeekFragment.class));
+                TKWeekActivity.createPendingIntentToLaunchTKWeek(context,
+                        REQUEST_CODE,
+                        WeekFragment.class));
         appWidgetManager.updateAppWidget(appWidgetIds, updateViews);
     }
 

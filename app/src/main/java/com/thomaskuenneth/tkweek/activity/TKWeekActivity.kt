@@ -22,7 +22,6 @@
  */
 package com.thomaskuenneth.tkweek.activity
 
-import android.Manifest
 import android.app.Activity
 import android.app.PendingIntent
 import android.appwidget.AppWidgetManager
@@ -41,7 +40,6 @@ import com.thomaskuenneth.tkweek.databinding.TkweekBinding
 import com.thomaskuenneth.tkweek.fragment.CLAZZ
 import com.thomaskuenneth.tkweek.fragment.TKWeekFragment
 import com.thomaskuenneth.tkweek.preference.WidgetPreference
-import com.thomaskuenneth.tkweek.util.TKWeekUtils
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
@@ -59,6 +57,7 @@ class TKWeekActivity : TKWeekBaseActivity() {
         super.onCreate(savedInstanceState)
         backing = TkweekBinding.inflate(layoutInflater, null, false)
         setContentView(binding.root)
+        BootCompleteReceiver.startAlarm(this, true)
     }
 
     override fun onResumeFragments() {
@@ -236,24 +235,17 @@ class TKWeekActivity : TKWeekBaseActivity() {
             return result
         }
 
-        fun requestReadCalendar(activity: Activity) {
-            if (!TKWeekUtils.canReadCalendar(activity)) {
-                TKWeekUtils.requestPermissions(
-                    activity,
-                    arrayOf(Manifest.permission.READ_CALENDAR),
-                    0
-                )
-            }
-            BootCompleteReceiver.startAlarm(activity, true)
-        }
-
         @JvmStatic
-        fun createPendingIntentToLaunchTKWeek(context: Context, clazz: Class<*>): PendingIntent {
+        fun createPendingIntentToLaunchTKWeek(
+            context: Context,
+            requestCode: Int,
+            clazz: Class<*>
+        ): PendingIntent {
             val intent = Intent(context, TKWeekActivity::class.java)
             intent.putExtra(CLAZZ, clazz)
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
             return PendingIntent.getActivity(
-                context, 0,
+                context, requestCode,
                 intent, PendingIntent.FLAG_IMMUTABLE
             )
         }

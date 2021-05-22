@@ -38,7 +38,6 @@ import com.thomaskuenneth.tkweek.activity.TKWeekActivity;
 import com.thomaskuenneth.tkweek.appwidget.DateWidget;
 import com.thomaskuenneth.tkweek.appwidget.DayOfYearWidget;
 import com.thomaskuenneth.tkweek.appwidget.EventsListWidget;
-import com.thomaskuenneth.tkweek.appwidget.EventsWidget;
 import com.thomaskuenneth.tkweek.appwidget.WeekInfoWidget;
 
 /**
@@ -87,8 +86,7 @@ public class WidgetPreference extends DialogPreference implements
             e.putInt(OPACITY, seekbar.getProgress());
             e.apply();
             TKWeekActivity.updateWidgets(context, new Class<?>[]{DateWidget.class,
-                    DayOfYearWidget.class, EventsWidget.class,
-                    EventsListWidget.class, WeekInfoWidget.class});
+                    DayOfYearWidget.class, EventsListWidget.class, WeekInfoWidget.class});
         }
     }
 

@@ -344,11 +344,7 @@ TKWeek needs to access your contacts.</string>
 
     <!-- EventsListWidget -->
     <string name="eventslistwidget_name">Events list</string>
-
-    <!-- EventsWidget -->
-    <string name="eventswidget_name">Events</string>
-    <string name="eventswidget_several_events">%1$d events</string>
-    <string name="eventswidget_no_events">No upcoming events</string>
+    <string name="eventslistwidget_no_events">No upcoming events</string>
 
     <!-- WeekInfoWidget -->
     <string name="weekinfowidget_name">Week Info</string>

@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
 	eventslistwidget_info.xml
-	TKWeek (c) Thomas Künneth 2012
-	Alle Rechte beim Autoren. All rights reserved.
+	TKWeek (c) 2012 - 202 Thomas Künneth
+	           2021 MATHEMA GmbH
+	All rights reserved.
 -->
 
 <appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
 	android:minWidth="@dimen/AppWidget_4Cell"
 	android:minHeight="@dimen/AppWidget_1Cell"
+	android:resizeMode="horizontal"
 	android:previewImage="@drawable/preview_eventslistwidget"
     android:updatePeriodMillis="1800000"
     android:initialLayout="@layout/widget_initial_layout"

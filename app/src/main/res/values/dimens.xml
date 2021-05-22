@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-	<dimen name="AppWidget_1Cell">72dp</dimen>
-	<dimen name="AppWidget_3Cell">220dp</dimen>
-	<dimen name="AppWidget_4Cell">294dp</dimen>
-	<dimen name="widget_margin">8dp</dimen>
+	<dimen name="AppWidget_1Cell">40dp</dimen>
+	<dimen name="AppWidget_2Cell">110dp</dimen>
+	<dimen name="AppWidget_3Cell">180dp</dimen>
+	<dimen name="AppWidget_4Cell">250dp</dimen>
+	<dimen name="widget_margin">0dp</dimen>
 </resources>

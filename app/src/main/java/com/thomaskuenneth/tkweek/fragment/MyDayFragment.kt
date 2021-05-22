@@ -57,7 +57,6 @@ import java.util.*
 
 private const val TAG = "MyDayFragment"
 private const val RQ_ADD_TASK = 1234
-private const val RQ_ENTER_NOTES = 0x290870
 private const val SHOW_COMPLETED_TASKS = "show_completed_tasks"
 
 class MyDayFragment : TKWeekBaseFragment<MydayBinding>(),

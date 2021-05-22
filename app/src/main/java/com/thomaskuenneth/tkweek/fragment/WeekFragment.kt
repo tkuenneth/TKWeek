@@ -1,8 +1,24 @@
 /*
  * WeekFragment.kt
  *
- * TKWeek (c) Thomas Künneth 2021
- * Alle Rechte beim Autoren. All rights reserved.
+ * Copyright 2021 MATHEMA GmbH
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy of
+ * this software and associated documentation files (the "Software"), to deal in
+ * the Software without restriction, including without limitation the rights to use,
+ * copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the
+ * Software, and to permit persons to whom the Software is furnished to do so,
+ * subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all copies
+ * or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
+ * INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
+ * PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+ * HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
+ * CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
+ * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 package com.thomaskuenneth.tkweek.fragment
 
@@ -20,7 +36,6 @@ import android.widget.TextView
 import androidx.preference.PreferenceManager
 import com.thomaskuenneth.tkweek.R
 import com.thomaskuenneth.tkweek.activity.TKWeekActivity
-import com.thomaskuenneth.tkweek.appwidget.WeekInfoMediumWidget
 import com.thomaskuenneth.tkweek.appwidget.WeekInfoWidget
 import com.thomaskuenneth.tkweek.databinding.WeekActivityBinding
 import com.thomaskuenneth.tkweek.util.TKWeekUtils
@@ -116,8 +131,7 @@ class WeekFragment : TKWeekBaseFragment<WeekActivityBinding>(),
     private fun updateWeekInfoWidgets(context: Context) {
         val m = AppWidgetManager.getInstance(context)
         if (m != null) {
-            // 4x1-Version
-            var appWidgetIds = m.getAppWidgetIds(
+            val appWidgetIds = m.getAppWidgetIds(
                 ComponentName(
                     context,
                     WeekInfoWidget::class.java
@@ -125,16 +139,6 @@ class WeekFragment : TKWeekBaseFragment<WeekActivityBinding>(),
             )
             if (appWidgetIds != null && appWidgetIds.isNotEmpty()) {
                 WeekInfoWidget.updateWidgets(context, m, appWidgetIds)
-            }
-            // 3x1-Version
-            appWidgetIds = m.getAppWidgetIds(
-                ComponentName(
-                    context,
-                    WeekInfoMediumWidget::class.java
-                )
-            )
-            if (appWidgetIds != null && appWidgetIds.isNotEmpty()) {
-                WeekInfoMediumWidget.updateWidgets(context, m, appWidgetIds)
             }
         }
     }

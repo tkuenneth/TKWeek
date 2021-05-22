@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-	TKWeek (c) Thomas Künneth 2009 - 2021
-	Alle Rechte beim Autoren. All rights reserved.
+	TKWeek (c) 2009 - 2020 Thomas Künneth
+	           2021 MATHEMA GmbH
+	All rights reserved.
 -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.thomaskuenneth.tkweek">
@@ -51,8 +52,6 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".EnterNoteActivity" />
-
         <receiver
             android:name=".appwidget.EventsListWidget"
             android:exported="true"
@@ -87,18 +86,6 @@
             <meta-data
                 android:name="android.appwidget.provider"
                 android:resource="@xml/weekinfowidget_info" />
-        </receiver>
-
-        <receiver
-            android:name=".appwidget.WeekInfoMediumWidget"
-            android:exported="true"
-            android:label="@string/weekinfowidget_medium_name">
-            <intent-filter>
-                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
-            </intent-filter>
-            <meta-data
-                android:name="android.appwidget.provider"
-                android:resource="@xml/weekinfowidget_medium_info" />
         </receiver>
 
         <receiver

@@ -1,8 +1,24 @@
 /*
  * TKWeekActivity.kt
  *
- * TKWeek (c) Thomas Künneth 2021
- * Alle Rechte beim Autoren. All rights reserved.
+ * Copyright 2021 MATHEMA GmbH
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy of
+ * this software and associated documentation files (the "Software"), to deal in
+ * the Software without restriction, including without limitation the rights to use,
+ * copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the
+ * Software, and to permit persons to whom the Software is furnished to do so,
+ * subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all copies
+ * or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
+ * INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
+ * PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+ * HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
+ * CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
+ * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 package com.thomaskuenneth.tkweek.activity
 
@@ -13,8 +29,6 @@ import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
-import android.content.pm.PackageManager
-import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -35,20 +49,7 @@ import java.util.*
 
 private const val TAG = "TKWeekActivity"
 
-/**
- * Wird verwendet, um den Willkommen-Dialog zu identifizieren.
- */
-private const val MESSAGE = 1
-
 private const val INFINITY_SYMBOL = "infinity_symbol"
-
-private const val TKWEEK = "TKWeek"
-
-/**
- * Der aktuelle versionCode. Wird verwendet, um ggf. beim Start ein README
- * anzuzeigen.
- */
-private const val VERSION_CODE = "versionCode"
 
 /**
  * Die Hauptactivity der Anwendung. Sie stellt eine Auswahlliste dar, die zu den
@@ -63,20 +64,13 @@ class TKWeekActivity : TKWeekBaseActivity(),
 
     private var backing: TkweekBinding? = null
     private val binding get() = backing!!
-    private var storedVersionCode = 0
-    private var currentVersionCode = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         backing = TkweekBinding.inflate(layoutInflater, null, false)
         setContentView(binding.root)
         if (savedInstanceState == null) {
-            // ggf. einen Willkommen-Dialog anzeigen
-            if (isNewVersion()) {
-                showDialog(MESSAGE)
-            } else {
-                requestReadCalendar(this)
-            }
+            requestReadCalendar(this)
         }
     }
 
@@ -92,159 +86,65 @@ class TKWeekActivity : TKWeekBaseActivity(),
         }
     }
 
-    private fun isNewVersion(): Boolean {
-        readCurrentVersionFromPrefs()
-        return storedVersionCode < currentVersionCode
-    }
-
-    //    @Override
-//    protected Dialog onCreateDialog(int id) {
-//        if (id == MESSAGE) {
-//            AlertDialog.Builder builder = new AlertDialog.Builder(TKWeekOldActivity.this);
-//            builder.setTitle(R.string.welcome);
-//            builder.setIcon(R.drawable.ic_tkweek_no_gradients);
-//            View textView = getLayoutInflater().inflate(R.layout.welcome, null);
-//            TextView tv1 = textView.findViewById(R.id.welcome_tv1);
-//            tv1.setText(getString(R.string.welcome_text,
-//                    getString(R.string.my_email)));
-//            builder.setView(textView);
-//            builder.setPositiveButton(R.string.alert_dialog_continue,
-//                    (dialog, which) -> {
-//                        TKWeekActivity.writeToPreferences(TKWeekOldActivity.this);
-//                        requestReadCalendar();
-//                    });
-//            builder.setNegativeButton(R.string.alert_dialog_abort,
-//                    (dialog, which) -> finish());
-//            builder.setCancelable(false);
-//            return builder.create();
-//        }
-//        return null;
-//    }
-
-    private fun readCurrentVersionFromPrefs() {
-        val prefs = PreferenceManager.getDefaultSharedPreferences(this)
-        storedVersionCode = prefs.getInt(VERSION_CODE, 0)
-        currentVersionCode = try {
-            val info = packageManager.getPackageInfo(
-                packageName, 0
-            )
-            info.versionCode
-        } catch (e: PackageManager.NameNotFoundException) {
-            // da es nur ein Versionscheck ist, ignorieren wir den Fehler
-            0
-        }
-    }
-
-    private fun writeToPreferences(context: Context) {
-        val prefs = context.getSharedPreferences(
-            TKWEEK,
-            MODE_PRIVATE
-        )
-        val editor = prefs.edit()
-        editor.putInt(VERSION_CODE, currentVersionCode)
-        editor.apply()
-    }
-
     companion object {
 
-        // Diverses
         const val DASHES = "---"
 
-        // Uhrzeit, Datum, ...
         const val MINUTES_PER_DAY = 24 * 60
 
-        /**
-         * Datum im Format tt.mm.jj, also 29.08.70
-         */
-        // @JvmStatic
         @JvmField
         val FORMAT_DDMMYY = SimpleDateFormat(
             "dd.MM.yy", Locale.US
         )
 
-        /**
-         * Datum im Format jjjjmmtt, also 19700829
-         */
         @JvmField
         val FORMAT_YYYYMMDD: DateFormat = SimpleDateFormat(
             "yyyyMMdd", Locale.US
         )
 
-        /**
-         * Datum als Text (sehr ausführlich)
-         */
         @JvmField
         val FORMAT_FULL = DateFormat
             .getDateInstance(DateFormat.FULL)
 
-        /**
-         * Wird beispielsweise für die Ausgabe des ersten und letzten Tages einer
-         * Woche verwendet.
-         */
         @JvmField
         val FORMAT_DEFAULT = DateFormat
             .getDateInstance()
 
-        /**
-         * Datum als Text (kurz)
-         */
         @JvmField
         val FORMAT_DATE_SHORT = DateFormat
             .getDateInstance(DateFormat.SHORT)
 
-        /**
-         * Zeit als Text (kurz)
-         */
         @JvmField
         val FORMAT_TIME_SHORT = SimpleDateFormat
             .getTimeInstance(SimpleDateFormat.SHORT)
 
-        /**
-         * Wochentag
-         */
         @JvmField
         val FORMAT_DAY_OF_WEEK: DateFormat = SimpleDateFormat(
             "EEEE", Locale.getDefault()
         )
 
-        /**
-         * Wochentag kurz
-         */
         @JvmField
         val FORMAT_DAY_OF_WEEK_SHORT: DateFormat = SimpleDateFormat(
             "EEE", Locale.getDefault()
         )
 
-        /**
-         * Monat
-         */
         @JvmField
         val FORMAT_MONTH: DateFormat = SimpleDateFormat(
             "MMMM",
             Locale.getDefault()
         )
 
-        /**
-         * Monat kurz
-         */
         @JvmField
         val FORMAT_MONTH_SHORT: DateFormat = SimpleDateFormat(
             "MMM", Locale.getDefault()
         )
 
-        /**
-         * Monat und Tag (jeweils zweistellig)
-         */
         @JvmField
         val FORMAT_YYMM: DateFormat = SimpleDateFormat("MMdd", Locale.US)
 
-        /**
-         * Beginn und Ende eines Termins (Datum und Uhrzeit)
-         */
         @JvmField
         val FORMAT_DATE_TIME_SHORT = DateFormat
             .getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT)
-
 
         @JvmStatic
         fun startActivityClearTopNewTask(
@@ -337,15 +237,6 @@ class TKWeekActivity : TKWeekBaseActivity(),
             }
         }
 
-        /**
-         * Liefert den Wert eines SharedPreferences-Schlüssels als int.
-         *
-         * @param prefs        SharedPreferences
-         * @param key          Schlüssel
-         * @param defaultValue Standardwert
-         * @return Wert eines SharedPreferences-Schlüssels als int oder der
-         * Standardwert
-         */
         @JvmStatic
         fun getIntFromSharedPreferences(
             prefs: SharedPreferences,

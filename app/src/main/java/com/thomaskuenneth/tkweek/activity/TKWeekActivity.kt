@@ -24,6 +24,7 @@ package com.thomaskuenneth.tkweek.activity
 
 import android.Manifest
 import android.app.Activity
+import android.app.PendingIntent
 import android.appwidget.AppWidgetManager
 import android.content.ComponentName
 import android.content.Context
@@ -31,16 +32,14 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
-import android.view.View
-import android.widget.AdapterView
-import android.widget.AdapterView.OnItemClickListener
 import android.widget.DatePicker
 import android.widget.RemoteViews
 import androidx.preference.PreferenceManager
-import com.thomaskuenneth.tkweek.ActivityDescription
 import com.thomaskuenneth.tkweek.BootCompleteReceiver
 import com.thomaskuenneth.tkweek.R
 import com.thomaskuenneth.tkweek.databinding.TkweekBinding
+import com.thomaskuenneth.tkweek.fragment.CLAZZ
+import com.thomaskuenneth.tkweek.fragment.TKWeekFragment
 import com.thomaskuenneth.tkweek.preference.WidgetPreference
 import com.thomaskuenneth.tkweek.util.TKWeekUtils
 import java.text.DateFormat
@@ -51,8 +50,7 @@ private const val TAG = "TKWeekActivity"
 
 private const val INFINITY_SYMBOL = "infinity_symbol"
 
-class TKWeekActivity : TKWeekBaseActivity(),
-    OnItemClickListener {
+class TKWeekActivity : TKWeekBaseActivity() {
 
     private var backing: TkweekBinding? = null
     private val binding get() = backing!!
@@ -61,22 +59,20 @@ class TKWeekActivity : TKWeekBaseActivity(),
         super.onCreate(savedInstanceState)
         backing = TkweekBinding.inflate(layoutInflater, null, false)
         setContentView(binding.root)
-        if (savedInstanceState == null) {
-            requestReadCalendar(this)
+    }
+
+    override fun onResumeFragments() {
+        super.onResumeFragments()
+        intent?.let {
+            it.getSerializableExtra(CLAZZ)?.let { module ->
+                (supportFragmentManager.findFragmentByTag(getString(R.string.tag_module_selection)) as? TKWeekFragment)?.run {
+                    launchModule(module as Class<*>, Bundle())
+                }
+            }
         }
     }
 
     override fun wantsHomeItem() = false
-
-    override fun onItemClick(
-        parent: AdapterView<*>, view: View?, position: Int,
-        id: Long
-    ) {
-        val o = parent.adapter.getItem(position)
-        if (o is ActivityDescription) {
-            startActivityClearTopNewTask(this, o.fragment)
-        }
-    }
 
     companion object {
 
@@ -249,6 +245,17 @@ class TKWeekActivity : TKWeekBaseActivity(),
                 )
             }
             BootCompleteReceiver.startAlarm(activity, true)
+        }
+
+        @JvmStatic
+        fun createPendingIntentToLaunchTKWeek(context: Context, clazz: Class<*>): PendingIntent {
+            val intent = Intent(context, TKWeekActivity::class.java)
+            intent.putExtra(CLAZZ, clazz)
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+            return PendingIntent.getActivity(
+                context, 0,
+                intent, PendingIntent.FLAG_IMMUTABLE
+            )
         }
     }
 }

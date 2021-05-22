@@ -41,7 +41,7 @@ const val PAYLOAD = "payload"
 const val DATE = "date"
 const val TAG_MODULE_FRAGMENT = "moduleFragment"
 
-private const val STR_LAST_SELECTED = "lastSelected"
+const val STR_LAST_SELECTED = "lastSelected"
 
 class TKWeekFragment : TKWeekBaseFragment<TkweekfragmentBinding>() {
 

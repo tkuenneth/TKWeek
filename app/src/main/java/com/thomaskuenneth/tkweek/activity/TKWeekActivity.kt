@@ -51,14 +51,6 @@ private const val TAG = "TKWeekActivity"
 
 private const val INFINITY_SYMBOL = "infinity_symbol"
 
-/**
- * Die Hauptactivity der Anwendung. Sie stellt eine Auswahlliste dar, die zu den
- * Funktionen der Anwendung verzweigt. Falls sich seit dem letzten Start die
- * Versionsnummer geändert hat (oder die App zum ersten Mal aufgerufen wird),
- * wird ein Willkommen-Dialog angezeigt.
- *
- * @author Thomas Künneth
- */
 class TKWeekActivity : TKWeekBaseActivity(),
     OnItemClickListener {
 
@@ -103,20 +95,16 @@ class TKWeekActivity : TKWeekBaseActivity(),
         )
 
         @JvmField
-        val FORMAT_FULL = DateFormat
-            .getDateInstance(DateFormat.FULL)
+        val FORMAT_FULL = DateFormat.getDateInstance(DateFormat.FULL)
 
         @JvmField
-        val FORMAT_DEFAULT = DateFormat
-            .getDateInstance()
+        val FORMAT_DEFAULT = DateFormat.getDateInstance()
 
         @JvmField
-        val FORMAT_DATE_SHORT = DateFormat
-            .getDateInstance(DateFormat.SHORT)
+        val FORMAT_DATE_SHORT = DateFormat.getDateInstance(DateFormat.SHORT)
 
         @JvmField
-        val FORMAT_TIME_SHORT = SimpleDateFormat
-            .getTimeInstance(SimpleDateFormat.SHORT)
+        val FORMAT_TIME_SHORT = SimpleDateFormat.getTimeInstance(SimpleDateFormat.SHORT)
 
         @JvmField
         val FORMAT_DAY_OF_WEEK: DateFormat = SimpleDateFormat(

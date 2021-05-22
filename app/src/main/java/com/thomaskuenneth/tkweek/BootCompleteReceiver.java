@@ -33,6 +33,7 @@ import android.text.format.DateUtils;
 import android.util.Log;
 
 import java.util.Calendar;
+import java.util.Objects;
 
 /**
  * This class sets an alarm after booting has completed.
@@ -46,7 +47,9 @@ public class BootCompleteReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        startAlarm(context, false);
+        if (Objects.equals(Intent.ACTION_BOOT_COMPLETED, intent.getAction())) {
+            startAlarm(context, false);
+        }
     }
 
     /**

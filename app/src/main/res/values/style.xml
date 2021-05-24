@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
 	styles.xml
-	TKWeek (c) Thomas Künneth 2010 - 2021
+	TKWeek (c) 2010 - 2020 Thomas Künneth
+	           2021 MATHEMA GmbH
 	Alle Rechte beim Autoren. All rights reserved.
 -->
 <resources>
@@ -10,6 +11,7 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:activatedBackgroundIndicator">@drawable/list_activated_background</item>
     </style>
 
     <style name="Text">

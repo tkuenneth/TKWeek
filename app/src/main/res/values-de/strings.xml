@@ -145,7 +145,7 @@
     <!-- days_total -->
     <string name="days_between_dates_weekends">%1$d Wochenende(n)</string>
     <string name="days_between_dates_weeks">insgesamt ca. %1$d Wochen</string>
-    <string name="days_between_dates_months">insgesamt ca. %1$d Monate</string>
+    <string name="days_between_dates_month_turns">%1$d Monatswechsel</string>
     <string name="days_between_dates_yearss">insgesamt ca. %1$d Jahre</string>
     <string name="days_between_dates_about_business_days">In den Einstellungen können Sie Werktage auszuwählen.</string>
     <string name="include_first_date">Ersten Tag einbeziehen</string>

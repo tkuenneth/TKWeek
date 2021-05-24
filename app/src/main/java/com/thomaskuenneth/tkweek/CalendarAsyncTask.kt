@@ -23,7 +23,6 @@
 package com.thomaskuenneth.tkweek
 
 import android.content.Context
-import android.content.SharedPreferences
 import android.os.AsyncTask
 import android.os.Bundle
 import android.view.View
@@ -55,7 +54,7 @@ class CalendarAsyncTask(
         var weekends = 0
         var weeks = 0
         var lastWeek = c1[Calendar.WEEK_OF_YEAR]
-        var months = 0
+        var monthTurns = 0
         var lastMonth = c1[Calendar.MONTH]
         var years = 0
         var lastYear = c1[Calendar.YEAR]
@@ -97,7 +96,7 @@ class CalendarAsyncTask(
                 lastWeek = temp
             }
             if (c1[Calendar.MONTH].also { temp = it } != lastMonth) {
-                months += 1
+                monthTurns += 1
                 lastMonth = temp
             }
             if (c1[Calendar.YEAR].also { temp = it } != lastYear) {
@@ -106,12 +105,13 @@ class CalendarAsyncTask(
             }
             c1.add(Calendar.DAY_OF_YEAR, 1)
         }
+        if (c1.get(Calendar.DAY_OF_MONTH) == 1) monthTurns += 1
         val b = Bundle()
         b.putInt(DAYS, days)
         b.putInt(BUSINESS_DAYS, businessDays)
         b.putInt(WEEKENDS, weekends)
         b.putInt(WEEKS, weeks)
-        b.putInt(MONTHS, months)
+        b.putInt(MONTHS, monthTurns)
         b.putInt(YEARS, years)
         return b
     }
@@ -133,8 +133,8 @@ class CalendarAsyncTask(
         binding.daysBetweenDatesWeeks.text = context.getString(
             R.string.days_between_dates_weeks, b.getInt(WEEKS)
         )
-        binding.daysBetweenDatesMonths.text = context.getString(
-            R.string.days_between_dates_months, b.getInt(MONTHS)
+        binding.daysBetweenDatesMonthTurns.text = context.getString(
+            R.string.days_between_dates_month_turns, b.getInt(MONTHS)
         )
         binding.daysBetweenDatesYears.text = context.getString(
             R.string.days_between_dates_yearss, b.getInt(YEARS)

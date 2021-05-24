@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
 	days_between_dates_activity.xml
-	TKWeek (c) Thomas Künneth 2009 - 2021
-	Alle Rechte beim Autoren. All Ends reserved.
+	TKWeek (c) 2009 - 2020 Thomas Künneth
+	           2021 MATHEMA GmbH
+	All Ends reserved.
 -->
 
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
@@ -142,7 +143,7 @@
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
         <TextView
-            android:id="@+id/days_between_dates_months"
+            android:id="@+id/days_between_dates_month_turns"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/days_between_dates_weeks"
@@ -153,7 +154,7 @@
             android:id="@+id/days_between_dates_years"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/days_between_dates_months"
+            android:layout_below="@id/days_between_dates_month_turns"
             android:layout_alignParentStart="true"
             android:textAppearance="?android:attr/textAppearanceMedium" />
 

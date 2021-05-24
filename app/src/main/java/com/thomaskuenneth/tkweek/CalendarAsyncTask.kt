@@ -59,8 +59,8 @@ class CalendarAsyncTask(
         var lastMonth = c1[Calendar.MONTH]
         var years = 0
         var lastYear = c1[Calendar.YEAR]
-        var `val`: Int
-        val prefs: SharedPreferences = context.getSharedPreferences(
+        var temp: Int
+        val prefs = context.getSharedPreferences(
             PickBusinessDaysPreference.getTag(), Context.MODE_PRIVATE
         )
         if (binding.checkboxIncludeFirstDate.isChecked) {
@@ -92,17 +92,17 @@ class CalendarAsyncTask(
                 sat = false
             }
             days += 1
-            if (c1[Calendar.WEEK_OF_YEAR].also { `val` = it } != lastWeek) {
+            if (c1[Calendar.WEEK_OF_YEAR].also { temp = it } != lastWeek) {
                 weeks += 1
-                lastWeek = `val`
+                lastWeek = temp
             }
-            if (c1[Calendar.MONTH].also { `val` = it } != lastMonth) {
+            if (c1[Calendar.MONTH].also { temp = it } != lastMonth) {
                 months += 1
-                lastMonth = `val`
+                lastMonth = temp
             }
-            if (c1[Calendar.YEAR].also { `val` = it } != lastYear) {
+            if (c1[Calendar.YEAR].also { temp = it } != lastYear) {
                 years += 1
-                lastYear = `val`
+                lastYear = temp
             }
             c1.add(Calendar.DAY_OF_YEAR, 1)
         }

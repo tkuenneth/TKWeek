@@ -9,7 +9,28 @@ title: Events
 <img src="assets/04.png" />
 </td>
 <td valign="top" style="border: none">
-<p>TKWeek has many national and international public holidays built in, for example Reformation Day, St. Martin's Day, Christmas, Good Friday, Seven Sleepers Day, Pentecost, Ash Wednesday and Easter. Other special days TKWeek knows: Ice Saints, Valentine's Day, Mother's Day, Halloween, Memorial Day, Thanksgiving, Black Friday, All Saints, Martin Luther King Day, Presidents' Day, Lincoln’s Birthday, St. Patrick’s Day, Flag Day, Earth Day, Groundhog Day, Election Day, Veterans Day, Labor Day (USA) and Columbus Day (USA).</p>
+<p>TKWeek has many national and international public holidays built in, for example:</p>
+<ul>
+<li>Reformation Day</li>
+<li>St. Martin's Day</li>
+<li>Christmas</li>
+<li>Good Friday</li>
+<li>Seven Sleepers Day</li>
+<li>Pentecost</li>
+<li>Ash Wednesday</li>
+<li>Easter</li>
+</ul>
+<p>Some of the other special days TKWeek knows:</p>
+<ul>
+<li>Ice Saints</li>
+<li>Valentine's Day</li>
+<li>Mother's Day</li>
+<li>Halloween</li>
+<li>St. Patrick’s Day</li>
+<li>Earth Day</li>
+<li>All Saints</li>
+</ul>
+<p>And there are so many more included.</p>
 </td>
 </tr>
 </table>

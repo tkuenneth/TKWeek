@@ -1,7 +1,6 @@
 ---
 layout: default
 title: Imprint / Privacy Policy
-permalink: /privacy/
 ---
 
 <p>

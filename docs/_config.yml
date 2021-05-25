@@ -3,3 +3,6 @@ title: TKWeek
 description: A date and calendaring tool for Android
 email: mobile@mathema.de
 author: MATHEMA GmbH
+header_pages:
+  - events.md
+  - privacy.md

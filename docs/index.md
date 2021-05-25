@@ -5,7 +5,7 @@ layout: home
 <table style="width: 100%; border: none">
 <tr>
 <td valign="top" style="width: 35%; border: none">
-<img src="/assets/01.png" />
+<img src="assets/01.png" />
 </td>
 <td valign="top" style="border: none">
 <p>Do you need to convert between a <strong>week number</strong> and a date or require some information about a date? Find out if a year is a leap year, calculate the number of days, business days, weeks, weekends, month turns and years between two dates? Want to add or subtract days, weeks or months to a given date?</p>

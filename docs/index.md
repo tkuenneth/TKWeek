@@ -18,3 +18,6 @@ layout: home
 <a href='https://play.google.com/store/apps/details?id=com.thomaskuenneth.tkweek&pcampaignid=pcampaignidMKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img alt='Get it on Google Play' width="25%" src='https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png'/></a><br/>
 Google Play and the Google Play logo are trademarks of Google LLC.
 </div>
+<div align="center">
+<br />Want to contribute? You can find the source code at <a href="https://github.com/MATHEMA-GmbH/TKWeek">https://github.com/MATHEMA-GmbH/TKWeek</a>
+</div>

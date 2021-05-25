@@ -1,6 +1,3 @@
-/docs/_site
-/docs/.jekyll-cache
-
 *.apk
 *.ap_
 *.aab
@@ -106,4 +103,9 @@ fabric.properties
 
 !/gradle/wrapper/gradle-wrapper.jar
 Android-Keyring
+
+app/release
+
 docs/Gemfile.lock
+/docs/_site
+/docs/.jekyll-cache

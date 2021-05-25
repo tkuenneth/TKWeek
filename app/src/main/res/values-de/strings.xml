@@ -147,7 +147,7 @@
     <string name="days_between_dates_weeks">insgesamt ca. %1$d Wochen</string>
     <string name="days_between_dates_month_turns">%1$d Monatswechsel</string>
     <string name="days_between_dates_yearss">insgesamt ca. %1$d Jahre</string>
-    <string name="days_between_dates_about_business_days">In den Einstellungen können Sie Werktage auszuwählen.</string>
+    <string name="days_between_dates_about_business_days">In den Einstellungen können Sie Werktage auswählen.</string>
     <string name="include_first_date">Ersten Tag einbeziehen</string>
 
     <!-- DateCalculatorActivity -->

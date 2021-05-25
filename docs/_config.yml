@@ -1,1 +1,5 @@
-theme: jekyll-theme-tactile
+theme: minima
+title: TKWeek
+description: A date and calendaring tool for Android
+email: mobile@mathema.de
+author: MATHEMA GmbH

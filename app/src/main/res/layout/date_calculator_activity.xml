@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
 	date_calculator_activity.xml
-	TKWeek (c) Thomas Künneth 2009 - 2021
-	Alle Rechte beim Autoren. All rights reserved.
+	TKWeek (c) 2009 - 2020 Thomas Künneth
+	           2021 MATHEMA GmbH
+	All rights reserved.
 -->
 
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
@@ -144,34 +145,36 @@
 
         <RelativeLayout
             android:id="@+id/date_calculator_layout_buttons"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/date_calculator_layout_reuse"
-            android:gravity="center_horizontal">
-
-            <Button
-                android:id="@+id/date_calculator_clear"
-                android:layout_width="80dip"
-                style="?android:attr/buttonBarButtonStyle"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:text="@string/clear" />
-
-            <Button
-                android:id="@+id/date_calculator_subtract"
-                android:layout_width="80dip"
-                style="?android:attr/buttonBarButtonStyle"
-                android:layout_height="wrap_content"
-                android:layout_toStartOf="@id/date_calculator_clear"
-                android:text="@string/subtract" />
+            android:layout_centerHorizontal="true"
+            android:orientation="horizontal">
 
             <Button
                 android:id="@+id/date_calculator_add"
-                android:layout_width="80dip"
-                style="?android:attr/buttonBarButtonStyle"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_toStartOf="@id/date_calculator_subtract"
+                android:ems="6"
                 android:text="@string/add" />
+
+            <Button
+                android:id="@+id/date_calculator_subtract"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_toEndOf="@id/date_calculator_add"
+                android:ems="6"
+                android:text="@string/subtract" />
+
+            <Button
+                android:id="@+id/date_calculator_clear"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@id/date_calculator_subtract"
+                android:ems="6"
+                android:text="@string/clear" />
 
         </RelativeLayout>
 

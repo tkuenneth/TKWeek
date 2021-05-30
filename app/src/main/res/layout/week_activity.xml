@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
 	week_activity.xml
-	TKWeek (c) Thomas Künneth 2009 - 2021
-	Alle Rechte beim Autoren. All rights reserved.
+	TKWeek (c) 2009 - 2020 Thomas Künneth
+	           2021 MATHEMA GmbH
+	All rights reserved.
 -->
 
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
@@ -48,6 +49,7 @@
                 android:id="@+id/down"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:ems="6"
                 android:text="@string/minus" />
 
             <TextView
@@ -65,6 +67,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_toEndOf="@id/week_number"
+                android:ems="6"
                 android:text="@string/plus" />
 
         </RelativeLayout>

@@ -26,9 +26,9 @@ import android.content.Context
 import android.os.AsyncTask
 import android.os.Bundle
 import android.view.View
-import com.thomaskuenneth.tkweek.util.DateUtilities
-import com.thomaskuenneth.tkweek.preference.PickBusinessDaysPreference
 import com.thomaskuenneth.tkweek.databinding.DaysBetweenDatesActivityBinding
+import com.thomaskuenneth.tkweek.preference.PickBusinessDaysPreference
+import com.thomaskuenneth.tkweek.util.DateUtilities
 import java.util.*
 
 private const val YEARS = "years"
@@ -56,7 +56,7 @@ class CalendarAsyncTask(
         var lastWeek = c1[Calendar.WEEK_OF_YEAR]
         var monthTurns = 0
         var lastMonth = c1[Calendar.MONTH]
-        var years = 0
+        var yearTurns = 0
         var lastYear = c1[Calendar.YEAR]
         var temp: Int
         val prefs = context.getSharedPreferences(
@@ -100,19 +100,22 @@ class CalendarAsyncTask(
                 lastMonth = temp
             }
             if (c1[Calendar.YEAR].also { temp = it } != lastYear) {
-                years += 1
+                yearTurns += 1
                 lastYear = temp
             }
             c1.add(Calendar.DAY_OF_YEAR, 1)
         }
-        if (c1.get(Calendar.DAY_OF_MONTH) == 1) monthTurns += 1
+        if (c1.get(Calendar.DAY_OF_MONTH) == 1) {
+            monthTurns += 1
+            if (c1.get(Calendar.MONTH) == Calendar.JANUARY) yearTurns += 1
+        }
         val b = Bundle()
         b.putInt(DAYS, days)
         b.putInt(BUSINESS_DAYS, businessDays)
         b.putInt(WEEKENDS, weekends)
         b.putInt(WEEKS, weeks)
         b.putInt(MONTHS, monthTurns)
-        b.putInt(YEARS, years)
+        b.putInt(YEARS, yearTurns)
         return b
     }
 
@@ -136,8 +139,8 @@ class CalendarAsyncTask(
         binding.daysBetweenDatesMonthTurns.text = context.getString(
             R.string.days_between_dates_month_turns, b.getInt(MONTHS)
         )
-        binding.daysBetweenDatesYears.text = context.getString(
-            R.string.days_between_dates_yearss, b.getInt(YEARS)
+        binding.daysBetweenDatesYearTurns.text = context.getString(
+            R.string.days_between_dates_year_turns, b.getInt(YEARS)
         )
     }
 }

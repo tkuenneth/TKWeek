@@ -193,9 +193,9 @@ access your contacts data to display birthdays and anniversaries. You can deacti
     <string name="days_from_to">Days (business days) between %1$s and %2$s</string>
     <string name="days_total" translatable="false">%1$d (%2$d)</string>
     <string name="days_between_dates_weekends">%1$d weekend(s)</string>
-    <string name="days_between_dates_weeks">about %1$d weeks total</string>
+    <string name="days_between_dates_weeks">approx. %1$d week(s)</string>
     <string name="days_between_dates_month_turns">%1$d month turns</string>
-    <string name="days_between_dates_yearss">about %1$d years total</string>
+    <string name="days_between_dates_year_turns">%1$d year turns</string>
     <string name="days_between_dates_about_business_days">Open preferences to select business days.</string>
     <string name="include_first_date">Include first day</string>
 

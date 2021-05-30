@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
 	strings.xml
-	TKWeek (c) Thomas Künneth 2009 - 2021
-	Alle Rechte beim Autoren. All rights reserved.
+	TKWeek (c) 2009 - 2020 Thomas Künneth
+	           2021 MATHEMA GmbH
+	All rights reserved.
 -->
 
 <resources>
 
-    <!-- application -->
+    <string name="pick_a_date">Pick a date</string>
     <string name="four_strings_two_lines" translatable="false">%1$s %2$s\n%3$s %4$s</string>
     <string name="tag_module_selection" translatable="false">module_selection</string>
     <string name="leap_year">Leap Year</string>

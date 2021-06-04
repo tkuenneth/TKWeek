@@ -109,6 +109,10 @@ public class TKWeekFragmentListAdapter extends BaseAdapter {
         return null;
     }
 
+    public static ActivityDescription get(int index) {
+        return items.get(index);
+    }
+
     public static int getPosition(@NotNull Class<?> clazz) {
         for (int i = 0; i < items.size(); i++) {
             ActivityDescription current = items.get(i);

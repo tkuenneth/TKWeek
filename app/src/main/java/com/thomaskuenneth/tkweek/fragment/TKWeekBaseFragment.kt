@@ -7,12 +7,15 @@
 package com.thomaskuenneth.tkweek.fragment
 
 import android.Manifest
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentTransaction
 import androidx.preference.PreferenceManager
+import com.thomaskuenneth.tkweek.ActivityDescription
 import com.thomaskuenneth.tkweek.R
 import com.thomaskuenneth.tkweek.activity.ModuleContainerActivity
 import com.thomaskuenneth.tkweek.adapter.TKWeekFragmentListAdapter
@@ -40,24 +43,35 @@ abstract class TKWeekBaseFragment<T> : Fragment() {
         // Dummyimplementierung tut nichts
     }
 
-    fun launchModule(module: Class<*>, payload: Bundle) {
-        TKWeekFragmentListAdapter.find(module)?.run {
-            val twoColumnMode =
-                requireActivity().findViewById<ViewGroup>(R.id.module_container) != null
-            if (twoColumnMode) {
-                (parentFragmentManager.findFragmentByTag(getString(R.string.tag_module_selection)) as? TKWeekFragment)?.run {
-                    val pos = TKWeekFragmentListAdapter.getPosition(module)
-                    if (pos != -1) {
-                        showModule(pos, payload)
-                    }
+    fun launchModule(module: Class<*>, payload: Bundle?) {
+        TKWeekFragmentListAdapter.find(module)?.let {
+            launchModule(it, payload)
+        }
+    }
+
+    fun launchModule(module: ActivityDescription, payload: Bundle?) {
+        if (isTwoColumnMode(requireActivity())) {
+            (parentFragmentManager.findFragmentByTag(getString(R.string.tag_module_selection)) as? TKWeekFragment)?.run {
+                val fragment = module.fragment.newInstance()
+                fragment.arguments = payload
+                parentFragmentManager.run {
+                    beginTransaction()
+                        .replace(
+                            R.id.module_container,
+                            fragment,
+                            TAG_MODULE_FRAGMENT
+                        )
+                        .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                        .disallowAddToBackStack()
+                        .commit()
                 }
-            } else {
-                val intent = Intent(context, ModuleContainerActivity::class.java)
-                intent.putExtra(CLAZZ, fragment)
-                intent.putExtra(TITLE, text1)
-                intent.putExtra(PAYLOAD, payload)
-                requireContext().startActivity(intent)
             }
+        } else {
+            val intent = Intent(context, ModuleContainerActivity::class.java)
+            intent.putExtra(CLAZZ, module.fragment)
+            intent.putExtra(TITLE, module.text1)
+            intent.putExtra(PAYLOAD, payload)
+            requireContext().startActivity(intent)
         }
     }
 
@@ -112,4 +126,7 @@ abstract class TKWeekBaseFragment<T> : Fragment() {
             RQ_READ_CALENDAR
         )
     }
+
+    fun isTwoColumnMode(activity: Activity) =
+        activity.findViewById<ViewGroup>(R.id.module_container) != null
 }

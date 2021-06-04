@@ -71,6 +71,7 @@ class TKWeekActivity : TKWeekBaseActivity() {
         super.onResumeFragments()
         intent?.let {
             it.getSerializableExtra(CLAZZ)?.let { module ->
+                it.removeExtra(CLAZZ)
                 (supportFragmentManager.findFragmentByTag(getString(R.string.tag_module_selection)) as? TKWeekFragment)?.run {
                     launchModule(module as Class<*>, Bundle())
                 }
@@ -250,10 +251,10 @@ class TKWeekActivity : TKWeekBaseActivity() {
         ): PendingIntent {
             val intent = Intent(context, TKWeekActivity::class.java)
             intent.putExtra(CLAZZ, clazz)
-            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
             return PendingIntent.getActivity(
                 context, requestCode,
-                intent, PendingIntent.FLAG_IMMUTABLE
+                intent, PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_ONE_SHOT
             )
         }
     }

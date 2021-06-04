@@ -409,49 +409,49 @@ class MyDayFragment : TKWeekBaseFragment<MydayBinding>(),
     }
 
     private fun updateEvents(adapter: AnnualEventsListAdapter) {
-        // FIXME: update events called too early
-        val inflater = layoutInflater
-        binding.mydayEvents.removeAllViews()
-        if (shouldShowBirthdays() && !TKWeekUtils.canReadContacts(requireContext())
-            && shouldShowPermissionReadContactsRationale()
-        ) {
-            val layout =
-                inflater.inflate(
-                    R.layout.message_link_to_settings,
-                    binding.mydayEvents,
-                    false
-                ) as RelativeLayout
-            linkToSettings(layout, requireActivity(), R.string.str_permission_read_contacts)
-            val button = layout.findViewById<Button>(R.id.button)
-            button.setOnClickListener {
-                requestReadContacts()
+        layoutInflater.run {
+            binding.mydayEvents.removeAllViews()
+            if (shouldShowBirthdays() && !TKWeekUtils.canReadContacts(requireContext())
+                && shouldShowPermissionReadContactsRationale()
+            ) {
+                val layout =
+                    inflate(
+                        R.layout.message_link_to_settings,
+                        binding.mydayEvents,
+                        false
+                    ) as RelativeLayout
+                linkToSettings(layout, requireActivity(), R.string.str_permission_read_contacts)
+                val button = layout.findViewById<Button>(R.id.button)
+                button.setOnClickListener {
+                    requestReadContacts()
+                }
+                binding.mydayEvents.addView(layout)
             }
-            binding.mydayEvents.addView(layout)
+            for (position in 0 until adapter.count) {
+                val event = adapter.getItem(position) as Event
+                val temp = DateUtilities.getCalendar(
+                    event.year,
+                    event.month,
+                    event.day
+                )
+                if (event.annuallyRepeating) {
+                    temp[Calendar.YEAR] = cal!!.get(Calendar.YEAR)
+                }
+                if (DateUtilities.diffDayPeriods(cal, temp) == 0L) {
+                    val descr = adapter.getDescription(event, requireContext())
+                    val parent =
+                        inflate(R.layout.string_one_line2, binding.mydayEvents, false)
+                    binding.mydayEvents.addView(parent)
+                    val str = parent
+                        .findViewById<TextView>(R.id.string_one_line2_text)
+                    str.text = descr
+                    val color = parent.findViewById<View>(R.id.string_one_line2_color)
+                    color.setBackgroundColor(event.color)
+                }
+            }
+            maybeAddNone(this, binding.mydayEvents)
+            updateAppointments(this)
         }
-        for (position in 0 until adapter.count) {
-            val event = adapter.getItem(position) as Event
-            val temp = DateUtilities.getCalendar(
-                event.year,
-                event.month,
-                event.day
-            )
-            if (event.annuallyRepeating) {
-                temp[Calendar.YEAR] = cal!!.get(Calendar.YEAR)
-            }
-            if (DateUtilities.diffDayPeriods(cal, temp) == 0L) {
-                val descr = adapter.getDescription(event, requireContext())
-                val parent =
-                    inflater.inflate(R.layout.string_one_line2, binding.mydayEvents, false)
-                binding.mydayEvents.addView(parent)
-                val str = parent
-                    .findViewById<TextView>(R.id.string_one_line2_text)
-                str.text = descr
-                val color = parent.findViewById<View>(R.id.string_one_line2_color)
-                color.setBackgroundColor(event.color)
-            }
-        }
-        maybeAddNone(inflater, binding.mydayEvents)
-        updateAppointments(inflater)
     }
 
     private fun updateAppointments(inflater: LayoutInflater) {

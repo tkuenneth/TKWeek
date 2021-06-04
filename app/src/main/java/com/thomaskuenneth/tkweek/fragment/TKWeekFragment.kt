@@ -22,16 +22,11 @@
  */
 package com.thomaskuenneth.tkweek.fragment
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ListView
-import androidx.fragment.app.FragmentTransaction
-import com.thomaskuenneth.tkweek.ActivityDescription
-import com.thomaskuenneth.tkweek.R
-import com.thomaskuenneth.tkweek.activity.ModuleContainerActivity
 import com.thomaskuenneth.tkweek.adapter.TKWeekFragmentListAdapter
 import com.thomaskuenneth.tkweek.databinding.TkweekfragmentBinding
 
@@ -47,7 +42,6 @@ class TKWeekFragment : TKWeekBaseFragment<TkweekfragmentBinding>() {
 
     private val binding get() = backing!!
 
-    private var twoColumnMode = false
     private var lastSelected = 0
 
     override fun onCreateView(
@@ -57,7 +51,10 @@ class TKWeekFragment : TKWeekBaseFragment<TkweekfragmentBinding>() {
         backing = TkweekfragmentBinding.inflate(inflater, container, false)
         binding.listView.adapter =
             TKWeekFragmentListAdapter(context)
-        binding.listView.setOnItemClickListener { _, _, position, _ -> showModule(position, null) }
+        binding.listView.setOnItemClickListener { _, _, position, _ ->
+            lastSelected = position
+            launchModule(TKWeekFragmentListAdapter.get(position), null)
+        }
         return binding.root
     }
 
@@ -76,43 +73,12 @@ class TKWeekFragment : TKWeekBaseFragment<TkweekfragmentBinding>() {
     override fun onViewStateRestored(savedInstanceState: Bundle?) {
         super.onViewStateRestored(savedInstanceState)
         activity?.run {
-            twoColumnMode =
-                findViewById<ViewGroup>(R.id.module_container) != null
-            if (twoColumnMode) {
+            if (isTwoColumnMode(this)) {
                 binding.listView.choiceMode = ListView.CHOICE_MODE_SINGLE
-                showModule(lastSelected, null)
+                binding.listView.performItemClick(binding.listView, lastSelected, 0L)
             } else {
                 binding.listView.choiceMode = ListView.CHOICE_MODE_NONE
             }
-        }
-    }
-
-    fun showModule(index: Int, payload: Bundle?) {
-        lastSelected = index
-        val item = binding.listView.adapter.getItem(index) as ActivityDescription
-        val fragment = item.fragment.newInstance()
-        fragment.arguments = payload
-        if (twoColumnMode) {
-            binding.listView.setItemChecked(index, true)
-            parentFragmentManager.run {
-                beginTransaction()
-                    .replace(
-                        R.id.module_container,
-                        fragment,
-                        TAG_MODULE_FRAGMENT
-                    )
-                    .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-                    .commit()
-            }
-        } else {
-            val intent = Intent()
-            intent.setClass(
-                requireActivity(),
-                ModuleContainerActivity::class.java
-            )
-            intent.putExtra(CLAZZ, item.fragment)
-            intent.putExtra(TITLE, item.text1)
-            startActivity(intent)
         }
     }
 }

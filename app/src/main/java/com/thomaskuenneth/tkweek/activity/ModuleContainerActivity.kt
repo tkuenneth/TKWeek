@@ -32,6 +32,7 @@ class ModuleContainerActivity : TKWeekBaseActivity() {
                             fragment,
                             TAG_MODULE_FRAGMENT
                         )
+                        .disallowAddToBackStack()
                         .commit()
                 }
                 supportActionBar?.title = getString(TITLE)

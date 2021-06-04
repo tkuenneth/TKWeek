@@ -37,7 +37,7 @@ import java.util.Date;
 
 public class DateWidget extends AppWidgetProvider {
 
-    private static final int REQUEST_CODE = 3;
+    private static final int REQUEST_CODE_DATE_WIDGET = 3;
 
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager,
@@ -58,7 +58,7 @@ public class DateWidget extends AppWidgetProvider {
         updateViews.setTextViewText(R.id.text_month, month);
         updateViews.setTextViewText(R.id.text_day, day);
         updateViews.setTextViewText(R.id.text_weekday, weekday);
-        updateViews.setOnClickPendingIntent(R.id.datewidget_id, TKWeekActivity.createPendingIntentToLaunchTKWeek(context, REQUEST_CODE, MyDayFragment.class));
+        updateViews.setOnClickPendingIntent(R.id.datewidget_id, TKWeekActivity.createPendingIntentToLaunchTKWeek(context, REQUEST_CODE_DATE_WIDGET, MyDayFragment.class));
         appWidgetManager.updateAppWidget(appWidgetIds, updateViews);
     }
 }

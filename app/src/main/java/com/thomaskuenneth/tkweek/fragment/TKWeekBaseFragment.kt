@@ -71,6 +71,7 @@ abstract class TKWeekBaseFragment<T> : Fragment() {
             intent.putExtra(CLAZZ, module.fragment)
             intent.putExtra(TITLE, module.text1)
             intent.putExtra(PAYLOAD, payload)
+            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
             requireContext().startActivity(intent)
         }
     }

@@ -44,7 +44,7 @@ import java.util.List;
 
 public class EventsListWidget extends AppWidgetProvider {
 
-    private static final int REQUEST_CODE = 1;
+    private static final int REQUEST_CODE_EVENTS_LIST_WIDGET = 1;
 
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager,
@@ -146,7 +146,7 @@ public class EventsListWidget extends AppWidgetProvider {
                 updateViews.setTextViewText(R.id.text_4l, text_4l);
                 updateViews.setOnClickPendingIntent(R.id.eventslistwidget_id,
                         TKWeekActivity.createPendingIntentToLaunchTKWeek(context,
-                                REQUEST_CODE,
+                                REQUEST_CODE_EVENTS_LIST_WIDGET,
                                 AnnualEventsFragment.class));
                 appWidgetManager.updateAppWidget(appWidgetIds, updateViews);
             }

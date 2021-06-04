@@ -37,7 +37,7 @@ import java.util.Calendar;
 
 public class DayOfYearWidget extends AppWidgetProvider {
 
-    private static final int REQUEST_CODE = 4;
+    private static final int REQUEST_CODE_DAY_OF_YEAR_WIDGET = 4;
 
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager,
@@ -59,7 +59,7 @@ public class DayOfYearWidget extends AppWidgetProvider {
         updateViews.setTextViewText(R.id.text_weekday, year);
         updateViews.setOnClickPendingIntent(R.id.datewidget_id,
                 TKWeekActivity.createPendingIntentToLaunchTKWeek(context,
-                        REQUEST_CODE, MyDayFragment.class));
+                        REQUEST_CODE_DAY_OF_YEAR_WIDGET, MyDayFragment.class));
         appWidgetManager.updateAppWidget(appWidgetIds, updateViews);
     }
 }

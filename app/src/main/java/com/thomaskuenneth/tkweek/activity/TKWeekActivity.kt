@@ -29,6 +29,7 @@ import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.widget.DatePicker
@@ -73,6 +74,7 @@ class TKWeekActivity : TKWeekBaseActivity() {
             it.getSerializableExtra(CLAZZ)?.let { module ->
                 it.removeExtra(CLAZZ)
                 (supportFragmentManager.findFragmentByTag(getString(R.string.tag_module_selection)) as? TKWeekFragment)?.run {
+                    requireActivity().finishAffinity()
                     launchModule(module as Class<*>, Bundle())
                 }
             }
@@ -150,6 +152,7 @@ class TKWeekActivity : TKWeekBaseActivity() {
 
         @JvmStatic
         fun backToMain(activity: Activity) {
+            activity.finishAffinity()
             startActivityClearTopNewTask(activity, TKWeekActivity::class.java)
         }
 
@@ -251,10 +254,13 @@ class TKWeekActivity : TKWeekBaseActivity() {
         ): PendingIntent {
             val intent = Intent(context, TKWeekActivity::class.java)
             intent.putExtra(CLAZZ, clazz)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                intent.identifier = UUID.randomUUID().toString()
+            }
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
             return PendingIntent.getActivity(
                 context, requestCode,
-                intent, PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_ONE_SHOT
+                intent, PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
             )
         }
     }

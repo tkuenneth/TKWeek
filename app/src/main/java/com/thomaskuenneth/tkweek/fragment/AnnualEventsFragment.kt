@@ -191,10 +191,14 @@ class AnnualEventsFragment : TKWeekBaseFragment<EventsBinding>(),
 
     override fun onStart() {
         super.onStart()
-        val id = requireActivity().intent.getIntExtra(AlarmReceiver.KEY_CANCEL_NOTIFICATION, -1)
-        if (id != -1) {
-            val nm = requireContext().getSystemService(NotificationManager::class.java)
-            nm.cancel(id)
+        if (requireActivity().intent?.getIntExtra(
+                AlarmReceiver.KEY_CANCEL_NOTIFICATION,
+                -1
+            ) ?: -1 != -1
+        ) {
+            requireContext().getSystemService(NotificationManager::class.java)?.run {
+                cancel(id)
+            }
         }
     }
 

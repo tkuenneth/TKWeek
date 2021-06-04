@@ -58,6 +58,13 @@ class TKWeekActivity : TKWeekBaseActivity() {
         backing = TkweekBinding.inflate(layoutInflater, null, false)
         setContentView(binding.root)
         BootCompleteReceiver.startAlarm(this, true)
+        // Clean up some settings from older versions
+        val prefs =
+            getSharedPreferences("PickCountriesPreference", MODE_PRIVATE)
+        prefs.edit().run {
+            prefs.all.forEach { (key: String?, _: Any?) -> remove(key) }
+            apply()
+        }
     }
 
     override fun onResumeFragments() {

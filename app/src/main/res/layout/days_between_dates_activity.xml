@@ -30,7 +30,7 @@
             android:layout_below="@id/label_first_date"
             android:layout_alignParentEnd="true"
             android:layout_marginStart="8dp"
-            android:ems="6"
+            android:ems="7"
             android:text="@string/pick" />
 
         <Button
@@ -39,7 +39,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/label_first_date"
             android:layout_toStartOf="@id/first_date_pick"
-            android:ems="6"
+            android:ems="7"
             android:text="@string/today" />
 
         <TextView
@@ -73,7 +73,7 @@
             android:layout_below="@id/label_second_date"
             android:layout_alignParentEnd="true"
             android:layout_marginStart="8dp"
-            android:ems="6"
+            android:ems="7"
             android:text="@string/pick" />
 
         <Button
@@ -82,7 +82,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/label_second_date"
             android:layout_toStartOf="@id/second_date_pick"
-            android:ems="6"
+            android:ems="7"
             android:text="@string/today" />
 
         <TextView

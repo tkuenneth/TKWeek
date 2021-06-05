@@ -25,6 +25,7 @@ package com.thomaskuenneth.tkweek.fragment
 
 import android.content.ActivityNotFoundException
 import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
 import android.text.Spannable
 import android.text.SpannableString
@@ -59,7 +60,8 @@ class AboutFragment : TKWeekBaseFragment<AboutBinding>() {
         var vn = getString(R.string.unknown)
         try {
             activity?.packageName?.let { pm?.getPackageInfo(it, 0) }?.run {
-                vn = versionName
+                vn =
+                    "$versionName (${if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) longVersionCode else versionCode})"
             }
         } catch (e: PackageManager.NameNotFoundException) {
             Log.e(TAG, "getPackageInfo()", e)

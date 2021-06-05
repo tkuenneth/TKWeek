@@ -72,25 +72,36 @@
 
         </RelativeLayout>
 
-        <SeekBar
-            android:id="@+id/week_selection"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-        <TextView
-            android:id="@+id/label_first_and_last_day_of_week"
-            android:layout_width="match_parent"
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="6dp"
-            android:gravity="center_horizontal"
-            android:textAppearance="?android:attr/textAppearanceSmall" />
+            android:layout_gravity="center_horizontal"
+            android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/first_and_last_day_of_week"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:textAppearance="?android:attr/textAppearanceLarge" />
+            <SeekBar
+                android:id="@+id/week_selection"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="16dp"
+                android:paddingBottom="16dp" />
+
+            <TextView
+                android:id="@+id/label_first_and_last_day_of_week"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="6dp"
+                android:paddingBottom="8dp"
+                android:textAppearance="?android:attr/textAppearanceSmall" />
+
+            <TextView
+                android:id="@+id/first_and_last_day_of_week"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:textAppearance="?android:attr/textAppearanceLarge" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
 
     </LinearLayout>
 </ScrollView>

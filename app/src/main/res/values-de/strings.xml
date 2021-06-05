@@ -8,6 +8,7 @@
 
 <resources>
 
+    <string name="contacts">Kontakte</string>
     <string name="pick_a_date">Datum auswählen</string>
     <string name="yes">Ja</string>
     <string name="no">Nein</string>

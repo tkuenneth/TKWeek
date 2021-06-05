@@ -1,8 +1,25 @@
 /*
  * ContactsUtils.java
- * 
- * TKWeek (c) Thomas Künneth 2011 - 2021
- * Alle Rechte beim Autoren. All rights reserved.
+ *
+ * Copyright 2011 - 2020 Thomas Künneth
+ * Copyright 2021 MATHEMA GmbH
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy of
+ * this software and associated documentation files (the "Software"), to deal in
+ * the Software without restriction, including without limitation the rights to use,
+ * copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the
+ * Software, and to permit persons to whom the Software is furnished to do so,
+ * subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all copies
+ * or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
+ * INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
+ * PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+ * HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
+ * CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
+ * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 package com.thomaskuenneth.tkweek.util;
 
@@ -30,18 +47,14 @@ public class ContactsUtils {
     public static List<Event> queryContacts(Context context) {
         ContentResolver contentResolver = context.getContentResolver();
         List<Event> result = new ArrayList<>();
-        // get IDs and names of all visible contacts
+        // get IDs and names of all contacts with a display name
         String[] mainQueryProjection = {ContactsContract.Contacts._ID,
-                ContactsContract.Contacts.DISPLAY_NAME,
-                ContactsContract.Contacts.IN_VISIBLE_GROUP};
-        String mainQuerySelection = ContactsContract.Contacts.IN_VISIBLE_GROUP
-                + "!= ?";
-        String[] mainQuerySelectionArgs = new String[]{"0"};
+                ContactsContract.Contacts.DISPLAY_NAME};
         Cursor mainQueryCursor = null;
         if (TKWeekUtils.canReadContacts(context)) {
             mainQueryCursor = contentResolver.query(
                     ContactsContract.Contacts.CONTENT_URI, mainQueryProjection,
-                    mainQuerySelection, mainQuerySelectionArgs, null);
+                    null, null, null);
         }
         if (mainQueryCursor != null) {
             while (mainQueryCursor.moveToNext()) {
@@ -49,13 +62,6 @@ public class ContactsUtils {
                         .getColumnIndex(ContactsContract.Contacts._ID));
                 String displayName = mainQueryCursor.getString(mainQueryCursor
                         .getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
-                int inVisibleGroup = mainQueryCursor
-                        .getInt(mainQueryCursor
-                                .getColumnIndex(ContactsContract.Contacts.IN_VISIBLE_GROUP));
-                // workaround for a bug in Honeycomb
-                if (inVisibleGroup == 0) {
-                    continue;
-                }
                 String[] dataQueryProjection = new String[]{
                         ContactsContract.CommonDataKinds.Event.TYPE,
                         ContactsContract.CommonDataKinds.Event.START_DATE,
@@ -94,6 +100,7 @@ public class ContactsUtils {
                                         label = context.getString(R.string.other);
                                     }
                                 }
+                                item.calendarName = context.getString(R.string.contacts);
                                 item.setText(label);
                                 result.add(item);
                             }

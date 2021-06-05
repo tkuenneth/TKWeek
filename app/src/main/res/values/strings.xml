@@ -8,6 +8,7 @@
 
 <resources>
 
+    <string name="contacts">Contacts</string>
     <string name="pick_a_date">Pick a date</string>
     <string name="four_strings_two_lines" translatable="false">%1$s %2$s\n%3$s %4$s</string>
     <string name="tag_module_selection" translatable="false">module_selection</string>

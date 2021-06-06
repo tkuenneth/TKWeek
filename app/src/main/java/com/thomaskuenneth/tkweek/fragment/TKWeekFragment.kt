@@ -27,6 +27,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ListView
+import androidx.preference.PreferenceManager
 import com.thomaskuenneth.tkweek.adapter.TKWeekFragmentListAdapter
 import com.thomaskuenneth.tkweek.databinding.TkweekfragmentBinding
 
@@ -36,13 +37,11 @@ const val PAYLOAD = "payload"
 const val DATE = "date"
 const val TAG_MODULE_FRAGMENT = "moduleFragment"
 
-const val STR_LAST_SELECTED = "lastSelected"
+private const val KEY_LAST_SELECTED = "lastSelected"
 
 class TKWeekFragment : TKWeekBaseFragment<TkweekfragmentBinding>() {
 
     private val binding get() = backing!!
-
-    private var lastSelected = 0
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -52,22 +51,13 @@ class TKWeekFragment : TKWeekBaseFragment<TkweekfragmentBinding>() {
         binding.listView.adapter =
             TKWeekFragmentListAdapter(context)
         binding.listView.setOnItemClickListener { _, _, position, _ ->
-            lastSelected = position
+            PreferenceManager.getDefaultSharedPreferences(requireContext())
+                .edit()
+                .putInt(KEY_LAST_SELECTED, position)
+                .apply()
             launchModule(TKWeekFragmentListAdapter.get(position), null)
         }
         return binding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        savedInstanceState?.run {
-            lastSelected = getInt(STR_LAST_SELECTED, 0)
-        }
-    }
-
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        outState.putInt(STR_LAST_SELECTED, lastSelected)
     }
 
     override fun onViewStateRestored(savedInstanceState: Bundle?) {
@@ -75,7 +65,13 @@ class TKWeekFragment : TKWeekBaseFragment<TkweekfragmentBinding>() {
         activity?.run {
             if (isTwoColumnMode(this)) {
                 binding.listView.choiceMode = ListView.CHOICE_MODE_SINGLE
-                binding.listView.performItemClick(binding.listView, lastSelected, 0L)
+                binding.listView.performItemClick(
+                    binding.listView,
+                    PreferenceManager.getDefaultSharedPreferences(requireContext()).getInt(
+                        KEY_LAST_SELECTED, 0
+                    ),
+                    0L
+                )
             } else {
                 binding.listView.choiceMode = ListView.CHOICE_MODE_NONE
             }

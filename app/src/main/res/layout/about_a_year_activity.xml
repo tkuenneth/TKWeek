@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
 	about_a_year_activity.xml
-	TKWeek (c) Thomas Künneth 2010 - 2021
-	Alle Rechte beim Autoren. All Ends reserved.
+	TKWeek (c) 2010 - 2020 Thomas Künneth
+	           2021 MATHEMA GmbH
+	All rights reserved.
 -->
 
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
@@ -18,47 +19,42 @@
             android:id="@+id/year_selection"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:padding="8dp"
             android:layout_centerHorizontal="true">
 
             <Button
                 android:id="@+id/about_a_year_down"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
+                android:ems="4"
                 android:text="@string/minus" />
 
             <TextView
                 android:id="@+id/about_a_year_year"
                 android:layout_width="wrap_content"
+                android:layout_alignBaseline="@id/about_a_year_down"
                 android:layout_height="wrap_content"
-                android:layout_toEndOf="@id/about_a_year_down"
+                android:ems="4"
                 android:gravity="center"
-                android:padding="8dp"
-                android:textSize="48sp" />
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:layout_toEndOf="@id/about_a_year_down" />
 
             <Button
                 android:id="@+id/about_a_year_up"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
+                android:ems="4"
+                android:layout_alignBaseline="@id/about_a_year_year"
                 android:layout_toEndOf="@id/about_a_year_year"
                 android:text="@string/plus" />
 
         </RelativeLayout>
 
         <TextView
-            android:id="@+id/about_a_year_roman"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:layout_below="@id/year_selection"
-            android:layout_centerHorizontal="true"
-            android:textAppearance="?android:attr/textAppearanceLarge" />
-
-        <TextView
             android:id="@+id/leapyear_is_leap_year"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/about_a_year_roman"
             android:layout_centerHorizontal="true"
             android:text="@string/leap_year"
             android:textAppearance="?android:attr/textAppearanceLarge" />

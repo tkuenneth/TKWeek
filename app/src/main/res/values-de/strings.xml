@@ -42,7 +42,6 @@
     <string name="close">Schließen</string>
     <string name="title">Titel</string>
     <string name="notes">Notizen</string>
-    <string name="error_call_log">Die Anrufhistorie kann nicht angezeigt werden</string>
     <string name="saved">%1$s gespeichert</string>
 
     <!-- Mondphasen -->

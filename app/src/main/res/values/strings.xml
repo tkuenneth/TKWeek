@@ -59,7 +59,6 @@
     <string name="close">Close</string>
     <string name="title">title</string>
     <string name="notes">notes</string>
-    <string name="error_call_log">Cannot display call log</string>
     <string name="edit">Edit</string>
     <string name="saved">%1$s saved</string>
     <string name="widget_retired">This TKWeek widget is no longer supported. Please remove.</string>

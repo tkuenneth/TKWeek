@@ -111,9 +111,6 @@ class MyDayFragment : TKWeekBaseFragment<MydayBinding>(),
         ) {
             permissins.add(Manifest.permission.READ_CALENDAR)
         }
-        if (!TKWeekUtils.canGetAccounts(requireContext())) {
-            //       permissins.add(Manifest.permission.GET_ACCOUNTS)
-        }
         if (permissins.size > 0) {
             val l = arrayOfNulls<String>(permissins.size)
             permissins.toArray(l)
@@ -127,19 +124,8 @@ class MyDayFragment : TKWeekBaseFragment<MydayBinding>(),
         permissions: Array<String>,
         grantResults: IntArray
     ) {
-        for (i in grantResults.indices) {
-            when {
-                Manifest.permission.GET_ACCOUNTS == permissions[i] -> {
-                    prepareEventsLoader()
-                }
-                Manifest.permission.READ_CONTACTS == permissions[i] -> {
-                    prepareEventsLoader()
-                }
-                Manifest.permission.READ_CALENDAR == permissions[i] -> {
-                    prepareEventsLoader()
-                }
-            }
-        }
+        if (!grantResults.indices.isEmpty())
+            prepareEventsLoader()
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

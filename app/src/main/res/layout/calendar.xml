@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
 	calendar.xml
-	TKWeek (c) Thomas Künneth 2012 - 2021
-	Alle Rechte beim Autoren. All rights reserved.
+	TKWeek (c) 2012 - 2020 Thomas Künneth
+	           2021 MATHEMA GmbH
+	All rights reserved.
 -->
 
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
@@ -11,41 +12,43 @@
 
     <RelativeLayout
         android:layout_width="wrap_content"
-        android:padding="16dp"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:padding="16dp">
 
-        <LinearLayout
+        <RelativeLayout
             android:id="@+id/calendar_layout_year"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="8dp"
-            android:orientation="horizontal">
+            android:padding="8dp">
 
             <Button
                 android:id="@+id/calendar_down"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_marginEnd="36dp"
+                android:ems="4"
                 android:text="@string/minus" />
 
             <TextView
                 android:id="@+id/calendar_year"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
+                android:layout_alignBaseline="@id/calendar_down"
+                android:layout_toEndOf="@id/calendar_down"
+                android:ems="4"
+                android:gravity="center"
                 android:textAppearance="?android:attr/textAppearanceLarge" />
 
             <Button
                 android:id="@+id/calendar_up"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_marginStart="36dp"
+                android:layout_alignBaseline="@id/calendar_year"
+                android:layout_toEndOf="@id/calendar_year"
+                android:ems="4"
                 android:text="@string/plus" />
 
-        </LinearLayout>
+        </RelativeLayout>
 
         <Gallery
             android:id="@+id/calendar_gallery"

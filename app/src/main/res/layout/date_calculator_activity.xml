@@ -31,7 +31,7 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="4dp">
 
-            <!-- Tage und Wochen -->
+            <!-- days and weeks -->
 
             <TableRow>
 
@@ -73,7 +73,7 @@
 
             </TableRow>
 
-            <!-- Monate und Jahre -->
+            <!-- months and years -->
 
             <TableRow>
 
@@ -117,13 +117,14 @@
 
         </TableLayout>
 
-        <!-- Checkboxen -->
+        <!-- checkboxes -->
 
         <RelativeLayout
             android:id="@+id/date_calculator_layout_reuse"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/date_calculator_layout_table1"
+            android:layout_marginTop="8dp"
             android:gravity="center_horizontal">
 
             <CheckBox
@@ -141,7 +142,7 @@
 
         </RelativeLayout>
 
-        <!-- Schaltflächen -->
+        <!-- buttons -->
 
         <RelativeLayout
             android:id="@+id/date_calculator_layout_buttons"
@@ -149,13 +150,14 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/date_calculator_layout_reuse"
             android:layout_centerHorizontal="true"
+            android:layout_marginTop="8dp"
             android:orientation="horizontal">
 
             <Button
                 android:id="@+id/date_calculator_add"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:ems="6"
+                android:ems="4"
                 android:text="@string/add" />
 
             <Button
@@ -165,15 +167,16 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginEnd="8dp"
                 android:layout_toEndOf="@id/date_calculator_add"
-                android:ems="6"
+                android:ems="4"
                 android:text="@string/subtract" />
 
             <Button
                 android:id="@+id/date_calculator_clear"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
                 android:layout_toEndOf="@id/date_calculator_subtract"
-                android:ems="6"
+                android:ems="7"
                 android:text="@string/clear" />
 
         </RelativeLayout>
@@ -184,8 +187,9 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/date_calculator_layout_buttons"
             android:layout_alignParentStart="true"
+            android:layout_marginTop="16dp"
             android:gravity="center_horizontal"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
+            android:textAppearance="?android:attr/textAppearanceLarge" />
 
     </RelativeLayout>
 

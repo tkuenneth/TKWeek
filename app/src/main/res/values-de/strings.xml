@@ -122,7 +122,6 @@
     <string name="date_within_week">Datum innerhalb einer Woche</string>
     <string name="week_number">Wochennr.</string>
     <string name="week_number_iso">Wochennummer (ISO)</string>
-    <string name="first_and_last_day_of_week">erster (%1$s) und letzter (%2$s) Tag der Woche</string>
 
     <!-- AboutAYear -->
     <string name="about_a_year_label1">Der 13. Tag folgender Monate ist ein Freitag:</string>

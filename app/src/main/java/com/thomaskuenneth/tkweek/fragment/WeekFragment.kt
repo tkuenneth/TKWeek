@@ -170,16 +170,12 @@ class WeekFragment : TKWeekBaseFragment<WeekActivityBinding>(),
         // Datum des letzten Tags der Woche ermitteln
         temp.add(Calendar.DAY_OF_MONTH, 6)
         val end = temp.time
-        // Label erster und letzter Tag der Woche
-        binding.labelFirstAndLastDayOfWeek.text = getString(
+        // ersten und letzten Tag der Woche mit Datum ausgeben
+        val text = getString(
             R.string.first_and_last_day_of_week,
             TKWeekActivity.FORMAT_DAY_OF_WEEK.format(start),
-            TKWeekActivity.FORMAT_DAY_OF_WEEK.format(end)
-        )
-        // ersten und letzten Tag der Woche ausgeben
-        val text = getString(
-            R.string.string1_dash_string2,
             TKWeekActivity.FORMAT_DEFAULT.format(start),
+            TKWeekActivity.FORMAT_DAY_OF_WEEK.format(end),
             TKWeekActivity.FORMAT_DEFAULT.format(end)
         )
         binding.firstAndLastDayOfWeek.text = text

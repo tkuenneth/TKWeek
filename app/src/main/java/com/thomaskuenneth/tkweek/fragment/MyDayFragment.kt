@@ -395,6 +395,7 @@ class MyDayFragment : TKWeekBaseFragment<MydayBinding>(),
     }
 
     private fun updateEvents(adapter: AnnualEventsListAdapter) {
+        if (!isAdded) return
         layoutInflater.run {
             binding.mydayEvents.removeAllViews()
             if (shouldShowBirthdays() && !TKWeekUtils.canReadContacts(requireContext())

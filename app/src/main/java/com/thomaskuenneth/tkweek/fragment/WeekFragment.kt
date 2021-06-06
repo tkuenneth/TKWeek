@@ -110,11 +110,9 @@ class WeekFragment : TKWeekBaseFragment<WeekActivityBinding>(),
     }
 
     override fun onStartTrackingTouch(seekBar: SeekBar?) {
-        // keine Aktion nötig
     }
 
     override fun onStopTrackingTouch(seekBar: SeekBar?) {
-        // keine Aktion nötig
     }
 
     override fun onClick(v: View) {
@@ -152,25 +150,19 @@ class WeekFragment : TKWeekBaseFragment<WeekActivityBinding>(),
     }
 
     private fun updateViews() {
-        // Wochentag ausgeben
         binding.day.text = TKWeekActivity.FORMAT_DAY_OF_WEEK.format(cal.time)
-        // Nummer der aktuellen Woche ausgeben
         val weekOfYear = cal[Calendar.WEEK_OF_YEAR]
         binding.weekNumber.text =
             TKWeekUtils.integerToString(weekOfYear)
         val temp = cal.clone() as Calendar
-        // die SeekBar anpassen (Maximum Anzahl Wochen im Jahr -1)
         binding.weekSelection.max = temp.getActualMaximum(Calendar.WEEK_OF_YEAR) - 1
         binding.weekSelection.progress = weekOfYear - 1
-        // Bis zum Wochenanfangs zurück gehen
         while (temp[Calendar.DAY_OF_WEEK] != temp.firstDayOfWeek) {
             temp.add(Calendar.DAY_OF_MONTH, -1)
         }
         val start = temp.time
-        // Datum des letzten Tags der Woche ermitteln
         temp.add(Calendar.DAY_OF_MONTH, 6)
         val end = temp.time
-        // ersten und letzten Tag der Woche mit Datum ausgeben
         val text = getString(
             R.string.first_and_last_day_of_week,
             TKWeekActivity.FORMAT_DAY_OF_WEEK.format(start),
@@ -212,7 +204,7 @@ class WeekFragment : TKWeekBaseFragment<WeekActivityBinding>(),
                 try {
                     start = s!!.toInt()
                 } catch (e: NumberFormatException) {
-                    // kein Logging nötig
+                    // no logging needed
                 }
                 if (start != -1) {
                     c.firstDayOfWeek = start

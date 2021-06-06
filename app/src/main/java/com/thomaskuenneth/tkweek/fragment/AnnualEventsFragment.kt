@@ -142,12 +142,15 @@ class AnnualEventsFragment : TKWeekBaseFragment<EventsBinding>(),
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == Activity.RESULT_OK) {
+            var success = false
             when (requestCode) {
                 BACKUP -> {
                     data?.data?.also { uri ->
-                        // FIXME: signal errors
-                        requireContext().contentResolver.openFileDescriptor(uri, "w")?.use {
-                            listAdapter?.saveUserEvents(FileWriter(it.fileDescriptor))
+                        requireContext().run {
+                            contentResolver.openFileDescriptor(uri, "w")?.use {
+                                success = listAdapter?.saveUserEvents(FileWriter(it.fileDescriptor))
+                                    ?: false
+                            }
                         }
                     }
                 }
@@ -164,6 +167,7 @@ class AnnualEventsFragment : TKWeekBaseFragment<EventsBinding>(),
                                         }
                                         fos.write(current)
                                     }
+                                    success = true
                                 }
                             }
                         }
@@ -171,6 +175,7 @@ class AnnualEventsFragment : TKWeekBaseFragment<EventsBinding>(),
                     }
                 }
             }
+            if (!success) showError()
         }
     }
 
@@ -451,5 +456,14 @@ class AnnualEventsFragment : TKWeekBaseFragment<EventsBinding>(),
                 getString(R.string.filtered)
             ) else getString(R.string.annual_events_activity_text1)
         }
+    }
+
+    private fun showError() {
+        val message = getString(
+            R.string.not_successful,
+            getString(R.string.annual_event_backup_restore)
+        )
+        val fragment = MessageFragment(R.string.dialog_title_error, message)
+        fragment.show(parentFragmentManager, MessageFragment.TAG)
     }
 }

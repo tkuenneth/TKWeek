@@ -8,6 +8,7 @@
 
 <resources>
 
+    <string name="not_successful">%1$s war nicht erfolgreich.</string>
     <string name="contacts">Kontakte</string>
     <string name="pick_a_date">Datum auswählen</string>
     <string name="yes">Ja</string>
@@ -213,7 +214,7 @@
     <string name="heiliger_abend">Heiliger Abend</string>
     <string name="neujahr">Neujahr</string>
     <string name="new_event">Neues eigenes Ereignis</string>
-    <string name="annual_event_backup_restore">Sichern / Wiederherst.</string>
+    <string name="annual_event_backup_restore">Sichern / Wiederherstellen</string>
     <string name="mark_as_day_off">Als Ruhetag kennzeichnen</string>
     <string name="remove_day_off_tag">Ruhetagsmarkierung entfernen</string>
     <string name="mark_as_holiday">Als Feiertag kennzeichnen</string>

@@ -77,4 +77,14 @@ class TKWeekFragment : TKWeekBaseFragment<TkweekfragmentBinding>() {
             }
         }
     }
+
+    fun updateSelection(pos: Int) {
+        if (pos >= 0) {
+            binding.listView.setItemChecked(pos, true)
+            PreferenceManager.getDefaultSharedPreferences(requireContext())
+                .edit()
+                .putInt(KEY_LAST_SELECTED, pos)
+                .apply()
+        }
+    }
 }

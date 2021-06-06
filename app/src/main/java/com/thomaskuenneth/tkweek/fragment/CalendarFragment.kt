@@ -267,7 +267,7 @@ class CalendarFragment : TKWeekBaseFragment<CalendarBinding>(),
                 days[pos].tag = temp.time
                 var dayOff: Boolean
                 if (temp[Calendar.MONTH] == month) {
-                    // Werktag?
+                    // business day?
                     val weekday = temp[Calendar.DAY_OF_WEEK]
                     if (prefs.getBoolean(
                             weekday.toString(),

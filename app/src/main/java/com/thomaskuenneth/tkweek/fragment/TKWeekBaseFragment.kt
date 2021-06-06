@@ -65,6 +65,7 @@ abstract class TKWeekBaseFragment<T> : Fragment() {
                         .disallowAddToBackStack()
                         .commit()
                 }
+                updateSelection(TKWeekFragmentListAdapter.getPosition(module.fragment))
             }
         } else {
             val intent = Intent(context, ModuleContainerActivity::class.java)

@@ -1,2 +1,9 @@
+- In two column mode we return to the last used module
+- Clean up layouts (optimize button widths, add paddings and margins)
+- Slider in Week no longer looks too big on large screens
+- We show the app version code in About, too
+- Navigation to a submodule now updates, the selection in two column mode
+- Prevent crashes in My Day during orientation changes
+
 1.9.9
 - Prepare for release under MATHEMA brand

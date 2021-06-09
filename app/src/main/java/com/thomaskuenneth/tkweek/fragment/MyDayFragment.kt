@@ -34,7 +34,6 @@ import android.util.Log
 import android.view.*
 import android.widget.*
 import androidx.preference.PreferenceManager
-import com.thomaskuenneth.tkweek.EnterTaskActivity
 import com.thomaskuenneth.tkweek.R
 import com.thomaskuenneth.tkweek.activity.TKWeekActivity
 import com.thomaskuenneth.tkweek.adapter.AnnualEventsListAdapter
@@ -43,13 +42,11 @@ import com.thomaskuenneth.tkweek.fragment.CalendarFragment.Companion.isDayOff
 import com.thomaskuenneth.tkweek.fragment.WeekFragment.Companion.prepareCalendar
 import com.thomaskuenneth.tkweek.types.Event
 import com.thomaskuenneth.tkweek.types.Namenstage
-import com.thomaskuenneth.tkweek.types.Task
 import com.thomaskuenneth.tkweek.types.Zodiac
 import com.thomaskuenneth.tkweek.util.CalendarContractUtils
 import com.thomaskuenneth.tkweek.util.DateUtilities
 import com.thomaskuenneth.tkweek.util.TKWeekUtils
 import com.thomaskuenneth.tkweek.util.TKWeekUtils.linkToSettings
-import com.thomaskuenneth.tkweek.util.TasksUtils
 import java.text.DateFormat
 import java.text.MessageFormat
 import java.text.SimpleDateFormat
@@ -59,18 +56,13 @@ private const val TAG = "MyDayFragment"
 private const val RQ_ADD_TASK = 1234
 private const val SHOW_COMPLETED_TASKS = "show_completed_tasks"
 
-class MyDayFragment : TKWeekBaseFragment<MydayBinding>(),
-    CompoundButton.OnCheckedChangeListener {
+class MyDayFragment : TKWeekBaseFragment<MydayBinding>() {
 
     private val binding get() = backing!!
-
-    private val handler = UpdateTasksHandler(this)
-    private val handlerTaskCompleted: Handler = TasksCompletedHandler(this)
 
     private var eventsLoader: AsyncTask<Void, Void, AnnualEventsListAdapter>? = null
 
     private var cal: Calendar? = null
-    private var tasksNeedUpdate = false
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -132,17 +124,11 @@ class MyDayFragment : TKWeekBaseFragment<MydayBinding>(),
         super.onCreateOptionsMenu(menu, inflater)
         inflater.inflate(R.menu.menu_today, menu)
         inflater.inflate(R.menu.menu_new_appointment, menu)
-        if (hasGoogleAccount()) {
-            inflater.inflate(R.menu.menu_add_task, menu)
-        }
         inflater.inflate(R.menu.menu_goto_date, menu)
         inflater.inflate(R.menu.menu_lookup_in_wikipedia, menu)
     }
 
     override fun onPrepareOptionsMenu(menu: Menu) {
-        menu.findItem(R.id.show_or_hide_done_tasks)?.run {
-            setTitle(if (isShowCompletedTasks()) R.string.hide_completed_tasks else R.string.show_completed_tasks)
-        }
         menu.findItem(R.id.today)?.run {
             isVisible = !DateUtilities.isToday(cal)
         }
@@ -159,16 +145,6 @@ class MyDayFragment : TKWeekBaseFragment<MydayBinding>(),
             }
             R.id.look_up_in_wikipedia -> {
                 lookUpInWikipedia()
-                return true
-            }
-            R.id.add_task -> {
-                val i = Intent(requireContext(), EnterTaskActivity::class.java)
-                startActivityForResult(i, RQ_ADD_TASK)
-                return true
-            }
-            R.id.show_or_hide_done_tasks -> {
-                toggleShowCompletedTasks()
-                prepareEventsLoader()
                 return true
             }
             R.id.mi_new_appointment -> {
@@ -211,14 +187,6 @@ class MyDayFragment : TKWeekBaseFragment<MydayBinding>(),
         super.onPause()
     }
 
-    override fun onCheckedChanged(buttonView: CompoundButton, isChecked: Boolean) {
-        val o = buttonView.tag
-        if (o is Task) {
-            val u = TasksUtils.getInstance(handlerTaskCompleted, requireActivity())
-            u?.markFinished(o.selfLink, buttonView.parent.parent, isChecked)
-        }
-    }
-
     override fun preferencesFinished(resultCode: Int, data: Intent?) {
         updateViews()
     }
@@ -248,10 +216,6 @@ class MyDayFragment : TKWeekBaseFragment<MydayBinding>(),
         }
     }
 
-    private fun hasGoogleAccount(): Boolean {
-        return false // TasksUtils.hasGoogleAccount(requireActivity())
-    }
-
     private fun prepareEventsLoader() {
         cancelEventsLoader()
         eventsLoader = object : AsyncTask<Void, Void, AnnualEventsListAdapter>() {
@@ -260,10 +224,6 @@ class MyDayFragment : TKWeekBaseFragment<MydayBinding>(),
                 if (Looper.myLooper() == null) {
                     Looper.prepare()
                 }
-                val u = TasksUtils.getInstance(handler, requireActivity())
-                // update only necessary if there was an error while reading tasks;
-                // otherwise updateTasks() will be called from the handler
-                tasksNeedUpdate = u != null && !u.getTasksAsync(isShowCompletedTasks())
                 return AnnualEventsListAdapter(
                     requireContext(),
                     cal,
@@ -276,9 +236,6 @@ class MyDayFragment : TKWeekBaseFragment<MydayBinding>(),
             override fun onPostExecute(result: AnnualEventsListAdapter?) {
                 eventsLoader = null
                 updateEvents(result!!)
-                if (tasksNeedUpdate) {
-                    updateTasks(null)
-                }
             }
         }
         eventsLoader?.execute()
@@ -333,65 +290,6 @@ class MyDayFragment : TKWeekBaseFragment<MydayBinding>(),
         binding.mydayNameday.text = Namenstage.getNameDays(requireContext(), date)
         prepareEventsLoader()
         updateNotes()
-    }
-
-    private fun updateTasks(list: List<Task>?) {
-        val inflater = layoutInflater
-        binding.mydayTasks.removeAllViews()
-        if (list != null) {
-            for (position in list.indices) {
-                val t = list[position]
-                val parent: View =
-                    inflater.inflate(R.layout.two_line_item, binding.mydayTasks, false)
-                if (position > 0) {
-                    val divider = parent.findViewById<View>(R.id.divider)
-                    divider.visibility = View.VISIBLE
-                }
-                val cb = parent.findViewById<CheckBox>(R.id.checkbox)
-                cb.tag = t
-                cb.visibility = View.VISIBLE
-                cb.isChecked = t.completed
-                cb.setOnCheckedChangeListener(this)
-                val text1 = parent.findViewById<TextView>(R.id.text1)
-                var title = TKWeekUtils.getStringNotNull(t.title)
-                if (title.isEmpty()) {
-                    title = getString(R.string.no_title)
-                }
-                text1.text = title
-                val text2 = parent.findViewById<TextView>(R.id.text2)
-                val notes = TKWeekUtils.getStringNotNull(t.notes)
-                if (notes.isNotEmpty()) {
-                    text2.visibility = View.VISIBLE
-                    text2.text = notes
-                } else {
-                    text2.visibility = View.GONE
-                }
-                val dateDue = t.due
-                val text3 = parent.findViewById<TextView>(R.id.text3)
-                if (dateDue != null) {
-                    val today = Calendar.getInstance()
-                    val date = DateUtilities.getCalendar(dateDue)
-                    text3.visibility = View.VISIBLE
-                    text3.text = AnnualEventsListAdapter.getDaysAsString(
-                        inflater, today, date
-                    )
-                } else {
-                    text3.visibility = View.GONE
-                }
-                val text4 = parent.findViewById<TextView>(R.id.text4)
-                text4.text = TKWeekUtils.getStringNotNull(t.listTitle)
-                text4.visibility = View.VISIBLE
-                binding.mydayTasks.addView(parent)
-            }
-        }
-        if (hasGoogleAccount()) {
-            maybeAddNone(inflater, binding.mydayTasks)
-            binding.mydayLabelTasks.visibility = View.VISIBLE
-            binding.mydayTasks.visibility = View.VISIBLE
-        } else {
-            binding.mydayLabelTasks.visibility = View.GONE
-            binding.mydayTasks.visibility = View.GONE
-        }
     }
 
     private fun updateEvents(adapter: AnnualEventsListAdapter) {
@@ -603,14 +501,6 @@ class MyDayFragment : TKWeekBaseFragment<MydayBinding>(),
         return prefs.getBoolean(SHOW_COMPLETED_TASKS, false)
     }
 
-    private fun toggleShowCompletedTasks() {
-        val prefs = requireContext().getSharedPreferences(TAG, Context.MODE_PRIVATE)
-        val toggle = !prefs.getBoolean(SHOW_COMPLETED_TASKS, false)
-        val e = prefs.edit()
-        e.putBoolean(SHOW_COMPLETED_TASKS, toggle)
-        e.apply()
-    }
-
     private fun updateNotes() {
         val note = TKWeekUtils.load(requireContext(), getNameForNotes())
         updateNoteAndDeleteButton(note)
@@ -618,16 +508,6 @@ class MyDayFragment : TKWeekBaseFragment<MydayBinding>(),
 
     private fun getNameForNotes(): String {
         return "Note_" + TKWeekActivity.FORMAT_YYYYMMDD.format(cal!!.time)
-    }
-
-    private class UpdateTasksHandler(val a: MyDayFragment) : Handler() {
-        override fun handleMessage(msg: Message) {
-            val r =
-                Runnable {
-                    a.updateTasks(msg.obj as List<Task>)
-                }
-            a.requireActivity().runOnUiThread(r)
-        }
     }
 
     private class TasksCompletedHandler(val a: MyDayFragment) : Handler() {

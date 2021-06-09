@@ -40,7 +40,6 @@
     <string name="hide">Nicht anzeigen</string>
     <string name="grant">Gestatten</string>
     <string name="close">Schließen</string>
-    <string name="title">Titel</string>
     <string name="notes">Notizen</string>
     <string name="saved">%1$s gespeichert</string>
 
@@ -124,7 +123,7 @@
     <string name="week_number_iso">Wochennummer (ISO)</string>
 
     <!-- AboutAYear -->
-    <string name="about_a_year_label1">Der 13. Tag folgender Monate ist ein Freitag:</string>
+    <string name="about_a_year_label1">Freitag, der 13.</string>
     <string name="about_a_year_weekday_distribution">Wochentagsverteilung</string>
     <string name="daylight_savings">Sommerzeit</string>
     <string name="seasons">Jahreszeiten</string>
@@ -226,7 +225,6 @@
     <string name="no_description">Keine Beschreibung</string>
 
     <!-- About -->
-    <string name="about_version_name">Version der App:</string>
     <string name="about_language">Sprache:</string>
     <string name="about_country">Land:</string>
     <string name="about_timezone">Zeitzone:</string>
@@ -249,15 +247,12 @@
     <string name="day">Tag</string>
     <string name="day_off">als Ruhetag gekennzeichnet</string>
     <string name="tasks">Aufgaben</string>
-    <string name="add_task">Neue Aufgabe</string>
     <string name="events">Ereignisse</string>
     <string name="toast_task_completed">Aufgabe abgeschlossen.</string>
 	<string name="missing_right_create_task">Um Aufgaben anlegen zu können, müssen
 Sie TKWeek in den Systemeinstellungen den Zugriff auf Kontakte gewähren.</string>
 	<string name="needed_right_create_task">Um Aufgaben anlegen zu können, müssen
 Sie TKWeek den Zugriff auf Kontakte gestatten.</string>
-    <string name="hide_completed_tasks">Erledigte Aufgaben ausblenden</string>
-    <string name="show_completed_tasks">Erledigte Aufgaben anzeigen</string>
     <string name="no_title">(kein Titel)</string>
     <string name="new_appointment">Neuer Termin</string>
     <string name="no_notes">keine Notizen</string>
@@ -265,10 +260,6 @@ Sie TKWeek den Zugriff auf Kontakte gestatten.</string>
     <string name="no_permission">Keine Berechtigung</string>
     <string name="str_permission_read_calendar">TKWeek möchte auf Ihre Kalenderdaten zugreifen, um Ereignisse und Termine anzuzeigen. Sie können dies in den Einstellungen deaktivieren.</string>
     <string name="str_permission_read_calendar2">TKWeek möchte auf Ihre Kalenderdaten zugreifen, um ganztägige Android Kalender-Ereignisse anzuzeigen. Sie können dies in den Einstellungen deaktivieren.</string>
-
-    <!-- EnterTaskActivity -->
-    <string name="toast_create_task_success">Aufgabe gespeichert.</string>
-    <string name="enter_task_has_duedate">Fälligkeitsdatum</string>
 
     <!-- EventsListWidget -->
     <string name="eventslistwidget_name">Ereignisliste</string>

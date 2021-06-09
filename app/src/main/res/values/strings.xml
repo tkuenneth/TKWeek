@@ -57,7 +57,6 @@
     <string name="hide">Hide</string>
     <string name="grant">Grant</string>
     <string name="close">Close</string>
-    <string name="title">title</string>
     <string name="notes">notes</string>
     <string name="edit">Edit</string>
     <string name="saved">%1$s saved</string>
@@ -110,7 +109,7 @@
     <string name="annual_events_activity_text1">Events</string>
     <string name="annual_events_activity_text2">Display and maintain events</string>
     <string name="about_a_year_activity_text1">Information about a year</string>
-    <string name="about_a_year_activity_text2">Leap year, Friday 13th, …</string>
+    <string name="about_a_year_activity_text2">Leap year, Friday the 13th, …</string>
     <string name="about_activity_text1">About TKWeek</string>
     <string name="about_activity_text2">Some information about this app and the system</string>
     <string name="calendar_activity_text1">Calendar</string>
@@ -303,7 +302,6 @@ access your contacts data to display birthdays and anniversaries. You can deacti
     <string name="annually_repeating">annually repeating</string>
 
     <!-- About -->
-    <string name="about_version_name">App version:</string>
     <string name="about_language">Language:</string>
     <string name="about_country">Country:</string>
     <string name="about_timezone">Time zone:</string>
@@ -326,23 +324,16 @@ access your contacts data to display birthdays and anniversaries. You can deacti
     <string name="day">day</string>
     <string name="day_off">marked as day off</string>
     <string name="tasks">tasks</string>
-    <string name="add_task">New task</string>
     <string name="events">events</string>
     <string name="toast_task_completed">Task completed.</string>
 	<string name="missing_right_create_task">To create tasks,
 you need to grant access to contacts in system settings.</string>
 	<string name="needed_right_create_task">To create tasks,
 TKWeek needs to access your contacts.</string>
-    <string name="hide_completed_tasks">Hide completed tasks</string>
-    <string name="show_completed_tasks">Show completed tasks</string>
     <string name="no_title">(no title)</string>
     <string name="new_appointment">New appointment</string>
     <string name="no_notes">no notes</string>
     <string name="no_permission">no permission</string>
-
-    <!-- EnterTaskActivity -->
-    <string name="toast_create_task_success">Task saved.</string>
-    <string name="enter_task_has_duedate">due date</string>
 
     <!-- EventsListWidget -->
     <string name="eventslistwidget_name">Events list</string>

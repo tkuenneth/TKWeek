@@ -90,25 +90,6 @@ class AboutFragment : TKWeekBaseFragment<AboutBinding>() {
         }
         binding.aboutTimezone.text = tzn
         binding.aboutCalendarClass.text = Calendar.getInstance().javaClass.simpleName
-        val email = getString(R.string.my_email)
-        val welcome = getString(R.string.welcome_text, email)
-        val pos = welcome.indexOf(email)
-        val spannable: Spannable = SpannableString(welcome)
-        spannable.setSpan(object : URLSpan("mailto:$email") {
-            override fun onClick(widget: View) {
-                try {
-                    super.onClick(widget)
-                } catch (e: ActivityNotFoundException) {
-                    Toast.makeText(
-                        activity,
-                        R.string.action_could_not_be_completed,
-                        Toast.LENGTH_LONG
-                    ).show()
-                }
-            }
-        }, pos, pos + email.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-        binding.aboutInfo.movementMethod = LinkMovementMethod.getInstance()
-        binding.aboutInfo.text = spannable
         val metrics = resources.displayMetrics
         binding.aboutDensity.text =
             TKWeekUtils.integerToString(metrics.densityDpi)

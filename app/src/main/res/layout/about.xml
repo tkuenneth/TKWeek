@@ -174,7 +174,9 @@
         </RelativeLayout>
 
         <TextView
-            android:id="@+id/about_info"
+            android:text="@string/welcome_text"
+            android:autoLink="all"
+            android:linksClickable="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingTop="8dp" />

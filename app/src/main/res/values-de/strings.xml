@@ -64,7 +64,6 @@
     <string name="pisces">Fische</string>
 
     <!-- TKWeek -->
-    <string name="welcome_to_tkweek">Willkommen zu TKWeek</string>
     <string name="week_activity_text1">Datum und Woche</string>
     <string name="week_activity_text2">Nummer der Woche zu einem Datum</string>
     <string name="days_between_dates_activity_text1">Tage zwischen zwei Daten</string>
@@ -278,53 +277,9 @@ Sie TKWeek den Zugriff auf Kontakte gestatten.</string>
     <string name="dayofyearwidget_name">Tag des Jahres</string>
 
     <!-- WhatsNew -->
-    <string name="welcome">Willkommen</string>
     <string name="alert_dialog_continue">Weiter</string>
     <string name="alert_dialog_abort">Abbruch</string>
-    <string name="welcome_text"><b>Vielen Dank für das Herunterladen dieses Programms. 
-Falls Sie Fragen oder Anregungen haben, zögern Sie nicht,
-eine E-Mail an die Adresse %1$s zu schreiben. </b>
-\n\nDatenschutzerklärung
-\n\nDiese Datenschutzerklärung enthält Informationen darüber, wie TKWeek mit Ihren Daten umgeht.
-\n\nWir verkaufen keine Daten und lassen Andere nicht mit Ihren Daten arbeiten.
-Die App enthält keine Werbung.
-\n\nVerwendung personenbezogener Daten
-\nWenn Sie sich mit einer Frage an den TKWeek-Support wenden, wird der Kommunikationsverlauf
-bis zum Abschluss der Anfrage gespeichert. Dies beinhaltet Mailadresse, Name und
-Kommunikationsverlauf. Dies sind die einzigen von uns gespeicherten personenbezogenen Daten.
-Sofern es rechtliche Belange erforderlich machen, speichern wir diese Daten möglicherwiese längerfristig.
-\n\nUm seinen Zweck erfüllen zu können, muss die App auf Ihr Benutzerkonto,
-Ihren Kalender, Ihre Anrufhistorie und die Kontakte zugreifen.
-TKWeek verarbeitet die Daten nicht in unerwarteter oder versteckter Weise.
-Insbesondere werden die Daten nicht an Server von Drittanbietern gesendet.
-Bitte beachten Sie aber den Abschnitt Nutzung anderer Dienste.
-\n\nVerwendung nicht personenbezogener Daten
-\nNicht personenbezogene Daten sind anonymisierte Daten, mit denen eine Person nicht direkt identifziert
-werden kann. TKWeek verarbeitet oder speichert keine solchen Daten.
-\n\nNutzung anderer Dienste
-\nTKWeek nutzt in hohem Maße Grundfunktionen der Android Plattform, die Google Kontakte API,
-Google Kalender API and Google Aufgaben API. Welche Daten und auf welche Weise diese Dienste
-Daten verarbeiten, kann möglicherweise nicht durch TKWeek kontrolliert werden. Sie finden Googles
-Datenschutzerklärung hier: http://www.google.com/policies/privacy.
-Außerdem verlinkt TKWeek auf Seiten der Wikimedia Foundation.
-Sie finden deren Datenschutzerklärung hier: https://wikimediafoundation.org/wiki/Privacy_policy
-\n\n<b>Lizenzvereinbarung</b>\n\nCopyright © 2021 MATHEMA GmbH\n
-\nPermission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the \"Software\"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:\n
-\nThe above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.\n
-\nTHE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
-	</string>
+
     <string name="buss_und_bettag_de">Buß- und Bettag</string>
     <string name="weltkindertag">Weltkindertag</string>
     <string name="schulferien_bundesland">Schulferien</string>

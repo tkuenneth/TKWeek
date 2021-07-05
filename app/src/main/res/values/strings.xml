@@ -42,7 +42,6 @@
     <string name="previous_leap_year">Previous Leap Year</string>
     <string name="next_leap_year">Next Leap Year</string>
     <string name="int_slash_int" translatable="false">%1$d / %2$d</string>
-    <string name="my_email" translatable="false">mobile@mathema.de</string>
     <string name="action_could_not_be_completed">The action could not be completed.</string>
     <string name="dpi" translatable="false">dpi</string>
     <string name="times_symbol" translatable="false">\ud7</string>
@@ -99,7 +98,6 @@
     <string name="sophie" translatable="false">Sophie</string>
 
     <!-- TKWeek -->
-    <string name="welcome_to_tkweek">Welcome to TKWeek</string>
     <string name="week_activity_text1">Convert date and week</string>
     <string name="week_activity_text2">Find the week number of a date or vice versa</string>
     <string name="days_between_dates_activity_text1">Days between dates</string>
@@ -352,36 +350,32 @@ TKWeek needs to access your contacts.</string>
     <string name="dayofyearwidget_name">Day of year</string>
 
     <!-- WhatsNew -->
-    <string name="welcome">Welcome</string>
     <string name="alert_dialog_continue">Continue</string>
     <string name="alert_dialog_abort">Abort</string>
-    <string name="welcome_text"><b>Thank you very much for downloading this app. 
-If you have any suggestions, please feel free to contact MATHEMA GmbH at %1$s.</b>
-\n\nPrivacy Policy
-\n\nThis privacy policy contains information about how TKWeek handles user data.
-\n\nWe do not sell or let any other third parties use your data.
-The app contains no advertisements.
-\n\nThe usage of personal data
-\nWhen you send an email to the TKWeek support,
-we keep a record of our communication, usually until the support case is closed.
-This includes your email, name and the conversation history. This is the
-only personal information we store. We may need to keep the communication record for legal reasons.
-\n\nTo fulfill its purpose, the app must access user account data,
-your calendar, your call log and the contacts database.
-TKWeek does not process the data in unexpected or hidden ways.
-Specifically it does not send the data to third party servers.
-Please refer to the section Use of other services.
-\n\nThe usage of non-personal data
-\nNon-personal information is anonymous data with which you cannot uniquely identify a specific individual.
-TKWeek does not collect or store non-personal information.
-\n\nUse of other services
-\nTKWeek heavily relies on core Google Android Platform services, the Google Contacts API,
-Google Calendar API and Google Tasks API. How and what data these services process
-may not be controllable by TKWeek. You can find their privacy policy
-at http://www.google.com/policies/privacy.
-Also, TKWeek links to sites maintained by the Wikimedia Foundation.
-You can find their privacy policy at https://wikimediafoundation.org/wiki/Privacy_policy
-\n\n<b>Terms of use</b>\n\nCopyright © 2021 MATHEMA GmbH\n
+
+    <string name="buss_und_bettag_de">day of repentance and prayer</string>
+    <string name="weltkindertag">Universal Children\'s Day</string>
+    <string name="schulferien_bundesland">School holidays</string>
+    <string name="search">Search</string>
+    <string name="search_hint">Name of an event</string>
+    <string name="filtered">filtered</string>
+    <string name="show_school_holidays">Pick state</string>
+    <string name="load_all_user_events">Load all user events</string>
+    <string name="delete">Delete</string>
+    <string name="thanksgiving">Thanksgiving</string>
+    <string name="augsburger_friedensfest">Augsburg Peace Festival</string>
+
+    <string translatable="false" name="welcome_text">Thank you very much for downloading this app.
+If you have any questions or suggestions, please feel free to contact MATHEMA
+GmbH at mobile@mathema.de
+\n\n<b>Your privacy</b>\n
+\nWe do not process your data.
+\nWe do not collect your data.
+\nWe do not track you.
+\nThe app contains no advertisements.\n
+\nYou can find the complete privacy policy at https://mathema-gmbh.github.io/TKWeek/privacy.html
+\n\n<b>Terms of use</b>\n\nCopyright 2009 - 2020 Thomas Künneth
+\nCopyright 2021 MATHEMA GmbH\n
 \nPermission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the \"Software\"), to deal
 in the Software without restriction, including without limitation the rights
@@ -398,16 +392,5 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 	</string>
-    <string name="buss_und_bettag_de">day of repentance and prayer</string>
-    <string name="weltkindertag">Universal Children\'s Day</string>
-    <string name="schulferien_bundesland">School holidays</string>
-    <string name="search">Search</string>
-    <string name="search_hint">Name of an event</string>
-    <string name="filtered">filtered</string>
-    <string name="show_school_holidays">Pick state</string>
-    <string name="load_all_user_events">Load all user events</string>
-    <string name="delete">Delete</string>
-    <string name="thanksgiving">Thanksgiving</string>
-    <string name="augsburger_friedensfest">Augsburg Peace Festival</string>
 
 </resources>

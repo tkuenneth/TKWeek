@@ -6,7 +6,7 @@ title: Events
 <table style="width: 100%; border: none">
 <tr>
 <td valign="top" style="width: 35%; border: none">
-<img src="assets/en/phone/04.png" />
+<img style="-webkit-filter: drop-shadow(5px 5px 5px #222); filter: drop-shadow(5px 5px 5px #222);" src="assets/en/phone/04.png" />
 </td>
 <td valign="top" style="border: none">
 <p>TKWeek has many national and international public holidays built in, for example:</p>

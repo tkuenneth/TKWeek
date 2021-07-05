@@ -398,9 +398,6 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 	</string>
-	<string name="welcome_continue">Please click <b>Continue</b> 
-if you agree with our privacy policy and the terms of use. <b>Abort</b> quits the program.
-	</string>
     <string name="buss_und_bettag_de">day of repentance and prayer</string>
     <string name="weltkindertag">Universal Children\'s Day</string>
     <string name="schulferien_bundesland">School holidays</string>

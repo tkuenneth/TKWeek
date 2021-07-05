@@ -16,7 +16,7 @@ android {
         applicationId "com.thomaskuenneth.tkweek"
         minSdkVersion 24
         targetSdkVersion 30
-        versionCode 19907
+        versionCode 19908
         versionName "1.9.9"
     }
 

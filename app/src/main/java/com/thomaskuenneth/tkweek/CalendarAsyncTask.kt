@@ -25,7 +25,6 @@ package com.thomaskuenneth.tkweek
 import android.content.Context
 import android.os.AsyncTask
 import android.os.Bundle
-import android.view.View
 import com.thomaskuenneth.tkweek.databinding.DaysBetweenDatesActivityBinding
 import com.thomaskuenneth.tkweek.preference.PickBusinessDaysPreference
 import com.thomaskuenneth.tkweek.util.DateUtilities
@@ -124,11 +123,11 @@ class CalendarAsyncTask(
         binding.firstDateToday.isEnabled = true
         binding.secondDatePick.isEnabled = true
         binding.secondDateToday.isEnabled = true
-        binding.daysBetweenDatesProgressbar.visibility = View.INVISIBLE
-        binding.daysBetweenDatesTotal.visibility = View.VISIBLE
-        binding.daysBetweenDatesTotal.text = context.getString(
-            R.string.days_total,
-            b.getInt(DAYS), b.getInt(BUSINESS_DAYS)
+        binding.daysBetweenDatesTotal1.text = context.getString(
+            R.string.days_between_dates_days, b.getInt(DAYS)
+        )
+        binding.daysBetweenDatesTotal2.text = context.getString(
+            R.string.days_between_dates_business_days, b.getInt(BUSINESS_DAYS)
         )
         binding.daysBetweenDatesWeekends.text = context.getString(
             R.string.days_between_dates_weekends, b.getInt(WEEKENDS)

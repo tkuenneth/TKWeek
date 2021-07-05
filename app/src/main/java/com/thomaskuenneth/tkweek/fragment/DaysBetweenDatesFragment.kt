@@ -28,7 +28,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.thomaskuenneth.tkweek.CalendarAsyncTask
-import com.thomaskuenneth.tkweek.R
 import com.thomaskuenneth.tkweek.activity.TKWeekActivity
 import com.thomaskuenneth.tkweek.databinding.DaysBetweenDatesActivityBinding
 import com.thomaskuenneth.tkweek.util.DateUtilities
@@ -113,13 +112,6 @@ class DaysBetweenDatesFragment : TKWeekBaseFragment<DaysBetweenDatesActivityBind
         binding.firstDateToday.isEnabled = false
         binding.secondDatePick.isEnabled = false
         binding.secondDateToday.isEnabled = false
-        binding.daysBetweenDatesTotal.visibility = View.INVISIBLE
-        binding.daysBetweenDatesProgressbar.visibility = View.VISIBLE
-        binding.daysBetweenDatesFromTo.text = getString(
-            R.string.days_from_to,
-            TKWeekActivity.FORMAT_DEFAULT.format(c1.time),
-            TKWeekActivity.FORMAT_DEFAULT.format(c2.time)
-        )
         CalendarAsyncTask(requireContext(), binding).execute(c1, c2)
     }
 

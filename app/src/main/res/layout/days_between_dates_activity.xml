@@ -95,70 +95,61 @@
             android:layout_toStartOf="@id/second_date_today"
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
-        <TextView
-            android:id="@+id/days_between_dates_from_to"
-            android:layout_width="match_parent"
+        <RelativeLayout
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/second_date_today"
-            android:layout_marginTop="10dip"
-            android:gravity="center_horizontal"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
+            android:layout_marginTop="16dp">
 
-        <TextView
-            android:id="@+id/days_between_dates_total"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/days_between_dates_from_to"
-            android:gravity="center_horizontal"
-            android:textSize="48sp" />
+            <TextView
+                android:id="@+id/days_between_dates_total1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:textAppearance="?android:attr/textAppearanceLarge" />
 
-        <ProgressBar
-            android:id="@+id/days_between_dates_progressbar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/days_between_dates_from_to"
-            android:layout_centerInParent="true"
-            android:indeterminate="true"
-            android:visibility="invisible" />
+            <TextView
+                android:id="@+id/days_between_dates_total2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/days_between_dates_total1"
+                android:layout_marginBottom="8dp"
+                android:textAppearance="?android:attr/textAppearanceLarge" />
 
-        <TextView
-            android:id="@+id/days_between_dates_about_business_days"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/days_between_dates_total"
-            android:layout_alignParentStart="true"
-            android:paddingBottom="8dp"
-            android:text="@string/days_between_dates_about_business_days" />
+            <TextView
+                android:id="@+id/days_between_dates_weekends"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/days_between_dates_total2"
+                android:layout_marginBottom="8dp"
+                android:textAppearance="?android:attr/textAppearanceLarge" />
 
-        <TextView
-            android:id="@+id/days_between_dates_weekends"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/days_between_dates_about_business_days"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
+            <TextView
+                android:id="@+id/days_between_dates_weeks"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/days_between_dates_weekends"
+                android:layout_marginBottom="8dp"
+                android:textAppearance="?android:attr/textAppearanceLarge" />
 
-        <TextView
-            android:id="@+id/days_between_dates_weeks"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/days_between_dates_weekends"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
+            <TextView
+                android:id="@+id/days_between_dates_month_turns"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/days_between_dates_weeks"
+                android:layout_alignParentStart="true"
+                android:layout_marginBottom="8dp"
+                android:textAppearance="?android:attr/textAppearanceLarge" />
 
-        <TextView
-            android:id="@+id/days_between_dates_month_turns"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/days_between_dates_weeks"
-            android:layout_alignParentStart="true"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
+            <TextView
+                android:id="@+id/days_between_dates_year_turns"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/days_between_dates_month_turns"
+                android:layout_alignParentStart="true"
+                android:textAppearance="?android:attr/textAppearanceLarge" />
 
-        <TextView
-            android:id="@+id/days_between_dates_year_turns"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/days_between_dates_month_turns"
-            android:layout_alignParentStart="true"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
+        </RelativeLayout>
 
     </RelativeLayout>
 

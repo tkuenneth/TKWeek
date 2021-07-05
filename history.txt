@@ -1,3 +1,7 @@
+19908
+- Optimized ui in Days between dates
+
+19907
 - In two column mode we return to the last used module
 - Clean up layouts (optimize button widths, add paddings and margins)
 - Slider in Week no longer looks too big on large screens

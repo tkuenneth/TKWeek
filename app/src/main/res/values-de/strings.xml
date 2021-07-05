@@ -140,13 +140,13 @@
     <string name="first_date">Von:</string>
     <string name="second_date">Bis:</string>
     <string name="days_from_to">Tage (Werktage) zwischen %1$s und %2$s</string>
-    <!-- days_total -->
     <string name="days_between_dates_weekends">%1$d Wochenende(n)</string>
     <string name="days_between_dates_weeks">ca. %1$d Woche(n)</string>
     <string name="days_between_dates_month_turns">%1$d Monatswechsel</string>
     <string name="days_between_dates_year_turns">%1$d Jahreswechsel</string>
-    <string name="days_between_dates_about_business_days">In den Einstellungen können Sie Werktage auswählen.</string>
     <string name="include_first_date">Ersten Tag einbeziehen</string>
+    <string name="days_between_dates_days">%1$d Tag(e)</string>
+    <string name="days_between_dates_business_days">%1$d Werktag(e)</string>
 
     <!-- DateCalculatorActivity -->
     <string name="days">Tage</string>

@@ -23,19 +23,13 @@
  */
 package com.thomaskuenneth.tkweek.fragment
 
-import android.content.ActivityNotFoundException
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
-import android.text.Spannable
-import android.text.SpannableString
-import android.text.method.LinkMovementMethod
-import android.text.style.URLSpan
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import com.thomaskuenneth.tkweek.R
 import com.thomaskuenneth.tkweek.databinding.AboutBinding
 import com.thomaskuenneth.tkweek.util.TKWeekUtils

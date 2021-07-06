@@ -168,7 +168,7 @@ access your contacts data to display birthdays and anniversaries. You can deacti
     <string name="date_within_week">date within week</string>
     <string name="week_number">week number</string>
     <string name="week_number_iso">ISO week number</string>
-    <string name="first_and_last_day_of_week" translatable="false">%1$s, %2$s\n%3$s, %4$s</string>
+    <string name="first_and_last_day_of_week" translatable="false">%1$s %2$s - %3$s %4$s</string>
 
     <!-- AboutAYear -->
     <string name="about_a_year_label1">Friday the 13th</string>

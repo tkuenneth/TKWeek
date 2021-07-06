@@ -165,9 +165,9 @@ class WeekFragment : TKWeekBaseFragment<WeekActivityBinding>(),
         val end = temp.time
         val text = getString(
             R.string.first_and_last_day_of_week,
-            TKWeekActivity.FORMAT_DAY_OF_WEEK.format(start),
+            TKWeekActivity.FORMAT_DAY_OF_WEEK_SHORT.format(start),
             TKWeekActivity.FORMAT_DEFAULT.format(start),
-            TKWeekActivity.FORMAT_DAY_OF_WEEK.format(end),
+            TKWeekActivity.FORMAT_DAY_OF_WEEK_SHORT.format(end),
             TKWeekActivity.FORMAT_DEFAULT.format(end)
         )
         binding.firstAndLastDayOfWeek.text = text

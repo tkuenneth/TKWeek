@@ -123,8 +123,9 @@ class CalendarAsyncTask(
         binding.firstDateToday.isEnabled = true
         binding.secondDatePick.isEnabled = true
         binding.secondDateToday.isEnabled = true
+        val days = b.getInt(DAYS)
         binding.daysBetweenDatesTotal1.text = context.getString(
-            R.string.days_between_dates_days, b.getInt(DAYS)
+            R.string.days_between_dates_days, days
         )
         binding.daysBetweenDatesTotal2.text = context.getString(
             R.string.days_between_dates_business_days, b.getInt(BUSINESS_DAYS)
@@ -132,9 +133,10 @@ class CalendarAsyncTask(
         binding.daysBetweenDatesWeekends.text = context.getString(
             R.string.days_between_dates_weekends, b.getInt(WEEKENDS)
         )
-        binding.daysBetweenDatesWeeks.text = context.getString(
-            R.string.days_between_dates_weeks, b.getInt(WEEKS)
-        )
+        binding.daysBetweenDatesWeeks.text = if (days >= 7)
+            context.getString(R.string.days_between_dates_weeks, b.getInt(WEEKS))
+        else
+            context.getString(R.string.less_than_a_week)
         binding.daysBetweenDatesMonthTurns.text = context.getString(
             R.string.days_between_dates_month_turns, b.getInt(MONTHS)
         )

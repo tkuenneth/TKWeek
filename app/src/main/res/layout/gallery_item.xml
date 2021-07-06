@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
 	gallery_item.xml
-	TKWeek (c) Thomas Künneth 2012
-	Alle Rechte beim Autoren. All rights reserved.
+	TKWeek (c) 2012 - 2020 Thomas Künneth
+	           2021 MATHEMA GmbH
+	All rights reserved.
 -->
     
 <TextView xmlns:android="http://schemas.android.com/apk/res/android"
@@ -10,7 +11,7 @@
 	android:minEms="4"
 	android:layout_width="wrap_content"
 	android:layout_height="wrap_content"
-	android:textAppearance="?android:attr/textAppearanceLarge"
+	android:textAppearance="?android:attr/textAppearanceMedium"
 	android:padding="8dp"
 	android:gravity="center"
 />

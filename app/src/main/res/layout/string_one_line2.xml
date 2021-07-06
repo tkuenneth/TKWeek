@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
 	string_one_line2.xml
-	TKWeek (c) Thomas Künneth 2012 - 2021
-	Alle Rechte beim Autoren. All rights reserved.
+	TKWeek (c) 2012 - 2020 Thomas Künneth
+	           2021 MATHEMA GmbH
+	All rights reserved.
 -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -26,7 +27,7 @@
 	    android:layout_height="wrap_content"
 		android:maxLines="4"
         android:ellipsize="end"
-	    android:textAppearance="?android:attr/textAppearanceLarge"
+	    android:textAppearance="?android:attr/textAppearanceMedium"
 	/>
 	
 </LinearLayout>

@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
 	datewidget_layout.xml
-	TKWeek (c) Thomas Künneth 2011 - 2017
-	Alle Rechte beim Autoren. All rights reserved.
+	TKWeek (c) 2011 - 2017 Thomas Künneth
+	           2021 MATHEMA GmbH
+	All rights reserved.
 -->
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -19,7 +20,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textAppearance="?android:attr/textAppearanceMedium"
         android:textColor="@android:color/white"
 		android:gravity="center"
 		android:includeFontPadding="false"

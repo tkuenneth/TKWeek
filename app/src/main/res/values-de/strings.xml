@@ -147,6 +147,7 @@
     <string name="include_first_date">Ersten Tag einbeziehen</string>
     <string name="days_between_dates_days">%1$d Tag(e)</string>
     <string name="days_between_dates_business_days">%1$d Werktag(e)</string>
+    <string name="less_than_a_week">weniger als eine Woche</string>
 
     <!-- DateCalculatorActivity -->
     <string name="days">Tage</string>

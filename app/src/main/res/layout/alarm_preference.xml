@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
 	alarm_preferences.xml
-	TKWeek (c) Thomas Künneth 2017
-	Alle Rechte beim Autoren. All rights reserved.
+	TKWeek (c) 2017 - 2020 Thomas Künneth
+	           2021 MATHEMA GmbH
+	All rights reserved.
 -->
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -13,17 +14,15 @@
         android:id="@+id/enabled"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:text="@string/show_notifications" />
 
-    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/enabled">
+        android:layout_below="@+id/enabled"
+        android:layout_alignParentStart="true">
 
         <LinearLayout
             android:id="@+id/children"
@@ -33,9 +32,9 @@
 
             <TimePicker
                 android:id="@+id/picker"
-                android:timePickerMode="spinner"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:timePickerMode="spinner" />
 
             <CheckBox
                 android:id="@+id/play_sound"

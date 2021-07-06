@@ -36,7 +36,7 @@
                 android:layout_height="wrap_content"
                 android:ems="4"
                 android:gravity="center"
-                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textAppearance="?android:attr/textAppearanceMedium"
                 android:layout_toEndOf="@id/about_a_year_down" />
 
             <Button
@@ -57,7 +57,7 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:text="@string/leap_year"
-            android:textAppearance="?android:attr/textAppearanceLarge" />
+            android:textAppearance="?android:attr/textAppearanceMedium" />
 
         <LinearLayout
             android:id="@+id/leap_year_buttons"
@@ -101,7 +101,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/about_a_year_label1"
             android:layout_alignParentStart="true"
-            android:textAppearance="?android:attr/textAppearanceLarge" />
+            android:textAppearance="?android:attr/textAppearanceMedium" />
 
         <TextView
             android:id="@+id/about_a_year_daylight_savings"

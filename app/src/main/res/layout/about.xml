@@ -27,9 +27,16 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="0dp"
-            android:layout_marginBottom="16dp"
             android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
+            android:text="@string/made_with_love"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -174,12 +181,12 @@
         </RelativeLayout>
 
         <TextView
-            android:text="@string/welcome_text"
-            android:autoLink="all"
-            android:linksClickable="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingTop="8dp" />
+            android:autoLink="all"
+            android:linksClickable="true"
+            android:paddingTop="8dp"
+            android:text="@string/welcome_text" />
 
     </LinearLayout>
 

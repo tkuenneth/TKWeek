@@ -8,6 +8,7 @@
 
 <resources>
 
+    <string translatable="false" name="made_with_love">Made with \u2764 by MATHEMA GmbH</string>
     <string name="not_successful">%1$s was not successful.</string>
     <string name="contacts">Contacts</string>
     <string name="pick_a_date">Pick a date</string>
@@ -374,7 +375,9 @@ GmbH at mobile@mathema.de
 \nWe do not collect your data.
 \nWe do not track you.
 \nThe app contains no advertisements.\n
-\nYou can find the complete privacy policy at https://tkweek.app/privacy.html
+\nYou can find our privacy policy at https://tkweek.app/privacy.html
+\n\nTKWeek links to sites maintained by the Wikimedia Foundation.
+You can find their privacy policy at https://wikimediafoundation.org/wiki/Privacy_policy
 \n\n<b>Terms of use</b>\n\nCopyright 2009 - 2020 Thomas Künneth
 \nCopyright 2021 MATHEMA GmbH\n
 \nPermission is hereby granted, free of charge, to any person obtaining a copy

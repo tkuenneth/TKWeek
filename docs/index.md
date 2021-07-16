@@ -25,3 +25,5 @@ Download now!
 </td>
 </tr>
 </table>
+
+<p style="text-align: center;">Made with <span style="color: red;">&#160;❤&#160;</span> by <a href="https://www.mathema.de/">MATHEMA</a></p>

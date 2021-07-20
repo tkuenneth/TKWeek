@@ -17,6 +17,7 @@ import com.thomaskuenneth.tkweek.R
 import com.thomaskuenneth.tkweek.activity.TKWeekActivity
 import com.thomaskuenneth.tkweek.databinding.DateCalculatorActivityBinding
 import com.thomaskuenneth.tkweek.preference.PickBusinessDaysPreference
+import com.thomaskuenneth.tkweek.util.DateUtilities.setMinDate
 import java.util.*
 
 class DateCalculatorFragment : TKWeekBaseFragment<DateCalculatorActivityBinding>(),
@@ -43,6 +44,7 @@ class DateCalculatorFragment : TKWeekBaseFragment<DateCalculatorActivityBinding>
             binding.months.text = null
             binding.years.text = null
         }
+        setMinDate(binding.dateCalculatorDatepicker)
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

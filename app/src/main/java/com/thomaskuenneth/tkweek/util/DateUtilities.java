@@ -1,8 +1,9 @@
 /*
  * DateUtilities.java
  *
- * TKWeek (c) Thomas Künneth 2009 - 2021
- * Alle Rechte beim Autoren. All rights reserved.
+ * TKWeek (c) 2009 - 2020 Thomas Künneth
+ *            2021 MATHEMA GmbH
+ * All rights reserved.
  */
 package com.thomaskuenneth.tkweek.util;
 
@@ -10,6 +11,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.util.Log;
+import android.widget.DatePicker;
 
 import com.thomaskuenneth.tkweek.activity.TKWeekActivity;
 import com.thomaskuenneth.tkweek.types.Event;
@@ -21,11 +23,6 @@ import java.util.TimeZone;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-/**
- * Diese Klasse enthält allgemeine Datums- bzw. Kalenderberechnungen.
- *
- * @author Thomas Künneth
- */
 public class DateUtilities {
 
     /**
@@ -679,5 +676,13 @@ public class DateUtilities {
         } else {
             return (from - to) / MILLISECS_PER_DAY;
         }
+    }
+
+    public static void setMinDate(DatePicker picker) {
+        Calendar temp = Calendar.getInstance();
+        temp.clear();
+        temp.set(Calendar.YEAR, 0);
+        temp.set(Calendar.DAY_OF_YEAR, 1);
+        picker.setMinDate(temp.getTimeInMillis());
     }
 }

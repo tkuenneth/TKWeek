@@ -3,6 +3,8 @@ layout: default
 title: Events
 ---
 
+# Events
+
 <table style="width: 100%; border: none">
 <tr>
 <td valign="top" style="width: 35%; border: none">

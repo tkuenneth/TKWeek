@@ -1,3 +1,6 @@
+19911
+- In calendar module te year can be directly added
+
 19908
 - Optimized ui in Days between dates
 

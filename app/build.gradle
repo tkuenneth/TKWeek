@@ -1,7 +1,8 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
+
 android {
-    compileSdkVersion 30
+    compileSdkVersion 31
 
     lintOptions {
         checkReleaseBuilds false
@@ -15,8 +16,8 @@ android {
     defaultConfig {
         applicationId "com.thomaskuenneth.tkweek"
         minSdkVersion 24
-        targetSdkVersion 30
-        versionCode 19910
+        targetSdkVersion 31
+        versionCode 19911
         versionName "1.9.9"
     }
 
@@ -27,18 +28,18 @@ android {
         }
     }
     compileOptions {
-        targetCompatibility = 1.8
-        sourceCompatibility = 1.8
+        targetCompatibility = 11
+        sourceCompatibility = 11
     }
     kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_1_8
+        jvmTarget = '11'
     }
 }
 
 dependencies {
     implementation 'androidx.annotation:annotation:1.2.0'
-    implementation 'androidx.appcompat:appcompat:1.3.0'
-    implementation 'androidx.fragment:fragment-ktx:1.3.5'
+    implementation 'androidx.appcompat:appcompat:1.3.1'
+    implementation 'androidx.fragment:fragment-ktx:1.3.6'
     implementation 'androidx.preference:preference-ktx:1.1.1'
     implementation "androidx.core:core-ktx:1.6.0"
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"

@@ -5,7 +5,7 @@ layout: home
 <table style="width: 100%; border: none">
 <tr>
 <td valign="top" style="width: 35%; border: none">
-<img style="-webkit-filter: drop-shadow(5px 5px 5px #222); filter: drop-shadow(5px 5px 5px #222);" src="assets/en/phone/01.png" />
+<img style="-webkit-filter: drop-shadow(5px 5px 5px #222); filter: drop-shadow(5px 5px 5px #222);" src="assets/screenshots.gif" />
 </td>
 <td valign="top" style="border: none">
 <p>Do you need to convert between a <strong>week number</strong> and a date or require some information about a date? Find out if a year is a <strong>leap year</strong>, calculate the number of days, business days, weeks, weekends, month turns and years <strong>between two dates</strong>? Want to add or subtract days, weeks or months to a given date?</p>

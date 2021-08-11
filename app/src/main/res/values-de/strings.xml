@@ -42,6 +42,7 @@
     <string name="close">Schließen</string>
     <string name="notes">Notizen</string>
     <string name="saved">%1$s gespeichert</string>
+    <string name="year">Jahr</string>
 
     <!-- Mondphasen -->
     <string name="new_moon">Neumond</string>

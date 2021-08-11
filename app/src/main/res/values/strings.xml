@@ -62,6 +62,7 @@
     <string name="saved">%1$s saved</string>
     <string name="widget_retired">This TKWeek widget is no longer supported. Please remove.</string>
     <string name="number_of_events">%1$d events</string>
+    <string name="year">year</string>
 
     <!-- Schulferien -->
     <string name="herbstferien">Autumn holiday</string>

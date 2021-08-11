@@ -28,6 +28,7 @@ import android.graphics.Color
 import android.os.Bundle
 import android.view.*
 import android.view.View.OnLongClickListener
+import android.view.inputmethod.InputMethodManager
 import android.widget.AdapterView
 import android.widget.AdapterView.OnItemSelectedListener
 import android.widget.TextView
@@ -83,6 +84,23 @@ class CalendarFragment : TKWeekBaseFragment<CalendarBinding>(),
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        binding.calendarYear.setOnEditorActionListener { _, _, _ ->
+            var year = try {
+                binding.calendarYear.text.toString().toInt()
+            } catch (e: NumberFormatException) {
+                cal.get(Calendar.YEAR)
+            }
+            if (year < 0) year = 0
+            if (year > 2100) year = 2100
+            binding.calendarYear.setText(year.toString())
+            requireContext().getSystemService(InputMethodManager::class.java).run {
+                hideSoftInputFromWindow(binding.calendarYear.windowToken, 0)
+            }
+            cal.set(Calendar.YEAR, year)
+            update()
+            binding.dummy.requestFocus()
+            true
+        }
         binding.calendarDown.setOnClickListener(this)
         binding.calendarUp.setOnClickListener(this)
         binding.calendarGallery.adapter =
@@ -212,7 +230,7 @@ class CalendarFragment : TKWeekBaseFragment<CalendarBinding>(),
     override fun onNothingSelected(parent: AdapterView<*>?) {}
 
     private fun update() {
-        binding.calendarYear.text = cal[Calendar.YEAR].toString()
+        binding.calendarYear.setText(cal[Calendar.YEAR].toString())
         binding.calendarGallery.setSelection(cal[Calendar.MONTH])
         updateCalendar()
     }

@@ -32,15 +32,23 @@ import android.content.SharedPreferences
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.DatePicker
+import android.widget.LinearLayout
 import android.widget.RemoteViews
+import androidx.lifecycle.lifecycleScope
 import androidx.preference.PreferenceManager
+import androidx.window.layout.FoldingFeature
+import androidx.window.layout.FoldingFeature.Orientation.Companion.VERTICAL
+import androidx.window.layout.WindowInfoTracker
 import com.thomaskuenneth.tkweek.BootCompleteReceiver
 import com.thomaskuenneth.tkweek.R
 import com.thomaskuenneth.tkweek.databinding.TkweekBinding
 import com.thomaskuenneth.tkweek.fragment.CLAZZ
 import com.thomaskuenneth.tkweek.fragment.TKWeekFragment
 import com.thomaskuenneth.tkweek.preference.WidgetPreference
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
@@ -54,6 +62,8 @@ class TKWeekActivity : TKWeekBaseActivity() {
     private var backing: TkweekBinding? = null
     private val binding get() = backing!!
 
+    private lateinit var tracker: WindowInfoTracker
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         backing = TkweekBinding.inflate(layoutInflater, null, false)
@@ -65,6 +75,10 @@ class TKWeekActivity : TKWeekBaseActivity() {
         prefs.edit().run {
             prefs.all.forEach { (key: String?, _: Any?) -> remove(key) }
             apply()
+        }
+        tracker = WindowInfoTracker.getOrCreate(this)
+        lifecycleScope.launchWhenStarted() {
+            configureHinge(this@TKWeekActivity)
         }
     }
 
@@ -81,6 +95,45 @@ class TKWeekActivity : TKWeekBaseActivity() {
     }
 
     override fun wantsHomeItem() = false
+
+    private fun configureHinge(activity: TKWeekActivity) {
+        binding.root.findViewById<View>(R.id.gap)?.let { gap ->
+            lifecycleScope.launch {
+                gap.visibility = View.GONE
+                gap.layoutParams.width = 0
+                var weightLeft = 0.4F
+                var weightRight = 0.6F
+                tracker
+                    .windowLayoutInfo(activity).collect {
+                        var width = 0
+                        it.displayFeatures.forEach { displayFeature ->
+                            (displayFeature as FoldingFeature).run {
+                                if (isSeparating and (orientation == VERTICAL)) {
+                                    width = bounds.width()
+                                    weightLeft = 0.5F
+                                    weightRight = 0.5F
+                                }
+                            }
+                            lifecycleScope.launch {
+                                gap.layoutParams.width = width
+                                gap.visibility = View.VISIBLE
+                                binding.moduleSelection.layoutParams =
+                                    LinearLayout.LayoutParams(
+                                        0,
+                                        LinearLayout.LayoutParams.MATCH_PARENT, weightLeft
+                                    )
+                                binding.moduleContainer?.layoutParams =
+                                    LinearLayout.LayoutParams(
+                                        0,
+                                        LinearLayout.LayoutParams.MATCH_PARENT, weightRight
+                                    )
+                                binding.root.invalidate()
+                            }
+                        }
+                    }
+            }
+        }
+    }
 
     companion object {
 

@@ -17,7 +17,7 @@ android {
         applicationId "com.thomaskuenneth.tkweek"
         minSdkVersion 24
         targetSdkVersion 31
-        versionCode 19911
+        versionCode 19912
         versionName "1.9.9"
     }
 
@@ -27,23 +27,25 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt')
         }
     }
+
     compileOptions {
         targetCompatibility = 11
         sourceCompatibility = 11
     }
+
     kotlinOptions {
         jvmTarget = '11'
     }
 }
 
 dependencies {
-    implementation 'androidx.annotation:annotation:1.2.0'
-    implementation 'androidx.appcompat:appcompat:1.3.1'
-    implementation 'androidx.fragment:fragment-ktx:1.3.6'
+    implementation 'androidx.annotation:annotation:1.3.0'
+    implementation 'androidx.appcompat:appcompat:1.4.0'
+    implementation 'androidx.fragment:fragment-ktx:1.4.0'
     implementation 'androidx.preference:preference-ktx:1.1.1'
-    implementation "androidx.core:core-ktx:1.6.0"
-    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    implementation "androidx.core:core-ktx:1.7.0"
     implementation 'com.google.android.material:material:1.4.0'
+    implementation "androidx.window:window:1.0.0-beta04"
 }
 repositories {
     mavenCentral()

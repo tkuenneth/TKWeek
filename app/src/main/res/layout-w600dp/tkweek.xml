@@ -14,6 +14,12 @@
         android:layout_weight="0.4"
         android:tag="@string/tag_module_selection" />
 
+    <View
+        android:id="@+id/gap"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:visibility="gone" />
+
     <FrameLayout
         android:id="@+id/module_container"
         android:layout_width="0dp"

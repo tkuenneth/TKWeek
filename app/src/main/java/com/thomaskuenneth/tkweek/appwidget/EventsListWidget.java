@@ -60,7 +60,6 @@ public class EventsListWidget extends AppWidgetProvider {
                 .getNumberOfPastDays(prefs);
         final RemoteViews updateViews = new RemoteViews(
                 context.getPackageName(), R.layout.eventslistwidget_layout);
-        TKWeekActivity.setWidgetAppearance(context, updateViews, R.id.eventslistwidget_id);
         AsyncTask<Void, Void, AnnualEventsListAdapter> task = new AsyncTask<Void, Void, AnnualEventsListAdapter>() {
 
             @Override

@@ -49,7 +49,6 @@ public class DateWidget extends AppWidgetProvider {
                                      final AppWidgetManager appWidgetManager, final int[] appWidgetIds) {
         final RemoteViews updateViews = new RemoteViews(
                 context.getPackageName(), R.layout.datewidget_layout);
-        TKWeekActivity.setWidgetAppearance(context, updateViews, R.id.datewidget_id);
         Calendar cal = Calendar.getInstance();
         String day = Integer.toString(cal.get(Calendar.DAY_OF_MONTH));
         Date date = cal.getTime();

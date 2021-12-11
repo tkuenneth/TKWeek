@@ -343,8 +343,7 @@ TKWeek needs to access your contacts.</string>
     <!-- WeekInfoWidget -->
     <string name="weekinfowidget_name">Week Info</string>
     <string name="weekinfowidget_template">%1$s %2$d of %3$d</string>
-    <string name="weekinfowidget_from">from (%1$s)</string>
-    <string name="weekinfowidget_to">to (%1$s)</string>
+    <string translatable="false" name="weekinfowidget_from_to">%1$s - %2$s</string>
 
     <!-- DateWidget -->
     <string name="datewidget_name">Current date</string>

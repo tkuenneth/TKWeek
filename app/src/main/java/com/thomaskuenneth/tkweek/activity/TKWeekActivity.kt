@@ -77,7 +77,7 @@ class TKWeekActivity : TKWeekBaseActivity() {
             apply()
         }
         tracker = WindowInfoTracker.getOrCreate(this)
-        lifecycleScope.launchWhenStarted() {
+        lifecycleScope.launchWhenStarted {
             configureHinge(this@TKWeekActivity)
         }
     }
@@ -244,17 +244,6 @@ class TKWeekActivity : TKWeekBaseActivity() {
             val editor = prefs.edit()
             editor.putInt(key, value)
             editor.apply()
-        }
-
-        @JvmStatic
-        fun setWidgetAppearance(
-            context: Context?, views: RemoteViews,
-            resid: Int
-        ) {
-            var opacity = WidgetPreference.getOpacity(context)
-            val color = 0x000000
-            opacity = opacity shl 24
-            views.setInt(resid, "setBackgroundColor", opacity or color)
         }
 
         @JvmStatic

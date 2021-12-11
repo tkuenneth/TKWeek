@@ -53,8 +53,7 @@ public class WeekInfoWidget extends AppWidgetProvider {
     public static void updateWidgets(Context context,
                                      AppWidgetManager appWidgetManager, int[] appWidgetIds) {
         RemoteViews updateViews = new RemoteViews(context.getPackageName(),
-                R.layout.weekinfowidget_layout);
-        TKWeekActivity.setWidgetAppearance(context, updateViews, R.id.weekinfowidget_id);
+                R.layout.weekinfowidget_new);
         try {
             updateViews(updateViews, context);
         } catch (IOException e) {
@@ -83,29 +82,22 @@ public class WeekInfoWidget extends AppWidgetProvider {
             text1 = context.getString(R.string.week_number);
         }
         int maxWeeks = cal.getActualMaximum(Calendar.WEEK_OF_YEAR);
-        String text6 = TKWeekActivity.FORMAT_FULL.format(cal.getTime());
+        String text3 = TKWeekActivity.FORMAT_FULL.format(cal.getTime());
         // Wochennummer
         updateViews.setTextViewText(R.id.text1, context.getString(
                 R.string.weekinfowidget_template, text1, cal
                         .get(Calendar.WEEK_OF_YEAR), maxWeeks));
         Calendar temp = (Calendar) cal.clone();
-        // Bis zum Wochenanfangs zurück gehen
         while (temp.get(Calendar.DAY_OF_WEEK) != temp.getFirstDayOfWeek()) {
             temp.add(Calendar.DAY_OF_MONTH, -1);
         }
         Date start = temp.getTime();
         temp.add(Calendar.DAY_OF_MONTH, 6);
         Date end = temp.getTime();
-        String text2 = context.getString(R.string.weekinfowidget_from,
-                TKWeekActivity.FORMAT_DAY_OF_WEEK.format(start));
-        String text3 = TKWeekActivity.FORMAT_DEFAULT.format(start);
-        String text4 = context.getString(R.string.weekinfowidget_to,
-                TKWeekActivity.FORMAT_DAY_OF_WEEK.format(end));
-        String text5 = TKWeekActivity.FORMAT_DEFAULT.format(end);
+        String text2 = context.getString(R.string.weekinfowidget_from_to,
+                TKWeekActivity.FORMAT_DEFAULT.format(start),
+                TKWeekActivity.FORMAT_DEFAULT.format(end));
         updateViews.setTextViewText(R.id.text2, text2);
         updateViews.setTextViewText(R.id.text3, text3);
-        updateViews.setTextViewText(R.id.text4, text4);
-        updateViews.setTextViewText(R.id.text5, text5);
-        updateViews.setTextViewText(R.id.text6, text6);
     }
 }

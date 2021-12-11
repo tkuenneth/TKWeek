@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+	styles.xml
+	Copyright 2021 MATHEMA GmbH
+-->
+<resources>
+    <style name="TKWeekWidgetTheme" parent="@android:style/Theme.DeviceDefault.DayNight" />
+</resources>

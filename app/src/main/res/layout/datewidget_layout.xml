@@ -15,28 +15,30 @@
     android:theme="@style/TKWeekWidgetTheme">
 
     <TextView
-        android:id="@+id/text_weekday"
+        android:id="@+id/text_month"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="0.33"
+        android:background="?attr/colorPrimary"
         android:gravity="center"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:textColor="?android:attr/textColorPrimary" />
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="?android:attr/colorBackgroundFloating" />
 
     <TextView
         android:id="@+id/text_day"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="0.33"
+        android:layout_weight="0.47"
+        android:autoSizeTextType="uniform"
         android:gravity="center"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textColor="?android:attr/textColorPrimary" />
 
     <TextView
-        android:id="@+id/text_month"
+        android:id="@+id/text_weekday"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="0.33"
+        android:layout_weight="0.2"
         android:gravity="center"
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:textColor="?android:attr/textColorPrimary" />

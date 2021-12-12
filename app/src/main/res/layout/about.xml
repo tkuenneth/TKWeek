@@ -17,10 +17,10 @@
         android:padding="16dp">
 
         <androidx.appcompat.widget.AppCompatImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
             android:layout_gravity="center"
-            android:src="@mipmap/ic_launcher" />
+            android:src="@drawable/ic_tkweek_no_gradients" />
 
         <TextView
             android:id="@+id/about_version_name"
@@ -183,7 +183,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:autoLink="all"
+            android:autoLink="email|web"
             android:linksClickable="true"
             android:paddingTop="8dp"
             android:text="@string/welcome_text" />

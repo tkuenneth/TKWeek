@@ -114,9 +114,6 @@
     <string name="montag">Montag</string>
     <string name="standard">Standard</string>
 
-    <!-- WidgetPreference -->
-    <string name="widget_opacity">Deckkraft</string>
-
     <!-- WeekActivity -->
     <string name="date_within_week">Datum innerhalb einer Woche</string>
     <string name="week_number">Wochennr.</string>

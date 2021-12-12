@@ -46,7 +46,6 @@ import com.thomaskuenneth.tkweek.R
 import com.thomaskuenneth.tkweek.databinding.TkweekBinding
 import com.thomaskuenneth.tkweek.fragment.CLAZZ
 import com.thomaskuenneth.tkweek.fragment.TKWeekFragment
-import com.thomaskuenneth.tkweek.preference.WidgetPreference
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import java.text.DateFormat

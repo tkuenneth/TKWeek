@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
 	tkweek_preferences.xml
-	TKWeek (c) Thomas Künneth 2010 - 2021
-	Alle Rechte beim Autoren. All rights reserved.
+	Copyright 2010 - 2020 Thomas Künneth
+	          2021 MATHEMA GmbH
 -->
 
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
@@ -129,11 +129,6 @@
             android:title="@string/business_days_title" />
 -->
 
-        <!--
-        <com.thomaskuenneth.tkweek.preference.WidgetPreference
-            android:dialogTitle="@string/widget_appearance"
-            android:title="@string/widget_appearance" />
--->
         <ListPreference
             android:defaultValue="-1"
             android:entries="@array/eintraege_wochenanfang"

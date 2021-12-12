@@ -163,9 +163,6 @@ access your contacts data to display birthdays and anniversaries. You can deacti
     <string name="montag">Monday</string>
     <string name="standard">default</string>
 
-    <!-- WidgetPreference -->
-    <string name="widget_opacity">Opacity</string>
-
     <!-- WeekActivity -->
     <string name="date_within_week">date within week</string>
     <string name="week_number">week number</string>

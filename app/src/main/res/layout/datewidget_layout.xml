@@ -6,48 +6,39 @@
 	All rights reserved.
 -->
 
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	android:id="@+id/datewidget_id"
-	android:layout_width="match_parent"
-	android:layout_height="match_parent"
-	android:layout_margin="@dimen/widget_margin"
-	android:background="#80000000"
-	android:orientation="vertical"
->
-
-    <TextView
-        android:id="@+id/text_day"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textColor="@android:color/white"
-		android:gravity="center"
-		android:includeFontPadding="false"
-    />
-
-    <TextView
-        android:id="@+id/text_month"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-		android:layout_above="@id/text_day"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textColor="@android:color/white"
-		android:gravity="bottom"
-		android:includeFontPadding="false"
-    />
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/datewidget_id"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?android:attr/colorBackgroundFloating"
+    android:orientation="vertical"
+    android:theme="@style/TKWeekWidgetTheme">
 
     <TextView
         android:id="@+id/text_weekday"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-		android:layout_below="@id/text_day"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textColor="@android:color/white"
-		android:gravity="top"
-		android:includeFontPadding="false"
-    />
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.33"
+        android:gravity="center"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textColor="?android:attr/textColorPrimary" />
 
-</RelativeLayout>
+    <TextView
+        android:id="@+id/text_day"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.33"
+        android:gravity="center"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="?android:attr/textColorPrimary" />
+
+    <TextView
+        android:id="@+id/text_month"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.33"
+        android:gravity="center"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textColor="?android:attr/textColorPrimary" />
+
+</LinearLayout>

@@ -2,9 +2,8 @@ name: Build, sign and upload
 
 on:
   push:
-    branches: [ main ]
-      tags:
-        - '*'
+    tags:
+      - '*'
 
   workflow_dispatch:
 

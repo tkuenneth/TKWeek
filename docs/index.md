@@ -17,7 +17,7 @@ layout: home
 <li>No ads</li>
 <li>No need to unlock anything</li>
 <li>We respect your privacy</li>
-<li>Completely <a href="https://github.com/MATHEMA-GmbH/TKWeek">open source</a></li>
+<li>Completely <a href="https://github.com/tkuenneth/TKWeek">open source</a></li>
 </ul>
 Download now!
 <br />
@@ -26,4 +26,4 @@ Download now!
 </tr>
 </table>
 
-<p style="text-align: center;">Made with <span style="color: red;">&#160;❤&#160;</span> by <a href="https://www.mathema.de/">MATHEMA</a></p>
+<p style="text-align: center;">Made with <span style="color: red;">&#160;❤&#160;</span> by <a href="https://www.thomaskuenneth.eu/">Thomas K&uuml;nneth</a></p>

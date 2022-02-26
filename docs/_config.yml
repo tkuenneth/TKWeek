@@ -1,9 +1,8 @@
 theme: minima
 title: TKWeek
 description: A date and calendaring tool for Android
-email: mobile@mathema.de
-author: MATHEMA GmbH
+email: thomas@thomaskuenneth.eu
+author: Thomas Künneth
 header_pages:
   - events.md
   - privacy.md
-  - imprint.md

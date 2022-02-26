@@ -266,8 +266,6 @@ Sie TKWeek den Zugriff auf Kontakte gestatten.</string>
     <!-- WeekInfoWidget -->
     <string name="weekinfowidget_name">Wocheninfo</string>
     <string name="weekinfowidget_template">%1$s %2$d von %3$d</string>
-    <string name="weekinfowidget_from">von (%1$s)</string>
-    <string name="weekinfowidget_to">bis (%1$s)</string>
 
     <!-- DateWidget -->
     <string name="datewidget_name">Heutiges Datum</string>

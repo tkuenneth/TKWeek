@@ -2,6 +2,7 @@
  * TKWeekActivity.kt
  *
  * Copyright 2021 MATHEMA GmbH
+ *           2022 Thomas Künneth
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
@@ -223,12 +224,12 @@ class TKWeekActivity : TKWeekBaseActivity() {
         }
 
         @JvmStatic
-        fun setInfinitySymbol(context: Context?, value: String?) {
+        fun setInfinitySymbol(context: Context, value: String?) {
             putString(context, INFINITY_SYMBOL, value)
         }
 
         @JvmStatic
-        fun putString(context: Context?, key: String?, value: String?) {
+        fun putString(context: Context, key: String?, value: String?) {
             val prefs = PreferenceManager
                 .getDefaultSharedPreferences(context)
             val editor = prefs.edit()
@@ -237,7 +238,7 @@ class TKWeekActivity : TKWeekBaseActivity() {
         }
 
         @JvmStatic
-        fun putInt(context: Context?, key: String?, value: Int) {
+        fun putInt(context: Context, key: String?, value: Int) {
             val prefs = PreferenceManager
                 .getDefaultSharedPreferences(context)
             val editor = prefs.edit()

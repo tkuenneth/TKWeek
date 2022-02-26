@@ -8,7 +8,7 @@
 
 <resources>
 
-    <string translatable="false" name="made_with_love">Made with \u2764 by MATHEMA GmbH</string>
+    <string translatable="false" name="made_with_love">Made with \u2764 by Thomas Künneth</string>
     <string name="not_successful">%1$s was not successful.</string>
     <string name="contacts">Contacts</string>
     <string name="pick_a_date">Pick a date</string>
@@ -365,18 +365,18 @@ TKWeek needs to access your contacts.</string>
     <string name="augsburger_friedensfest">Augsburg Peace Festival</string>
 
     <string translatable="false" name="welcome_text">Thank you very much for downloading this app.
-If you have any questions or suggestions, please feel free to contact MATHEMA
-GmbH at mobile@mathema.de
+If you have any questions or suggestions, please feel free to contact me at thomas@thomaskuenneth.eu
 \n\n<b>Your privacy</b>\n
 \nWe do not process your data.
 \nWe do not collect your data.
 \nWe do not track you.
 \nThe app contains no advertisements.\n
-\nYou can find our privacy policy at https://tkweek.app/privacy.html
+\nYou can find our privacy policy at https://tkuenneth.github.io/TKWeek/privacy.html
 \n\nTKWeek links to sites maintained by the Wikimedia Foundation.
 You can find their privacy policy at https://wikimediafoundation.org/wiki/Privacy_policy
 \n\n<b>Terms of use</b>\n\nCopyright 2009 - 2020 Thomas Künneth
-\nCopyright 2021 MATHEMA GmbH\n
+\nCopyright 2021 MATHEMA GmbH
+\nCopyright 2022 Thomas Künneth\n
 \nPermission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the \"Software\"), to deal
 in the Software without restriction, including without limitation the rights

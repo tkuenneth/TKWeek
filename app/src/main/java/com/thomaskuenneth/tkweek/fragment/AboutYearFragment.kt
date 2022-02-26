@@ -3,6 +3,7 @@
  *
  * Copyright 2009 - 2020 Thomas Künneth
  * Copyright 2021 MATHEMA GmbH
+ *           2022 Thomas Künneth
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
@@ -69,7 +70,7 @@ class AboutYearFragment : TKWeekBaseFragment<AboutAYearActivityBinding>(),
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         cal = Calendar.getInstance()
-        WeekFragment.prepareCalendar(cal, context)
+        WeekFragment.prepareCalendar(cal, requireContext())
         seasons = Seasons(context)
         sb = StringBuilder()
         cc = CalendarCondition.createCalendarCondition(
@@ -197,7 +198,7 @@ class AboutYearFragment : TKWeekBaseFragment<AboutAYearActivityBinding>(),
     private fun updateWeekInfo() {
         val count = Array(12) { IntArray(8) }
         val temp = cal.clone() as Calendar
-        WeekFragment.prepareCalendar(temp, context)
+        WeekFragment.prepareCalendar(temp, requireContext())
         temp[Calendar.DAY_OF_MONTH] = 1
         temp[Calendar.MONTH] = Calendar.JANUARY
         // bis zum Wochenanfang zurück

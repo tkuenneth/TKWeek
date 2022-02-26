@@ -2,6 +2,7 @@
  * WeekFragment.kt
  *
  * Copyright 2021 MATHEMA GmbH
+ *           2022 Thomas Künneth
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
@@ -59,7 +60,7 @@ class WeekFragment : TKWeekBaseFragment<WeekActivityBinding>(),
         binding.weekSelection.setOnSeekBarChangeListener(this)
         binding.down.setOnClickListener(this)
         binding.up.setOnClickListener(this)
-        prepareCalendar(cal, context, binding.labelWeekNumber, false)
+        prepareCalendar(cal, requireContext(), binding.labelWeekNumber, false)
         updatViewsFromCalendar()
     }
 
@@ -81,7 +82,7 @@ class WeekFragment : TKWeekBaseFragment<WeekActivityBinding>(),
 
     override fun preferencesFinished(resultCode: Int, data: Intent?) {
         super.preferencesFinished(resultCode, data)
-        prepareCalendar(cal, context, binding.labelWeekNumber, false)
+        prepareCalendar(cal, requireContext(), binding.labelWeekNumber, false)
         updatViewsFromCalendar()
         updateWeekInfoWidgets(requireContext())
     }
@@ -181,13 +182,13 @@ class WeekFragment : TKWeekBaseFragment<WeekActivityBinding>(),
         private val cal = Calendar.getInstance()
 
         @JvmStatic
-        fun prepareCalendar(cal: Calendar, context: Context?) {
+        fun prepareCalendar(cal: Calendar, context: Context) {
             prepareCalendar(cal, context, null, false)
         }
 
         @JvmStatic
         fun prepareCalendar(
-            cal: Calendar, context: Context?,
+            cal: Calendar, context: Context,
             label_week_number: TextView?, appendColon: Boolean
         ) {
             val prefs = PreferenceManager

@@ -3,6 +3,7 @@
 	eventslistwidget_layout.xml
 	Copyright 2011 - 2017 Thomas Künneth
 	          2021 MATHEMA GmbH
+	          2022 Thomas Künneth
 -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/eventslistwidget_id"

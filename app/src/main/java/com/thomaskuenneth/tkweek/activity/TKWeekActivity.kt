@@ -36,12 +36,12 @@ import android.util.Log
 import android.view.View
 import android.widget.DatePicker
 import android.widget.LinearLayout
-import android.widget.RemoteViews
 import androidx.lifecycle.lifecycleScope
 import androidx.preference.PreferenceManager
 import androidx.window.layout.FoldingFeature
 import androidx.window.layout.FoldingFeature.Orientation.Companion.VERTICAL
 import androidx.window.layout.WindowInfoTracker
+import androidx.window.layout.WindowMetricsCalculator
 import com.thomaskuenneth.tkweek.BootCompleteReceiver
 import com.thomaskuenneth.tkweek.R
 import com.thomaskuenneth.tkweek.databinding.TkweekBinding
@@ -97,37 +97,61 @@ class TKWeekActivity : TKWeekBaseActivity() {
     override fun wantsHomeItem() = false
 
     private fun configureHinge(activity: TKWeekActivity) {
+        val metrics = WindowMetricsCalculator.getOrCreate().computeCurrentWindowMetrics(activity)
         binding.root.findViewById<View>(R.id.gap)?.let { gap ->
             lifecycleScope.launch {
                 gap.visibility = View.GONE
                 gap.layoutParams.width = 0
                 var weightLeft = 0.4F
                 var weightRight = 0.6F
+                var layoutOrientationHorizontal = true
                 tracker
                     .windowLayoutInfo(activity).collect {
-                        var width = 0
+                        var gapSize = 0
+                        var gapY = 0
                         it.displayFeatures.forEach { displayFeature ->
                             (displayFeature as FoldingFeature).run {
-                                if (isSeparating and (orientation == VERTICAL)) {
-                                    width = bounds.width()
+                                gapY = bounds.bottom
+                                gapSize =
+                                    if (orientation == VERTICAL) bounds.width() else bounds.height()
+                                if (isSeparating) {
                                     weightLeft = 0.5F
                                     weightRight = 0.5F
                                 }
+                                layoutOrientationHorizontal = (orientation == VERTICAL)
                             }
                             lifecycleScope.launch {
-                                gap.layoutParams.width = width
                                 gap.visibility = View.VISIBLE
-                                binding.moduleSelection.layoutParams =
-                                    LinearLayout.LayoutParams(
-                                        0,
-                                        LinearLayout.LayoutParams.MATCH_PARENT, weightLeft
-                                    )
-                                binding.moduleContainer?.layoutParams =
-                                    LinearLayout.LayoutParams(
-                                        0,
-                                        LinearLayout.LayoutParams.MATCH_PARENT, weightRight
-                                    )
-                                binding.root.invalidate()
+                                if (layoutOrientationHorizontal) {
+                                    gap.layoutParams.width = gapSize
+                                    gap.layoutParams.height = LinearLayout.LayoutParams.MATCH_PARENT
+                                    binding.moduleSelection.layoutParams =
+                                        LinearLayout.LayoutParams(
+                                            0,
+                                            LinearLayout.LayoutParams.MATCH_PARENT, weightLeft
+                                        )
+                                    binding.moduleContainer?.layoutParams =
+                                        LinearLayout.LayoutParams(
+                                            0,
+                                            LinearLayout.LayoutParams.MATCH_PARENT, weightRight
+                                        )
+                                } else {
+                                    gap.layoutParams.width = LinearLayout.LayoutParams.MATCH_PARENT
+                                    gap.layoutParams.height = gapSize
+                                    binding.moduleSelection.layoutParams =
+                                        LinearLayout.LayoutParams(
+                                            LinearLayout.LayoutParams.MATCH_PARENT, 0, 1.0F
+                                        )
+                                    binding.moduleContainer?.layoutParams =
+                                        LinearLayout.LayoutParams(
+                                            LinearLayout.LayoutParams.MATCH_PARENT,
+                                            metrics.bounds.bottom - gapY
+                                        )
+                                }
+                                val root = binding.root as LinearLayout
+                                root.orientation =
+                                    if (layoutOrientationHorizontal) LinearLayout.HORIZONTAL else LinearLayout.VERTICAL
+                                root.invalidate()
                             }
                         }
                     }

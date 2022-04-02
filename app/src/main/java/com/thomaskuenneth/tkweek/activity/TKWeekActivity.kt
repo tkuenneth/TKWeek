@@ -104,11 +104,11 @@ class TKWeekActivity : TKWeekBaseActivity() {
                 gap.layoutParams.width = 0
                 var weightLeft = 0.4F
                 var weightRight = 0.6F
-                var layoutOrientationHorizontal = true
+                var layoutOrientationHorizontal: Boolean
                 tracker
                     .windowLayoutInfo(activity).collect {
-                        var gapSize = 0
-                        var gapY = 0
+                        var gapSize: Int
+                        var gapY: Int
                         it.displayFeatures.forEach { displayFeature ->
                             (displayFeature as FoldingFeature).run {
                                 gapY = bounds.bottom
@@ -176,16 +176,16 @@ class TKWeekActivity : TKWeekBaseActivity() {
         )
 
         @JvmField
-        val FORMAT_FULL = DateFormat.getDateInstance(DateFormat.FULL)
+        val FORMAT_FULL: DateFormat = DateFormat.getDateInstance(DateFormat.FULL)
 
         @JvmField
-        val FORMAT_DEFAULT = DateFormat.getDateInstance()
+        val FORMAT_DEFAULT: DateFormat = DateFormat.getDateInstance()
 
         @JvmField
-        val FORMAT_DATE_SHORT = DateFormat.getDateInstance(DateFormat.SHORT)
+        val FORMAT_DATE_SHORT: DateFormat = DateFormat.getDateInstance(DateFormat.SHORT)
 
         @JvmField
-        val FORMAT_TIME_SHORT = SimpleDateFormat.getTimeInstance(SimpleDateFormat.SHORT)
+        val FORMAT_TIME_SHORT: DateFormat = SimpleDateFormat.getTimeInstance(SimpleDateFormat.SHORT)
 
         @JvmField
         val FORMAT_DAY_OF_WEEK: DateFormat = SimpleDateFormat(
@@ -212,7 +212,7 @@ class TKWeekActivity : TKWeekBaseActivity() {
         val FORMAT_YYMM: DateFormat = SimpleDateFormat("MMdd", Locale.US)
 
         @JvmField
-        val FORMAT_DATE_TIME_SHORT = DateFormat
+        val FORMAT_DATE_TIME_SHORT: DateFormat = DateFormat
             .getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT)
 
         @JvmStatic

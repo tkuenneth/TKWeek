@@ -2,6 +2,7 @@
  * AnnualEventsFragment.kt
  *
  * Copyright 2021 MATHEMA GmbH
+ *           2022 Thomas Künneth
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
@@ -32,10 +33,15 @@ import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.AsyncTask
 import android.os.Bundle
-import android.os.Handler
 import android.os.Looper
 import android.provider.ContactsContract
-import android.view.*
+import android.view.ContextMenu
+import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
+import android.view.View
+import android.view.ViewGroup
 import android.widget.AdapterView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
@@ -87,9 +93,9 @@ class AnnualEventsFragment : TKWeekBaseFragment<EventsBinding>(),
             val annuallyRepeating = bundle.getBoolean(ANNUALLY_REPEATING, false)
             val date = bundle.getSerializable(DATE)
             val event = Event(descr, date as Date, annuallyRepeating)
-            listAdapter?.addEventNoCheck(event);
-            listAdapter?.save(requireContext());
-            setListAdapterLoadEvents(false, searchString);
+            listAdapter?.addEventNoCheck(event)
+            listAdapter?.save(requireContext())
+            setListAdapterLoadEvents(false, searchString)
         }
     }
 
@@ -139,6 +145,7 @@ class AnnualEventsFragment : TKWeekBaseFragment<EventsBinding>(),
         updateAll()
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == Activity.RESULT_OK) {
@@ -179,6 +186,7 @@ class AnnualEventsFragment : TKWeekBaseFragment<EventsBinding>(),
         }
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<out String>,
@@ -188,7 +196,7 @@ class AnnualEventsFragment : TKWeekBaseFragment<EventsBinding>(),
             (grantResults[0] == PackageManager.PERMISSION_GRANTED)
         ) {
             if (requestCode == RQ_READ_CONTACTS) {
-                setListAdapterLoadEvents(false, searchString);
+                setListAdapterLoadEvents(false, searchString)
             }
         }
         updatePermissionInfo()
@@ -196,10 +204,10 @@ class AnnualEventsFragment : TKWeekBaseFragment<EventsBinding>(),
 
     override fun onStart() {
         super.onStart()
-        if (requireActivity().intent?.getIntExtra(
+        if ((requireActivity().intent?.getIntExtra(
                 AlarmReceiver.KEY_CANCEL_NOTIFICATION,
                 -1
-            ) ?: -1 != -1
+            ) ?: -1) != -1
         ) {
             requireContext().getSystemService(NotificationManager::class.java)?.run {
                 cancel(id)
@@ -208,8 +216,8 @@ class AnnualEventsFragment : TKWeekBaseFragment<EventsBinding>(),
     }
 
     override fun onDestroy() {
-        if (eventsLoader != null) {
-            eventsLoader!!.cancel(true)
+        eventsLoader?.run {
+            cancel(true)
         }
         super.onDestroy()
     }
@@ -252,11 +260,11 @@ class AnnualEventsFragment : TKWeekBaseFragment<EventsBinding>(),
         menu.add(
             Menu.NONE, MENU_DAYS_BETWEEN_DATES, Menu.NONE,
             MENU_DAYS_BETWEEN_DATES
-        );
+        )
         if (CalendarFragment.isDayOff(requireContext(), date)) {
-            menu.add(Menu.NONE, MENU_REMOVE_DAY_OFF_TAG, Menu.NONE, MENU_REMOVE_DAY_OFF_TAG);
+            menu.add(Menu.NONE, MENU_REMOVE_DAY_OFF_TAG, Menu.NONE, MENU_REMOVE_DAY_OFF_TAG)
         } else {
-            menu.add(Menu.NONE, MENU_MARK_AS_DAY_OFF, Menu.NONE, MENU_MARK_AS_DAY_OFF);
+            menu.add(Menu.NONE, MENU_MARK_AS_DAY_OFF, Menu.NONE, MENU_MARK_AS_DAY_OFF)
         }
     }
 
@@ -294,8 +302,8 @@ class AnnualEventsFragment : TKWeekBaseFragment<EventsBinding>(),
         return when (item.itemId) {
             MENU_DELETE -> {
                 val adapter = listAdapter as AnnualEventsListAdapter
-                adapter.deleteSimilar(event);
-                adapter.save(requireContext());
+                adapter.deleteSimilar(event)
+                adapter.save(requireContext())
                 true
             }
             MENU_DAYS_BETWEEN_DATES -> {
@@ -305,13 +313,13 @@ class AnnualEventsFragment : TKWeekBaseFragment<EventsBinding>(),
                 true
             }
             MENU_MARK_AS_DAY_OFF -> {
-                CalendarFragment.setDayOff(requireContext(), date, true);
-                updateItemAtPosition(mi.position);
+                CalendarFragment.setDayOff(requireContext(), date, true)
+                updateItemAtPosition(mi.position)
                 true
             }
             MENU_REMOVE_DAY_OFF_TAG -> {
-                CalendarFragment.setDayOff(requireContext(), date, false);
-                updateItemAtPosition(mi.position);
+                CalendarFragment.setDayOff(requireContext(), date, false)
+                updateItemAtPosition(mi.position)
                 true
             }
             else -> super.onContextItemSelected(item)
@@ -338,21 +346,12 @@ class AnnualEventsFragment : TKWeekBaseFragment<EventsBinding>(),
         updateAll()
     }
 
-    /**
-     * Setzt eine neu erzeugte
-     * [AnnualEventsListAdapter]-Instanz. Der Parameter `restore`
-     * steuert, von woher die Daten geladen werden.
-     *
-     * @param restore auf `true` setzen, um Daten von einer Speicherkarte
-     * wiederherzustellen
-     * @param search  used to filter events
-     */
     private fun setListAdapterLoadEvents(
         restore: Boolean,
         search: String?
     ) {
-        val h = Handler(Looper.getMainLooper())
         eventsLoader = object : AsyncTask<Void, Void, AnnualEventsListAdapter>() {
+            @Deprecated("Deprecated in Java")
             override fun doInBackground(vararg params: Void): AnnualEventsListAdapter {
                 if (Looper.myLooper() == null) {
                     Looper.prepare()
@@ -363,6 +362,7 @@ class AnnualEventsFragment : TKWeekBaseFragment<EventsBinding>(),
                 )
             }
 
+            @Deprecated("Deprecated in Java")
             override fun onPostExecute(result: AnnualEventsListAdapter) {
                 eventsLoader = null
                 binding.listView.adapter = result.also { listAdapter = it }
@@ -372,8 +372,8 @@ class AnnualEventsFragment : TKWeekBaseFragment<EventsBinding>(),
                 listAdapter?.updateEventsListWidgets(requireContext())
                 binding.header.text = getString(
                     R.string.string1_dash_string2,
-                    TKWeekActivity.FORMAT_DEFAULT.format(listAdapter?.from?.time),
-                    TKWeekActivity.FORMAT_DEFAULT.format(listAdapter?.to?.time)
+                    TKWeekActivity.FORMAT_DEFAULT.format(listAdapter?.from?.time ?: Date()),
+                    TKWeekActivity.FORMAT_DEFAULT.format(listAdapter?.to?.time ?: Date())
                 )
             }
         }
@@ -388,6 +388,7 @@ class AnnualEventsFragment : TKWeekBaseFragment<EventsBinding>(),
         return prefs.getBoolean(getPreferencesKey(event), false)
     }
 
+    // FIXME: used to be used to mark a day off; maybe reimplement click handler
     fun setHoliday(context: Context, event: Event, holiday: Boolean) {
         val prefs = context.getSharedPreferences(
             TAG,

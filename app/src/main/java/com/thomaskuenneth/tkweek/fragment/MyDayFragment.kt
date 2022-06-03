@@ -2,6 +2,7 @@
  * MyDayFragment.kt
  *
  * Copyright 2021 MATHEMA GmbH
+ *           2022 Thomas Künneth
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
@@ -513,37 +514,6 @@ class MyDayFragment : TKWeekBaseFragment<MydayBinding>() {
 
     private fun getNameForNotes(): String {
         return "Note_" + TKWeekActivity.FORMAT_YYYYMMDD.format(cal!!.time)
-    }
-
-    private class TasksCompletedHandler(val a: MyDayFragment) : Handler() {
-        override fun handleMessage(msg: Message) {
-            val o = msg.obj
-            val r = Runnable {
-                if (!a.isShowCompletedTasks()) {
-                    if (o is View) {
-                        var v: View? = o
-                        val first = v == a.binding.mydayTasks.getChildAt(0)
-                        val cb = v!!.findViewById<CheckBox>(R.id.checkbox)
-                        if (cb.isChecked) {
-                            Toast.makeText(
-                                a.requireContext(),
-                                R.string.toast_task_completed,
-                                Toast.LENGTH_SHORT
-                            ).show()
-                        }
-                        a.binding.mydayTasks.removeView(o)
-                        if (first) {
-                            v = a.binding.mydayTasks.getChildAt(0)
-                            if (v != null) {
-                                val divider = v.findViewById<View>(R.id.divider)
-                                divider.visibility = View.GONE
-                            }
-                        }
-                    }
-                }
-            }
-            a.requireActivity().runOnUiThread(r)
-        }
     }
 
     private fun saveNoteAndUpdateUI(note: String) {

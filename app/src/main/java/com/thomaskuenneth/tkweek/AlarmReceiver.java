@@ -42,7 +42,6 @@ import androidx.core.app.NotificationCompat;
 
 import com.thomaskuenneth.tkweek.activity.TKWeekActivity;
 import com.thomaskuenneth.tkweek.adapter.AnnualEventsListAdapter;
-import com.thomaskuenneth.tkweek.preference.AlarmPreference;
 import com.thomaskuenneth.tkweek.types.Event;
 
 import java.util.ArrayList;
@@ -65,6 +64,12 @@ public class AlarmReceiver extends BroadcastReceiver {
 
     public static final String KEY_CANCEL_NOTIFICATION = "cancelNotification";
 
+    private static final String KEY_NOTIFICATIONSOFFSETFROM = "notificationsOffsetFrom";
+    private static final String KEY_NOTIFICATIONSOFFSETTO = "notificationsOffsetTo";
+    private static final String KEY_NOTIFICATIONSMINGROUP = "notificationsMinGroup";
+    private static final String KEY_PLAY_SOUND = "playSound";
+    private static final String KEY_VIBRATE = "vibrate";
+
     @Override
     public void onReceive(final Context context, Intent intent) {
         BootCompleteReceiver.startAlarm(context, true);
@@ -76,17 +81,17 @@ public class AlarmReceiver extends BroadcastReceiver {
         wl.acquire(10 * 60 * 1000L /*10 minutes*/);
         Runnable r = () -> {
             Calendar calFrom = Calendar.getInstance();
-            int offsetFrom = prefs.getInt(AlarmPreference.KEY_NOTIFICATIONSOFFSETFROM, 0);
+            int offsetFrom = prefs.getInt(KEY_NOTIFICATIONSOFFSETFROM, 0);
             calFrom.add(Calendar.DAY_OF_YEAR, offsetFrom);
             Calendar calTo = Calendar.getInstance();
-            int offsetTo = prefs.getInt(AlarmPreference.KEY_NOTIFICATIONSOFFSETTO, 1);
+            int offsetTo = prefs.getInt(KEY_NOTIFICATIONSOFFSETTO, 1);
             calTo.add(Calendar.DAY_OF_YEAR, offsetTo);
             AnnualEventsListAdapter listAdapter = new AnnualEventsListAdapter(context,
                     calFrom, calTo, false, null);
             List<NotificationCompat.Builder> builders = new ArrayList<>();
             long when = System.currentTimeMillis();
             int numEvents = listAdapter.getCount();
-            int minGroup = prefs.getInt(AlarmPreference.KEY_NOTIFICATIONSMINGROUP, 0);
+            int minGroup = prefs.getInt(KEY_NOTIFICATIONSMINGROUP, 0);
             boolean groupNotifications = numEvents > minGroup;
             for (int i = 0; i < numEvents; i++) {
                 NotificationCompat.Builder b = createBuilder(context,
@@ -134,7 +139,7 @@ public class AlarmReceiver extends BroadcastReceiver {
                         context.getString(R.string.channel_events),
                         NotificationManager.IMPORTANCE_DEFAULT);
                 channel.enableLights(true);
-                channel.enableVibration(prefs.getBoolean(AlarmPreference.KEY_VIBRATE, true));
+                channel.enableVibration(prefs.getBoolean(KEY_VIBRATE, true));
                 nm.createNotificationChannel(channel);
             }
 
@@ -143,10 +148,10 @@ public class AlarmReceiver extends BroadcastReceiver {
                 int defaults = 0;
                 if ((i + 1) == size) {
                     defaults |= NotificationCompat.DEFAULT_LIGHTS;
-                    if (prefs.getBoolean(AlarmPreference.KEY_PLAY_SOUND, true)) {
+                    if (prefs.getBoolean(KEY_PLAY_SOUND, true)) {
                         defaults |= NotificationCompat.DEFAULT_SOUND;
                     }
-                    if (prefs.getBoolean(AlarmPreference.KEY_VIBRATE, true)) {
+                    if (prefs.getBoolean(KEY_VIBRATE, true)) {
                         defaults |= NotificationCompat.DEFAULT_VIBRATE;
                     }
                 }

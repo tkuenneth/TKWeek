@@ -298,10 +298,7 @@ Sie TKWeek den Zugriff auf Kontakte gestatten.</string>
     <string name="set_alarm">Kürzliche Ereignisse als Benachrichtigungen anzeigen</string>
     <string name="set_alarm_description">Benachrichtigungseinstellungen</string>
     <string name="show_moon_phases">Mondphasen anzeigen</string>
-    <string name="show_notifications">Benachrichtigungen anzeigen</string>
     <string name="edit">Bearbeiten</string>
-    <string name="play_sound">Ton abspielen</string>
-    <string name="vibrate">Vibrieren</string>
     <string name="load_all_user_events">Alle eigenen Ereignisse laden</string>
     <string name="leap_year">Schaltjahr</string>
     <string name="previous_leap_year">Vorheriges Schaltjahr</string>

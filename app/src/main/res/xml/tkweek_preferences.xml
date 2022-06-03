@@ -3,6 +3,7 @@
 	tkweek_preferences.xml
 	Copyright 2010 - 2020 Thomas Künneth
 	          2021 MATHEMA GmbH
+	          2022 Thomas Künneth
 -->
 
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
@@ -70,11 +71,6 @@
         -->
 
         <!--
-        <com.thomaskuenneth.tkweek.preference.AlarmPreference
-            android:summary="@string/set_alarm_description"
-            android:dialogTitle="@string/set_alarm_description"
-            android:dialogLayout="@layout/alarm_preference"
-            android:title="@string/set_alarm" />
 
         <com.thomaskuenneth.tkweek.preference.MoonPhasesPreference
             android:summary="@string/configure_moon_phases"

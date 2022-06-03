@@ -219,7 +219,11 @@ class MyDayFragment : TKWeekBaseFragment<MydayBinding>() {
     private fun prepareEventsLoader() {
         cancelEventsLoader()
         eventsLoader = object : AsyncTask<Void, Void, AnnualEventsListAdapter>() {
-            override fun onPreExecute() {}
+            @Deprecated("Deprecated in Java")
+            override fun onPreExecute() {
+            }
+
+            @Deprecated("Deprecated in Java")
             override fun doInBackground(vararg params: Void): AnnualEventsListAdapter? {
                 if (Looper.myLooper() == null) {
                     Looper.prepare()
@@ -233,6 +237,7 @@ class MyDayFragment : TKWeekBaseFragment<MydayBinding>() {
                 )
             }
 
+            @Deprecated("Deprecated in Java")
             override fun onPostExecute(result: AnnualEventsListAdapter?) {
                 eventsLoader = null
                 updateEvents(result!!)

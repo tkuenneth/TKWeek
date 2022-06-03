@@ -2,7 +2,8 @@
  * AboutFragment.kt
  *
  * Copyright 2009 - 2020 Thomas Künneth
- * Copyright 2021 MATHEMA GmbH
+ *           2021 MATHEMA GmbH
+ *           2022 Thomas Künneth
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
@@ -49,6 +50,7 @@ class AboutFragment : TKWeekBaseFragment<AboutBinding>() {
         return binding.root
     }
 
+    @Suppress("DEPRECATION")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val pm = activity?.application?.packageManager
         var vn = getString(R.string.unknown)
@@ -63,16 +65,10 @@ class AboutFragment : TKWeekBaseFragment<AboutBinding>() {
         binding.aboutVersionName.text = vn
         val locale = Locale.getDefault()
         binding.aboutLanguage.text = locale.displayLanguage.let {
-            if (it.isNotEmpty())
-                it
-            else
-                getString(R.string.unknown)
+            it.ifEmpty { getString(R.string.unknown) }
         }
         binding.aboutCountry.text = locale.displayCountry.let {
-            if (it.isNotEmpty())
-                it
-            else
-                getString(R.string.unknown)
+            it.ifEmpty { getString(R.string.unknown) }
         }
         val tz = TimeZone.getDefault()
         var tzn = tz.getDisplayName(

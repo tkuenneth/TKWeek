@@ -303,6 +303,7 @@ access your contacts data to display birthdays and anniversaries. You can deacti
     <string name="about_calendar_class">Calendar class:</string>
     <string name="about_density">Screen density:</string>
     <string name="about_size_in_pixel">Screen size:</string>
+    <string name="about_android_version">Android version:</string>
 
     <!-- CalendarActivity -->
     <string name="calendar_number_of_business_days">%1$d business days</string>

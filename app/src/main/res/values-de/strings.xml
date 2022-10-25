@@ -229,6 +229,7 @@
     <string name="about_calendar_class">Kalender-Klasse:</string>
     <string name="about_density">Pixeldichte:</string>
     <string name="about_size_in_pixel">Anzeigegröße:</string>
+    <string name="about_android_version">Android Version:</string>
 
     <!-- CalendarActivity -->
     <string name="calendar_number_of_business_days">%1$d Werktage</string>

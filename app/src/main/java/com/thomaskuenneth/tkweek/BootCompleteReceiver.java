@@ -2,7 +2,8 @@
  * BootCompleteReceiver.java
  *
  * Copyright 2016 - 2020 Thomas Künneth
- * Copyright 2021 MATHEMA GmbH
+ *           2021 MATHEMA GmbH
+ *           2022 Thomas Künneth
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
@@ -25,7 +26,6 @@ package com.thomaskuenneth.tkweek;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
-import android.app.Service;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -35,12 +35,6 @@ import android.util.Log;
 import java.util.Calendar;
 import java.util.Objects;
 
-/**
- * This class sets an alarm after booting has completed.
- *
- * @author Thomas Künneth
- * @see BroadcastReceiver
- */
 public class BootCompleteReceiver extends BroadcastReceiver {
 
     private static final String TAG = BootCompleteReceiver.class.getSimpleName();
@@ -52,12 +46,6 @@ public class BootCompleteReceiver extends BroadcastReceiver {
         }
     }
 
-    /**
-     * Sets an alarm.
-     *
-     * @param context context
-     * @param nextDay Should the alarm be postponed?
-     */
     public static void startAlarm(Context context, boolean nextDay) {
         Intent intent = new Intent(context, AlarmReceiver.class);
         PendingIntent sender = PendingIntent
@@ -77,13 +65,13 @@ public class BootCompleteReceiver extends BroadcastReceiver {
                 cal.add(Calendar.DAY_OF_YEAR, 1);
             }
         }
-        AlarmManager am = (AlarmManager) context
-                .getSystemService(Service.ALARM_SERVICE);
+        AlarmManager am = context
+                .getSystemService(AlarmManager.class);
         if (TimePickerDialogHelper.enabled) {
             am.setRepeating(AlarmManager.RTC, cal.getTimeInMillis(),
                     DateUtils.DAY_IN_MILLIS, sender);
             Log.d(TAG, "next alarm is scheduled for " +
-                    cal.getTime().toString());
+                    cal.getTime());
         } else {
             am.cancel(sender);
             Log.d(TAG, "alarm cancelled");

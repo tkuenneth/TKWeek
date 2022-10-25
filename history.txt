@@ -1,3 +1,8 @@
+19919
+- Library updates
+- General improvements and bug fixes
+- Preliminary support for the predictive back gesture
+
 19917
 - Library updates
 - General improvements and bug fixes

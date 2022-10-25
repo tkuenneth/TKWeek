@@ -2,7 +2,8 @@
  * AlarmReceiver.java
  *
  * Copyright 2016 - 2020 Thomas Künneth
- * Copyright 2021 MATHEMA GmbH
+ *           2021 MATHEMA GmbH
+ *           2022 Thomas Künneth
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
@@ -48,12 +49,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-/**
- * Called when an alarm goes off
- *
- * @author Thomas Künneth
- * @see BroadcastReceiver
- */
 public class AlarmReceiver extends BroadcastReceiver {
 
     private static final String TAG = AlarmReceiver.class.getSimpleName();
@@ -64,34 +59,34 @@ public class AlarmReceiver extends BroadcastReceiver {
 
     public static final String KEY_CANCEL_NOTIFICATION = "cancelNotification";
 
-    private static final String KEY_NOTIFICATIONSOFFSETFROM = "notificationsOffsetFrom";
-    private static final String KEY_NOTIFICATIONSOFFSETTO = "notificationsOffsetTo";
-    private static final String KEY_NOTIFICATIONSMINGROUP = "notificationsMinGroup";
+    private static final String KEY_NOTIFICATIONS_OFFSET_FROM = "notificationsOffsetFrom";
+    private static final String KEY_NOTIFICATIONS_OFFSET_TO = "notificationsOffsetTo";
+    private static final String KEY_NOTIFICATIONS_MIN_GROUP = "notificationsMinGroup";
     private static final String KEY_PLAY_SOUND = "playSound";
     private static final String KEY_VIBRATE = "vibrate";
 
     @Override
     public void onReceive(final Context context, Intent intent) {
         BootCompleteReceiver.startAlarm(context, true);
-        PowerManager pm = (PowerManager) context
-                .getSystemService(Context.POWER_SERVICE);
+        PowerManager pm = context
+                .getSystemService(PowerManager.class);
         final PowerManager.WakeLock wl = pm.newWakeLock(
                 PowerManager.PARTIAL_WAKE_LOCK, TAG);
         final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
         wl.acquire(10 * 60 * 1000L /*10 minutes*/);
         Runnable r = () -> {
             Calendar calFrom = Calendar.getInstance();
-            int offsetFrom = prefs.getInt(KEY_NOTIFICATIONSOFFSETFROM, 0);
+            int offsetFrom = prefs.getInt(KEY_NOTIFICATIONS_OFFSET_FROM, 0);
             calFrom.add(Calendar.DAY_OF_YEAR, offsetFrom);
             Calendar calTo = Calendar.getInstance();
-            int offsetTo = prefs.getInt(KEY_NOTIFICATIONSOFFSETTO, 1);
+            int offsetTo = prefs.getInt(KEY_NOTIFICATIONS_OFFSET_TO, 1);
             calTo.add(Calendar.DAY_OF_YEAR, offsetTo);
             AnnualEventsListAdapter listAdapter = new AnnualEventsListAdapter(context,
                     calFrom, calTo, false, null);
             List<NotificationCompat.Builder> builders = new ArrayList<>();
             long when = System.currentTimeMillis();
             int numEvents = listAdapter.getCount();
-            int minGroup = prefs.getInt(KEY_NOTIFICATIONSMINGROUP, 0);
+            int minGroup = prefs.getInt(KEY_NOTIFICATIONS_MIN_GROUP, 0);
             boolean groupNotifications = numEvents > minGroup;
             for (int i = 0; i < numEvents; i++) {
                 NotificationCompat.Builder b = createBuilder(context,

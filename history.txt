@@ -2,6 +2,7 @@
 - Library updates
 - General improvements and bug fixes
 - Preliminary support for the predictive back gesture
+- Targets Android 13
 
 19917
 - Library updates

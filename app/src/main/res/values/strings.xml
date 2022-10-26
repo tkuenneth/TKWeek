@@ -122,6 +122,7 @@ access your calendar data to display events and appointments. You can deactivate
 access your calendar data to display all-day events. You can deactivate this in Settings</string>
     <string name="str_permission_read_contacts">TKWeek would like to
 access your contacts data to display birthdays and anniversaries. You can deactivate this in Settings</string>
+    <string name="str_permission_post_notifications">TKWeek would like to post notifications once a day.</string>
 
     <!-- TKWeekPrefsActivity -->
     <string name="pick_fathersday">Pick Father’s Day date</string>

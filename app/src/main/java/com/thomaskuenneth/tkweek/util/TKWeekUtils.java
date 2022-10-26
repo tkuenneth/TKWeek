@@ -1,13 +1,30 @@
 /*
  * TKWeekUtils.java
  *
- * TKWeek (c) Thomas Künneth 2015 - 2021
- * Alle Rechte beim Autoren. All rights reserved.
+ * Copyright 2015 - 2020 Thomas Künneth
+ *           2021 MATHEMA GmbH
+ *           2022 Thomas Künneth
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy of
+ * this software and associated documentation files (the "Software"), to deal in
+ * the Software without restriction, including without limitation the rights to use,
+ * copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the
+ * Software, and to permit persons to whom the Software is furnished to do so,
+ * subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all copies
+ * or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
+ * INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
+ * PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+ * HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
+ * CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
+ * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 package com.thomaskuenneth.tkweek.util;
 
 import android.Manifest;
-import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -25,21 +42,14 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 
 import com.thomaskuenneth.tkweek.R;
-import com.thomaskuenneth.tkweek.activity.TKWeekActivity;
 import com.thomaskuenneth.tkweek.activity.TKWeekPrefsActivity;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.Date;
 import java.util.Locale;
 
-/**
- * Diese Klasse enthält Hilfsmethoden, die anwendungsweit aufgerufen werden.
- *
- * @author Thomas Kuenneth
- */
 public class TKWeekUtils {
 
     public static final String EMPTY_STRING = "";
@@ -52,11 +62,7 @@ public class TKWeekUtils {
     public static final Locale SWEDEN = new Locale("sv", "SE");
     public static final Locale IRELAND = new Locale("en", "IE");
     public static final Locale AUSTRALIA = new Locale("en", "AU");
-    /**
-     * Wird verwendet, um ein Datum zu transportieren. Der Inhalt wird aus dem
-     * Ausdruck <code>DateFormat.getDateInstance(DateFormat.FULL)</code>
-     * erzeugt.
-     */
+
     public static final String TK_WEEK_FORMAT_FULL = "TKWeek.FORMAT_FULL";
 
     private static final String TAG = TKWeekUtils.class.getSimpleName();
@@ -82,14 +88,6 @@ public class TKWeekUtils {
         message.setText(spannable);
     }
 
-    /**
-     * Speichert einen String.
-     *
-     * @param context Kontext
-     * @param name    Dateiname
-     * @param s       String
-     * @return true, wenn die Datei erfolgreich gespeichert wurde
-     */
     public static boolean save(Context context, String name, String s) {
         FileOutputStream fos = null;
         boolean ok = false;
@@ -111,13 +109,6 @@ public class TKWeekUtils {
         return ok;
     }
 
-    /**
-     * Lädt eine Datei. Zurückgeliefert wird der Inhalt der Datei als String, oder im Fehlerfall ein Leerstring.
-     *
-     * @param context Kontext
-     * @param name    Name
-     * @return Dateiinhalt
-     */
     public static String load(Context context, String name) {
         StringBuilder sb = new StringBuilder();
         FileReader fr = null;
@@ -144,23 +135,10 @@ public class TKWeekUtils {
         return sb.toString();
     }
 
-    /**
-     * Liefert den API-Level.
-     *
-     * @return API-Level
-     */
     public static int getAPILevel() {
         return Build.VERSION.SDK_INT;
     }
 
-    /**
-     * Fordert Berechtigungen an.
-     *
-     * @param activity    Activity
-     * @param permissions Berechtigungen
-     * @param requestCode request code
-     */
-    @TargetApi(23)
     public static void requestPermissions(Activity activity,
                                           String[] permissions, int requestCode) {
         if (getAPILevel() >= 23) {
@@ -168,70 +146,26 @@ public class TKWeekUtils {
         }
     }
 
-    /**
-     * Prüft, ob der Nutzer über eine Berechtigung informiert werden soll.
-     *
-     * @param activity   Activity
-     * @param permission Berechtigung
-     * @return true, wenn der Nutzer über eine Berechtigung informiert werden soll
-     */
+    public static boolean canPostNotifications(Context context) {
+        if (getAPILevel() >= 33)
+            return canDoXYZ(context, Manifest.permission.POST_NOTIFICATIONS);
+        else
+            return true;
+    }
+
     public static boolean shouldShowRequestPermissionRationale(Activity activity,
                                                                String permission) {
         return activity.shouldShowRequestPermissionRationale(permission);
     }
 
-    /**
-     * Liefert true, wenn lesend auf das Call Log zugegriffen werden kann
-     *
-     * @param context Kontext
-     * @return true, wenn lesender Zugriff auf das Call Log erlaubt ist
-     */
-    @TargetApi(23)
-    public static boolean canReadCallLog(Context context) {
-        return canDoXYZ(context, Manifest.permission.READ_CALL_LOG);
-    }
-
-    /**
-     * Liefert true, wenn lesend auf Kontakte zugegriffen werden kann
-     *
-     * @param context Kontext
-     * @return true, wenn lesender Zugriff auf Kontakte erlaubt ist
-     */
     public static boolean canReadContacts(Context context) {
         return canDoXYZ(context, Manifest.permission.READ_CONTACTS);
     }
 
-    /**
-     * Liefert true, wenn lesend auf Kalenderdaten zugegriffen werden kann
-     *
-     * @param context Kontext
-     * @return true, wenn lesender Zugriff auf Kalenderdaten erlaubt ist
-     */
     public static boolean canReadCalendar(Context context) {
         return canDoXYZ(context, Manifest.permission.READ_CALENDAR);
     }
 
-    /**
-     * Liefert true, wenn schreibend auf externe Medien zugegriffen werden kann
-     *
-     * @param context Kontext
-     * @return true, wenn schreibender Zugriff auf externe Medien erlaubt ist
-     */
-    public static boolean canWriteExternalStorage(Context context) {
-        return canDoXYZ(context, Manifest.permission.WRITE_EXTERNAL_STORAGE);
-    }
-
-    /**
-     * Liefert true, wenn die Liste der Konten ermittelt werden darf.
-     *
-     * @param context Kontext
-     * @return true, wenn die Liste der Konten ermittelt werden darf
-     */
-    public static boolean canGetAccounts(Context context) {
-        return canDoXYZ(context, Manifest.permission.GET_ACCOUNTS);
-    }
-
-    @TargetApi(23)
     private static boolean canDoXYZ(Context context, String permission) {
         boolean ok = true;
         if (getAPILevel() >= 23) {
@@ -251,22 +185,5 @@ public class TKWeekUtils {
 
     public static String integerToString(int i) {
         return String.format(Locale.US, "%d", i);
-    }
-
-    /**
-     * Erzeugt ein Intent, das ein Datum transportiert. Das Datum wird als
-     * String gespeichert. Es wird über die Konstante
-     * {@link #TK_WEEK_FORMAT_FULL} angesprochen.
-     *
-     * @param packageContext Kontext
-     * @param cls            Empfänger
-     * @param date           das Datum
-     * @return das erzeugte Intent
-     */
-    public static Intent getSendDateIntent(Context packageContext,
-                                           Class<?> cls, Date date) {
-        Intent intent = new Intent(packageContext, cls);
-        intent.putExtra(TK_WEEK_FORMAT_FULL, TKWeekActivity.FORMAT_FULL.format(date));
-        return intent;
     }
 }

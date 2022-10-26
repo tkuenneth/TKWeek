@@ -32,6 +32,7 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.AsyncTask
+import android.os.Build
 import android.os.Bundle
 import android.os.Looper
 import android.provider.ContactsContract
@@ -112,9 +113,19 @@ class AnnualEventsFragment : TKWeekBaseFragment<EventsBinding>(),
         eventsLoader = null
         binding.listView.onItemClickListener = this
         binding.listView.setOnCreateContextMenuListener(this)
-        val permissins = ArrayList<String>()
+        val permissions = ArrayList<String>()
+        binding.messageNotifications.message.setText(R.string.str_permission_post_notifications)
+        binding.messageNotifications.button.setOnClickListener {
+            requestPostNotifications()
+        }
+        if (Build.VERSION.SDK_INT >= 33 &&
+            !TKWeekUtils.canPostNotifications(requireContext()) &&
+            !shouldShowPermissionPostNotificationsRationale()
+        ) {
+            permissions.add(Manifest.permission.POST_NOTIFICATIONS)
+        }
         if (shouldShowBirthdays() && !TKWeekUtils.canReadContacts(requireContext()) && !shouldShowPermissionReadContactsRationale()) {
-            permissins.add(Manifest.permission.READ_CONTACTS)
+            permissions.add(Manifest.permission.READ_CONTACTS)
         }
         TKWeekUtils.linkToSettings(
             binding.messageLinkToSettingsContacts.root,
@@ -127,7 +138,7 @@ class AnnualEventsFragment : TKWeekBaseFragment<EventsBinding>(),
         if (shouldShowAllDayEvents() && !TKWeekUtils.canReadCalendar(requireContext())
             && !shouldShowPermissionReadCalendarRationale()
         ) {
-            permissins.add(Manifest.permission.READ_CALENDAR)
+            permissions.add(Manifest.permission.READ_CALENDAR)
         }
         TKWeekUtils.linkToSettings(
             binding.messageLinkToSettingsCalendar.root,
@@ -137,9 +148,9 @@ class AnnualEventsFragment : TKWeekBaseFragment<EventsBinding>(),
         binding.messageLinkToSettingsCalendar.button.setOnClickListener {
             requestReadCalendar()
         }
-        if (permissins.size > 0) {
-            val l = arrayOfNulls<String>(permissins.size)
-            permissins.toArray(l)
+        if (permissions.size > 0) {
+            val l = arrayOfNulls<String>(permissions.size)
+            permissions.toArray(l)
             requestPermissions(l, 0)
         }
         updateAll()
@@ -446,6 +457,9 @@ class AnnualEventsFragment : TKWeekBaseFragment<EventsBinding>(),
             ) View.VISIBLE else View.GONE
         binding.messageLinkToSettingsCalendar.root.visibility =
             if (shouldShowAllDayEvents() && shouldShowPermissionReadCalendarRationale()
+            ) View.VISIBLE else View.GONE
+        binding.messageNotifications.root.visibility =
+            if (shouldShowPermissionPostNotificationsRationale()
             ) View.VISIBLE else View.GONE
     }
 

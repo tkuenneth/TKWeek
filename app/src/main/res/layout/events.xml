@@ -9,9 +9,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:gravity="start"
-        android:paddingStart="16dp"
+        android:layout_marginHorizontal="16dp"
         android:paddingTop="16dp"
-        android:paddingEnd="16dp"
         android:paddingBottom="8dp"
         android:textAppearance="?android:attr/textAppearanceSmall" />
 
@@ -21,10 +20,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/header"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="8dp" />
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginVertical="8dp" />
 
     <include
         android:id="@+id/message_link_to_settings_calendar"
@@ -32,16 +29,23 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/message_link_to_settings_contacts"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="8dp" />
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginVertical="8dp" />
+
+    <include
+        android:id="@+id/message_notifications"
+        layout="@layout/message_link_to_settings"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/message_link_to_settings_calendar"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginVertical="8dp" />
 
     <ListView
         android:id="@+id/listView"
         android:layout_width="match_parent"
         android:layout_height="0pt"
-        android:layout_below="@id/message_link_to_settings_calendar"
+        android:layout_below="@id/message_notifications"
         android:layout_alignParentBottom="true" />
 
 </RelativeLayout>

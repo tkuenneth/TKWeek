@@ -259,6 +259,7 @@ Sie TKWeek den Zugriff auf Kontakte gestatten.</string>
     <string name="no_permission">Keine Berechtigung</string>
     <string name="str_permission_read_calendar">TKWeek möchte auf Ihre Kalenderdaten zugreifen, um Ereignisse und Termine anzuzeigen. Sie können dies in den Einstellungen deaktivieren.</string>
     <string name="str_permission_read_calendar2">TKWeek möchte auf Ihre Kalenderdaten zugreifen, um ganztägige Android Kalender-Ereignisse anzuzeigen. Sie können dies in den Einstellungen deaktivieren.</string>
+    <string name="str_permission_post_notifications">TKWeek möchte einmal pro Tag Benachrichtigungen senden.</string>
 
     <!-- EventsListWidget -->
     <string name="eventslistwidget_name">Ereignisliste</string>

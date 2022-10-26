@@ -210,7 +210,9 @@ class AnnualEventsFragment : TKWeekBaseFragment<EventsBinding>(),
             ) ?: -1) != -1
         ) {
             requireContext().getSystemService(NotificationManager::class.java)?.run {
-                cancel(id)
+                if (areNotificationsEnabled()) {
+                    cancel(id)
+                }
             }
         }
     }

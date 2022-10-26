@@ -128,7 +128,11 @@ public class AlarmReceiver extends BroadcastReceiver {
                 summary.setStyle(style);
                 builders.add(summary);
             }
-            NotificationManager nm = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+
+            NotificationManager nm = context.getSystemService(NotificationManager.class);
+            if (!nm.areNotificationsEnabled()) {
+                return;
+            }
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 NotificationChannel channel = new NotificationChannel(CHANNEL_ID_EVENTS,
                         context.getString(R.string.channel_events),

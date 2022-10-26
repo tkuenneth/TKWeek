@@ -92,11 +92,6 @@ class AboutFragment : TKWeekBaseFragment<AboutBinding>() {
             sizeInPixels, getString(R.string.pixel), sizeInDp, getString(R.string.dp)
         )
         val sb = StringBuilder(Build.VERSION.RELEASE)
-        val codeName =
-            Build.VERSION_CODES::class.java.fields.firstOrNull { it.getInt(Build.VERSION_CODES::class) == Build.VERSION.SDK_INT }?.name
-                ?: ""
-        if (codeName.isNotBlank())
-            sb.append(" $codeName")
         sb.append(" (${Build.VERSION.SDK_INT})")
         binding.aboutAndroidVersion.text = sb.toString()
     }

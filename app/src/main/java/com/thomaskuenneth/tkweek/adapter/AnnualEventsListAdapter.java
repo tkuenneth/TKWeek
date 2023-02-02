@@ -2,7 +2,8 @@
  * AnnualEventsListAdapter.java
  *
  * Copyright 2009 - 2020 Thomas Künneth
- * Copyright 2021 MATHEMA GmbH
+ *           2021 MATHEMA GmbH
+ *           2022 - 2023 Thomas Künneth
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
@@ -203,15 +204,6 @@ public class AnnualEventsListAdapter extends BaseAdapter implements
                 search);
     }
 
-    /**
-     * Creates an instance of {@link AnnualEventsListAdapter}
-     *
-     * @param context            context
-     * @param calFrom            start date (must not be null)
-     * @param calTo              end date (must not be null)
-     * @param expandAllDayEvents expand a multiple day event?
-     * @param search             filter events
-     */
     public AnnualEventsListAdapter(Context context,
                                    Calendar calFrom,
                                    Calendar calTo,
@@ -294,11 +286,6 @@ public class AnnualEventsListAdapter extends BaseAdapter implements
         notifyDataSetChanged();
     }
 
-    /**
-     * Add an event without performing any date range checks.
-     *
-     * @param event event
-     */
     public void addEventNoCheck(Event event) {
         data.add(event);
         notifyDataSetChanged();
@@ -366,12 +353,6 @@ public class AnnualEventsListAdapter extends BaseAdapter implements
         return convertView;
     }
 
-    /**
-     * Get the name of the calendar.
-     *
-     * @param event event
-     * @return name of the calendar (never null)
-     */
     public String getCalendarName(Event event) {
         return TKWeekUtils.getStringNotNull(event.calendarName);
     }
@@ -462,12 +443,6 @@ public class AnnualEventsListAdapter extends BaseAdapter implements
         return new File(context.getFilesDir(), FILENAME);
     }
 
-    /**
-     * Save user events
-     *
-     * @param file a File that contains the user events data
-     * @return {@code true} if saving the file was successful, otherwise {@code false}
-     */
     public boolean saveUserEvents(File file) {
         FileWriter fw = null;
         boolean success = false;
@@ -524,14 +499,6 @@ public class AnnualEventsListAdapter extends BaseAdapter implements
         return success;
     }
 
-
-    /**
-     * Add builtin events for a given year.
-     *
-     * @param context context
-     * @param prefs   shared preferences
-     * @param year    year
-     */
     private void addBuiltinEvents(Context context, SharedPreferences prefs,
                                   int year) {
         if (!prefs.getBoolean("hide_seasons", false)) {
@@ -730,12 +697,6 @@ public class AnnualEventsListAdapter extends BaseAdapter implements
         }
     }
 
-    /**
-     * Add the seasons for a given year.
-     *
-     * @param context context
-     * @param year    year
-     */
     private void addSeasons(Context context, int year) {
         final Calendar spring = seasons.getCalendar(Seasons.SEASON.SPRING, year);
         if (spring != null) {
@@ -755,12 +716,6 @@ public class AnnualEventsListAdapter extends BaseAdapter implements
         }
     }
 
-    /**
-     * Add easter-related events
-     *
-     * @param context context
-     * @param year    year
-     */
     private void addEasterEvents(Context context, int year) {
         Calendar easter = DateUtilities.getEasterForYear(context, year);
         if (easter != null) {
@@ -820,14 +775,6 @@ public class AnnualEventsListAdapter extends BaseAdapter implements
         }
     }
 
-    /**
-     * Load the birthdays and anniversaries of contacts. If the year of the event
-     * is not equal to Event.NOT_SPECIFIED then it is set to the year
-     * passed to this method.
-     *
-     * @param context context
-     * @param year    year
-     */
     private void loadBirthdays(Context context, int year) {
         if (TKWeekUtils.canReadContacts(context)) {
             List<Event> birthdays = ContactsUtils.queryContacts(context);
@@ -844,12 +791,6 @@ public class AnnualEventsListAdapter extends BaseAdapter implements
         }
     }
 
-    /**
-     * Add an event if the event is in the range represented by this adapter
-     *
-     * @param e               event
-     * @param ignoreDateRange if true, add the event even if it is not in the date range
-     */
     private void add(Event e, boolean ignoreDateRange) {
         assert calFrom != null;
         assert calTo != null;
@@ -870,26 +811,12 @@ public class AnnualEventsListAdapter extends BaseAdapter implements
         }
     }
 
-    /**
-     * Add all events in the list if they meet the criteria
-     *
-     * @param l list
-     * @see #add(Event, boolean)
-     */
     private void addAll(List<Event> l) {
         for (Event e : l) {
             add(e, false);
         }
     }
 
-    /**
-     * Load user events
-     *
-     * @param context  context
-     * @param file     user events
-     * @param yearFrom first year in range
-     * @param yearTo   last year in range
-     */
     private void loadUserEvents(Context context,
                                 final File file,
                                 final int yearFrom,
@@ -991,14 +918,6 @@ public class AnnualEventsListAdapter extends BaseAdapter implements
         }
     }
 
-    /**
-     * Add simple (annually repeating, allday) events for a given locale.
-     *
-     * @param context context
-     * @param locale  locale
-     * @param events  events
-     * @param year    year
-     */
     private boolean addSimpleEvents(Context context,
                                     Locale locale,
                                     int[] events,
@@ -1010,13 +929,6 @@ public class AnnualEventsListAdapter extends BaseAdapter implements
         return false;
     }
 
-    /**
-     * Add simple (annually repeating, allday) events.
-     *
-     * @param context context
-     * @param events  events
-     * @param year    year
-     */
     private void addSimpleEvents(Context context,
                                  int[] events,
                                  int year) {
@@ -1030,12 +942,6 @@ public class AnnualEventsListAdapter extends BaseAdapter implements
         }
     }
 
-    /**
-     * Adds christian events for a given year
-     *
-     * @param context context
-     * @param year    year
-     */
     private void addChristianEvents(Context context, int year) {
         addSimpleEvents(context, christianEvents, year);
         Calendar advent = DateUtilities.getFirstAdvent(year);

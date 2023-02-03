@@ -42,6 +42,7 @@ class CalendarAsyncTask(
     private val binding: DaysBetweenDatesActivityBinding
 ) : AsyncTask<Calendar, Void, Bundle>() {
 
+    @Deprecated("Deprecated in Java")
     override fun doInBackground(vararg params: Calendar): Bundle {
         val c1 = params[0]
         DateUtilities.clearTimeRelatedFields(c1)
@@ -118,6 +119,7 @@ class CalendarAsyncTask(
         return b
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onPostExecute(b: Bundle) {
         binding.firstDatePick.isEnabled = true
         binding.firstDateToday.isEnabled = true

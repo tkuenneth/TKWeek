@@ -3,7 +3,7 @@
  *
  * Copyright 2016 - 2020 Thomas Künneth
  *           2021 MATHEMA GmbH
- *           2022 Thomas Künneth
+ *           2022 - 2023 Thomas Künneth
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
@@ -63,7 +63,6 @@ public class AlarmReceiver extends BroadcastReceiver {
     private static final String KEY_NOTIFICATIONS_OFFSET_TO = "notificationsOffsetTo";
     private static final String KEY_NOTIFICATIONS_MIN_GROUP = "notificationsMinGroup";
     private static final String KEY_PLAY_SOUND = "playSound";
-    private static final String KEY_VIBRATE = "vibrate";
 
     @Override
     public void onReceive(final Context context, Intent intent) {
@@ -138,7 +137,7 @@ public class AlarmReceiver extends BroadcastReceiver {
                         context.getString(R.string.channel_events),
                         NotificationManager.IMPORTANCE_DEFAULT);
                 channel.enableLights(true);
-                channel.enableVibration(prefs.getBoolean(KEY_VIBRATE, true));
+                channel.enableVibration(true);
                 nm.createNotificationChannel(channel);
             }
 
@@ -150,9 +149,7 @@ public class AlarmReceiver extends BroadcastReceiver {
                     if (prefs.getBoolean(KEY_PLAY_SOUND, true)) {
                         defaults |= NotificationCompat.DEFAULT_SOUND;
                     }
-                    if (prefs.getBoolean(KEY_VIBRATE, true)) {
-                        defaults |= NotificationCompat.DEFAULT_VIBRATE;
-                    }
+                    defaults |= NotificationCompat.DEFAULT_VIBRATE;
                 }
                 NotificationCompat.Builder builder = builders.get(i);
                 builder.setDefaults(defaults);

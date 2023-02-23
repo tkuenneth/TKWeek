@@ -112,6 +112,7 @@ class MyDayFragment : TKWeekBaseFragment<MydayBinding>() {
         updateViews()
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<String>,
@@ -121,6 +122,7 @@ class MyDayFragment : TKWeekBaseFragment<MydayBinding>() {
             prepareEventsLoader()
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
         inflater.inflate(R.menu.menu_today, menu)
@@ -129,6 +131,7 @@ class MyDayFragment : TKWeekBaseFragment<MydayBinding>() {
         inflater.inflate(R.menu.menu_lookup_in_wikipedia, menu)
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onPrepareOptionsMenu(menu: Menu) {
         menu.findItem(R.id.today)?.run {
             isVisible = !DateUtilities.isToday(cal)
@@ -136,6 +139,7 @@ class MyDayFragment : TKWeekBaseFragment<MydayBinding>() {
         return super.onPrepareOptionsMenu(menu)
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.today -> {
@@ -192,6 +196,7 @@ class MyDayFragment : TKWeekBaseFragment<MydayBinding>() {
         updateViews()
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == Activity.RESULT_OK) {

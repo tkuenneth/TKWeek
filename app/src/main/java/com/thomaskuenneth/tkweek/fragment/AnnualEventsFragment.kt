@@ -235,6 +235,7 @@ class AnnualEventsFragment : TKWeekBaseFragment<EventsBinding>(),
         super.onDestroy()
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
         inflater.inflate(R.menu.menu_search, menu)
@@ -281,6 +282,7 @@ class AnnualEventsFragment : TKWeekBaseFragment<EventsBinding>(),
         }
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onPrepareOptionsMenu(menu: Menu) {
         super.onPrepareOptionsMenu(menu)
         menu.findItem(R.id.clear)?.run {
@@ -288,6 +290,7 @@ class AnnualEventsFragment : TKWeekBaseFragment<EventsBinding>(),
         }
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.clear -> {

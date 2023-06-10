@@ -26,11 +26,11 @@
 
         <TextView
             android:id="@+id/label_week_number"
+            style="@style/Headline"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
-            android:gravity="center_horizontal"
-            android:textAppearance="?android:attr/textAppearanceSmall" />
+            android:gravity="center_horizontal" />
 
         <RelativeLayout
             android:layout_width="wrap_content"

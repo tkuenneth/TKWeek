@@ -1,11 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-	days_between_dates_activity.xml
-	TKWeek (c) 2009 - 2020 Thomas Künneth
-	           2021 MATHEMA GmbH
-	All rights reserved.
--->
-
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -17,10 +10,12 @@
 
         <TextView
             android:id="@+id/label_first_date"
+            style="@style/Headline"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="8dp"
             android:text="@string/first_date" />
 
         <Button
@@ -61,9 +56,12 @@
 
         <TextView
             android:id="@+id/label_second_date"
+            style="@style/Headline"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/checkbox_include_first_date"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="8dp"
             android:text="@string/second_date" />
 
         <Button

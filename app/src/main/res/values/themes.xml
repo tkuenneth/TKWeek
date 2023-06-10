@@ -1,17 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-	themes.xml
-	Copyright 2010 - 2020 Thomas Künneth
-	          2021 MATHEMA GmbH
--->
 <resources>
 
     <style name="TKWeekWidgetTheme" parent="AppTheme" />
 
-    <style name="AppTheme" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+    <style name="AppTheme" parent="Theme.Material3.DayNight">
         <item name="android:activatedBackgroundIndicator">@drawable/list_activated_background</item>
     </style>
 

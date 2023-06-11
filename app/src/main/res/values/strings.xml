@@ -183,8 +183,8 @@ access your contacts data to display birthdays and anniversaries. You can deacti
     <string name="look_up_in_wikipedia">Look up in Wikipedia</string>
 
     <!-- DaysBetweenDatesActivity -->
-    <string name="first_date">From:</string>
-    <string name="second_date">To:</string>
+    <string name="first_date">Start date</string>
+    <string name="second_date">End date</string>
     <string name="days_from_to">Days (business days) between %1$s and %2$s</string>
     <string name="days_between_dates_weekends">%1$d weekend(s)</string>
     <string name="days_between_dates_weeks">approx. %1$d week(s)</string>

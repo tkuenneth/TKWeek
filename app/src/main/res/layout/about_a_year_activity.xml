@@ -81,6 +81,7 @@
         <TextView
             android:id="@+id/about_a_year_label1"
             style="@style/Headline"
+            android:paddingBottom="8dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/leap_year_buttons"
@@ -99,6 +100,7 @@
         <TextView
             android:id="@+id/about_a_year_daylight_savings"
             style="@style/Headline"
+            android:paddingBottom="8dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/about_a_year_months"
@@ -116,6 +118,7 @@
         <TextView
             android:id="@+id/about_a_year_seasons"
             style="@style/Headline"
+            android:paddingBottom="8dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/about_a_year_daylight_savings_from_to"
@@ -218,6 +221,7 @@
         <TextView
             android:id="@+id/about_a_year_weekday_distribution"
             style="@style/Headline"
+            android:paddingBottom="8dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/about_a_year_layout_winter"

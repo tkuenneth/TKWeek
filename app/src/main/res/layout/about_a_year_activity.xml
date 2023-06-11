@@ -81,31 +81,32 @@
         <TextView
             android:id="@+id/about_a_year_label1"
             style="@style/Headline"
-            android:paddingBottom="8dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/leap_year_buttons"
             android:layout_centerHorizontal="true"
+            android:paddingBottom="8dp"
             android:text="@string/about_a_year_label1"
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
         <TextView
             android:id="@+id/about_a_year_months"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/about_a_year_label1"
-            android:layout_alignParentStart="true"
+            android:layout_centerHorizontal="true"
+            android:gravity="center_horizontal"
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
         <TextView
             android:id="@+id/about_a_year_daylight_savings"
             style="@style/Headline"
-            android:paddingBottom="8dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/about_a_year_months"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="16dp"
+            android:paddingBottom="8dp"
             android:text="@string/daylight_savings" />
 
         <TextView
@@ -113,17 +114,19 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/about_a_year_daylight_savings"
+            android:layout_centerHorizontal="true"
+            android:gravity="center_horizontal"
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
         <TextView
             android:id="@+id/about_a_year_seasons"
             style="@style/Headline"
-            android:paddingBottom="8dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/about_a_year_daylight_savings_from_to"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="16dp"
+            android:paddingBottom="8dp"
             android:text="@string/seasons" />
 
         <RelativeLayout
@@ -221,12 +224,12 @@
         <TextView
             android:id="@+id/about_a_year_weekday_distribution"
             style="@style/Headline"
-            android:paddingBottom="8dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/about_a_year_layout_winter"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="16dp"
+            android:paddingBottom="8dp"
             android:text="@string/about_a_year_weekday_distribution" />
 
         <include
@@ -234,7 +237,8 @@
             layout="@layout/weekinfo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/about_a_year_weekday_distribution" />
+            android:layout_below="@id/about_a_year_weekday_distribution"
+            android:layout_centerHorizontal="true" />
 
     </RelativeLayout>
 

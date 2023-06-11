@@ -1,11 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-	strings.xml
-	TKWeek (c) 2009 - 2020 Thomas Künneth
-	           2021 MATHEMA GmbH
-	All rights reserved.
--->
-
 <resources>
 
     <string translatable="false" name="made_with_love">Made with \u2764 by Thomas Künneth</string>
@@ -172,6 +165,7 @@ access your contacts data to display birthdays and anniversaries. You can deacti
     <string name="about_a_year_weekday_distribution">Weekday distribution</string>
     <string name="daylight_savings">daylight savings</string>
     <string name="seasons">Seasons</string>
+    <string name="no_daylight_savings">No daylight savings</string>
 
     <!-- DateInfoActivity -->
     <string name="day_of_week">Day of week:</string>

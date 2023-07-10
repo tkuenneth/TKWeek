@@ -1,12 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-	calendar.xml
-	TKWeek (c) 2012 - 2020 Thomas Künneth
-	           2021 MATHEMA GmbH
-	All rights reserved.
--->
-
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -27,7 +21,8 @@
                 android:layout_width="1dp"
                 android:layout_height="1dp"
                 android:focusableInTouchMode="true"
-                android:screenReaderFocusable="false" />
+                android:screenReaderFocusable="false"
+                tools:targetApi="p" />
 
             <Button
                 android:id="@+id/calendar_down"
@@ -76,8 +71,6 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/calendar_gallery"
             android:layout_centerHorizontal="true">
-
-            <!-- Überschriften -->
 
             <TableRow
                 android:layout_marginBottom="4dp"
@@ -133,8 +126,6 @@
 
             </TableRow>
 
-            <!-- 1. Woche -->
-
             <TableRow android:gravity="center">
 
                 <TextView
@@ -186,8 +177,6 @@
                     android:layout_height="wrap_content" />
 
             </TableRow>
-
-            <!-- 2. Woche -->
 
             <TableRow android:gravity="center">
 
@@ -241,8 +230,6 @@
 
             </TableRow>
 
-            <!-- 3. Woche -->
-
             <TableRow android:gravity="center">
 
                 <TextView
@@ -294,8 +281,6 @@
                     android:layout_height="wrap_content" />
 
             </TableRow>
-
-            <!-- 4. Woche -->
 
             <TableRow android:gravity="center">
 
@@ -349,8 +334,6 @@
 
             </TableRow>
 
-            <!-- 5. Woche -->
-
             <TableRow android:gravity="center">
 
                 <TextView
@@ -402,8 +385,6 @@
                     android:layout_height="wrap_content" />
 
             </TableRow>
-
-            <!-- 6. Woche -->
 
             <TableRow android:gravity="center">
 

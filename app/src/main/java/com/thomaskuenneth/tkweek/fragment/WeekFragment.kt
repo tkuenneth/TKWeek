@@ -100,14 +100,15 @@ class WeekFragment : TKWeekBaseFragment<WeekActivityBinding>(),
     }
 
     override fun onProgressChanged(
-        seekBar: SeekBar?, progress: Int,
+        seekBar: SeekBar?,
+        progress: Int,
         fromUser: Boolean
     ) {
         if (fromUser) {
             val dif = progress - (cal[Calendar.WEEK_OF_YEAR] - 1)
             if (dif != 0) {
                 cal.add(Calendar.DAY_OF_MONTH, 7 * dif)
-                updatViewsFromCalendar()
+                updatViewsFromCalendar(updateWeekSelection = false)
             }
         }
     }
@@ -144,22 +145,24 @@ class WeekFragment : TKWeekBaseFragment<WeekActivityBinding>(),
         }
     }
 
-    private fun updatViewsFromCalendar() {
+    private fun updatViewsFromCalendar(updateWeekSelection: Boolean = true) {
         binding.dateWithinWeek.init(
             cal[Calendar.YEAR], cal[Calendar.MONTH],
             cal[Calendar.DAY_OF_MONTH], this
         )
-        updateViews()
+        updateViews(updateWeekSelection)
     }
 
-    private fun updateViews() {
+    private fun updateViews(updateWeekSelection: Boolean = true) {
         binding.day.text = TKWeekActivity.FORMAT_DAY_OF_WEEK.format(cal.time)
         val weekOfYear = cal[Calendar.WEEK_OF_YEAR]
         binding.weekNumber.text =
             TKWeekUtils.integerToString(weekOfYear)
         val temp = cal.clone() as Calendar
-        binding.weekSelection.max = temp.getActualMaximum(Calendar.WEEK_OF_YEAR) - 1
-        binding.weekSelection.progress = weekOfYear - 1
+        if (updateWeekSelection) {
+            binding.weekSelection.max = temp.getActualMaximum(Calendar.WEEK_OF_YEAR) - 1
+            binding.weekSelection.progress = weekOfYear - 1
+        }
         while (temp[Calendar.DAY_OF_WEEK] != temp.firstDayOfWeek) {
             temp.add(Calendar.DAY_OF_MONTH, -1)
         }

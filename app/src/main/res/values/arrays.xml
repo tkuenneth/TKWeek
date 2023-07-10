@@ -1,10 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-	arrays.xml
-	TKWeek (c) Thomas Künneth 2009 - 2015
-	Alle Rechte beim Autoren. All rights reserved.
--->
-
 <resources>
 
     <string-array name="values_012">

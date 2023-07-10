@@ -1,11 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-	about_a_year_activity.xml
-	TKWeek (c) 2010 - 2020 Thomas Künneth
-	           2021 MATHEMA GmbH
-	All rights reserved.
--->
-
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -19,8 +12,8 @@
             android:id="@+id/year_selection"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="8dp"
-            android:layout_centerHorizontal="true">
+            android:layout_centerHorizontal="true"
+            android:padding="8dp">
 
             <Button
                 android:id="@+id/about_a_year_down"
@@ -32,29 +25,29 @@
             <TextView
                 android:id="@+id/about_a_year_year"
                 android:layout_width="wrap_content"
-                android:layout_alignBaseline="@id/about_a_year_down"
                 android:layout_height="wrap_content"
+                android:layout_alignBaseline="@id/about_a_year_down"
+                android:layout_toEndOf="@id/about_a_year_down"
                 android:ems="4"
                 android:gravity="center"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:layout_toEndOf="@id/about_a_year_down" />
+                android:textAppearance="?android:attr/textAppearanceMedium" />
 
             <Button
                 android:id="@+id/about_a_year_up"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:ems="4"
                 android:layout_alignBaseline="@id/about_a_year_year"
                 android:layout_toEndOf="@id/about_a_year_year"
+                android:ems="4"
                 android:text="@string/plus" />
 
         </RelativeLayout>
 
         <TextView
-            android:layout_below="@id/year_selection"
             android:id="@+id/leapyear_is_leap_year"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@id/year_selection"
             android:layout_centerHorizontal="true"
             android:text="@string/leap_year"
             android:textAppearance="?android:attr/textAppearanceMedium" />
@@ -87,29 +80,33 @@
 
         <TextView
             android:id="@+id/about_a_year_label1"
-            style="?android:attr/listSeparatorTextViewStyle"
+            style="@style/Headline"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/leap_year_buttons"
-            android:layout_alignParentStart="true"
+            android:layout_centerHorizontal="true"
+            android:paddingBottom="8dp"
             android:text="@string/about_a_year_label1"
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
         <TextView
             android:id="@+id/about_a_year_months"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/about_a_year_label1"
-            android:layout_alignParentStart="true"
+            android:layout_centerHorizontal="true"
+            android:gravity="center_horizontal"
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
         <TextView
             android:id="@+id/about_a_year_daylight_savings"
-            style="?android:attr/listSeparatorTextViewStyle"
+            style="@style/Headline"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/about_a_year_months"
+            android:layout_centerHorizontal="true"
             android:layout_marginTop="16dp"
+            android:paddingBottom="8dp"
             android:text="@string/daylight_savings" />
 
         <TextView
@@ -117,15 +114,19 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/about_a_year_daylight_savings"
+            android:layout_centerHorizontal="true"
+            android:gravity="center_horizontal"
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
         <TextView
             android:id="@+id/about_a_year_seasons"
-            style="?android:attr/listSeparatorTextViewStyle"
+            style="@style/Headline"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/about_a_year_daylight_savings_from_to"
+            android:layout_centerHorizontal="true"
             android:layout_marginTop="16dp"
+            android:paddingBottom="8dp"
             android:text="@string/seasons" />
 
         <RelativeLayout
@@ -222,11 +223,13 @@
 
         <TextView
             android:id="@+id/about_a_year_weekday_distribution"
-            style="?android:attr/listSeparatorTextViewStyle"
+            style="@style/Headline"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/about_a_year_layout_winter"
+            android:layout_centerHorizontal="true"
             android:layout_marginTop="16dp"
+            android:paddingBottom="8dp"
             android:text="@string/about_a_year_weekday_distribution" />
 
         <include
@@ -234,7 +237,8 @@
             layout="@layout/weekinfo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/about_a_year_weekday_distribution" />
+            android:layout_below="@id/about_a_year_weekday_distribution"
+            android:layout_centerHorizontal="true" />
 
     </RelativeLayout>
 

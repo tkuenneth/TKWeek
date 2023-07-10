@@ -1,17 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:layout_margin="16dp">
 
     <TextView
         android:id="@+id/header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:gravity="start"
         android:layout_marginHorizontal="16dp"
-        android:paddingTop="16dp"
-        android:paddingBottom="8dp"
+        android:gravity="center_horizontal"
+        android:textColor="?colorPrimary"
+        android:paddingVertical="8dp"
         android:textAppearance="?android:attr/textAppearanceSmall" />
 
     <include
@@ -46,6 +47,9 @@
         android:layout_width="match_parent"
         android:layout_height="0pt"
         android:layout_below="@id/message_notifications"
-        android:layout_alignParentBottom="true" />
+        android:layout_alignParentBottom="true"
+        android:divider="@android:color/transparent"
+        android:dividerHeight="8dp"
+        android:listSelector="?android:attr/activatedBackgroundIndicator" />
 
 </RelativeLayout>

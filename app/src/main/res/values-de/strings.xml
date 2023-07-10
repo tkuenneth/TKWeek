@@ -124,6 +124,7 @@
     <string name="about_a_year_weekday_distribution">Wochentagsverteilung</string>
     <string name="daylight_savings">Sommerzeit</string>
     <string name="seasons">Jahreszeiten</string>
+    <string name="no_daylight_savings">Keine Sommerzeit</string>
 
     <!-- DateInfoActivity -->
     <string name="day_of_week">Wochentag:</string>
@@ -135,8 +136,8 @@
     <string name="look_up_in_wikipedia">In Wikipedia nachschlagen</string>
 
     <!-- DaysBetweenDatesActivity -->
-    <string name="first_date">Von:</string>
-    <string name="second_date">Bis:</string>
+    <string name="first_date">Startdatum</string>
+    <string name="second_date">Enddatum</string>
     <string name="days_from_to">Tage (Werktage) zwischen %1$s und %2$s</string>
     <string name="days_between_dates_weekends">%1$d Wochenende(n)</string>
     <string name="days_between_dates_weeks">ca. %1$d Woche(n)</string>

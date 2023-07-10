@@ -1,11 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-	strings.xml
-	TKWeek (c) 2009 - 2020 Thomas Künneth
-	           2021 MATHEMA GmbH
-	All rights reserved.
--->
-
 <resources>
 
     <string translatable="false" name="made_with_love">Made with \u2764 by Thomas Künneth</string>
@@ -172,6 +165,7 @@ access your contacts data to display birthdays and anniversaries. You can deacti
     <string name="about_a_year_weekday_distribution">Weekday distribution</string>
     <string name="daylight_savings">daylight savings</string>
     <string name="seasons">Seasons</string>
+    <string name="no_daylight_savings">No daylight savings</string>
 
     <!-- DateInfoActivity -->
     <string name="day_of_week">Day of week:</string>
@@ -183,8 +177,8 @@ access your contacts data to display birthdays and anniversaries. You can deacti
     <string name="look_up_in_wikipedia">Look up in Wikipedia</string>
 
     <!-- DaysBetweenDatesActivity -->
-    <string name="first_date">From:</string>
-    <string name="second_date">To:</string>
+    <string name="first_date">Start date</string>
+    <string name="second_date">End date</string>
     <string name="days_from_to">Days (business days) between %1$s and %2$s</string>
     <string name="days_between_dates_weekends">%1$d weekend(s)</string>
     <string name="days_between_dates_weeks">approx. %1$d week(s)</string>

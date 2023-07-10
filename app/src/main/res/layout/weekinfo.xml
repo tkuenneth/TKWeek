@@ -1,10 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-	weekinfo.xml
-	TKWeek (c) Thomas Künneth 2013
-	Alle Rechte beim Autoren. All rights reserved.
--->
-
 <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/weekinfo_layout_weekcount"
     android:layout_width="wrap_content"

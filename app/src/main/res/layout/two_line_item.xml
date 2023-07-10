@@ -1,10 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-	two_line_item.xml
-	TKWeek (c) Thomas Künneth 2009 - 2021
-	Alle Rechte beim Autoren. All rights reserved.
--->
-
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -43,14 +37,16 @@
                 android:id="@+id/text1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium" />
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="?colorSecondary" />
 
             <TextView
                 android:id="@+id/text2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/text1"
-                android:textAppearance="?android:attr/textAppearanceSmall" />
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="?colorSecondary" />
 
         </RelativeLayout>
 
@@ -66,7 +62,8 @@
                 android:id="@+id/text3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceSmall" />
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="?colorSecondary" />
 
             <TextView
                 android:id="@+id/text4"
@@ -74,6 +71,7 @@
                 android:layout_height="wrap_content"
                 android:singleLine="true"
                 android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="?colorSecondary"
                 android:visibility="gone" />
 
         </LinearLayout>

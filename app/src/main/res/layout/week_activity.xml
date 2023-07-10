@@ -1,16 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-	week_activity.xml
-	TKWeek (c) 2009 - 2020 Thomas Künneth
-	           2021 MATHEMA GmbH
-	All rights reserved.
--->
-
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <LinearLayout
+    <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
@@ -33,11 +26,12 @@
 
         <TextView
             android:id="@+id/label_week_number"
+            style="@style/Headline"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
-            android:gravity="center_horizontal"
-            android:textAppearance="?android:attr/textAppearanceSmall" />
+            android:layout_marginBottom="8dp"
+            android:gravity="center_horizontal" />
 
         <RelativeLayout
             android:layout_width="wrap_content"
@@ -73,28 +67,21 @@
 
         </RelativeLayout>
 
-        <androidx.appcompat.widget.LinearLayoutCompat
+        <SeekBar
+            android:id="@+id/week_selection"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:maxWidth="400dp"
+            android:paddingTop="16dp"
+            android:paddingBottom="16dp" />
+
+        <TextView
+            android:id="@+id/first_and_last_day_of_week"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:orientation="vertical">
+            android:layout_marginTop="6dp"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
 
-            <SeekBar
-                android:id="@+id/week_selection"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingTop="16dp"
-                android:paddingBottom="16dp" />
-
-            <TextView
-                android:id="@+id/first_and_last_day_of_week"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="6dp"
-                android:textAppearance="?android:attr/textAppearanceMedium" />
-
-        </androidx.appcompat.widget.LinearLayoutCompat>
-
-    </LinearLayout>
+    </androidx.appcompat.widget.LinearLayoutCompat>
 </ScrollView>

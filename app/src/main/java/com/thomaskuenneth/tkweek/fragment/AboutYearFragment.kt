@@ -3,7 +3,7 @@
  *
  * Copyright 2009 - 2020 Thomas Künneth
  * Copyright 2021 MATHEMA GmbH
- *           2022 Thomas Künneth
+ *           2022 - 2023 Thomas Künneth
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
@@ -38,6 +38,7 @@ import com.thomaskuenneth.tkweek.activity.TKWeekActivity
 import com.thomaskuenneth.tkweek.databinding.AboutAYearActivityBinding
 import com.thomaskuenneth.tkweek.types.Seasons
 import com.thomaskuenneth.tkweek.types.Seasons.SEASON
+import com.thomaskuenneth.tkweek.updateRecents
 import com.thomaskuenneth.tkweek.util.*
 import com.thomaskuenneth.tkweek.util.CalendarCondition.CONDITION
 import java.util.*
@@ -93,12 +94,15 @@ class AboutYearFragment : TKWeekBaseFragment<AboutAYearActivityBinding>(),
             binding.aboutAYearDown == v -> {
                 cal.add(Calendar.YEAR, -1)
             }
+
             binding.aboutAYearUp == v -> {
                 cal.add(Calendar.YEAR, 1)
             }
+
             binding.leapyearPreviousYear == v -> {
                 jumpToLeapYear(-1)
             }
+
             binding.leapyearNextYear == v -> {
                 jumpToLeapYear(1)
             }
@@ -124,10 +128,14 @@ class AboutYearFragment : TKWeekBaseFragment<AboutAYearActivityBinding>(),
                 TKWeekActivity.FORMAT_FULL.format(it)
             else TKWeekActivity.DASHES
         }
-        binding.aboutAYearDaylightSavingsFromTo.text = getString(
-            R.string.string1_dash_string2,
-            strFrom, strTo
-        )
+        binding.aboutAYearDaylightSavingsFromTo.text =
+            if (strFrom == TKWeekActivity.DASHES || strTo == TKWeekActivity.DASHES)
+                getString(R.string.no_daylight_savings)
+            else
+                getString(
+                    R.string.string1_dash_string2,
+                    strFrom, strTo
+                )
         // Jahr
         binding.aboutAYearYear.text =
             TKWeekUtils.integerToString(year)
@@ -166,16 +174,19 @@ class AboutYearFragment : TKWeekBaseFragment<AboutAYearActivityBinding>(),
                 value = binding.aboutAYearSpring
                 label.setText(R.string.spring)
             }
+
             SEASON.SUMMER -> {
                 label = binding.aboutAYearLabelSummer
                 value = binding.aboutAYearSummer
                 label.setText(R.string.summer)
             }
+
             SEASON.AUTUMN -> {
                 label = binding.aboutAYearLabelAutumn
                 value = binding.aboutAYearAutumn
                 label.setText(R.string.autumn)
             }
+
             else -> {
                 label = binding.aboutAYearLabelWinter
                 value = binding.aboutAYearWinter

@@ -114,7 +114,9 @@ class TKWeekActivity : TKWeekBaseActivity() {
                                 gapY = bounds.bottom
                                 gapSize =
                                     if (orientation == VERTICAL) bounds.width() else bounds.height()
-                                if (isSeparating) {
+                                if (isSeparating ||
+                                    (occlusionType == FoldingFeature.OcclusionType.FULL)
+                                ) {
                                     weightLeft = 0.5F
                                     weightRight = 0.5F
                                 }

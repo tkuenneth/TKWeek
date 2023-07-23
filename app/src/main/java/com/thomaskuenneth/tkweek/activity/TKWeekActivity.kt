@@ -36,7 +36,9 @@ import android.util.Log
 import android.view.View
 import android.widget.DatePicker
 import android.widget.LinearLayout
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.preference.PreferenceManager
 import androidx.window.layout.FoldingFeature
 import androidx.window.layout.FoldingFeature.Orientation.Companion.VERTICAL
@@ -47,11 +49,12 @@ import com.thomaskuenneth.tkweek.R
 import com.thomaskuenneth.tkweek.databinding.TkweekBinding
 import com.thomaskuenneth.tkweek.fragment.CLAZZ
 import com.thomaskuenneth.tkweek.fragment.TKWeekFragment
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import java.text.DateFormat
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Locale
+import java.util.UUID
+
 
 private const val TAG = "TKWeekActivity"
 
@@ -77,8 +80,10 @@ class TKWeekActivity : TKWeekBaseActivity() {
             apply()
         }
         tracker = WindowInfoTracker.getOrCreate(this)
-        lifecycleScope.launchWhenStarted {
-            configureHinge(this@TKWeekActivity)
+        lifecycleScope.launch {
+            lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                configureHinge(this@TKWeekActivity)
+            }
         }
     }
 
@@ -107,25 +112,27 @@ class TKWeekActivity : TKWeekBaseActivity() {
                 var layoutOrientationHorizontal: Boolean
                 tracker
                     .windowLayoutInfo(activity).collect {
-                        var gapSize: Int
-                        var gapY: Int
+                        var bb: Int
+                        var gapWidth: Int
+                        var gapHeight: Int
                         it.displayFeatures.forEach { displayFeature ->
                             (displayFeature as FoldingFeature).run {
-                                gapY = bounds.bottom
-                                gapSize =
-                                    if (orientation == VERTICAL) bounds.width() else bounds.height()
-                                if (isSeparating ||
-                                    (occlusionType == FoldingFeature.OcclusionType.FULL)
+                                val separating = isSurfaceDuo || isSeparating
+                                bb = bounds.bottom
+                                if (separating ||
+                                    occlusionType == FoldingFeature.OcclusionType.FULL
                                 ) {
                                     weightLeft = 0.5F
                                     weightRight = 0.5F
                                 }
                                 layoutOrientationHorizontal = (orientation == VERTICAL)
+                                gapWidth = bounds.width()
+                                gapHeight = bounds.height()
                             }
                             lifecycleScope.launch {
                                 gap.visibility = View.VISIBLE
                                 if (layoutOrientationHorizontal) {
-                                    gap.layoutParams.width = gapSize
+                                    gap.layoutParams.width = gapWidth
                                     gap.layoutParams.height = LinearLayout.LayoutParams.MATCH_PARENT
                                     binding.moduleSelection.layoutParams =
                                         LinearLayout.LayoutParams(
@@ -139,15 +146,18 @@ class TKWeekActivity : TKWeekBaseActivity() {
                                         )
                                 } else {
                                     gap.layoutParams.width = LinearLayout.LayoutParams.MATCH_PARENT
-                                    gap.layoutParams.height = gapSize
+                                    gap.layoutParams.height = gapHeight
                                     binding.moduleSelection.layoutParams =
                                         LinearLayout.LayoutParams(
                                             LinearLayout.LayoutParams.MATCH_PARENT, 0, 1.0F
                                         )
+                                    // Cater for custom ROM
+                                    if (isSurfaceDuo && gapHeight == 0)
+                                        bb += 84
                                     binding.moduleContainer?.layoutParams =
                                         LinearLayout.LayoutParams(
                                             LinearLayout.LayoutParams.MATCH_PARENT,
-                                            metrics.bounds.bottom - gapY
+                                            metrics.bounds.bottom - bb
                                         )
                                 }
                                 val root = binding.root as LinearLayout
@@ -332,3 +342,6 @@ class TKWeekActivity : TKWeekBaseActivity() {
         }
     }
 }
+
+private val isSurfaceDuo: Boolean =
+    "Microsoft Surface Duo" == "${Build.MANUFACTURER} ${Build.MODEL}"

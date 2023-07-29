@@ -23,7 +23,6 @@
  */
 package com.thomaskuenneth.tkweek.activity
 
-import android.app.Activity
 import android.app.PendingIntent
 import android.appwidget.AppWidgetManager
 import android.content.ComponentName
@@ -73,7 +72,7 @@ class TKWeekActivity : TKWeekBaseActivity() {
         super.onCreate(savedInstanceState)
         backing = TkweekBinding.inflate(layoutInflater, null, false)
         setContentView(binding.root)
-        setSupportActionBar(binding.actionBar)
+        configureActionBar()
         BootCompleteReceiver.startAlarm(this, true)
         // Clean up some settings from older versions
         val prefs =
@@ -251,12 +250,6 @@ class TKWeekActivity : TKWeekBaseActivity() {
             intent.flags = (Intent.FLAG_ACTIVITY_CLEAR_TOP
                     or Intent.FLAG_ACTIVITY_NEW_TASK)
             context.startActivity(intent)
-        }
-
-        @JvmStatic
-        fun backToMain(activity: Activity) {
-            activity.finishAffinity()
-            startActivityClearTopNewTask(activity, TKWeekActivity::class.java)
         }
 
         fun configureDatePicker(dp: DatePicker) {

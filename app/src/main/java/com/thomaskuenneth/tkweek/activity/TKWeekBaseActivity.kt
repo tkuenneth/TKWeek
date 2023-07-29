@@ -24,7 +24,6 @@
 package com.thomaskuenneth.tkweek.activity
 
 import android.content.Intent
-import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
@@ -34,9 +33,12 @@ import com.thomaskuenneth.tkweek.util.TKWeekUtils.RQ_TKWEEK_PREFS
 
 abstract class TKWeekBaseActivity : AppCompatActivity() {
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    fun setContentViewModuleContainer() {
         setContentView(R.layout.module_container)
+        configureActionBar()
+    }
+
+    fun configureActionBar() {
         setSupportActionBar(findViewById(R.id.actionBar))
         supportActionBar?.setDisplayHomeAsUpEnabled(wantsHomeItem())
     }
@@ -59,7 +61,7 @@ abstract class TKWeekBaseActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             android.R.id.home -> {
-                TKWeekActivity.backToMain(this)
+                finish()
                 true
             }
 

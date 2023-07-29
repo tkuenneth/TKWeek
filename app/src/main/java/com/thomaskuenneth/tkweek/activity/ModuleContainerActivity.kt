@@ -40,6 +40,7 @@ class ModuleContainerActivity : TKWeekBaseActivity() {
         ) {
             finish()
         }
+        setContentViewModuleContainer()
         if (savedInstanceState == null) {
             intent?.extras?.run {
                 get(CLAZZ)?.let {

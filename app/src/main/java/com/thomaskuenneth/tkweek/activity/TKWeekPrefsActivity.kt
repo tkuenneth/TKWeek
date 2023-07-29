@@ -35,6 +35,7 @@ class TKWeekPrefsActivity : TKWeekBaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setContentViewModuleContainer()
         supportFragmentManager.beginTransaction()
             .replace(R.id.module_content, PreferencesFragment())
             .commit()

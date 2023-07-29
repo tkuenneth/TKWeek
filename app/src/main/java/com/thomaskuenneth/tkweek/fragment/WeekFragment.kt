@@ -60,6 +60,10 @@ class WeekFragment : TKWeekBaseFragment<WeekActivityBinding>(),
         binding.weekSelection.setOnSeekBarChangeListener(this)
         binding.down.setOnClickListener(this)
         binding.up.setOnClickListener(this)
+    }
+
+    override fun onStart() {
+        super.onStart()
         prepareCalendar(cal, requireContext(), binding.labelWeekNumber, false)
         updatViewsFromCalendar()
     }
@@ -78,6 +82,7 @@ class WeekFragment : TKWeekBaseFragment<WeekActivityBinding>(),
                 updatViewsFromCalendar()
                 true
             }
+
             else -> super.onOptionsItemSelected(item)
         }
     }

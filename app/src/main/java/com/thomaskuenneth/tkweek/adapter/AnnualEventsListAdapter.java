@@ -31,7 +31,6 @@ import android.appwidget.AppWidgetManager;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -45,7 +44,6 @@ import com.thomaskuenneth.tkweek.R;
 import com.thomaskuenneth.tkweek.activity.TKWeekActivity;
 import com.thomaskuenneth.tkweek.appwidget.EventsListWidget;
 import com.thomaskuenneth.tkweek.fragment.CalendarFragment;
-import com.thomaskuenneth.tkweek.fragment.PreferencesFragment;
 import com.thomaskuenneth.tkweek.preference.MoonPhasesPreference;
 import com.thomaskuenneth.tkweek.preference.PickCountriesPreference;
 import com.thomaskuenneth.tkweek.types.Anniversary;
@@ -53,7 +51,6 @@ import com.thomaskuenneth.tkweek.types.Birthday;
 import com.thomaskuenneth.tkweek.types.Event;
 import com.thomaskuenneth.tkweek.types.FixedEvent;
 import com.thomaskuenneth.tkweek.types.Mondphasen;
-import com.thomaskuenneth.tkweek.types.Schulferien;
 import com.thomaskuenneth.tkweek.types.Seasons;
 import com.thomaskuenneth.tkweek.util.CalendarCondition;
 import com.thomaskuenneth.tkweek.util.CalendarCondition.CONDITION;
@@ -235,19 +232,6 @@ public class AnnualEventsListAdapter extends BaseAdapter implements
             List<Event> alldayEvents = CalendarContractUtils.getAllDayEvents(context,
                     calFrom, calTo, expandAllDayEvents);
             addAll(alldayEvents);
-        }
-        if (PickCountriesPreference.isSelected(context, Locale.GERMANY)) {
-            String hide = context.getString(R.string.hide);
-            String state = prefs.getString(PreferencesFragment.SCHULFERIEN_BUNDESLAND, hide);
-            // workaround for an issue related to the translation of "hide"
-            if ("hide".equalsIgnoreCase(state)) {
-                state = hide;
-            }
-            if (!hide.equals(state)) {
-                List<Event> holidays = Schulferien.getSchulferien(context,
-                        state);
-                addAll(holidays);
-            }
         }
         data.sort(this);
     }
@@ -579,7 +563,7 @@ public class AnnualEventsListAdapter extends BaseAdapter implements
                 add(new FixedEvent(cal,
                         context.getString(R.string.memorial_day), true), false);
                 cal = CalendarIterator.iterateUntil(DateUtilities.getCalendar(
-                        year, Calendar.JANUARY, 1), CalendarCondition
+                                year, Calendar.JANUARY, 1), CalendarCondition
                                 .createCalendarCondition(CONDITION.EQUAL,
                                         Calendar.DAY_OF_WEEK, Calendar.MONDAY, true),
                         Calendar.DAY_OF_MONTH, 1);
@@ -587,7 +571,7 @@ public class AnnualEventsListAdapter extends BaseAdapter implements
                 add(new FixedEvent(cal, context.getString(R.string.mlk_day),
                         true), false);
                 cal = CalendarIterator.iterateUntil(DateUtilities.getCalendar(
-                        year, Calendar.FEBRUARY, 1), CalendarCondition
+                                year, Calendar.FEBRUARY, 1), CalendarCondition
                                 .createCalendarCondition(CONDITION.EQUAL,
                                         Calendar.DAY_OF_WEEK, Calendar.MONDAY, true),
                         Calendar.DAY_OF_MONTH, 1);
@@ -595,21 +579,21 @@ public class AnnualEventsListAdapter extends BaseAdapter implements
                 add(new FixedEvent(cal,
                         context.getString(R.string.presidents_day), true), false);
                 cal = CalendarIterator.iterateUntil(DateUtilities.getCalendar(
-                        year, Calendar.NOVEMBER, 1), CalendarCondition
+                                year, Calendar.NOVEMBER, 1), CalendarCondition
                                 .createCalendarCondition(CONDITION.EQUAL,
                                         Calendar.DAY_OF_WEEK, Calendar.TUESDAY, true),
                         Calendar.DAY_OF_MONTH, 1);
                 add(new FixedEvent(cal,
                         context.getString(R.string.election_day_us), true), false);
                 cal = CalendarIterator.iterateUntil(DateUtilities.getCalendar(
-                        year, Calendar.SEPTEMBER, 1), CalendarCondition
+                                year, Calendar.SEPTEMBER, 1), CalendarCondition
                                 .createCalendarCondition(CONDITION.EQUAL,
                                         Calendar.DAY_OF_WEEK, Calendar.MONDAY, true),
                         Calendar.DAY_OF_MONTH, 1);
                 add(new FixedEvent(cal,
                         context.getString(R.string.labour_day_usa), true), false);
                 cal = CalendarIterator.iterateUntil(DateUtilities.getCalendar(
-                        year, Calendar.OCTOBER, 1), CalendarCondition
+                                year, Calendar.OCTOBER, 1), CalendarCondition
                                 .createCalendarCondition(CONDITION.EQUAL,
                                         Calendar.DAY_OF_WEEK, Calendar.MONDAY, true),
                         Calendar.DAY_OF_MONTH, 1);
@@ -617,7 +601,7 @@ public class AnnualEventsListAdapter extends BaseAdapter implements
                 add(new FixedEvent(cal,
                         context.getString(R.string.columbus_day), true), false);
                 cal = CalendarIterator.iterateUntil(DateUtilities.getCalendar(
-                        year, Calendar.JUNE, 1), CalendarCondition
+                                year, Calendar.JUNE, 1), CalendarCondition
                                 .createCalendarCondition(CONDITION.EQUAL,
                                         Calendar.DAY_OF_WEEK, Calendar.FRIDAY, true),
                         Calendar.DAY_OF_MONTH, 1);

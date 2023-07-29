@@ -36,7 +36,6 @@ const val CLAZZ = "clazz"
 const val TITLE = "title"
 const val PAYLOAD = "payload"
 const val DATE = "date"
-const val TAG_MODULE_FRAGMENT = "moduleFragment"
 
 private const val KEY_LAST_SELECTED = "lastSelected"
 

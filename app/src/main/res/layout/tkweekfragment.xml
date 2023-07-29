@@ -7,11 +7,11 @@
         android:id="@+id/listView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="16dp"
         android:divider="@android:color/transparent"
         android:dividerHeight="8dp"
         android:listSelector="?android:attr/activatedBackgroundIndicator"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:paddingHorizontal="16dp">
 
     </ListView>
 </FrameLayout>

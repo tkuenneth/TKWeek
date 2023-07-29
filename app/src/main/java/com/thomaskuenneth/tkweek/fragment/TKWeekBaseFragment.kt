@@ -2,7 +2,7 @@
  * TKWeekBaseFragment.kt
  *
  * Copyright 2021 MATHEMA GmbH
- *           2022 Thomas Künneth
+ *           2022 - 2023 Thomas Künneth
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
@@ -78,7 +78,7 @@ abstract class TKWeekBaseFragment<T> : Fragment() {
                         .replace(
                             R.id.module_container,
                             fragment,
-                            TAG_MODULE_FRAGMENT
+                            getString(R.string.tag_module_fragment)
                         )
                         .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                         .disallowAddToBackStack()

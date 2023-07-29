@@ -3,7 +3,7 @@
 
     <style name="TKWeekWidgetTheme" parent="AppTheme" />
 
-    <style name="AppTheme" parent="Theme.Material3.DayNight">
+    <style name="AppTheme" parent="Theme.Material3.DayNight.NoActionBar">
         <item name="android:activatedBackgroundIndicator">@drawable/list_activated_background</item>
     </style>
 

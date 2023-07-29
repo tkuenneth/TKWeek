@@ -73,6 +73,7 @@ class TKWeekActivity : TKWeekBaseActivity() {
         super.onCreate(savedInstanceState)
         backing = TkweekBinding.inflate(layoutInflater, null, false)
         setContentView(binding.root)
+        setSupportActionBar(binding.actionBar)
         BootCompleteReceiver.startAlarm(this, true)
         // Clean up some settings from older versions
         val prefs =
@@ -136,7 +137,7 @@ class TKWeekActivity : TKWeekBaseActivity() {
                                 layoutOrientationHorizontal = (orientation == VERTICAL)
                             }
                             lifecycleScope.launch {
-                                val root = binding.root as LinearLayout
+                                val root = binding.contentRoot as LinearLayout
                                 val navigationBars = metrics.getWindowInsets()
                                     .getInsets(WindowInsetsCompat.Type.navigationBars())
                                 gap.visibility = View.VISIBLE

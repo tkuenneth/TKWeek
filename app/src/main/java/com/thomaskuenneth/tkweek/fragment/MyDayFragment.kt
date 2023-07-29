@@ -2,7 +2,7 @@
  * MyDayFragment.kt
  *
  * Copyright 2021 MATHEMA GmbH
- *           2022 Thomas Künneth
+ *           2022 - 2023 Thomas Künneth
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
@@ -24,9 +24,7 @@
 package com.thomaskuenneth.tkweek.fragment
 
 import android.Manifest
-import android.app.Activity
 import android.content.ActivityNotFoundException
-import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.*
@@ -34,6 +32,7 @@ import android.provider.CalendarContract
 import android.util.Log
 import android.view.*
 import android.widget.*
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.preference.PreferenceManager
 import com.thomaskuenneth.tkweek.R
 import com.thomaskuenneth.tkweek.activity.TKWeekActivity
@@ -54,8 +53,6 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 private const val TAG = "MyDayFragment"
-private const val RQ_ADD_TASK = 1234
-private const val SHOW_COMPLETED_TASKS = "show_completed_tasks"
 
 class MyDayFragment : TKWeekBaseFragment<MydayBinding>() {
 
@@ -63,7 +60,7 @@ class MyDayFragment : TKWeekBaseFragment<MydayBinding>() {
 
     private var eventsLoader: AsyncTask<Void, Void, AnnualEventsListAdapter>? = null
 
-    private var cal: Calendar? = null
+    private lateinit var cal: Calendar
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -91,22 +88,22 @@ class MyDayFragment : TKWeekBaseFragment<MydayBinding>() {
         arguments?.run {
             val time = getLong(DATE)
             if (time > 0)
-                cal?.time = Date(time)
+                cal.time = Date(time)
         }
-        val permissins = ArrayList<String>()
+        val permissions = ArrayList<String>()
         if (shouldShowBirthdays() && !TKWeekUtils.canReadContacts(requireContext())
             && !shouldShowPermissionReadContactsRationale()
         ) {
-            permissins.add(Manifest.permission.READ_CONTACTS)
+            permissions.add(Manifest.permission.READ_CONTACTS)
         }
         if (shouldShowAppointments() && !TKWeekUtils.canReadCalendar(requireContext())
             && !shouldShowPermissionReadCalendarRationale()
         ) {
-            permissins.add(Manifest.permission.READ_CALENDAR)
+            permissions.add(Manifest.permission.READ_CALENDAR)
         }
-        if (permissins.size > 0) {
-            val l = arrayOfNulls<String>(permissins.size)
-            permissins.toArray(l)
+        if (permissions.size > 0) {
+            val l = arrayOfNulls<String>(permissions.size)
+            permissions.toArray(l)
             requestPermissions(l, 0)
         }
         updateViews()
@@ -143,18 +140,20 @@ class MyDayFragment : TKWeekBaseFragment<MydayBinding>() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.today -> {
-                cal?.time = Date()
+                cal.time = Date()
                 updateViews()
                 requireActivity().invalidateOptionsMenu()
                 return true
             }
+
             R.id.look_up_in_wikipedia -> {
                 lookUpInWikipedia()
                 return true
             }
+
             R.id.mi_new_appointment -> {
                 val i2 = Intent(Intent.ACTION_INSERT, CalendarContract.Events.CONTENT_URI)
-                i2.putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, cal?.timeInMillis)
+                i2.putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, cal.timeInMillis)
                 try {
                     startActivity(i2)
                 } catch (e: ActivityNotFoundException) {
@@ -162,12 +161,13 @@ class MyDayFragment : TKWeekBaseFragment<MydayBinding>() {
                 }
                 return true
             }
+
             R.id.goto_date -> {
                 val datePickerFragment =
                     DatePickerFragment { _, year, month, dayOfMonth ->
-                        cal?.set(Calendar.YEAR, year)
-                        cal?.set(Calendar.MONTH, month)
-                        cal?.set(Calendar.DAY_OF_MONTH, dayOfMonth)
+                        cal.set(Calendar.YEAR, year)
+                        cal.set(Calendar.MONTH, month)
+                        cal.set(Calendar.DAY_OF_MONTH, dayOfMonth)
                         updateViews()
                         requireActivity().invalidateOptionsMenu()
                     }
@@ -194,25 +194,6 @@ class MyDayFragment : TKWeekBaseFragment<MydayBinding>() {
 
     override fun preferencesFinished(resultCode: Int, data: Intent?) {
         updateViews()
-    }
-
-    @Deprecated("Deprecated in Java")
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (resultCode == Activity.RESULT_OK) {
-            when (requestCode) {
-                RQ_ADD_TASK -> {
-//                    startActivity(getIntent())
-//                    finish()
-//                    if (data != null) {
-//                        val note = data.getStringExtra(EnterNoteActivity.EXTRA_NOTES)
-//                        if (TKWeekUtils.save(this, getNameForNotes(), note)) {
-//                            notes.setText(note)
-//                        }
-//                    }
-                }
-            }
-        }
     }
 
     private fun cancelEventsLoader() {
@@ -260,24 +241,24 @@ class MyDayFragment : TKWeekBaseFragment<MydayBinding>() {
         val hideAstrologicalSign = prefs.getBoolean("hide_astrological_sign", false)
         binding.mydayLayoutAstrologicalSign.visibility =
             if (hideAstrologicalSign) View.GONE else View.VISIBLE
-        prepareCalendar(cal!!, requireContext(), binding.mydayLabelWeekNumber, true)
+        prepareCalendar(cal, requireContext(), binding.mydayLabelWeekNumber, true)
         DateUtilities.clearTimeRelatedFields(cal)
-        val weeknr = cal!!.get(Calendar.WEEK_OF_YEAR)
-        val maxWeekNumber = cal!!.getActualMaximum(Calendar.WEEK_OF_YEAR)
+        val weekNumber = cal.get(Calendar.WEEK_OF_YEAR)
+        val maxWeekNumber = cal.getActualMaximum(Calendar.WEEK_OF_YEAR)
         binding.mydayWeekNumber.text = getString(
-            R.string.day_of_year, weeknr,
-            maxWeekNumber, maxWeekNumber - weeknr
+            R.string.day_of_year, weekNumber,
+            maxWeekNumber, maxWeekNumber - weekNumber
         )
         val strDate = if (DateUtilities.isToday(cal)) {
             getString(
                 R.string.string1_string2,
-                TKWeekActivity.FORMAT_FULL.format(cal!!.time),
+                TKWeekActivity.FORMAT_FULL.format(cal.time),
                 getString(R.string.today)
             )
         } else {
-            TKWeekActivity.FORMAT_FULL.format(cal!!.time)
+            TKWeekActivity.FORMAT_FULL.format(cal.time)
         }
-        if (isDayOff(requireContext(), cal!!.time)) {
+        if (isDayOff(requireContext(), cal.time)) {
             binding.mydayDate.text = getString(
                 R.string.string1_dash_string2, strDate,
                 getString(R.string.day_off)
@@ -285,14 +266,14 @@ class MyDayFragment : TKWeekBaseFragment<MydayBinding>() {
         } else {
             binding.mydayDate.text = strDate
         }
-        val date = cal!!.time
-        val current = cal!!.get(Calendar.DAY_OF_YEAR)
-        val max = cal!!.getActualMaximum(Calendar.DAY_OF_YEAR)
+        val date = cal.time
+        val current = cal.get(Calendar.DAY_OF_YEAR)
+        val max = cal.getActualMaximum(Calendar.DAY_OF_YEAR)
         binding.mydayDayInYear.text = getString(
             R.string.day_of_year, current, max, max
                     - current
         )
-        binding.mydayIsLeapYear.text = if (DateUtilities.isSchaltjahr(cal!!.get(Calendar.YEAR)))
+        binding.mydayIsLeapYear.text = if (DateUtilities.isSchaltjahr(cal.get(Calendar.YEAR)))
             getString(R.string.yes)
         else getString(
             R.string.no
@@ -315,7 +296,7 @@ class MyDayFragment : TKWeekBaseFragment<MydayBinding>() {
                         R.layout.message_link_to_settings,
                         binding.mydayEvents,
                         false
-                    ) as RelativeLayout
+                    ) as ConstraintLayout
                 linkToSettings(layout, requireActivity(), R.string.str_permission_read_contacts)
                 val button = layout.findViewById<Button>(R.id.button)
                 button.setOnClickListener {
@@ -331,7 +312,7 @@ class MyDayFragment : TKWeekBaseFragment<MydayBinding>() {
                     event.day
                 )
                 if (event.annuallyRepeating) {
-                    temp[Calendar.YEAR] = cal!!.get(Calendar.YEAR)
+                    temp[Calendar.YEAR] = cal.get(Calendar.YEAR)
                 }
                 if (DateUtilities.diffDayPeriods(cal, temp) == 0L) {
                     val descr = adapter.getDescription(event, requireContext())
@@ -362,7 +343,7 @@ class MyDayFragment : TKWeekBaseFragment<MydayBinding>() {
                     R.layout.message_link_to_settings,
                     binding.mydayAppointments,
                     false
-                ) as RelativeLayout
+                ) as ConstraintLayout
             linkToSettings(layout, requireActivity(), R.string.str_permission_read_calendar)
             val button = layout.findViewById<Button>(R.id.button)
             button.setOnClickListener {
@@ -447,6 +428,7 @@ class MyDayFragment : TKWeekBaseFragment<MydayBinding>() {
                 sb.append(this.getString(if (days == 1) R.string.day else R.string.days))
                 mins %= TKWeekActivity.MINUTES_PER_DAY
             }
+
             mins >= 60 -> {
                 val hours = mins / 60
                 sb.append(hours)
@@ -454,6 +436,7 @@ class MyDayFragment : TKWeekBaseFragment<MydayBinding>() {
                 sb.append(this.getString(if (hours == 1) R.string.hour else R.string.hours))
                 mins %= 60
             }
+
             else -> {
                 sb.append(mins)
                 sb.append(" ")
@@ -465,20 +448,20 @@ class MyDayFragment : TKWeekBaseFragment<MydayBinding>() {
     }
 
     private fun lookUpInWikipedia() {
-        var pattern = "http://en.m.wikipedia.org/wiki/{0}_{1}"
+        var pattern = "https://en.m.wikipedia.org/wiki/{0}_{1}"
         var loc = Locale.ENGLISH
         try {
             val l = Locale.getDefault()
             if (Locale.GERMAN.language == l.language) {
-                pattern = "http://de.m.wikipedia.org/wiki/{1}._{0}#_"
+                pattern = "https://de.m.wikipedia.org/wiki/{1}._{0}#_"
                 loc = l
             }
         } catch (t: Throwable) {
             Log.e(TAG, "lookUpInWikipedia()", t)
         }
         val df = SimpleDateFormat("MMMM", loc)
-        val month = df.format(cal!!.time)
-        val day = cal!!.get(Calendar.DAY_OF_MONTH)
+        val month = df.format(cal.time)
+        val day = cal.get(Calendar.DAY_OF_MONTH)
         val url = MessageFormat.format(pattern, month, day)
         val viewIntent = Intent(
             "android.intent.action.VIEW",
@@ -507,18 +490,13 @@ class MyDayFragment : TKWeekBaseFragment<MydayBinding>() {
         layout.addView(tv)
     }
 
-    private fun isShowCompletedTasks(): Boolean {
-        val prefs = requireContext().getSharedPreferences(TAG, Context.MODE_PRIVATE)
-        return prefs.getBoolean(SHOW_COMPLETED_TASKS, false)
-    }
-
     private fun updateNotes() {
         val note = TKWeekUtils.load(requireContext(), getNameForNotes())
         updateNoteAndDeleteButton(note)
     }
 
     private fun getNameForNotes(): String {
-        return "Note_" + TKWeekActivity.FORMAT_YYYYMMDD.format(cal!!.time)
+        return "Note_" + TKWeekActivity.FORMAT_YYYYMMDD.format(cal.time)
     }
 
     private fun saveNoteAndUpdateUI(note: String) {

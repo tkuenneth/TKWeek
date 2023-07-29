@@ -115,11 +115,18 @@ class TKWeekActivity : TKWeekBaseActivity() {
                 var layoutOrientationHorizontal: Boolean
                 tracker
                     .windowLayoutInfo(activity).collect {
-                        var gapWidth: Int
-                        var gapHeight: Int
+                        var foldWidth: Int
+                        var foldHeight: Int
+                        var foldAdjusted: Boolean
+                        // Surface Duo and Duo 2 width/height (depending on orientation) with hinge
+                        val widthOrHeight = listOf(2784, 2754)
                         it.displayFeatures.forEach { displayFeature ->
                             (displayFeature as FoldingFeature).run {
                                 val separating = isSurfaceDuo || isSeparating
+                                foldAdjusted =
+                                    isSurfaceDuo && (bounds.width() == 0 || bounds.height() == 0)
+                                foldWidth = bounds.width()
+                                foldHeight = bounds.height()
                                 if (separating ||
                                     occlusionType == FoldingFeature.OcclusionType.FULL
                                 ) {
@@ -127,18 +134,6 @@ class TKWeekActivity : TKWeekBaseActivity() {
                                     weightRight = 0.5F
                                 }
                                 layoutOrientationHorizontal = (orientation == VERTICAL)
-                                with(bounds.width()) {
-                                    gapWidth = if (isSurfaceDuo && this == 0)
-                                        84
-                                    else
-                                        this
-                                }
-                                with(bounds.height()) {
-                                    gapHeight = if (isSurfaceDuo && this == 0)
-                                        84
-                                    else
-                                        this
-                                }
                             }
                             lifecycleScope.launch {
                                 val root = binding.root as LinearLayout
@@ -146,7 +141,11 @@ class TKWeekActivity : TKWeekBaseActivity() {
                                     .getInsets(WindowInsetsCompat.Type.navigationBars())
                                 gap.visibility = View.VISIBLE
                                 if (layoutOrientationHorizontal) {
-                                    gap.layoutParams.width = gapWidth
+                                    if (widthOrHeight.contains(metrics.bounds.width())) {
+                                        if (foldAdjusted) foldWidth =
+                                            if (foldHeight == 1800) 84 else 66
+                                    }
+                                    gap.layoutParams.width = foldWidth
                                     gap.layoutParams.height = LinearLayout.LayoutParams.MATCH_PARENT
                                     binding.moduleSelection.layoutParams =
                                         LinearLayout.LayoutParams(
@@ -159,10 +158,14 @@ class TKWeekActivity : TKWeekBaseActivity() {
                                             LinearLayout.LayoutParams.MATCH_PARENT, weightRight
                                         )
                                 } else {
+                                    if (widthOrHeight.contains(metrics.bounds.height())) {
+                                        if (foldAdjusted) foldHeight =
+                                            if (foldWidth == 1800) 84 else 66
+                                    }
                                     val lowerHalf =
-                                        (metrics.bounds.height() / 2) - navigationBars.bottom - gapHeight / 2
+                                        (metrics.bounds.height() / 2) - navigationBars.bottom - foldHeight / 2
                                     gap.layoutParams.width = LinearLayout.LayoutParams.MATCH_PARENT
-                                    gap.layoutParams.height = gapHeight
+                                    gap.layoutParams.height = foldHeight
                                     binding.moduleSelection.layoutParams =
                                         LinearLayout.LayoutParams(
                                             LinearLayout.LayoutParams.MATCH_PARENT, 0, 1.0F
@@ -355,4 +358,4 @@ class TKWeekActivity : TKWeekBaseActivity() {
 }
 
 private val isSurfaceDuo: Boolean =
-    "Microsoft Surface Duo" == "${Build.MANUFACTURER} ${Build.MODEL}"
+    "${Build.MANUFACTURER} ${Build.MODEL}".contains("Microsoft Surface Duo")

@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 
 android {
-    compileSdkVersion 34
+    compileSdk 34
 
     buildFeatures {
         viewBinding true
@@ -10,9 +10,9 @@ android {
 
     defaultConfig {
         applicationId "com.thomaskuenneth.tkweek"
-        minSdkVersion 24
-        targetSdkVersion 34
-        versionCode 21401
+        minSdk 24
+        targetSdk 34
+        versionCode 21402
         versionName "2.1.4"
     }
 
@@ -24,17 +24,19 @@ android {
     }
 
     compileOptions {
-        targetCompatibility = 17
-        sourceCompatibility = 17
+        targetCompatibility = JavaVersion.VERSION_17
+        sourceCompatibility = JavaVersion.VERSION_17
     }
 
     kotlinOptions {
         jvmTarget = '17'
     }
+
     lint {
         abortOnError false
         checkReleaseBuilds false
     }
+
     namespace 'com.thomaskuenneth.tkweek'
 }
 
@@ -43,7 +45,7 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation "androidx.activity:activity-ktx:1.8.0-alpha06"
     implementation 'androidx.fragment:fragment-ktx:1.6.1'
-    implementation 'androidx.preference:preference-ktx:1.2.0'
+    implementation 'androidx.preference:preference-ktx:1.2.1'
     implementation "androidx.core:core-ktx:1.10.1"
     implementation 'com.google.android.material:material:1.9.0'
     implementation "androidx.window:window:1.1.0"

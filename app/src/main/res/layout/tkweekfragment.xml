@@ -10,6 +10,7 @@
         android:divider="@android:color/transparent"
         android:dividerHeight="8dp"
         android:listSelector="?android:attr/activatedBackgroundIndicator"
+        android:nestedScrollingEnabled="true"
         android:orientation="vertical"
         android:paddingHorizontal="16dp">
 

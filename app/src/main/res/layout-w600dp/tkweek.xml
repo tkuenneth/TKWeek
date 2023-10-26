@@ -34,7 +34,8 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="0.6"
-            android:background="?android:attr/detailsElementBackground">
+            android:background="?android:attr/detailsElementBackground"
+            android:nestedScrollingEnabled="true">
 
         </FrameLayout>
 
@@ -47,7 +48,7 @@
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/actionBar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="?attr/actionBarSize" />
 
     </com.google.android.material.appbar.AppBarLayout>
 

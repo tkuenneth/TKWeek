@@ -1,14 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-	date_calculator_activity.xml
-	TKWeek (c) 2009 - 2020 Thomas Künneth
-	           2021 MATHEMA GmbH
-	All rights reserved.
--->
-
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:nestedScrollingEnabled="true">
 
     <RelativeLayout
         android:layout_width="match_parent"

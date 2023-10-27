@@ -30,7 +30,7 @@ import android.view.MenuItem
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
-import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.ViewCompat
 import androidx.core.view.updateLayoutParams
 import androidx.window.core.ExperimentalWindowApi
 import androidx.window.layout.WindowMetrics
@@ -58,11 +58,12 @@ abstract class TKWeekBaseActivity : AppCompatActivity() {
 
     @OptIn(ExperimentalWindowApi::class)
     fun configureActionBar() {
-        val height =
-            windowMetrics.getWindowInsets().getInsets(WindowInsetsCompat.Type.statusBars()).top
         val actionBar = findViewById<Toolbar>(R.id.actionBar)
-        actionBar.updateLayoutParams<AppBarLayout.LayoutParams> {
-            this.topMargin = height
+        ViewCompat.setOnApplyWindowInsetsListener(actionBar) { v, insets ->
+            v.updateLayoutParams<AppBarLayout.LayoutParams> {
+                topMargin = insets.systemWindowInsets.top
+            }
+            insets
         }
         setSupportActionBar(actionBar)
         supportActionBar?.setDisplayHomeAsUpEnabled(wantsHomeItem())

@@ -324,8 +324,6 @@ public class AnnualEventsListAdapter extends BaseAdapter implements
         Event event = (Event) getItem(position);
         Context context = convertView.getContext();
         holder.text1.setText(getDescription(event, context));
-        if (event.descr.equals("Midsommar"))
-            System.out.println("Hallo");
         holder.text1.setTextColor(
                 CalendarFragment.isDayOff(context, DateUtilities.getCalendar(event).getTime())
                         ? MaterialColors.getColor(convertView, R.attr.colorPrimary)

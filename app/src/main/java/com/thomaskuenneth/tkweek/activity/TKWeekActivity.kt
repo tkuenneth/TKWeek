@@ -35,7 +35,6 @@ import android.util.Log
 import android.view.View
 import android.widget.DatePicker
 import android.widget.LinearLayout
-import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -137,8 +136,6 @@ class TKWeekActivity : TKWeekBaseActivity() {
                             }
                             lifecycleScope.launch {
                                 val root = binding.contentRoot as LinearLayout
-                                val navigationBars = metrics.getWindowInsets()
-                                    .getInsets(WindowInsetsCompat.Type.navigationBars())
                                 gap.visibility = View.VISIBLE
                                 if (layoutOrientationHorizontal) {
                                     if (widthOrHeight.contains(metrics.bounds.width())) {
@@ -163,7 +160,7 @@ class TKWeekActivity : TKWeekBaseActivity() {
                                             if (foldWidth == 1800) 84 else 66
                                     }
                                     val lowerHalf =
-                                        (metrics.bounds.height() / 2) - navigationBars.bottom - foldHeight / 2
+                                        (metrics.bounds.height() / 2) - (foldHeight / 2)
                                     gap.layoutParams.width = LinearLayout.LayoutParams.MATCH_PARENT
                                     gap.layoutParams.height = foldHeight
                                     binding.moduleSelection.layoutParams =

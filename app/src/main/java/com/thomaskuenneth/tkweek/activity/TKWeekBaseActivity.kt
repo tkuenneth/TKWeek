@@ -24,22 +24,47 @@
 package com.thomaskuenneth.tkweek.activity
 
 import android.content.Intent
+import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.updateLayoutParams
+import androidx.window.core.ExperimentalWindowApi
+import androidx.window.layout.WindowMetrics
+import androidx.window.layout.WindowMetricsCalculator
+import com.google.android.material.appbar.AppBarLayout
 import com.thomaskuenneth.tkweek.R
 import com.thomaskuenneth.tkweek.fragment.TKWeekBaseFragment
 import com.thomaskuenneth.tkweek.util.TKWeekUtils.RQ_TKWEEK_PREFS
 
 abstract class TKWeekBaseActivity : AppCompatActivity() {
 
+    private lateinit var windowMetrics: WindowMetrics
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        enableEdgeToEdge()
+        windowMetrics = WindowMetricsCalculator.getOrCreate()
+            .computeCurrentWindowMetrics(this)
+        super.onCreate(savedInstanceState)
+    }
+
     fun setContentViewModuleContainer() {
         setContentView(R.layout.module_container)
         configureActionBar()
     }
 
+    @OptIn(ExperimentalWindowApi::class)
     fun configureActionBar() {
-        setSupportActionBar(findViewById(R.id.actionBar))
+        val height =
+            windowMetrics.getWindowInsets().getInsets(WindowInsetsCompat.Type.statusBars()).top
+        val actionBar = findViewById<Toolbar>(R.id.actionBar)
+        actionBar.updateLayoutParams<AppBarLayout.LayoutParams> {
+            this.topMargin = height
+        }
+        setSupportActionBar(actionBar)
         supportActionBar?.setDisplayHomeAsUpEnabled(wantsHomeItem())
     }
 

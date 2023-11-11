@@ -1,8 +1,9 @@
 /*
  * Seasons.java
  *
- * TKWeek (c) Thomas Künneth 2014 - 2021
- * Alle Rechte beim Autoren. All rights reserved.
+ * Copyright 2014 - 2020 Thomas Künneth
+ *           2021 MATHEMA GmbH
+ *           2022 - 2023 Thomas Künneth
  */
 package com.thomaskuenneth.tkweek.types;
 
@@ -23,11 +24,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-/**
- * Use this class to get seasons.
- *
- * @author Thomas Künneth
- */
 public final class Seasons {
 
     private static final String TAG = Seasons.class.getSimpleName();
@@ -43,15 +39,13 @@ public final class Seasons {
     public Seasons(Context context) {
         dates = new ArrayList<>();
         AssetManager am = context.getResources().getAssets();
-        InputStream in = null;
-        InputStreamReader isr = null;
-        BufferedReader br = null;
         Date _from = null;
         Date _to = null;
-        try {
-            in = am.open("earthseasons.txt");
-            isr = new InputStreamReader(in, StandardCharsets.UTF_8);
-            br = new BufferedReader(isr);
+        try (
+                InputStream in = am.open("earthseasons.txt");
+                InputStreamReader isr = new InputStreamReader(in, StandardCharsets.UTF_8);
+                BufferedReader br = new BufferedReader(isr);
+        ) {
             String line;
             while ((line = br.readLine()) != null) {
                 line = line.trim();
@@ -77,49 +71,16 @@ public final class Seasons {
         } finally {
             from = _from;
             to = _to;
-            if (br != null) {
-                try {
-                    br.close();
-                } catch (IOException e) {
-                    Log.e(TAG, "error while reading earthseasons.txt",
-                            e);
-                }
-            }
-            if (isr != null) {
-                try {
-                    isr.close();
-                } catch (IOException e) {
-                    Log.e(TAG, "error while reading earthseasons.txt",
-                            e);
-                }
-            }
-            if (in != null) {
-                try {
-                    in.close();
-                } catch (IOException e) {
-                    Log.e(TAG, "error while reading earthseasons.txt",
-                            e);
-                }
-            }
         }
     }
 
     public Calendar getCalendar(SEASON season, int year) {
-        int month = -1;
-        switch (season) {
-            case SPRING:
-                month = 3;
-                break;
-            case SUMMER:
-                month = 6;
-                break;
-            case AUTUMN:
-                month = 9;
-                break;
-            case WINTER:
-                month = 12;
-                break;
-        }
+        int month = switch (season) {
+            case SPRING -> 3;
+            case SUMMER -> 6;
+            case AUTUMN -> 9;
+            case WINTER -> 12;
+        };
         String needed = String.format(Locale.US, "%04d", year) + "-"
                 + String.format(Locale.US, "%02d", month);
         for (String date : dates) {

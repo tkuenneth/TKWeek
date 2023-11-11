@@ -1,28 +1,24 @@
 /*
  * Zodiac.java
  *
- * TKWeek (c) Thomas Künneth 2009 - 2021
- * Alle Rechte beim Autoren. All rights reserved.
+ * Copyright 2009 - 2020 Thomas Künneth
+ *           2021 MATHEMA GmbH
+ *           2022 - 2023 Thomas Künneth
  */
 package com.thomaskuenneth.tkweek.types;
 
 import android.content.Context;
 
 import com.thomaskuenneth.tkweek.R;
-import com.thomaskuenneth.tkweek.util.DateUtilities;
 
+import java.io.Serial;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Hashtable;
 
-/**
- * Diese Klasse bildet die 12 Tierkreiszeichen in eine {@link Hashtable} ab,
- * deren Schlüssel der Monat ist.
- *
- * @author Thomas Künneth
- */
 public class Zodiac extends Hashtable<Integer, Sign> {
 
+    @Serial
     private static final long serialVersionUID = -1206152506632529038L;
 
     private static final Zodiac INSTANCE = new Zodiac();
@@ -62,8 +58,8 @@ public class Zodiac extends Hashtable<Integer, Sign> {
             Sign sign = getSign(CAL.get(Calendar.MONTH));
             if (sign != null) {
                 return context.getString(CAL.get(Calendar.DAY_OF_MONTH) >= sign
-                        .getFirstDayOfSecondSign() ? sign.getSecondSign()
-                        : sign.getFirstSign());
+                        .firstDayOfSecondSign() ? sign.secondSign()
+                        : sign.firstSign());
             }
         }
         return "";

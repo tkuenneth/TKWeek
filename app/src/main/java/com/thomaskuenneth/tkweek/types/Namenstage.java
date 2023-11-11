@@ -1,8 +1,9 @@
 /*
  * Namenstage.java
  *
- * TKWeek (c) Thomas Künneth 2009 - 2021
- * Alle Rechte beim Autoren. All rights reserved.
+ * Copyright 2009 - 2020 Thomas Künneth
+ *           2021 MATHEMA GmbH
+ *           2022 - 2023 Thomas Künneth
  */
 package com.thomaskuenneth.tkweek.types;
 
@@ -23,7 +24,7 @@ import java.util.Hashtable;
 
 public final class Namenstage {
 
-    private static final String TAG = Namenstage.class.getSimpleName();
+    private static final String TAG = Namenstage.class.getName();
     private static final Namenstage INSTANCE = new Namenstage();
 
     private Hashtable<String, String> ht = null;
@@ -35,43 +36,18 @@ public final class Namenstage {
         if (INSTANCE.ht == null) {
             INSTANCE.ht = new Hashtable<>();
             AssetManager am = context.getResources().getAssets();
-            InputStream in = null;
-            InputStreamReader isr = null;
-            BufferedReader br = null;
-            try {
-                in = am.open("namenstage.txt");
-                isr = new InputStreamReader(in, StandardCharsets.UTF_8);
-                br = new BufferedReader(isr);
+            try (
+                    InputStream in = am.open("namenstage.txt");
+                    InputStreamReader isr = new InputStreamReader(in, StandardCharsets.UTF_8);
+                    BufferedReader br = new BufferedReader(isr);
+            ) {
                 String line;
                 while ((line = br.readLine()) != null) {
                     String[] data = line.split("=");
                     INSTANCE.ht.put(data[0], data[1]);
                 }
             } catch (IOException e) {
-                Log.e(Namenstage.class.getName(),
-                        "error while reading namenstage.txt", e);
-            } finally {
-                if (br != null) {
-                    try {
-                        br.close();
-                    } catch (IOException e) {
-                        Log.e(TAG, "close()", e);
-                    }
-                }
-                if (isr != null) {
-                    try {
-                        isr.close();
-                    } catch (IOException e) {
-                        Log.e(TAG, "close()", e);
-                    }
-                }
-                if (in != null) {
-                    try {
-                        in.close();
-                    } catch (IOException e) {
-                        Log.e(TAG, "close()", e);
-                    }
-                }
+                Log.e(TAG, "error while reading namenstage.txt", e);
             }
         }
         return TKWeekUtils.getStringNotNull(INSTANCE.ht.get(TKWeekActivity.FORMAT_YYMM.format(date)));

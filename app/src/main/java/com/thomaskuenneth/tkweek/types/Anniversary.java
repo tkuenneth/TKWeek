@@ -1,31 +1,20 @@
 /*
  * Anniversary.java
- * 
- * TKWeek (c) Thomas Künneth 2011 - 2021
- * Alle Rechte beim Autoren. All rights reserved.
+ *
+ * Copyright 2011 - 2020 Thomas Künneth
+ *           2021 MATHEMA GmbH
+ *           2022 - 2023 Thomas Künneth
  */
 package com.thomaskuenneth.tkweek.types;
 
 import java.util.Calendar;
 
-/**
- * Diese Klasse repräsentiert Jahrestage.
- *
- * @author Thomas Künneth
- * @see Event
- */
 public class Anniversary extends Event implements IContactId {
 
     private String text;
 
     private final String contactId;
 
-    /**
-     * Erzeugt einen Jahrestag.
-     *
-     * @param cal   Datum
-     * @param descr Beschreibung
-     */
     public Anniversary(Calendar cal, String descr, String contactId) {
         super(descr,
                 cal.get(Calendar.YEAR),

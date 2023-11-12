@@ -27,12 +27,22 @@ import android.Manifest
 import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.net.Uri
-import android.os.*
+import android.os.AsyncTask
+import android.os.Bundle
+import android.os.Looper
 import android.provider.CalendarContract
 import android.util.Log
-import android.view.*
-import android.widget.*
+import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
+import android.view.View
+import android.view.ViewGroup
+import android.widget.Button
+import android.widget.LinearLayout
+import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.fragment.app.setFragmentResultListener
 import androidx.preference.PreferenceManager
 import com.thomaskuenneth.tkweek.R
 import com.thomaskuenneth.tkweek.activity.TKWeekActivity
@@ -50,7 +60,9 @@ import com.thomaskuenneth.tkweek.util.TKWeekUtils.linkToSettings
 import java.text.DateFormat
 import java.text.MessageFormat
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Calendar
+import java.util.Date
+import java.util.Locale
 
 private const val TAG = "MyDayFragment"
 
@@ -61,6 +73,24 @@ class MyDayFragment : TKWeekBaseFragment<MydayBinding>() {
     private var eventsLoader: AsyncTask<Void, Void, AnnualEventsListAdapter>? = null
 
     private lateinit var cal: Calendar
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setFragmentResultListener(RESULT_NOTES) { _, bundle ->
+            saveNoteAndUpdateUI(
+                bundle.getString(
+                    ARGS_NOTES, ""
+                )
+            )
+        }
+        setFragmentResultListener(RESULT_DATEPICKER) { _, bundle ->
+            cal.set(Calendar.YEAR, bundle.getInt(ARGS_YEAR))
+            cal.set(Calendar.MONTH, bundle.getInt(ARGS_MONTH))
+            cal.set(Calendar.DAY_OF_MONTH, bundle.getInt(ARGS_DAY_OF_MONTH))
+            updateViews()
+            requireActivity().invalidateOptionsMenu()
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -73,8 +103,10 @@ class MyDayFragment : TKWeekBaseFragment<MydayBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         eventsLoader = null
         binding.mydaySymbolNotes.setOnClickListener {
-            val fragment = EditNotesFragment(binding.mydayNotes.text.toString()) { note ->
-                saveNoteAndUpdateUI(note)
+            val fragment = EditNotesFragment().also {
+                it.arguments = Bundle().also { bundle ->
+                    bundle.putString(ARGS_NOTES, binding.mydayNotes.text.toString())
+                }
             }
             fragment.show(
                 parentFragmentManager,
@@ -163,14 +195,13 @@ class MyDayFragment : TKWeekBaseFragment<MydayBinding>() {
             }
 
             R.id.goto_date -> {
-                val datePickerFragment =
-                    DatePickerFragment { _, year, month, dayOfMonth ->
-                        cal.set(Calendar.YEAR, year)
-                        cal.set(Calendar.MONTH, month)
-                        cal.set(Calendar.DAY_OF_MONTH, dayOfMonth)
-                        updateViews()
-                        requireActivity().invalidateOptionsMenu()
+                val datePickerFragment = DatePickerFragment().also {
+                    it.arguments = Bundle().also { bundle ->
+                        bundle.putInt(ARGS_YEAR, cal.get(Calendar.YEAR))
+                        bundle.putInt(ARGS_MONTH, cal.get(Calendar.MONTH))
+                        bundle.putInt(ARGS_DAY_OF_MONTH, cal.get(Calendar.DAY_OF_MONTH))
                     }
+                }
                 datePickerFragment.show(
                     parentFragmentManager,
                     DatePickerFragment.TAG
@@ -500,7 +531,7 @@ class MyDayFragment : TKWeekBaseFragment<MydayBinding>() {
     }
 
     private fun saveNoteAndUpdateUI(note: String) {
-        if (TKWeekUtils.save(requireContext(), getNameForNotes(), note)) {
+        if (TKWeekUtils.save(requireActivity(), getNameForNotes(), note)) {
             updateNoteAndDeleteButton(note)
         }
     }

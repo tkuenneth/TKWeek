@@ -2,6 +2,7 @@
  * EditNotesFragment.kt
  *
  * Copyright 2021 MATHEMA GmbH
+ *           2022 - 2023 Thomas Künneth
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
@@ -25,32 +26,39 @@ package com.thomaskuenneth.tkweek.fragment
 import android.app.Dialog
 import android.content.DialogInterface
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.widget.EditText
 import androidx.appcompat.app.AlertDialog
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.setFragmentResult
 import com.thomaskuenneth.tkweek.R
 
-class EditNotesFragment(val initial: String, private val callback: (String) -> Unit) :
-    DialogFragment() {
+const val ARGS_NOTES = "initial"
+const val RESULT_NOTES = "resultNotes"
+
+class EditNotesFragment : DialogFragment() {
 
     private lateinit var notes: EditText
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        val view = LayoutInflater.from(requireContext()).inflate(R.layout.enter_notes, null)
+        val view = layoutInflater.inflate(R.layout.enter_notes, null)
         notes = view.findViewById(R.id.notes)
         val dialog = AlertDialog.Builder(requireContext())
             .setTitle(R.string.notes)
             .setView(view)
-            .setPositiveButton(android.R.string.ok) { _: DialogInterface, _: Int -> callback(notes.text.toString()) }
+            .setPositiveButton(android.R.string.ok) { _: DialogInterface, _: Int ->
+                Bundle().also {
+                    it.putString(ARGS_NOTES, notes.text.toString())
+                    setFragmentResult(RESULT_NOTES, it)
+                }
+            }
             .setNegativeButton(android.R.string.cancel) { _: DialogInterface, _: Int -> }
             .create()
         notes.doAfterTextChanged {
             updateButton(dialog)
         }
         dialog.setOnShowListener {
-            notes.setText(initial)
+            notes.setText(requireArguments().getString(ARGS_NOTES, ""))
             updateButton(dialog)
         }
         return dialog

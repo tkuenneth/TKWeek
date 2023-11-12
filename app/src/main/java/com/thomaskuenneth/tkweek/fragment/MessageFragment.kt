@@ -2,6 +2,7 @@
  * MessageFragment.kt
  *
  * Copyright 2021 MATHEMA GmbH
+ *           2022 - 2023 Thomas Künneth
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
@@ -29,12 +30,15 @@ import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
 import com.thomaskuenneth.tkweek.R
 
-class MessageFragment(private val title: Int, private val message: String) : DialogFragment() {
+const val ARGS_TITLE = "title"
+const val ARGS_MESSAGE = "message"
+
+class MessageFragment : DialogFragment() {
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         return AlertDialog.Builder(requireContext())
-            .setTitle(title)
-            .setMessage(message)
+            .setTitle(arguments?.getString(ARGS_TITLE))
+            .setMessage(arguments?.getString(ARGS_MESSAGE))
             .setPositiveButton(R.string.close) { _: DialogInterface, _: Int -> }
             .create()
     }

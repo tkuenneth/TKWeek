@@ -2,6 +2,7 @@
  * DatePickerFragment.kt
  *
  * Copyright 2021 MATHEMA GmbH
+ *           2022 - 2023 Thomas Künneth
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
@@ -29,19 +30,34 @@ import android.view.View
 import android.widget.DatePicker
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.setFragmentResult
 import com.thomaskuenneth.tkweek.R
 import com.thomaskuenneth.tkweek.addDate
 import com.thomaskuenneth.tkweek.databinding.DatepickerBinding
 import com.thomaskuenneth.tkweek.updateRecents
-import java.util.*
+import java.util.Calendar
+import java.util.Date
 
-class DatePickerFragment(private val callback: DatePicker.OnDateChangedListener) :
-    DialogFragment() {
+const val RESULT_DATEPICKER = "resultDatePicker"
+const val ARGS_PICKER = "picker"
+const val ARGS_YEAR = "year"
+const val ARGS_MONTH = "month"
+const val ARGS_DAY_OF_MONTH = "day"
+
+class DatePickerFragment : DialogFragment() {
 
     private lateinit var binding: DatepickerBinding
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val cal = Calendar.getInstance()
+        arguments?.run {
+            cal.set(Calendar.YEAR, getInt(ARGS_YEAR, cal.get(Calendar.YEAR)))
+            cal.set(Calendar.MONTH, getInt(ARGS_MONTH, cal.get(Calendar.MONTH)))
+            cal.set(
+                Calendar.DAY_OF_MONTH,
+                getInt(ARGS_DAY_OF_MONTH, cal.get(Calendar.DAY_OF_MONTH))
+            )
+        }
         val listener: DatePicker.OnDateChangedListener =
             DatePicker.OnDateChangedListener { _, year, monthOfYear, dayOfMonth ->
                 cal.set(year, monthOfYear, dayOfMonth)
@@ -77,12 +93,13 @@ class DatePickerFragment(private val callback: DatePicker.OnDateChangedListener)
             .setView(binding.datepickerRoot)
             .setTitle(R.string.pick_a_date)
             .setPositiveButton(android.R.string.ok) { _: DialogInterface, _: Int ->
-                callback.onDateChanged(
-                    binding.datepicker,
-                    binding.datepicker.year,
-                    binding.datepicker.month,
-                    binding.datepicker.dayOfMonth
-                )
+                Bundle().also { bundle ->
+                    bundle.putInt(ARGS_PICKER, requireArguments().getInt(ARGS_PICKER))
+                    bundle.putInt(ARGS_YEAR, cal.get(Calendar.YEAR))
+                    bundle.putInt(ARGS_MONTH, cal.get(Calendar.MONTH))
+                    bundle.putInt(ARGS_DAY_OF_MONTH, cal.get(Calendar.DAY_OF_MONTH))
+                    setFragmentResult(RESULT_DATEPICKER, bundle)
+                }
             }
             .setNegativeButton(android.R.string.cancel) { _: DialogInterface, _: Int -> }
             .create()

@@ -2,7 +2,7 @@
  * AnnualEventsFragment.kt
  *
  * Copyright 2021 MATHEMA GmbH
- *           2022 Thomas Künneth
+ *           2022 - 2023 Thomas Künneth
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
@@ -172,6 +172,7 @@ class AnnualEventsFragment : TKWeekBaseFragment<EventsBinding>(),
                         }
                     }
                 }
+
                 RESTORE -> {
                     data?.data?.also { uri ->
                         requireContext().contentResolver.openFileDescriptor(uri, "r")?.use {
@@ -298,15 +299,18 @@ class AnnualEventsFragment : TKWeekBaseFragment<EventsBinding>(),
                 updateListAndOptionsMenu()
                 true
             }
+
             R.id.annual_event_backup_restore -> {
                 showDialog(BackupRestoreDialogFragment())
                 true
             }
+
             R.id.new_event -> {
                 val f = NewEventFragment()
                 showDialog(f)
                 true
             }
+
             else -> super.onOptionsItemSelected(item)
         }
     }
@@ -322,22 +326,26 @@ class AnnualEventsFragment : TKWeekBaseFragment<EventsBinding>(),
                 adapter.save(requireContext())
                 true
             }
+
             MENU_DAYS_BETWEEN_DATES -> {
                 val payload = Bundle()
                 payload.putLong(DATE, date.time)
                 launchModule(DaysBetweenDatesFragment::class.java, payload)
                 true
             }
+
             MENU_MARK_AS_DAY_OFF -> {
                 CalendarFragment.setDayOff(requireContext(), date, true)
                 updateItemAtPosition(mi.position)
                 true
             }
+
             MENU_REMOVE_DAY_OFF_TAG -> {
                 CalendarFragment.setDayOff(requireContext(), date, false)
                 updateItemAtPosition(mi.position)
                 true
             }
+
             else -> super.onContextItemSelected(item)
         }
     }
@@ -483,7 +491,12 @@ class AnnualEventsFragment : TKWeekBaseFragment<EventsBinding>(),
             R.string.not_successful,
             getString(R.string.annual_event_backup_restore)
         )
-        val fragment = MessageFragment(R.string.dialog_title_error, message)
+        val fragment = MessageFragment().also {
+            it.arguments = Bundle().also { bundle ->
+                bundle.putString(ARGS_TITLE, getString(R.string.dialog_title_error))
+                bundle.putString(ARGS_MESSAGE, message)
+            }
+        }
         fragment.show(parentFragmentManager, MessageFragment.TAG)
     }
 }

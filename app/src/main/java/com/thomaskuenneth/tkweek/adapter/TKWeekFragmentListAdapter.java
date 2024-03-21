@@ -2,7 +2,8 @@
  * TKWeekFragmentListAdapter.java
  *
  * Copyright 2009 - 2020 Thomas Künneth
- * Copyright 2021 MATHEMA GmbH
+ *           2021 MATHEMA GmbH
+ *           2022 - 2024 Thomas Künneth
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
@@ -93,8 +94,8 @@ public class TKWeekFragmentListAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
         ActivityDescription item = (ActivityDescription) getItem(position);
-        holder.text1.setText(item.getText1());
-        holder.text2.setText(item.getText2());
+        holder.text1.setText(item.text1());
+        holder.text2.setText(item.text2());
         return convertView;
     }
 
@@ -102,7 +103,7 @@ public class TKWeekFragmentListAdapter extends BaseAdapter {
     public static ActivityDescription find(@NotNull Class<?> clazz) {
         for (int i = 0; i < items.size(); i++) {
             ActivityDescription current = items.get(i);
-            if (current.getFragment().equals(clazz)) {
+            if (current.fragment().equals(clazz)) {
                 return current;
             }
         }
@@ -116,7 +117,7 @@ public class TKWeekFragmentListAdapter extends BaseAdapter {
     public static int getPosition(@NotNull Class<?> clazz) {
         for (int i = 0; i < items.size(); i++) {
             ActivityDescription current = items.get(i);
-            if (current.getFragment().equals(clazz)) {
+            if (current.fragment().equals(clazz)) {
                 return i;
             }
         }

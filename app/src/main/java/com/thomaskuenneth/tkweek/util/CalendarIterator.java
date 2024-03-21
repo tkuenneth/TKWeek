@@ -1,43 +1,41 @@
 /*
  * CalendarIterator.java
  *
- * TKWeek (c) Thomas Künneth 2010 - 2021
- * Alle Rechte beim Autoren. All rights reserved.
+ * Copyright 2010 - 2020 Thomas Künneth
+ *           2021 MATHEMA GmbH
+ *           2022 - 2024 Thomas Künneth
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy of
+ * this software and associated documentation files (the "Software"), to deal in
+ * the Software without restriction, including without limitation the rights to use,
+ * copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the
+ * Software, and to permit persons to whom the Software is furnished to do so,
+ * subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all copies
+ * or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
+ * INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
+ * PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+ * HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
+ * CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
+ * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 package com.thomaskuenneth.tkweek.util;
 
 import java.util.Calendar;
 
-/**
- * Diese Klasse stellt Methoden bereit, die über {@code CalendarCondition}-Instanzen
- * iterieren.
- *
- * @author Thomas Künneth
- * @see CalendarCondition
- * @see RequiredCalendarConditionException
- */
 public class CalendarIterator {
 
-    /**
-     * Iteriert über eine {@code Calendar}-Instanz, bis eine Bedingung erfüllt
-     * ist.
-     *
-     * @param cal            Kalender, über den iteriert wird
-     * @param untilCondition Zielbedingung
-     * @param field          Feld, das verändert werden soll, bis die Bedingung erfüllt ist
-     * @param value          Wert, um den das Feld verändert wird
-     * @return Kalender nach Erreichen der Bedingung
-     */
     public static Calendar iterateUntil(Calendar cal,
                                         CalendarCondition untilCondition, int field, int value) {
         while (true) {
             try {
                 if (untilCondition.matches(cal)) {
-                    // Bedingung erfüllt - raus aus der Schleife
                     break;
                 }
-            } catch (RequiredCalendarConditionException e) {
-                // Bedingung nicht erfüllt - weiter machen
+            } catch (RequiredCalendarConditionException ignored) {
             }
             cal.add(field, value);
         }

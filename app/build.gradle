@@ -12,7 +12,7 @@ android {
         applicationId "com.thomaskuenneth.tkweek"
         minSdk 24
         targetSdk 34
-        versionCode 21602
+        versionCode 21603
         versionName "2.1.6"
     }
 

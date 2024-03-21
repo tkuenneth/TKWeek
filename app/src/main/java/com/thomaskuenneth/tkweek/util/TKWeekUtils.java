@@ -3,7 +3,7 @@
  *
  * Copyright 2015 - 2020 Thomas Künneth
  *           2021 MATHEMA GmbH
- *           2022 Thomas Künneth
+ *           2022 - 2024 Thomas Künneth
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
@@ -62,8 +62,6 @@ public class TKWeekUtils {
     public static final Locale SWEDEN = new Locale("sv", "SE");
     public static final Locale IRELAND = new Locale("en", "IE");
     public static final Locale AUSTRALIA = new Locale("en", "AU");
-
-    public static final String TK_WEEK_FORMAT_FULL = "TKWeek.FORMAT_FULL";
 
     private static final String TAG = TKWeekUtils.class.getSimpleName();
 
@@ -135,19 +133,8 @@ public class TKWeekUtils {
         return sb.toString();
     }
 
-    public static int getAPILevel() {
-        return Build.VERSION.SDK_INT;
-    }
-
-    public static void requestPermissions(Activity activity,
-                                          String[] permissions, int requestCode) {
-        if (getAPILevel() >= 23) {
-            activity.requestPermissions(permissions, requestCode);
-        }
-    }
-
     public static boolean canPostNotifications(Context context) {
-        if (getAPILevel() >= 33)
+        if (Build.VERSION.SDK_INT >= 33)
             return canDoXYZ(context, Manifest.permission.POST_NOTIFICATIONS);
         else
             return true;
@@ -167,12 +154,7 @@ public class TKWeekUtils {
     }
 
     private static boolean canDoXYZ(Context context, String permission) {
-        boolean ok = true;
-        if (getAPILevel() >= 23) {
-            ok = context.checkSelfPermission(permission)
-                    == PackageManager.PERMISSION_GRANTED;
-        }
-        return ok;
+        return context.checkSelfPermission(permission) == PackageManager.PERMISSION_GRANTED;
     }
 
     public static String getStringNotNull(String string) {

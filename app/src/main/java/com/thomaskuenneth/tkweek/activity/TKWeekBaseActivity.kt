@@ -2,7 +2,7 @@
  * TKWeekBaseActivity.kt
  *
  * Copyright 2021 MATHEMA GmbH
- *           2022 - 2023 Thomas Künneth
+ *           2022 - 2024 Thomas Künneth
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
@@ -32,7 +32,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.ViewCompat
 import androidx.core.view.updateLayoutParams
-import androidx.window.core.ExperimentalWindowApi
 import androidx.window.layout.WindowMetrics
 import androidx.window.layout.WindowMetricsCalculator
 import com.google.android.material.appbar.AppBarLayout
@@ -56,7 +55,6 @@ abstract class TKWeekBaseActivity : AppCompatActivity() {
         configureActionBar()
     }
 
-    @OptIn(ExperimentalWindowApi::class)
     fun configureActionBar() {
         val actionBar = findViewById<Toolbar>(R.id.actionBar)
         ViewCompat.setOnApplyWindowInsetsListener(actionBar) { v, insets ->

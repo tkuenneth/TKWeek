@@ -1,8 +1,26 @@
 /*
  * BorderView.java
  *
- * TKWeek (c) Thomas Künneth 2012 - 2021
- * Alle Rechte beim Autoren. All rights reserved.
+ * Copyright 2012 - 2020 Thomas Künneth
+ *           2021 MATHEMA GmbH
+ *           2022 - 2024 Thomas Künneth
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy of
+ * this software and associated documentation files (the "Software"), to deal in
+ * the Software without restriction, including without limitation the rights to use,
+ * copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the
+ * Software, and to permit persons to whom the Software is furnished to do so,
+ * subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all copies
+ * or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
+ * INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
+ * PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+ * HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
+ * CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
+ * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 package com.thomaskuenneth.tkweek.util;
 
@@ -13,15 +31,11 @@ import android.graphics.Paint;
 import android.util.AttributeSet;
 import android.view.View;
 
+import androidx.annotation.NonNull;
+
 import com.google.android.material.color.MaterialColors;
 import com.thomaskuenneth.tkweek.R;
 
-/**
- * Diese Klasse stellt eine einfache View zur Verfügung, die an allen Seiten
- * einen 1 Pixel breiten farbigen Rahmen hat.
- *
- * @author Thomas Künneth
- */
 public class BorderView extends View {
 
     private final Paint paint;
@@ -35,7 +49,7 @@ public class BorderView extends View {
     }
 
     @Override
-    protected void onDraw(Canvas canvas) {
+    protected void onDraw(@NonNull Canvas canvas) {
         super.onDraw(canvas);
         canvas.drawRect(getPaddingLeft() + 1, getPaddingTop() + 1, getWidth()
                         - getPaddingRight() - 1, getHeight() - getPaddingBottom() - 1,

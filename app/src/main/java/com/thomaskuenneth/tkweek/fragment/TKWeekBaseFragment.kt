@@ -2,7 +2,7 @@
  * TKWeekBaseFragment.kt
  *
  * Copyright 2021 MATHEMA GmbH
- *           2022 - 2023 Thomas Künneth
+ *           2022 - 2024 Thomas Künneth
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
@@ -71,7 +71,7 @@ abstract class TKWeekBaseFragment<T> : Fragment() {
     fun launchModule(module: ActivityDescription, payload: Bundle?) {
         if (isTwoColumnMode(requireActivity())) {
             (parentFragmentManager.findFragmentByTag(getString(R.string.tag_module_selection)) as? TKWeekFragment)?.run {
-                val fragment = module.fragment.newInstance()
+                val fragment = module.fragment().newInstance()
                 fragment.arguments = payload
                 parentFragmentManager.run {
                     beginTransaction()
@@ -84,12 +84,12 @@ abstract class TKWeekBaseFragment<T> : Fragment() {
                         .disallowAddToBackStack()
                         .commit()
                 }
-                updateSelection(TKWeekFragmentListAdapter.getPosition(module.fragment))
+                updateSelection(TKWeekFragmentListAdapter.getPosition(module.fragment()))
             }
         } else {
             val intent = Intent(context, ModuleContainerActivity::class.java)
-            intent.putExtra(CLAZZ, module.fragment)
-            intent.putExtra(TITLE, module.text1)
+            intent.putExtra(CLAZZ, module.fragment())
+            intent.putExtra(TITLE, module.text1())
             intent.putExtra(PAYLOAD, payload)
             intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
             requireContext().startActivity(intent)

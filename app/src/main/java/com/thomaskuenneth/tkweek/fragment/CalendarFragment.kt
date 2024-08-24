@@ -2,6 +2,7 @@
  * CalendarFragment.kt
  *
  * Copyright 2021 MATHEMA GmbH
+ *           2022 - 2024 Thomas Künneth
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
@@ -26,8 +27,13 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
-import android.view.*
+import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
+import android.view.View
 import android.view.View.OnLongClickListener
+import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.AdapterView
 import android.widget.AdapterView.OnItemSelectedListener
@@ -42,7 +48,8 @@ import com.thomaskuenneth.tkweek.fragment.WeekFragment.Companion.prepareCalendar
 import com.thomaskuenneth.tkweek.preference.PickBusinessDaysPreference
 import com.thomaskuenneth.tkweek.updateRecents
 import com.thomaskuenneth.tkweek.util.DateUtilities
-import java.util.*
+import java.util.Calendar
+import java.util.Date
 
 const val RECENTS_KEY = "CalendarFragment"
 private const val TAG = "CalendarFragment"
@@ -191,6 +198,7 @@ class CalendarFragment : TKWeekBaseFragment<CalendarBinding>(),
                 update()
                 true
             }
+
             else -> super.onOptionsItemSelected(item)
         }
     }
@@ -240,10 +248,22 @@ class CalendarFragment : TKWeekBaseFragment<CalendarBinding>(),
     private fun updateCalendar() {
         val defaultColor = binding.calendarLayoutRecent.recent1.textColors
         val activeColor =
-            MaterialColors.getColor(requireContext(), R.attr.colorOnBackground, Color.GREEN)
+            MaterialColors.getColor(
+                requireContext(),
+                com.google.android.material.R.attr.colorOnBackground,
+                Color.GREEN
+            )
         val backgroundColor =
-            MaterialColors.getColor(requireContext(), R.attr.colorSurface, Color.GREEN)
-        val accentColor = MaterialColors.getColor(requireContext(), R.attr.colorAccent, Color.GREEN)
+            MaterialColors.getColor(
+                requireContext(),
+                com.google.android.material.R.attr.colorSurface,
+                Color.GREEN
+            )
+        val accentColor = MaterialColors.getColor(
+            requireContext(),
+            com.google.android.material.R.attr.colorAccent,
+            Color.GREEN
+        )
         var businessDays = 0
         var daysOff = 0
         val prefs = requireContext().getSharedPreferences(

@@ -2,7 +2,7 @@
  * AnnualEventsFragment.kt
  *
  * Copyright 2021 MATHEMA GmbH
- *           2022 - 2023 Thomas Künneth
+ *           2022 - 2024 Thomas Künneth
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
@@ -59,14 +59,14 @@ import com.thomaskuenneth.tkweek.util.TKWeekUtils
 import java.io.FileInputStream
 import java.io.FileOutputStream
 import java.io.FileWriter
-import java.util.*
+import java.util.Date
 
 private const val TAG = "AnnualEventsFragment"
 
-private const val MENU_DELETE = R.string.menu_delete
-private const val MENU_DAYS_BETWEEN_DATES = R.string.days_between_dates_activity_text1
-private const val MENU_MARK_AS_DAY_OFF = R.string.mark_as_day_off
-private const val MENU_REMOVE_DAY_OFF_TAG = R.string.remove_day_off_tag
+private val MENU_DELETE = R.string.menu_delete
+private val MENU_DAYS_BETWEEN_DATES = R.string.days_between_dates_activity_text1
+private val MENU_MARK_AS_DAY_OFF = R.string.mark_as_day_off
+private val MENU_REMOVE_DAY_OFF_TAG = R.string.remove_day_off_tag
 
 class AnnualEventsFragment : TKWeekBaseFragment<EventsBinding>(),
     AdapterView.OnItemClickListener {

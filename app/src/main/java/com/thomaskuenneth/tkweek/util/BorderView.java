@@ -34,7 +34,6 @@ import android.view.View;
 import androidx.annotation.NonNull;
 
 import com.google.android.material.color.MaterialColors;
-import com.thomaskuenneth.tkweek.R;
 
 public class BorderView extends View {
 
@@ -43,7 +42,7 @@ public class BorderView extends View {
     public BorderView(Context context, AttributeSet attrs) {
         super(context, attrs);
         paint = new Paint();
-        paint.setColor(MaterialColors.getColor(context, R.attr.colorOnBackground, Color.GREEN));
+        paint.setColor(MaterialColors.getColor(context, com.google.android.material.R.attr.colorOnBackground, Color.GREEN));
         paint.setStyle(Paint.Style.STROKE);
         paint.setStrokeWidth(2);
     }

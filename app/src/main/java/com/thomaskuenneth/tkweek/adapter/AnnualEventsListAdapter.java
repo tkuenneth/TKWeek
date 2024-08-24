@@ -3,7 +3,7 @@
  *
  * Copyright 2009 - 2020 Thomas Künneth
  *           2021 MATHEMA GmbH
- *           2022 - 2023 Thomas Künneth
+ *           2022 - 2024 Thomas Künneth
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
@@ -326,14 +326,14 @@ public class AnnualEventsListAdapter extends BaseAdapter implements
         holder.text1.setText(getDescription(event, context));
         holder.text1.setTextColor(
                 CalendarFragment.isDayOff(context, DateUtilities.getCalendar(event).getTime())
-                        ? MaterialColors.getColor(convertView, R.attr.colorPrimary)
+                        ? MaterialColors.getColor(convertView, com.google.android.material.R.attr.colorPrimary)
                         : holder.text2.getTextColors().getDefaultColor()
         );
         holder.text2.setText(getDateAsString(event, context));
         holder.text3.setText(getDaysAsString(event));
         String calendarName = getCalendarName(event);
         holder.text4.setText(calendarName);
-        holder.text4.setVisibility(calendarName.length() > 0 ? View.VISIBLE : View.GONE);
+        holder.text4.setVisibility(!calendarName.isEmpty() ? View.VISIBLE : View.GONE);
         return convertView;
     }
 

@@ -29,18 +29,19 @@ import android.widget.ListView
 class FixedHeightGridView @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
 ) : ListView(context, attrs, defStyleAttr) {
-
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         var totalHeight = 0
-        super.onMeasure(widthMeasureSpec, heightMeasureSpec)
-        if (adapter != null) {
+        adapter?.run {
             for (i in 0 until adapter.count) {
-                val listItem = adapter.getView(i, null, this)
-                listItem.measure(0, 0)
+                val listItem = adapter.getView(i, null, this@FixedHeightGridView)
+                listItem.measure(
+                    widthMeasureSpec, MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED)
+                )
                 totalHeight += listItem.measuredHeight
             }
             totalHeight += dividerHeight * (adapter.count - 1)
         }
-        setMeasuredDimension(MeasureSpec.getSize(widthMeasureSpec), totalHeight)
+        val newHeightMeasureSpec = MeasureSpec.makeMeasureSpec(totalHeight, MeasureSpec.EXACTLY)
+        super.onMeasure(widthMeasureSpec, newHeightMeasureSpec)
     }
 }

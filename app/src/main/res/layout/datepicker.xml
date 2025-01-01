@@ -1,9 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-	datepicker.xml
-	TKWeek (c) 2021 MATHEMA GmbH
-	All rights reserved.
--->
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:id="@+id/datepicker_root"

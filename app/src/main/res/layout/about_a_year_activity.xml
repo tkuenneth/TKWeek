@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:nestedScrollingEnabled="true">
+    android:fillViewport="true">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -241,6 +241,11 @@
             android:layout_below="@id/about_a_year_weekday_distribution"
             android:layout_centerHorizontal="true" />
 
+        <com.thomaskuenneth.tkweek.util.BottomSpace
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/about_a_year_layout_weekinfo" />
+
     </RelativeLayout>
 
-</ScrollView>
+</androidx.core.widget.NestedScrollView>

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:nestedScrollingEnabled="true">
+    android:fillViewport="true">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -95,6 +95,7 @@
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
         <RelativeLayout
+            android:id="@+id/relative_layout_days_between_dates"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/second_date_today"
@@ -150,6 +151,11 @@
 
         </RelativeLayout>
 
+        <com.thomaskuenneth.tkweek.util.BottomSpace
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/relative_layout_days_between_dates" />
+
     </RelativeLayout>
 
-</ScrollView>
+</androidx.core.widget.NestedScrollView>

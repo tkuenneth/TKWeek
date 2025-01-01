@@ -2,7 +2,7 @@
  * TKWeekFragment.kt
  *
  * Copyright 2021 MATHEMA GmbH
- *           2022 - 2023 Thomas Künneth
+ *           2022 - 2025 Thomas Künneth
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
@@ -28,9 +28,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ListView
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.preference.PreferenceManager
 import com.thomaskuenneth.tkweek.adapter.TKWeekFragmentListAdapter
 import com.thomaskuenneth.tkweek.databinding.TkweekfragmentBinding
+import kotlin.math.max
 
 const val CLAZZ = "clazz"
 const val TITLE = "title"
@@ -44,20 +47,28 @@ class TKWeekFragment : TKWeekBaseFragment<TkweekfragmentBinding>() {
     private val binding get() = backing!!
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?, savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         backing = TkweekfragmentBinding.inflate(inflater, container, false)
-        binding.listView.adapter =
-            TKWeekFragmentListAdapter(context)
+        binding.listView.adapter = TKWeekFragmentListAdapter(context)
         binding.listView.setOnItemClickListener { _, _, position, _ ->
-            PreferenceManager.getDefaultSharedPreferences(requireContext())
-                .edit()
-                .putInt(KEY_LAST_SELECTED, position)
-                .apply()
+            PreferenceManager.getDefaultSharedPreferences(requireContext()).edit()
+                .putInt(KEY_LAST_SELECTED, position).apply()
             launchModule(TKWeekFragmentListAdapter.get(position), null)
         }
         return binding.root
+    }
+
+    override fun onStart() {
+        super.onStart()
+        ViewCompat.setOnApplyWindowInsetsListener(binding.listViewContainer) { view, insets ->
+            val padding = max(
+                insets.getInsets(WindowInsetsCompat.Type.displayCutout()).left, view.paddingLeft
+            )
+            view.setPadding(padding, view.paddingTop, view.paddingRight, view.paddingBottom)
+            view.requestLayout()
+            insets
+        }
     }
 
     override fun onViewStateRestored(savedInstanceState: Bundle?) {
@@ -81,10 +92,8 @@ class TKWeekFragment : TKWeekBaseFragment<TkweekfragmentBinding>() {
     fun updateSelection(pos: Int) {
         if (pos >= 0) {
             binding.listView.setItemChecked(pos, true)
-            PreferenceManager.getDefaultSharedPreferences(requireContext())
-                .edit()
-                .putInt(KEY_LAST_SELECTED, pos)
-                .apply()
+            PreferenceManager.getDefaultSharedPreferences(requireContext()).edit()
+                .putInt(KEY_LAST_SELECTED, pos).apply()
         }
     }
 }

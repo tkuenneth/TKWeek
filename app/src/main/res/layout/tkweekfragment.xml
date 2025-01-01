@@ -4,11 +4,12 @@
     android:layout_height="match_parent"
     android:fillViewport="true">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:paddingHorizontal="16dp">
+        android:id="@+id/listViewContainer"
+        android:paddingHorizontal="16dp"
+        android:orientation="vertical">
 
         <com.thomaskuenneth.tkweek.util.FixedHeightGridView
             android:id="@+id/listView"
@@ -20,9 +21,10 @@
             android:orientation="vertical" />
 
         <com.thomaskuenneth.tkweek.util.BottomSpace
+            android:layout_below="@id/listView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
-    </LinearLayout>
+    </RelativeLayout>
 
 </androidx.core.widget.NestedScrollView>

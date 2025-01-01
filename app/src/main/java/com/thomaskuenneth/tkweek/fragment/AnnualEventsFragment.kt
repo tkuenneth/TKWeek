@@ -2,7 +2,7 @@
  * AnnualEventsFragment.kt
  *
  * Copyright 2021 MATHEMA GmbH
- *           2022 - 2024 Thomas Künneth
+ *           2022 - 2025 Thomas Künneth
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
@@ -21,6 +21,8 @@
  * CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
+@file:Suppress("DEPRECATION")
+
 package com.thomaskuenneth.tkweek.fragment
 
 import android.Manifest
@@ -68,8 +70,8 @@ private val MENU_DAYS_BETWEEN_DATES = R.string.days_between_dates_activity_text1
 private val MENU_MARK_AS_DAY_OFF = R.string.mark_as_day_off
 private val MENU_REMOVE_DAY_OFF_TAG = R.string.remove_day_off_tag
 
-class AnnualEventsFragment : TKWeekBaseFragment<EventsBinding>(),
-    AdapterView.OnItemClickListener {
+@Suppress("DEPRECATION")
+class AnnualEventsFragment : TKWeekBaseFragment<EventsBinding>(), AdapterView.OnItemClickListener {
 
     private val binding get() = backing!!
 
@@ -81,15 +83,17 @@ class AnnualEventsFragment : TKWeekBaseFragment<EventsBinding>(),
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        parentFragmentManager.setFragmentResultListener(REQUEST_KEY_BACKUP_RESTORE_FRAGMENT, this)
-        { _, bundle ->
+        parentFragmentManager.setFragmentResultListener(
+            REQUEST_KEY_BACKUP_RESTORE_FRAGMENT, this
+        ) { _, bundle ->
             when (bundle.getInt(BACKUP_RESTORE)) {
                 BACKUP -> backup()
                 RESTORE -> restore()
             }
         }
-        parentFragmentManager.setFragmentResultListener(REQUEST_KEY_NEW_EVENT_FRAGMENT, this)
-        { _, bundle ->
+        parentFragmentManager.setFragmentResultListener(
+            REQUEST_KEY_NEW_EVENT_FRAGMENT, this
+        ) { _, bundle ->
             val descr = bundle.getString(DESCR, "")
             val annuallyRepeating = bundle.getBoolean(ANNUALLY_REPEATING, false)
             val date = bundle.getSerializable(DATE)
@@ -101,8 +105,7 @@ class AnnualEventsFragment : TKWeekBaseFragment<EventsBinding>(),
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?, savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         backing = EventsBinding.inflate(inflater, container, false)
         return binding.root
@@ -118,10 +121,7 @@ class AnnualEventsFragment : TKWeekBaseFragment<EventsBinding>(),
         binding.messageNotifications.button.setOnClickListener {
             requestPostNotifications()
         }
-        if (Build.VERSION.SDK_INT >= 33 &&
-            !TKWeekUtils.canPostNotifications(requireContext()) &&
-            !shouldShowPermissionPostNotificationsRationale()
-        ) {
+        if (Build.VERSION.SDK_INT >= 33 && !TKWeekUtils.canPostNotifications(requireContext()) && !shouldShowPermissionPostNotificationsRationale()) {
             permissions.add(Manifest.permission.POST_NOTIFICATIONS)
         }
         if (shouldShowBirthdays() && !TKWeekUtils.canReadContacts(requireContext()) && !shouldShowPermissionReadContactsRationale()) {
@@ -135,9 +135,7 @@ class AnnualEventsFragment : TKWeekBaseFragment<EventsBinding>(),
         binding.messageLinkToSettingsContacts.button.setOnClickListener {
             requestReadContacts()
         }
-        if (shouldShowAllDayEvents() && !TKWeekUtils.canReadCalendar(requireContext())
-            && !shouldShowPermissionReadCalendarRationale()
-        ) {
+        if (shouldShowAllDayEvents() && !TKWeekUtils.canReadCalendar(requireContext()) && !shouldShowPermissionReadCalendarRationale()) {
             permissions.add(Manifest.permission.READ_CALENDAR)
         }
         TKWeekUtils.linkToSettings(
@@ -148,7 +146,7 @@ class AnnualEventsFragment : TKWeekBaseFragment<EventsBinding>(),
         binding.messageLinkToSettingsCalendar.button.setOnClickListener {
             requestReadCalendar()
         }
-        if (permissions.size > 0) {
+        if (permissions.isNotEmpty()) {
             val l = arrayOfNulls<String>(permissions.size)
             permissions.toArray(l)
             requestPermissions(l, 0)
@@ -200,13 +198,9 @@ class AnnualEventsFragment : TKWeekBaseFragment<EventsBinding>(),
 
     @Deprecated("Deprecated in Java")
     override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<out String>,
-        grantResults: IntArray
+        requestCode: Int, permissions: Array<out String>, grantResults: IntArray
     ) {
-        if ((grantResults.isNotEmpty()) &&
-            (grantResults[0] == PackageManager.PERMISSION_GRANTED)
-        ) {
+        if ((grantResults.isNotEmpty()) && (grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
             if (requestCode == RQ_READ_CONTACTS) {
                 setListAdapterLoadEvents(false, searchString)
             }
@@ -217,8 +211,7 @@ class AnnualEventsFragment : TKWeekBaseFragment<EventsBinding>(),
     override fun onStart() {
         super.onStart()
         if ((requireActivity().intent?.getIntExtra(
-                AlarmReceiver.KEY_CANCEL_NOTIFICATION,
-                -1
+                AlarmReceiver.KEY_CANCEL_NOTIFICATION, -1
             ) ?: -1) != -1
         ) {
             requireContext().getSystemService(NotificationManager::class.java)?.run {
@@ -260,9 +253,7 @@ class AnnualEventsFragment : TKWeekBaseFragment<EventsBinding>(),
     }
 
     override fun onCreateContextMenu(
-        menu: ContextMenu,
-        v: View,
-        menuInfo: ContextMenu.ContextMenuInfo?
+        menu: ContextMenu, v: View, menuInfo: ContextMenu.ContextMenuInfo?
     ) {
         super.onCreateContextMenu(menu, v, menuInfo)
         val mi = menuInfo as AdapterView.AdapterContextMenuInfo
@@ -273,8 +264,7 @@ class AnnualEventsFragment : TKWeekBaseFragment<EventsBinding>(),
             menu.add(Menu.NONE, MENU_DELETE, Menu.NONE, MENU_DELETE)
         }
         menu.add(
-            Menu.NONE, MENU_DAYS_BETWEEN_DATES, Menu.NONE,
-            MENU_DAYS_BETWEEN_DATES
+            Menu.NONE, MENU_DAYS_BETWEEN_DATES, Menu.NONE, MENU_DAYS_BETWEEN_DATES
         )
         if (CalendarFragment.isDayOff(requireContext(), date)) {
             menu.add(Menu.NONE, MENU_REMOVE_DAY_OFF_TAG, Menu.NONE, MENU_REMOVE_DAY_OFF_TAG)
@@ -371,18 +361,18 @@ class AnnualEventsFragment : TKWeekBaseFragment<EventsBinding>(),
     }
 
     private fun setListAdapterLoadEvents(
-        restore: Boolean,
-        search: String?
+        restore: Boolean, search: String?
     ) {
-        eventsLoader = object : AsyncTask<Void, Void, AnnualEventsListAdapter>() {
+        binding.indicator.visibility = View.VISIBLE
+        eventsLoader = @SuppressLint("StaticFieldLeak") object :
+            AsyncTask<Void, Void, AnnualEventsListAdapter>() {
             @Deprecated("Deprecated in Java")
             override fun doInBackground(vararg params: Void): AnnualEventsListAdapter {
                 if (Looper.myLooper() == null) {
                     Looper.prepare()
                 }
                 return AnnualEventsListAdapter.create(
-                    requireContext(),
-                    search
+                    requireContext(), search
                 )
             }
 
@@ -399,6 +389,7 @@ class AnnualEventsFragment : TKWeekBaseFragment<EventsBinding>(),
                     TKWeekActivity.FORMAT_DEFAULT.format(listAdapter?.from?.time ?: Date()),
                     TKWeekActivity.FORMAT_DEFAULT.format(listAdapter?.to?.time ?: Date())
                 )
+                binding.indicator.visibility = View.GONE
             }
         }
         eventsLoader?.execute()
@@ -406,8 +397,7 @@ class AnnualEventsFragment : TKWeekBaseFragment<EventsBinding>(),
 
     fun isHoliday(context: Context, event: Event): Boolean {
         val prefs = context.getSharedPreferences(
-            TAG,
-            Context.MODE_PRIVATE
+            TAG, Context.MODE_PRIVATE
         )
         return prefs.getBoolean(getPreferencesKey(event), false)
     }
@@ -415,8 +405,7 @@ class AnnualEventsFragment : TKWeekBaseFragment<EventsBinding>(),
     // FIXME: used to be used to mark a day off; maybe reimplement click handler
     fun setHoliday(context: Context, event: Event, holiday: Boolean) {
         val prefs = context.getSharedPreferences(
-            TAG,
-            Context.MODE_PRIVATE
+            TAG, Context.MODE_PRIVATE
         )
         val e = prefs.edit()
         e.putBoolean(getPreferencesKey(event), holiday)
@@ -464,14 +453,11 @@ class AnnualEventsFragment : TKWeekBaseFragment<EventsBinding>(),
 
     private fun updatePermissionInfo() {
         binding.messageLinkToSettingsContacts.root.visibility =
-            if (shouldShowBirthdays() && shouldShowPermissionReadContactsRationale()
-            ) View.VISIBLE else View.GONE
+            if (shouldShowBirthdays() && shouldShowPermissionReadContactsRationale()) View.VISIBLE else View.GONE
         binding.messageLinkToSettingsCalendar.root.visibility =
-            if (shouldShowAllDayEvents() && shouldShowPermissionReadCalendarRationale()
-            ) View.VISIBLE else View.GONE
+            if (shouldShowAllDayEvents() && shouldShowPermissionReadCalendarRationale()) View.VISIBLE else View.GONE
         binding.messageNotifications.root.visibility =
-            if (shouldShowPermissionPostNotificationsRationale()
-            ) View.VISIBLE else View.GONE
+            if (shouldShowPermissionPostNotificationsRationale()) View.VISIBLE else View.GONE
     }
 
     private fun updateListAndOptionsMenu() {
@@ -488,8 +474,7 @@ class AnnualEventsFragment : TKWeekBaseFragment<EventsBinding>(),
 
     private fun showError() {
         val message = getString(
-            R.string.not_successful,
-            getString(R.string.annual_event_backup_restore)
+            R.string.not_successful, getString(R.string.annual_event_backup_restore)
         )
         val fragment = MessageFragment().also {
             it.arguments = Bundle().also { bundle ->

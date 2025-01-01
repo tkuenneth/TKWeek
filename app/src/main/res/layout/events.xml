@@ -1,62 +1,80 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:fillViewport="true">
+    android:layout_height="match_parent">
 
-    <RelativeLayout
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:nestedScrollingEnabled="true">
+
+            <TextView
+                android:id="@+id/header"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_margin="16dp"
+                android:gravity="center_horizontal"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="?colorPrimary" />
+
+            <include
+                android:id="@+id/message_link_to_settings_contacts"
+                layout="@layout/message_link_to_settings"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/header"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginVertical="8dp" />
+
+            <include
+                android:id="@+id/message_link_to_settings_calendar"
+                layout="@layout/message_link_to_settings"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/message_link_to_settings_contacts"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginVertical="8dp" />
+
+            <include
+                android:id="@+id/message_notifications"
+                layout="@layout/message_link_to_settings"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/message_link_to_settings_calendar"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginVertical="8dp" />
+
+            <com.thomaskuenneth.tkweek.util.FixedHeightGridView
+                android:id="@+id/listView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/message_notifications"
+                android:divider="@android:color/transparent"
+                android:dividerHeight="8dp"
+                android:listSelector="?android:attr/activatedBackgroundIndicator" />
+
+            <com.thomaskuenneth.tkweek.util.BottomSpace
+                android:id="@+id/bottomSpace"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/listView" />
+
+        </RelativeLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+    <com.google.android.material.progressindicator.CircularProgressIndicator
+        android:id="@+id/indicator"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="16dp"
-        android:nestedScrollingEnabled="true">
+        android:layout_gravity="center"
+        android:indeterminate="true" />
 
-        <TextView
-            android:id="@+id/header"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_margin="16dp"
-            android:gravity="center_horizontal"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:textColor="?colorPrimary" />
-
-        <include
-            android:id="@+id/message_link_to_settings_contacts"
-            layout="@layout/message_link_to_settings"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/header"
-            android:layout_marginHorizontal="16dp"
-            android:layout_marginVertical="8dp" />
-
-        <include
-            android:id="@+id/message_link_to_settings_calendar"
-            layout="@layout/message_link_to_settings"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/message_link_to_settings_contacts"
-            android:layout_marginHorizontal="16dp"
-            android:layout_marginVertical="8dp" />
-
-        <include
-            android:id="@+id/message_notifications"
-            layout="@layout/message_link_to_settings"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/message_link_to_settings_calendar"
-            android:layout_marginHorizontal="16dp"
-            android:layout_marginVertical="8dp" />
-
-        <com.thomaskuenneth.tkweek.util.FixedHeightGridView
-            android:id="@+id/listView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/message_notifications"
-            android:divider="@android:color/transparent"
-            android:dividerHeight="8dp"
-            android:listSelector="?android:attr/activatedBackgroundIndicator"
-            android:nestedScrollingEnabled="false" />
-
-    </RelativeLayout>
-
-</androidx.core.widget.NestedScrollView>
+</FrameLayout>

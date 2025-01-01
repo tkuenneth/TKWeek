@@ -1,7 +1,7 @@
 /*
  * FixedHeightGridView.kt
  *
- * Copyright 2024 Thomas Künneth
+ * Copyright 2024 - 2025 Thomas Künneth
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
@@ -29,6 +29,11 @@ import android.widget.ListView
 class FixedHeightGridView @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
 ) : ListView(context, attrs, defStyleAttr) {
+
+    init {
+        isNestedScrollingEnabled = false
+    }
+
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         var totalHeight = 0
         adapter?.run {

@@ -204,6 +204,10 @@
             android:paddingTop="8dp"
             android:text="@string/welcome_text" />
 
+        <com.thomaskuenneth.tkweek.util.BottomSpace
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
     </LinearLayout>
 
 </ScrollView>

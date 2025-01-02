@@ -12,9 +12,9 @@
 
         <androidx.fragment.app.FragmentContainerView
             android:id="@+id/module_content"
-            android:tag="@string/tag_module_fragment"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:tag="@string/tag_module_fragment" />
     </androidx.core.widget.NestedScrollView>
 
     <com.google.android.material.appbar.AppBarLayout

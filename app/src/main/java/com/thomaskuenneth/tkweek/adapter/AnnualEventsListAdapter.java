@@ -76,11 +76,9 @@ import java.util.List;
 import java.util.Locale;
 import java.util.UUID;
 
-public class AnnualEventsListAdapter extends BaseAdapter implements
-        Comparator<Event> {
+public class AnnualEventsListAdapter extends BaseAdapter implements Comparator<Event> {
 
-    private static final String TAG = AnnualEventsListAdapter.class
-            .getSimpleName();
+    private static final String TAG = AnnualEventsListAdapter.class.getSimpleName();
 
     private static final String FIXED_EVENT = "_fixed_event";
     private static final String FILENAME = "AnnualEvents.txt";
@@ -94,7 +92,9 @@ public class AnnualEventsListAdapter extends BaseAdapter implements
             R.string.silvester, Calendar.DECEMBER, 31,
             R.string.erster_april, Calendar.APRIL, 1,
             R.string.tag_der_arbeit, Calendar.MAY, 1,
-            R.string.valentinstag, Calendar.FEBRUARY, 14
+            R.string.valentinstag, Calendar.FEBRUARY, 14,
+            R.string.tolkien_reading_day, Calendar.MARCH, 25,
+            R.string.hobbit_day, Calendar.SEPTEMBER, 22,
     };
 
     private static final int[] nationalEvents_FR = {
@@ -145,7 +145,8 @@ public class AnnualEventsListAdapter extends BaseAdapter implements
     };
 
     private static final int[] nationalEvents_RU = {
-            R.string.national_flag_day_ru, Calendar.AUGUST, 22};
+            R.string.national_flag_day_ru, Calendar.AUGUST, 22
+    };
 
     private static final int[] nationalEvents_SE = {
             R.string.nationalfeiertag_se, Calendar.JUNE, 6,
@@ -185,27 +186,16 @@ public class AnnualEventsListAdapter extends BaseAdapter implements
     private final Calendar calTo;
     private final SharedPreferences prefs;
 
-    public static AnnualEventsListAdapter create(Context context,
-                                                 String search) {
-        SharedPreferences prefs = PreferenceManager
-                .getDefaultSharedPreferences(context);
+    public static AnnualEventsListAdapter create(Context context, String search) {
+        SharedPreferences prefs = context.getSharedPreferences(PreferenceManager.getDefaultSharedPreferencesName(context), Context.MODE_PRIVATE);
         Calendar calFrom = Calendar.getInstance();
-        calFrom.add(Calendar.DAY_OF_YEAR,
-                getNumberOfPastDays(prefs));
+        calFrom.add(Calendar.DAY_OF_YEAR, getNumberOfPastDays(prefs));
         Calendar calTo = Calendar.getInstance();
         calTo.add(Calendar.YEAR, 1);
-        return new AnnualEventsListAdapter(context,
-                calFrom,
-                calTo,
-                false,
-                search);
+        return new AnnualEventsListAdapter(context, calFrom, calTo, false, search);
     }
 
-    public AnnualEventsListAdapter(Context context,
-                                   Calendar calFrom,
-                                   Calendar calTo,
-                                   boolean expandAllDayEvents,
-                                   String search) {
+    public AnnualEventsListAdapter(Context context, Calendar calFrom, Calendar calTo, boolean expandAllDayEvents, String search) {
         assert calFrom != null;
         assert calTo != null;
         this.calFrom = DateUtilities.clearTimeRelatedFields(calFrom);
@@ -218,7 +208,7 @@ public class AnnualEventsListAdapter extends BaseAdapter implements
         seasons = new Seasons(context);
         mInflater = LayoutInflater.from(context);
         today_cal = Calendar.getInstance();
-        prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        prefs = context.getSharedPreferences(PreferenceManager.getDefaultSharedPreferencesName(context), Context.MODE_PRIVATE);
         int yearFrom = calFrom.get(Calendar.YEAR);
         int yearTo = calTo.get(Calendar.YEAR);
         for (int year = yearFrom; year <= yearTo; year++) {
@@ -229,8 +219,7 @@ public class AnnualEventsListAdapter extends BaseAdapter implements
         }
         loadUserEvents(context, getUserEventsFile(context), yearFrom, yearTo);
         if (!prefs.getBoolean("hide_allday_events", false)) {
-            List<Event> alldayEvents = CalendarContractUtils.getAllDayEvents(context,
-                    calFrom, calTo, expandAllDayEvents);
+            List<Event> alldayEvents = CalendarContractUtils.getAllDayEvents(context, calFrom, calTo, expandAllDayEvents);
             addAll(alldayEvents);
         }
         data.sort(this);
@@ -284,8 +273,7 @@ public class AnnualEventsListAdapter extends BaseAdapter implements
     public void updateEventsListWidgets(Context context) {
         AppWidgetManager m = AppWidgetManager.getInstance(context);
         if (m != null) {
-            int[] appWidgetIds = m.getAppWidgetIds(new ComponentName(context,
-                    EventsListWidget.class));
+            int[] appWidgetIds = m.getAppWidgetIds(new ComponentName(context, EventsListWidget.class));
             if ((appWidgetIds != null) && (appWidgetIds.length > 0)) {
                 EventsListWidget.updateWidgets(context, m, appWidgetIds);
             }
@@ -324,11 +312,7 @@ public class AnnualEventsListAdapter extends BaseAdapter implements
         Event event = (Event) getItem(position);
         Context context = convertView.getContext();
         holder.text1.setText(getDescription(event, context));
-        holder.text1.setTextColor(
-                CalendarFragment.isDayOff(context, DateUtilities.getCalendar(event).getTime())
-                        ? MaterialColors.getColor(convertView, com.google.android.material.R.attr.colorPrimary)
-                        : holder.text2.getTextColors().getDefaultColor()
-        );
+        holder.text1.setTextColor(CalendarFragment.isDayOff(context, DateUtilities.getCalendar(event).getTime()) ? MaterialColors.getColor(convertView, com.google.android.material.R.attr.colorPrimary) : holder.text2.getTextColors().getDefaultColor());
         holder.text2.setText(getDateAsString(event, context));
         holder.text3.setText(getDaysAsString(event));
         String calendarName = getCalendarName(event);
@@ -372,21 +356,9 @@ public class AnnualEventsListAdapter extends BaseAdapter implements
         if (event.occurrences > 0) {
             if (event instanceof Birthday) {
                 long diffDays = DateUtilities.diffDayPeriods(today_cal, cal);
-                return context.getString(diffDays < 0
-                                ? R.string.birthday_past
-                                : R.string.birthday_future,
-                        event.occurrences,
-                        TKWeekActivity.FORMAT_DAY_OF_WEEK.format(calTime),
-                        TKWeekActivity.FORMAT_MONTH.format(calTime),
-                        event.getDay(),
-                        event.getYear() - event.occurrences);
+                return context.getString(diffDays < 0 ? R.string.birthday_past : R.string.birthday_future, event.occurrences, TKWeekActivity.FORMAT_DAY_OF_WEEK.format(calTime), TKWeekActivity.FORMAT_MONTH.format(calTime), event.getDay(), event.getYear() - event.occurrences);
             } else if (event instanceof Anniversary) {
-                return context.getString(R.string.template_anniversary,
-                        event.occurrences,
-                        TKWeekActivity.FORMAT_DAY_OF_WEEK.format(calTime),
-                        TKWeekActivity.FORMAT_MONTH.format(calTime),
-                        event.getDay(),
-                        event.getYear() - event.occurrences);
+                return context.getString(R.string.template_anniversary, event.occurrences, TKWeekActivity.FORMAT_DAY_OF_WEEK.format(calTime), TKWeekActivity.FORMAT_MONTH.format(calTime), event.getDay(), event.getYear() - event.occurrences);
             }
         }
         return dateAsString;
@@ -396,12 +368,10 @@ public class AnnualEventsListAdapter extends BaseAdapter implements
         if (event instanceof Birthday) {
             return context.getString(R.string.birthday, event.descr);
         } else if (event instanceof Anniversary) {
-            return context.getString(R.string.event,
-                    ((Anniversary) event).getText(), event.descr);
+            return context.getString(R.string.event, ((Anniversary) event).getText(), event.descr);
         }
         if (event.annuallyRepeating) {
-            return context.getString(R.string.string1_string2, event.descr,
-                    TKWeekActivity.getInfinitySymbol(context));
+            return context.getString(R.string.string1_string2, event.descr, TKWeekActivity.getInfinitySymbol(context));
         }
         return event.descr;
     }
@@ -414,12 +384,8 @@ public class AnnualEventsListAdapter extends BaseAdapter implements
         } else if (o2 == null) {
             return 1;
         }
-        long days1 = o1.getYear() * 10000L +
-                o1.getMonth() * 100L +
-                o1.getDay();
-        long days2 = o2.getYear() * 10000L +
-                o2.getMonth() * 100L +
-                o2.getDay();
+        long days1 = o1.getYear() * 10000L + o1.getMonth() * 100L + o1.getDay();
+        long days2 = o2.getYear() * 10000L + o2.getMonth() * 100L + o2.getDay();
         return Long.compare(days1, days2);
     }
 
@@ -483,8 +449,7 @@ public class AnnualEventsListAdapter extends BaseAdapter implements
         return success;
     }
 
-    private void addBuiltinEvents(Context context, SharedPreferences prefs,
-                                  int year) {
+    private void addBuiltinEvents(Context context, SharedPreferences prefs, int year) {
         if (!prefs.getBoolean("hide_seasons", false)) {
             addSeasons(context, year);
         }
@@ -507,10 +472,7 @@ public class AnnualEventsListAdapter extends BaseAdapter implements
             }
         }
         if (!prefs.getBoolean("hide_builtin_events", false)) {
-            if (addSimpleEvents(context,
-                    TKWeekUtils.NETHERLANDS,
-                    nationalEvents_NL,
-                    year)) {
+            if (addSimpleEvents(context, TKWeekUtils.NETHERLANDS, nationalEvents_NL, year)) {
                 // until 2013 Koninginnedag, then Koningsdag
                 int day;
                 int resId;
@@ -521,11 +483,7 @@ public class AnnualEventsListAdapter extends BaseAdapter implements
                     day = 27;
                     resId = R.string.koningsdag;
                 }
-                Calendar cal = DateUtilities.getCalendarFromCalendarCondition(
-                        year, Calendar.APRIL, day, CalendarCondition
-                                .createCalendarCondition(CONDITION.NOT_EQUAL,
-                                        Calendar.DAY_OF_WEEK, Calendar.SUNDAY,
-                                        true), Calendar.DAY_OF_MONTH, -1);
+                Calendar cal = DateUtilities.getCalendarFromCalendarCondition(year, Calendar.APRIL, day, CalendarCondition.createCalendarCondition(CONDITION.NOT_EQUAL, Calendar.DAY_OF_WEEK, Calendar.SUNDAY, true), Calendar.DAY_OF_MONTH, -1);
                 add(new FixedEvent(cal, context.getString(resId), true), false);
             }
             addSimpleEvents(context, Locale.FRANCE, nationalEvents_FR, year);
@@ -536,105 +494,41 @@ public class AnnualEventsListAdapter extends BaseAdapter implements
             addSimpleEvents(context, TKWeekUtils.NORWAY, nationalEvents_NO, year);
             addSimpleEvents(context, TKWeekUtils.IRELAND, nationalEvents_IE, year);
             addSimpleEvents(context, TKWeekUtils.RUSSIA, nationalEvents_RU, year);
-            if (addSimpleEvents(context,
-                    TKWeekUtils.SWEDEN,
-                    nationalEvents_SE,
-                    year)) {
-                Calendar cal = DateUtilities.getCalendarFromCalendarCondition(
-                        year, Calendar.JUNE, 20, CalendarCondition
-                                .createCalendarCondition(CONDITION.EQUAL,
-                                        Calendar.DAY_OF_WEEK,
-                                        Calendar.SATURDAY, true),
-                        Calendar.DAY_OF_MONTH, 1);
-                add(new FixedEvent(cal, context.getString(R.string.midsommar),
-                        true), false);
+            if (addSimpleEvents(context, TKWeekUtils.SWEDEN, nationalEvents_SE, year)) {
+                Calendar cal = DateUtilities.getCalendarFromCalendarCondition(year, Calendar.JUNE, 20, CalendarCondition.createCalendarCondition(CONDITION.EQUAL, Calendar.DAY_OF_WEEK, Calendar.SATURDAY, true), Calendar.DAY_OF_MONTH, 1);
+                add(new FixedEvent(cal, context.getString(R.string.midsommar), true), false);
             }
-            if (addSimpleEvents(context,
-                    Locale.US,
-                    nationalEvents_US,
-                    year)) {
-                Calendar cal = DateUtilities.getCalendarFromCalendarCondition(
-                        year, Calendar.MAY, 31, CalendarCondition
-                                .createCalendarCondition(CONDITION.EQUAL,
-                                        Calendar.DAY_OF_WEEK, Calendar.MONDAY,
-                                        true), Calendar.DAY_OF_MONTH, -1);
-                add(new FixedEvent(cal,
-                        context.getString(R.string.memorial_day), true), false);
-                cal = CalendarIterator.iterateUntil(DateUtilities.getCalendar(
-                                year, Calendar.JANUARY, 1), CalendarCondition
-                                .createCalendarCondition(CONDITION.EQUAL,
-                                        Calendar.DAY_OF_WEEK, Calendar.MONDAY, true),
-                        Calendar.DAY_OF_MONTH, 1);
+            if (addSimpleEvents(context, Locale.US, nationalEvents_US, year)) {
+                Calendar cal = DateUtilities.getCalendarFromCalendarCondition(year, Calendar.MAY, 31, CalendarCondition.createCalendarCondition(CONDITION.EQUAL, Calendar.DAY_OF_WEEK, Calendar.MONDAY, true), Calendar.DAY_OF_MONTH, -1);
+                add(new FixedEvent(cal, context.getString(R.string.memorial_day), true), false);
+                cal = CalendarIterator.iterateUntil(DateUtilities.getCalendar(year, Calendar.JANUARY, 1), CalendarCondition.createCalendarCondition(CONDITION.EQUAL, Calendar.DAY_OF_WEEK, Calendar.MONDAY, true), Calendar.DAY_OF_MONTH, 1);
                 cal.add(Calendar.DAY_OF_MONTH, 14);
-                add(new FixedEvent(cal, context.getString(R.string.mlk_day),
-                        true), false);
-                cal = CalendarIterator.iterateUntil(DateUtilities.getCalendar(
-                                year, Calendar.FEBRUARY, 1), CalendarCondition
-                                .createCalendarCondition(CONDITION.EQUAL,
-                                        Calendar.DAY_OF_WEEK, Calendar.MONDAY, true),
-                        Calendar.DAY_OF_MONTH, 1);
+                add(new FixedEvent(cal, context.getString(R.string.mlk_day), true), false);
+                cal = CalendarIterator.iterateUntil(DateUtilities.getCalendar(year, Calendar.FEBRUARY, 1), CalendarCondition.createCalendarCondition(CONDITION.EQUAL, Calendar.DAY_OF_WEEK, Calendar.MONDAY, true), Calendar.DAY_OF_MONTH, 1);
                 cal.add(Calendar.DAY_OF_MONTH, 14);
-                add(new FixedEvent(cal,
-                        context.getString(R.string.presidents_day), true), false);
-                cal = CalendarIterator.iterateUntil(DateUtilities.getCalendar(
-                                year, Calendar.NOVEMBER, 1), CalendarCondition
-                                .createCalendarCondition(CONDITION.EQUAL,
-                                        Calendar.DAY_OF_WEEK, Calendar.TUESDAY, true),
-                        Calendar.DAY_OF_MONTH, 1);
-                add(new FixedEvent(cal,
-                        context.getString(R.string.election_day_us), true), false);
-                cal = CalendarIterator.iterateUntil(DateUtilities.getCalendar(
-                                year, Calendar.SEPTEMBER, 1), CalendarCondition
-                                .createCalendarCondition(CONDITION.EQUAL,
-                                        Calendar.DAY_OF_WEEK, Calendar.MONDAY, true),
-                        Calendar.DAY_OF_MONTH, 1);
-                add(new FixedEvent(cal,
-                        context.getString(R.string.labour_day_usa), true), false);
-                cal = CalendarIterator.iterateUntil(DateUtilities.getCalendar(
-                                year, Calendar.OCTOBER, 1), CalendarCondition
-                                .createCalendarCondition(CONDITION.EQUAL,
-                                        Calendar.DAY_OF_WEEK, Calendar.MONDAY, true),
-                        Calendar.DAY_OF_MONTH, 1);
+                add(new FixedEvent(cal, context.getString(R.string.presidents_day), true), false);
+                cal = CalendarIterator.iterateUntil(DateUtilities.getCalendar(year, Calendar.NOVEMBER, 1), CalendarCondition.createCalendarCondition(CONDITION.EQUAL, Calendar.DAY_OF_WEEK, Calendar.TUESDAY, true), Calendar.DAY_OF_MONTH, 1);
+                add(new FixedEvent(cal, context.getString(R.string.election_day_us), true), false);
+                cal = CalendarIterator.iterateUntil(DateUtilities.getCalendar(year, Calendar.SEPTEMBER, 1), CalendarCondition.createCalendarCondition(CONDITION.EQUAL, Calendar.DAY_OF_WEEK, Calendar.MONDAY, true), Calendar.DAY_OF_MONTH, 1);
+                add(new FixedEvent(cal, context.getString(R.string.labour_day_usa), true), false);
+                cal = CalendarIterator.iterateUntil(DateUtilities.getCalendar(year, Calendar.OCTOBER, 1), CalendarCondition.createCalendarCondition(CONDITION.EQUAL, Calendar.DAY_OF_WEEK, Calendar.MONDAY, true), Calendar.DAY_OF_MONTH, 1);
                 cal.add(Calendar.WEEK_OF_MONTH, 1);
-                add(new FixedEvent(cal,
-                        context.getString(R.string.columbus_day), true), false);
-                cal = CalendarIterator.iterateUntil(DateUtilities.getCalendar(
-                                year, Calendar.JUNE, 1), CalendarCondition
-                                .createCalendarCondition(CONDITION.EQUAL,
-                                        Calendar.DAY_OF_WEEK, Calendar.FRIDAY, true),
-                        Calendar.DAY_OF_MONTH, 1);
-                add(new FixedEvent(cal,
-                        context.getString(R.string.national_doughnut_day), true), false);
+                add(new FixedEvent(cal, context.getString(R.string.columbus_day), true), false);
+                cal = CalendarIterator.iterateUntil(DateUtilities.getCalendar(year, Calendar.JUNE, 1), CalendarCondition.createCalendarCondition(CONDITION.EQUAL, Calendar.DAY_OF_WEEK, Calendar.FRIDAY, true), Calendar.DAY_OF_MONTH, 1);
+                add(new FixedEvent(cal, context.getString(R.string.national_doughnut_day), true), false);
             }
-            if (addSimpleEvents(context,
-                    Locale.GERMANY,
-                    nationalEvents_DE,
-                    year)) {
-                Calendar cal = DateUtilities.getCalendarFromCalendarCondition(
-                        year, Calendar.OCTOBER, 1, CalendarCondition
-                                .createCalendarCondition(CONDITION.EQUAL,
-                                        Calendar.DAY_OF_WEEK, Calendar.SUNDAY,
-                                        true), Calendar.DAY_OF_MONTH, 1);
-                add(new FixedEvent(cal,
-                        context.getString(R.string.thanksgiving), true), false);
-                cal = CalendarIterator.iterateUntil(DateUtilities
-                                .getCalendar(year, Calendar.NOVEMBER, 22),
-                        CalendarCondition.createCalendarCondition(
-                                CONDITION.EQUAL, Calendar.DAY_OF_WEEK,
-                                Calendar.WEDNESDAY, true),
-                        Calendar.DAY_OF_MONTH, -1);
-                add(new FixedEvent(cal,
-                        context.getString(R.string.buss_und_bettag_de), true), false);
+            if (addSimpleEvents(context, Locale.GERMANY, nationalEvents_DE, year)) {
+                Calendar cal = DateUtilities.getCalendarFromCalendarCondition(year, Calendar.OCTOBER, 1, CalendarCondition.createCalendarCondition(CONDITION.EQUAL, Calendar.DAY_OF_WEEK, Calendar.SUNDAY, true), Calendar.DAY_OF_MONTH, 1);
+                add(new FixedEvent(cal, context.getString(R.string.thanksgiving), true), false);
+                cal = CalendarIterator.iterateUntil(DateUtilities.getCalendar(year, Calendar.NOVEMBER, 22), CalendarCondition.createCalendarCondition(CONDITION.EQUAL, Calendar.DAY_OF_WEEK, Calendar.WEDNESDAY, true), Calendar.DAY_OF_MONTH, -1);
+                add(new FixedEvent(cal, context.getString(R.string.buss_und_bettag_de), true), false);
             }
-            Calendar thanksgiving = DateUtilities
-                    .getThanksgiving(context, year);
+            Calendar thanksgiving = DateUtilities.getThanksgiving(context, year);
             if (thanksgiving != null) {
-                add(new FixedEvent(thanksgiving,
-                        context.getString(R.string.thanksgiving), true), false);
+                add(new FixedEvent(thanksgiving, context.getString(R.string.thanksgiving), true), false);
                 if (PickCountriesPreference.isSelected(context, Locale.US)) {
                     thanksgiving.add(Calendar.DAY_OF_YEAR, 1);
-                    add(new FixedEvent(thanksgiving,
-                            context.getString(R.string.black_friday), true), false);
+                    add(new FixedEvent(thanksgiving, context.getString(R.string.black_friday), true), false);
                 }
             }
             String churches = prefs.getString(OSTERSONNTAG, NO_CHURCHES);
@@ -647,36 +541,21 @@ public class AnnualEventsListAdapter extends BaseAdapter implements
             DaylightSavingTime dst = new DaylightSavingTime(year);
             Date dst_begin = dst.getBegin();
             if (dst_begin != null) {
-                add(new FixedEvent(DateUtilities.getCalendar(dst_begin),
-                        context.getString(R.string.dst_begin), true), false);
+                add(new FixedEvent(DateUtilities.getCalendar(dst_begin), context.getString(R.string.dst_begin), true), false);
             }
             Date dst_end = dst.getEnd();
             if (dst_end != null) {
-                add(new FixedEvent(DateUtilities.getCalendar(dst_end),
-                        context.getString(R.string.dst_end), true), false);
+                add(new FixedEvent(DateUtilities.getCalendar(dst_end), context.getString(R.string.dst_end), true), false);
             }
-            add(new FixedEvent(DateUtilities.getMothersDay(year),
-                    context.getString(R.string.muttertag), true), false);
-            int mode = TKWeekActivity.getIntFromSharedPreferences(prefs, "fathersday",
-                    0);
+            add(new FixedEvent(DateUtilities.getMothersDay(year), context.getString(R.string.muttertag), true), false);
+            int mode = TKWeekActivity.getIntFromSharedPreferences(prefs, "fathersday", 0);
             if (mode == 1) {
-                Calendar cal = CalendarIterator.iterateUntil(DateUtilities
-                                .getCalendar(year, Calendar.JUNE, 1), CalendarCondition
-                                .createCalendarCondition(CONDITION.EQUAL,
-                                        Calendar.DAY_OF_WEEK, Calendar.SUNDAY, true),
-                        Calendar.DAY_OF_MONTH, 1);
+                Calendar cal = CalendarIterator.iterateUntil(DateUtilities.getCalendar(year, Calendar.JUNE, 1), CalendarCondition.createCalendarCondition(CONDITION.EQUAL, Calendar.DAY_OF_WEEK, Calendar.SUNDAY, true), Calendar.DAY_OF_MONTH, 1);
                 cal.add(Calendar.WEEK_OF_MONTH, 2);
-                add(new FixedEvent(cal, context.getString(R.string.fathersday),
-                        true), false);
+                add(new FixedEvent(cal, context.getString(R.string.fathersday), true), false);
             } else if (mode == 2) {
-                Calendar cal = CalendarIterator.iterateUntil(DateUtilities
-                                .getCalendar(year, Calendar.SEPTEMBER, 1),
-                        CalendarCondition.createCalendarCondition(
-                                CONDITION.EQUAL, Calendar.DAY_OF_WEEK,
-                                Calendar.SUNDAY, true), Calendar.DAY_OF_MONTH,
-                        1);
-                add(new FixedEvent(cal, context.getString(R.string.fathersday),
-                        true), false);
+                Calendar cal = CalendarIterator.iterateUntil(DateUtilities.getCalendar(year, Calendar.SEPTEMBER, 1), CalendarCondition.createCalendarCondition(CONDITION.EQUAL, Calendar.DAY_OF_WEEK, Calendar.SUNDAY, true), Calendar.DAY_OF_MONTH, 1);
+                add(new FixedEvent(cal, context.getString(R.string.fathersday), true), false);
             }
         }
     }
@@ -703,59 +582,45 @@ public class AnnualEventsListAdapter extends BaseAdapter implements
     private void addEasterEvents(Context context, int year) {
         Calendar easter = DateUtilities.getEasterForYear(context, year);
         if (easter != null) {
-            add(new FixedEvent(easter,
-                    context.getString(R.string.ostersonntag), true), false);
+            add(new FixedEvent(easter, context.getString(R.string.ostersonntag), true), false);
             easter.add(Calendar.DAY_OF_YEAR, 1);
-            add(new FixedEvent(easter, context.getString(R.string.ostermontag),
-                    true), false);
+            add(new FixedEvent(easter, context.getString(R.string.ostermontag), true), false);
             easter.add(Calendar.DAY_OF_YEAR, -3);
-            add(new FixedEvent(easter, context.getString(R.string.karfreitag),
-                    true), false);
+            add(new FixedEvent(easter, context.getString(R.string.karfreitag), true), false);
             // Palm sunday: easter - 7 days (-2 - 5)
             easter.add(Calendar.DAY_OF_YEAR, -5);
-            add(new FixedEvent(easter, context.getString(R.string.palmsonntag),
-                    true), false);
+            add(new FixedEvent(easter, context.getString(R.string.palmsonntag), true), false);
             // Thursday before Shrove Tuesday (Shrove Monday would be -41)
             easter.add(Calendar.DAY_OF_YEAR, -45);
-            add(new FixedEvent(easter, context.getString(R.string.weiberfastnacht),
-                    true), false);
+            add(new FixedEvent(easter, context.getString(R.string.weiberfastnacht), true), false);
             // Shrove Monday (4 days from Thursday til Monday)
             easter.add(Calendar.DAY_OF_YEAR, 4);
-            add(new FixedEvent(easter, context.getString(R.string.rosenmontag),
-                    true), false);
+            add(new FixedEvent(easter, context.getString(R.string.rosenmontag), true), false);
             // Ash Wednesday
             easter.add(Calendar.DAY_OF_YEAR, 2);
             if (DateUtilities.isWesternChurchesSet(context)) {
-                add(new FixedEvent(easter,
-                        context.getString(R.string.aschermittwoch), true), false);
+                add(new FixedEvent(easter, context.getString(R.string.aschermittwoch), true), false);
             }
             // Ascension of Jesus
             easter.add(Calendar.DAY_OF_YEAR, 85); // 39 + 46
-            add(new FixedEvent(easter,
-                    context.getString(R.string.christi_himmelfahrt), true), false);
+            add(new FixedEvent(easter, context.getString(R.string.christi_himmelfahrt), true), false);
             // Pentecost
             easter.add(Calendar.DAY_OF_YEAR, 10);
-            add(new FixedEvent(easter, context.getString(R.string.pfingsten),
-                    true), false);
+            add(new FixedEvent(easter, context.getString(R.string.pfingsten), true), false);
             // All Saints: in orthodox churches after Pentecost, otherwise Nov. 1
             if (DateUtilities.isWesternChurchesSet(context)) {
-                add(new FixedEvent(DateUtilities.getCalendar(year,
-                        Calendar.NOVEMBER, 1),
-                        context.getString(R.string.allerheiligen), true), false);
+                add(new FixedEvent(DateUtilities.getCalendar(year, Calendar.NOVEMBER, 1), context.getString(R.string.allerheiligen), true), false);
             } else {
                 Calendar cal = (Calendar) easter.clone();
                 cal.add(Calendar.DAY_OF_YEAR, 7);
-                add(new FixedEvent(cal,
-                        context.getString(R.string.allerheiligen), true), false);
+                add(new FixedEvent(cal, context.getString(R.string.allerheiligen), true), false);
             }
             // Whit Monday
             easter.add(Calendar.DAY_OF_YEAR, 1);
-            add(new FixedEvent(easter, context.getString(R.string.pfingstmontag),
-                    true), false);
+            add(new FixedEvent(easter, context.getString(R.string.pfingstmontag), true), false);
             // Corpus Christi (10 instead of 11 due to Whit Monday)
             easter.add(Calendar.DAY_OF_YEAR, 10);
-            add(new FixedEvent(easter,
-                    context.getString(R.string.fronleichnam), true), false);
+            add(new FixedEvent(easter, context.getString(R.string.fronleichnam), true), false);
         }
     }
 
@@ -789,8 +654,7 @@ public class AnnualEventsListAdapter extends BaseAdapter implements
                 return;
             }
         }
-        if ((search == null) ||
-                e.descr.toLowerCase().contains(search)) {
+        if ((search == null) || e.descr.toLowerCase().contains(search)) {
             data.add(e);
         }
     }
@@ -801,10 +665,7 @@ public class AnnualEventsListAdapter extends BaseAdapter implements
         }
     }
 
-    private void loadUserEvents(Context context,
-                                final File file,
-                                final int yearFrom,
-                                final int yearTo) {
+    private void loadUserEvents(Context context, final File file, final int yearFrom, final int yearTo) {
         FileReader fr = null;
         BufferedReader br = null;
         try {
@@ -869,16 +730,7 @@ public class AnnualEventsListAdapter extends BaseAdapter implements
                         _to = intYear;
                     }
                     for (int year = _from; year <= _to; year++) {
-                        add(new Event(descr,
-                                year,
-                                Integer.parseInt(month),
-                                Integer.parseInt(day),
-                                false,
-                                annuallyRepeating,
-                                Event.DEFAULT_COLOUR,
-                                Event.DEFAULT_CALENDAR,
-                                runtimeID,
-                                year != _from), forceLoaded);
+                        add(new Event(descr, year, Integer.parseInt(month), Integer.parseInt(day), false, annuallyRepeating, Event.DEFAULT_COLOUR, Event.DEFAULT_CALENDAR, runtimeID, year != _from), forceLoaded);
                     }
                 }
             }
@@ -902,10 +754,7 @@ public class AnnualEventsListAdapter extends BaseAdapter implements
         }
     }
 
-    private boolean addSimpleEvents(Context context,
-                                    Locale locale,
-                                    int[] events,
-                                    int year) {
+    private boolean addSimpleEvents(Context context, Locale locale, int[] events, int year) {
         if (PickCountriesPreference.isSelected(context, locale)) {
             addSimpleEvents(context, events, year);
             return true;
@@ -913,29 +762,19 @@ public class AnnualEventsListAdapter extends BaseAdapter implements
         return false;
     }
 
-    private void addSimpleEvents(Context context,
-                                 int[] events,
-                                 int year) {
+    private void addSimpleEvents(Context context, int[] events, int year) {
         for (int i = 0; i < events.length; i += 3) {
-            add(new Event(context.getString(events[i]),
-                    year,
-                    events[i + 1],
-                    events[i + 2],
-                    true,
-                    true), false);
+            add(new Event(context.getString(events[i]), year, events[i + 1], events[i + 2], true, true), false);
         }
     }
 
     private void addChristianEvents(Context context, int year) {
         addSimpleEvents(context, christianEvents, year);
         Calendar advent = DateUtilities.getFirstAdvent(year);
-        add(new FixedEvent(advent,
-                context.getString(R.string.advent, 1),
-                true), false);
+        add(new FixedEvent(advent, context.getString(R.string.advent, 1), true), false);
         for (int i = 2; i <= 4; i++) {
             advent.add(Calendar.DAY_OF_YEAR, 7);
-            add(new FixedEvent(advent,
-                    context.getString(R.string.advent, i), true), false);
+            add(new FixedEvent(advent, context.getString(R.string.advent, i), true), false);
         }
     }
 

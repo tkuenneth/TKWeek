@@ -58,14 +58,6 @@
     <string name="number_of_events">%1$d events</string>
     <string name="year">year</string>
 
-    <!-- Schulferien -->
-    <string name="herbstferien">Autumn holiday</string>
-    <string name="weihnachtsferien">Christmas holidays</string>
-    <string name="winterferien">Winter holidays</string>
-    <string name="osterferien">Easter holidays</string>
-    <string name="pfingstferien">Whitsun holidays</string>
-    <string name="sommerferien">Summer holidays</string>
-
     <!-- moon phases -->
     <string name="new_moon">New Moon</string>
     <string name="first_quarter">First Quarter</string>
@@ -342,10 +334,6 @@ TKWeek needs to access your contacts.</string>
     <!-- DayOfYearWidget -->
     <string name="dayofyearwidget_name">Day of year</string>
 
-    <!-- WhatsNew -->
-    <string name="alert_dialog_continue">Continue</string>
-    <string name="alert_dialog_abort">Abort</string>
-
     <string name="buss_und_bettag_de">day of repentance and prayer</string>
     <string name="weltkindertag">Universal Children\'s Day</string>
     <string name="schulferien_bundesland">School holidays</string>
@@ -357,6 +345,8 @@ TKWeek needs to access your contacts.</string>
     <string name="delete">Delete</string>
     <string name="thanksgiving">Thanksgiving</string>
     <string name="augsburger_friedensfest">Augsburg Peace Festival</string>
+    <string name="tolkien_reading_day">Tolkien Reading Day</string>
+    <string name="hobbit_day">Hobbit Day</string>
 
     <string translatable="false" name="welcome_text">Thank you very much for downloading this app.
 If you have any questions or suggestions, please feel free to contact me at tkweek@thomaskuenneth.de

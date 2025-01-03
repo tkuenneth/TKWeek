@@ -276,21 +276,11 @@ Sie TKWeek den Zugriff auf Kontakte gestatten.</string>
     <!-- DayOfYearWidget -->
     <string name="dayofyearwidget_name">Tag des Jahres</string>
 
-    <!-- WhatsNew -->
-    <string name="alert_dialog_continue">Weiter</string>
-    <string name="alert_dialog_abort">Abbruch</string>
-
     <string name="buss_und_bettag_de">Buß- und Bettag</string>
     <string name="weltkindertag">Weltkindertag</string>
     <string name="schulferien_bundesland">Schulferien</string>
     <string name="search">Suchen</string>
-    <string name="herbstferien">Herbstferien</string>
-    <string name="osterferien">Osterferien</string>
-    <string name="pfingstferien">Pfingstferien</string>
     <string name="search_hint">Name d. Ereignisses</string>
-    <string name="sommerferien">Sommerferien</string>
-    <string name="weihnachtsferien">Weihnachtsferien</string>
-    <string name="winterferien">Winterferien</string>
     <string name="filtered">gefiltert</string>
     <string name="weiberfastnacht">Weiberfastnacht</string>
     <string name="sg_national_day">Nationaltag (Singapur)</string>
@@ -316,4 +306,8 @@ Sie TKWeek den Zugriff auf Kontakte gestatten.</string>
     <string name="columbus_day">Kolumbus-Tag</string>
     <string name="veterans_day_us">Tag der Veteranen</string>
     <string name="groundhog_day_us">Murmeltiertag</string>
+
+    <string name="tolkien_reading_day">Tag der Tolkien-Lektüre</string>
+    <string name="hobbit_day">Hobbit-Tag</string>
+
 </resources>

@@ -63,7 +63,7 @@ class DatePickerFragment : DialogFragment() {
                 cal.set(year, monthOfYear, dayOfMonth)
                 addDate(
                     requireContext(),
-                    RECENTS_KEY, cal.time
+                    KEY_RECENT_DATES, cal.time
                 )
                 updateRecents()
             }
@@ -108,7 +108,7 @@ class DatePickerFragment : DialogFragment() {
     private fun updateRecents() {
         updateRecents(
             requireContext(),
-            RECENTS_KEY,
+            KEY_RECENT_DATES,
             binding.recentlyClicked.recent1,
             binding.recentlyClicked.recent2,
             binding.recentlyClicked.recent3

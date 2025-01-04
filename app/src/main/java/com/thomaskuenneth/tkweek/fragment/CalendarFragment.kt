@@ -2,7 +2,7 @@
  * CalendarFragment.kt
  *
  * Copyright 2021 MATHEMA GmbH
- *           2022 - 2024 Thomas Künneth
+ *           2022 - 2025 Thomas Künneth
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
@@ -25,6 +25,7 @@ package com.thomaskuenneth.tkweek.fragment
 
 import android.content.Context
 import android.content.Intent
+import android.content.res.ColorStateList
 import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -38,6 +39,8 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.AdapterView
 import android.widget.AdapterView.OnItemSelectedListener
 import android.widget.TextView
+import androidx.core.content.ContextCompat
+import androidx.core.content.res.ResourcesCompat
 import com.google.android.material.color.MaterialColors
 import com.thomaskuenneth.tkweek.R
 import com.thomaskuenneth.tkweek.activity.TKWeekActivity
@@ -51,11 +54,11 @@ import com.thomaskuenneth.tkweek.util.DateUtilities
 import java.util.Calendar
 import java.util.Date
 
-const val RECENTS_KEY = "CalendarFragment"
+const val KEY_RECENT_DATES = "CalendarFragment"
 private const val TAG = "CalendarFragment"
 
-class CalendarFragment : TKWeekBaseFragment<CalendarBinding>(),
-    View.OnClickListener, OnItemSelectedListener {
+class CalendarFragment : TKWeekBaseFragment<CalendarBinding>(), View.OnClickListener,
+    OnItemSelectedListener {
 
     private val binding get() = backing!!
 
@@ -64,8 +67,7 @@ class CalendarFragment : TKWeekBaseFragment<CalendarBinding>(),
     private val dayOffListener = OnLongClickListener { v: View ->
         (v.tag as? Date)?.let {
             setDayOff(
-                requireContext(), it,
-                !isDayOff(requireContext(), it)
+                requireContext(), it, !isDayOff(requireContext(), it)
             )
             updateCalendar()
         }
@@ -74,8 +76,8 @@ class CalendarFragment : TKWeekBaseFragment<CalendarBinding>(),
 
     private val dayClickedListener = View.OnClickListener { v: View ->
         (v.tag as? Date)?.let {
-            addDate(requireContext(), RECENTS_KEY, it)
-            updateRecents()
+            addDate(requireContext(), KEY_RECENT_DATES, it)
+            updateRecentDates()
             val payload = Bundle()
             payload.putLong(DATE, it.time)
             launchModule(MyDayFragment::class.java, payload)
@@ -83,8 +85,7 @@ class CalendarFragment : TKWeekBaseFragment<CalendarBinding>(),
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?, savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         backing = CalendarBinding.inflate(inflater, container, false)
         return binding.root
@@ -94,12 +95,12 @@ class CalendarFragment : TKWeekBaseFragment<CalendarBinding>(),
         binding.calendarYear.setOnEditorActionListener { _, _, _ ->
             var year = try {
                 binding.calendarYear.text.toString().toInt()
-            } catch (e: NumberFormatException) {
+            } catch (_: NumberFormatException) {
                 cal.get(Calendar.YEAR)
             }
             if (year < 0) year = 0
             if (year > 2100) year = 2100
-            binding.calendarYear.setText(year.toString())
+            binding.calendarYear.setText("$year")
             requireContext().getSystemService(InputMethodManager::class.java).run {
                 hideSoftInputFromWindow(binding.calendarYear.windowToken, 0)
             }
@@ -110,8 +111,7 @@ class CalendarFragment : TKWeekBaseFragment<CalendarBinding>(),
         }
         binding.calendarDown.setOnClickListener(this)
         binding.calendarUp.setOnClickListener(this)
-        binding.calendarGallery.adapter =
-            MonthsAsTextAdapter(requireContext())
+        binding.calendarGallery.adapter = MonthsAsTextAdapter(requireContext())
         binding.calendarGallery.onItemSelectedListener = this
         days = mutableListOf()
         days.add(binding.calendar11)
@@ -205,14 +205,13 @@ class CalendarFragment : TKWeekBaseFragment<CalendarBinding>(),
 
     override fun onResume() {
         super.onResume()
-        updateRecents()
+        updateRecentDates()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         outState.putString(
-            TAG,
-            TKWeekActivity.FORMAT_DEFAULT.format(cal.time)
+            TAG, TKWeekActivity.FORMAT_DEFAULT.format(cal.time)
         )
     }
 
@@ -230,8 +229,7 @@ class CalendarFragment : TKWeekBaseFragment<CalendarBinding>(),
     }
 
     override fun onItemSelected(
-        parent: AdapterView<*>?, view: View?, position: Int,
-        id: Long
+        parent: AdapterView<*>?, view: View?, position: Int, id: Long
     ) {
         cal[Calendar.MONTH] = position
         updateCalendar()
@@ -240,29 +238,21 @@ class CalendarFragment : TKWeekBaseFragment<CalendarBinding>(),
     override fun onNothingSelected(parent: AdapterView<*>?) {}
 
     private fun update() {
-        binding.calendarYear.setText(cal[Calendar.YEAR].toString())
+        binding.calendarYear.setText("${cal[Calendar.YEAR]}")
         binding.calendarGallery.setSelection(cal[Calendar.MONTH])
         updateCalendar()
     }
 
     private fun updateCalendar() {
         val defaultColor = binding.calendarLayoutRecent.recent1.textColors
-        val activeColor =
-            MaterialColors.getColor(
-                requireContext(),
-                com.google.android.material.R.attr.colorOnBackground,
-                Color.GREEN
-            )
-        val backgroundColor =
-            MaterialColors.getColor(
-                requireContext(),
-                com.google.android.material.R.attr.colorSurface,
-                Color.GREEN
-            )
+        val activeColor = MaterialColors.getColor(
+            requireContext(), com.google.android.material.R.attr.colorOnBackground, Color.GREEN
+        )
+        val backgroundColor = MaterialColors.getColor(
+            requireContext(), com.google.android.material.R.attr.colorSurface, Color.GREEN
+        )
         val accentColor = MaterialColors.getColor(
-            requireContext(),
-            com.google.android.material.R.attr.colorAccent,
-            Color.GREEN
+            requireContext(), com.google.android.material.R.attr.colorAccent, Color.GREEN
         )
         var businessDays = 0
         var daysOff = 0
@@ -270,8 +260,7 @@ class CalendarFragment : TKWeekBaseFragment<CalendarBinding>(),
             PickBusinessDaysPreference.getTag(), Context.MODE_PRIVATE
         )
         val temp = DateUtilities.getCalendar(
-            cal[Calendar.YEAR],
-            cal[Calendar.MONTH], 1
+            cal[Calendar.YEAR], cal[Calendar.MONTH], 1
         )
         prepareCalendar(temp, requireContext())
         DateUtilities.clearTimeRelatedFields(temp)
@@ -287,9 +276,7 @@ class CalendarFragment : TKWeekBaseFragment<CalendarBinding>(),
                 temp.time
             ).substring(0, 1)
             val dayOfWeek = temp[Calendar.DAY_OF_WEEK]
-            if (dayOfWeek == Calendar.SATURDAY
-                || dayOfWeek == Calendar.SUNDAY
-            ) {
+            if (dayOfWeek == Calendar.SATURDAY || dayOfWeek == Calendar.SUNDAY) {
                 days[i].setTextColor(Color.RED)
             } else {
                 days[i].setTextColor(defaultColor)
@@ -301,7 +288,7 @@ class CalendarFragment : TKWeekBaseFragment<CalendarBinding>(),
         for (week in 1..6) {
             days[week * 8].tag = null
             days[week * 8].setTextColor(defaultColor)
-            days[week * 8].text = temp[Calendar.WEEK_OF_YEAR].toString()
+            days[week * 8].text = "${temp[Calendar.WEEK_OF_YEAR]}"
             for (day in 1..7) {
                 val pos = day + week * 8
                 days[pos].tag = temp.time
@@ -310,8 +297,7 @@ class CalendarFragment : TKWeekBaseFragment<CalendarBinding>(),
                     // business day?
                     val weekday = temp[Calendar.DAY_OF_WEEK]
                     if (prefs.getBoolean(
-                            weekday.toString(),
-                            PickBusinessDaysPreference.getDefault(weekday)
+                            weekday.toString(), PickBusinessDaysPreference.getDefault(weekday)
                         )
                     ) {
                         businessDays += 1
@@ -328,13 +314,15 @@ class CalendarFragment : TKWeekBaseFragment<CalendarBinding>(),
                     color = defaultColor.defaultColor
                 }
                 if (DateUtilities.isToday(temp)) {
-                    days[pos].setBackgroundColor(color)
+                    days[pos].background =
+                        ResourcesCompat.getDrawable(resources, R.drawable.custom_list_item, null)
+                    days[pos].backgroundTintList = ColorStateList.valueOf(color)
                     days[pos].setTextColor(backgroundColor)
                 } else {
                     days[pos].setBackgroundColor(Color.TRANSPARENT)
                     days[pos].setTextColor(color)
                 }
-                days[pos].text = temp[Calendar.DAY_OF_MONTH].toString()
+                days[pos].text = "${temp[Calendar.DAY_OF_MONTH]}"
                 temp.add(Calendar.DAY_OF_MONTH, 1)
             }
         }
@@ -342,8 +330,7 @@ class CalendarFragment : TKWeekBaseFragment<CalendarBinding>(),
             R.string.calendar_number_of_business_days, businessDays
         )
         binding.calendarNumberDaysOff.text = getString(
-            R.string.calendar_number_days_off,
-            daysOff
+            R.string.calendar_number_days_off, daysOff
         )
     }
 
@@ -361,8 +348,7 @@ class CalendarFragment : TKWeekBaseFragment<CalendarBinding>(),
         @JvmStatic
         fun setDayOff(context: Context, date: Date, dayOff: Boolean) {
             val prefs = context.getSharedPreferences(
-                TAG,
-                Context.MODE_PRIVATE
+                TAG, Context.MODE_PRIVATE
             )
             val e = prefs.edit()
             e.putBoolean(TKWeekActivity.FORMAT_YYYYMMDD.format(date), dayOff)
@@ -379,17 +365,16 @@ class CalendarFragment : TKWeekBaseFragment<CalendarBinding>(),
         @JvmStatic
         fun isDayOff(context: Context, date: Date): Boolean {
             val prefs = context.getSharedPreferences(
-                TAG,
-                Context.MODE_PRIVATE
+                TAG, Context.MODE_PRIVATE
             )
             return prefs.getBoolean(TKWeekActivity.FORMAT_YYYYMMDD.format(date), false)
         }
     }
 
-    private fun updateRecents() {
+    private fun updateRecentDates() {
         updateRecents(
             requireContext(),
-            RECENTS_KEY,
+            KEY_RECENT_DATES,
             binding.calendarLayoutRecent.recent1,
             binding.calendarLayoutRecent.recent2,
             binding.calendarLayoutRecent.recent3

@@ -312,7 +312,8 @@ public class AnnualEventsListAdapter extends BaseAdapter implements Comparator<E
         Event event = (Event) getItem(position);
         Context context = convertView.getContext();
         holder.text1.setText(getDescription(event, context));
-        holder.text1.setTextColor(CalendarFragment.isDayOff(context, DateUtilities.getCalendar(event).getTime()) ? MaterialColors.getColor(convertView, com.google.android.material.R.attr.colorPrimary) : holder.text2.getTextColors().getDefaultColor());
+        // We could check days off using
+        // CalendarFragment.isDayOff(context, DateUtilities.getCalendar(event).getTime())
         holder.text2.setText(getDateAsString(event, context));
         holder.text3.setText(getDaysAsString(event));
         String calendarName = getCalendarName(event);

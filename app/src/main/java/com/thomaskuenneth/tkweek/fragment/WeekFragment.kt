@@ -2,7 +2,7 @@
  * WeekFragment.kt
  *
  * Copyright 2021 MATHEMA GmbH
- *           2022 - 2023 Thomas Künneth
+ *           2022 - 2025 Thomas Künneth
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
@@ -64,7 +64,7 @@ class WeekFragment : TKWeekBaseFragment<WeekBinding>(), OnDateChangedListener,
     override fun onStart() {
         super.onStart()
         prepareCalendar(cal, requireContext(), binding.labelWeekNumber, false)
-        updatViewsFromCalendar()
+        updateViewsFromCalendar()
     }
 
     @Deprecated("Deprecated in Java")
@@ -78,7 +78,7 @@ class WeekFragment : TKWeekBaseFragment<WeekBinding>(), OnDateChangedListener,
         return when (item.itemId) {
             R.id.today -> {
                 cal.time = Date()
-                updatViewsFromCalendar()
+                updateViewsFromCalendar()
                 true
             }
 
@@ -89,7 +89,7 @@ class WeekFragment : TKWeekBaseFragment<WeekBinding>(), OnDateChangedListener,
     override fun preferencesFinished(resultCode: Int, data: Intent?) {
         super.preferencesFinished(resultCode, data)
         prepareCalendar(cal, requireContext(), binding.labelWeekNumber, false)
-        updatViewsFromCalendar()
+        updateViewsFromCalendar()
         updateWeekInfoWidgets(requireContext())
     }
 
@@ -109,7 +109,7 @@ class WeekFragment : TKWeekBaseFragment<WeekBinding>(), OnDateChangedListener,
             val dif = progress - (cal[Calendar.WEEK_OF_YEAR] - 1)
             if (dif != 0) {
                 cal.add(Calendar.DAY_OF_MONTH, 7 * dif)
-                updatViewsFromCalendar(updateWeekSelection = false)
+                updateViewsFromCalendar(updateWeekSelection = false)
             }
         }
     }
@@ -128,7 +128,7 @@ class WeekFragment : TKWeekBaseFragment<WeekBinding>(), OnDateChangedListener,
             current += 7
         }
         cal[Calendar.DAY_OF_MONTH] = current
-        updatViewsFromCalendar()
+        updateViewsFromCalendar()
     }
 
     private fun updateWeekInfoWidgets(context: Context) {
@@ -145,7 +145,7 @@ class WeekFragment : TKWeekBaseFragment<WeekBinding>(), OnDateChangedListener,
         }
     }
 
-    private fun updatViewsFromCalendar(updateWeekSelection: Boolean = true) {
+    private fun updateViewsFromCalendar(updateWeekSelection: Boolean = true) {
         binding.dateWithinWeek.init(
             cal[Calendar.YEAR], cal[Calendar.MONTH], cal[Calendar.DAY_OF_MONTH], this
         )
@@ -179,7 +179,7 @@ class WeekFragment : TKWeekBaseFragment<WeekBinding>(), OnDateChangedListener,
 
     companion object {
 
-        private const val WOCHENANFANG = "wochenanfang"
+        private const val START_OF_WEEK = "wochenanfang"
         private const val USE_ISO_WEEKS = "use_iso_weeks"
 
         private val cal = Calendar.getInstance()
@@ -201,7 +201,7 @@ class WeekFragment : TKWeekBaseFragment<WeekBinding>(), OnDateChangedListener,
                 label_week_number?.setText(R.string.week_number_iso)
             } else {
                 val c = Calendar.getInstance()
-                val s = prefs.getString(WOCHENANFANG, "-1")
+                val s = prefs.getString(START_OF_WEEK, "-1")
                 var start = -1
                 try {
                     start = s!!.toInt()

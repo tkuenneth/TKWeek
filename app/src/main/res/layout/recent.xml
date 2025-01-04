@@ -3,32 +3,32 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/recent_headline"
-        style="@style/Headline"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_marginStart="12dp"
         android:layout_marginTop="24dp"
         android:layout_marginBottom="8dp"
-        android:text="@string/calendar_recently_clicked" />
+        android:text="@string/calendar_recently_clicked"
+        android:textAppearance="@style/TextAppearance.Material3.BodyLarge" />
 
-    <LinearLayout
+    <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/recent_headline"
         android:layout_centerHorizontal="true"
         android:padding="8dp">
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/recent_1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:clickable="true"
             android:focusable="true" />
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/recent_2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -37,7 +37,7 @@
             android:paddingStart="32dp"
             android:paddingEnd="0dp" />
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/recent_3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -46,6 +46,6 @@
             android:paddingStart="32dp"
             android:paddingEnd="0dp" />
 
-    </LinearLayout>
+    </androidx.appcompat.widget.LinearLayoutCompat>
 
 </RelativeLayout>

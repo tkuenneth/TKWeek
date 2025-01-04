@@ -9,17 +9,17 @@
         android:layout_height="wrap_content"
         android:padding="16dip">
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/label_first_date"
-            style="@style/Headline"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="8dp"
-            android:text="@string/first_date" />
+            android:text="@string/first_date"
+            android:textAppearance="@style/TextAppearance.Material3.BodyLarge" />
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/first_date_pick"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -29,7 +29,7 @@
             android:ems="7"
             android:text="@string/pick" />
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/first_date_today"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -38,7 +38,7 @@
             android:ems="7"
             android:text="@string/today" />
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/first_date"
             android:layout_width="0dip"
             android:layout_height="wrap_content"
@@ -46,26 +46,26 @@
             android:layout_alignBaseline="@id/first_date_today"
             android:layout_alignParentStart="true"
             android:layout_toStartOf="@id/first_date_today"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
+            android:textAppearance="?attr/textAppearanceBodyMedium" />
 
-        <CheckBox
+        <com.google.android.material.checkbox.MaterialCheckBox
             android:id="@+id/checkbox_include_first_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/first_date_today"
             android:text="@string/include_first_date" />
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/label_second_date"
-            style="@style/Headline"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/checkbox_include_first_date"
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="8dp"
-            android:text="@string/second_date" />
+            android:text="@string/second_date"
+            android:textAppearance="@style/TextAppearance.Material3.BodyLarge" />
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/second_date_pick"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -75,7 +75,7 @@
             android:ems="7"
             android:text="@string/pick" />
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/second_date_today"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -84,7 +84,7 @@
             android:ems="7"
             android:text="@string/today" />
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/second_date"
             android:layout_width="0dip"
             android:layout_height="wrap_content"
@@ -92,7 +92,7 @@
             android:layout_alignBaseline="@id/second_date_today"
             android:layout_alignParentStart="true"
             android:layout_toStartOf="@id/second_date_today"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
+            android:textAppearance="?attr/textAppearanceBodyMedium" />
 
         <RelativeLayout
             android:id="@+id/relative_layout_days_between_dates"
@@ -101,53 +101,53 @@
             android:layout_below="@id/second_date_today"
             android:layout_marginTop="32dp">
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/days_between_dates_total1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingBottom="8dp"
-                android:textAppearance="?android:attr/textAppearanceMedium" />
+                android:textAppearance="?attr/textAppearanceBodyMedium" />
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/days_between_dates_total2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/days_between_dates_total1"
                 android:paddingBottom="8dp"
-                android:textAppearance="?android:attr/textAppearanceMedium" />
+                android:textAppearance="?attr/textAppearanceBodyMedium" />
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/days_between_dates_weekends"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/days_between_dates_total2"
                 android:paddingBottom="8dp"
-                android:textAppearance="?android:attr/textAppearanceMedium" />
+                android:textAppearance="?attr/textAppearanceBodyMedium" />
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/days_between_dates_weeks"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/days_between_dates_weekends"
                 android:paddingBottom="8dp"
-                android:textAppearance="?android:attr/textAppearanceMedium" />
+                android:textAppearance="?attr/textAppearanceBodyMedium" />
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/days_between_dates_month_turns"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/days_between_dates_weeks"
                 android:layout_alignParentStart="true"
                 android:paddingBottom="8dp"
-                android:textAppearance="?android:attr/textAppearanceMedium" />
+                android:textAppearance="?attr/textAppearanceBodyMedium" />
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/days_between_dates_year_turns"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/days_between_dates_month_turns"
                 android:layout_alignParentStart="true"
-                android:textAppearance="?android:attr/textAppearanceMedium" />
+                android:textAppearance="?attr/textAppearanceBodyMedium" />
 
         </RelativeLayout>
 

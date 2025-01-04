@@ -27,7 +27,7 @@
 	    android:layout_height="wrap_content"
 		android:maxLines="4"
         android:ellipsize="end"
-	    android:textAppearance="?android:attr/textAppearanceMedium"
+	    android:textAppearance="?attr/textAppearanceBodyMedium"
 	/>
 	
 </LinearLayout>

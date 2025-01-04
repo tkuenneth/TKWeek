@@ -25,7 +25,7 @@
                 android:screenReaderFocusable="false"
                 tools:targetApi="p" />
 
-            <Button
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/calendar_down"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -47,9 +47,9 @@
                 android:importantForAutofill="no"
                 android:inputType="number"
                 android:maxLines="1"
-                android:textAppearance="?android:attr/textAppearanceMedium" />
+                android:textAppearance="?attr/textAppearanceBodyMedium" />
 
-            <Button
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/calendar_up"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -441,23 +441,23 @@
 
         </TableLayout>
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/calendar_number_of_business_days"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/calendar_layout_table"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="8dp"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
+            android:textAppearance="?attr/textAppearanceBodyMedium" />
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/calendar_number_days_off"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/calendar_number_of_business_days"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="8dp"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
+            android:textAppearance="?attr/textAppearanceBodyMedium" />
 
         <include
             android:id="@+id/calendar_layout_recent"

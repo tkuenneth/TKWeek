@@ -11,7 +11,7 @@
 	android:minEms="4"
 	android:layout_width="wrap_content"
 	android:layout_height="wrap_content"
-	android:textAppearance="?android:attr/textAppearanceMedium"
+	android:textAppearance="?attr/textAppearanceBodyMedium"
 	android:padding="8dp"
 	android:gravity="center"
 />

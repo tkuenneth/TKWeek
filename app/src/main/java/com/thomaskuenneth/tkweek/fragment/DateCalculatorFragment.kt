@@ -1,35 +1,51 @@
 /*
  * DateCalculatorFragment.kt
  *
- * TKWeek (c) Thomas Künneth 2021
- * Alle Rechte beim Autoren. All rights reserved.
+ * Copyright 2021 MATHEMA GmbH
+ *           2022 - 2025 Thomas Künneth
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy of
+ * this software and associated documentation files (the "Software"), to deal in
+ * the Software without restriction, including without limitation the rights to use,
+ * copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the
+ * Software, and to permit persons to whom the Software is furnished to do so,
+ * subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all copies
+ * or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
+ * INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
+ * PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+ * HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
+ * CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
+ * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 package com.thomaskuenneth.tkweek.fragment
 
 import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import android.widget.DatePicker
 import android.widget.DatePicker.OnDateChangedListener
 import android.widget.EditText
 import com.thomaskuenneth.tkweek.R
 import com.thomaskuenneth.tkweek.activity.TKWeekActivity
-import com.thomaskuenneth.tkweek.databinding.DateCalculatorActivityBinding
+import com.thomaskuenneth.tkweek.databinding.DateCalculatorBinding
 import com.thomaskuenneth.tkweek.preference.PickBusinessDaysPreference
 import com.thomaskuenneth.tkweek.util.DateUtilities.setMinDate
 import java.util.*
 
-class DateCalculatorFragment : TKWeekBaseFragment<DateCalculatorActivityBinding>(),
-    OnDateChangedListener {
+class DateCalculatorFragment : TKWeekBaseFragment<DateCalculatorBinding>(), OnDateChangedListener {
 
     private val binding get() = backing!!
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?, savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
-        backing = DateCalculatorActivityBinding.inflate(inflater, container, false)
+        backing = DateCalculatorBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -61,13 +77,13 @@ class DateCalculatorFragment : TKWeekBaseFragment<DateCalculatorActivityBinding>
                 updateDatePicker()
                 true
             }
+
             else -> super.onOptionsItemSelected(item)
         }
     }
 
     override fun onDateChanged(
-        view: DatePicker?, year: Int, monthOfYear: Int,
-        dayOfMonth: Int
+        view: DatePicker?, year: Int, monthOfYear: Int, dayOfMonth: Int
     ) {
         cal[Calendar.YEAR] = year
         cal[Calendar.MONTH] = monthOfYear
@@ -86,13 +102,12 @@ class DateCalculatorFragment : TKWeekBaseFragment<DateCalculatorActivityBinding>
             val numberOfDays = getInt(binding.days, false)
             val offset = if (subtract) -1 else 1
             var weekday: Int
-            for (i in 0 until numberOfDays) {
+            (0 until numberOfDays).forEach { i ->
                 do {
                     temp.add(Calendar.DAY_OF_MONTH, offset)
                     weekday = temp[Calendar.DAY_OF_WEEK]
                 } while (!prefs.getBoolean(
-                        weekday.toString(),
-                        PickBusinessDaysPreference.getDefault(weekday)
+                        weekday.toString(), PickBusinessDaysPreference.getDefault(weekday)
                     )
                 )
             }
@@ -108,8 +123,7 @@ class DateCalculatorFragment : TKWeekBaseFragment<DateCalculatorActivityBinding>
 
     private fun updateDatePicker() {
         binding.dateCalculatorDatepicker.init(
-            cal[Calendar.YEAR], cal[Calendar.MONTH],
-            cal[Calendar.DAY_OF_MONTH], this
+            cal[Calendar.YEAR], cal[Calendar.MONTH], cal[Calendar.DAY_OF_MONTH], this
         )
     }
 
@@ -121,11 +135,13 @@ class DateCalculatorFragment : TKWeekBaseFragment<DateCalculatorActivityBinding>
                 result *= -1
             }
         } catch (thr: Throwable) {
+            Log.e(TAG, "getInt()", thr)
         }
         return result
     }
 
     companion object {
+        val TAG: String = DateCalculatorFragment::class.java.simpleName
         val cal: Calendar = Calendar.getInstance()
     }
 }

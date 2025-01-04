@@ -8,49 +8,36 @@
     android:paddingStart="8dp"
     android:paddingEnd="8dp">
 
-    <View
-        android:id="@+id/divider"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="?android:attr/listDivider"
-        android:visibility="gone" />
-
-    <LinearLayout
+    <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:baselineAligned="false"
         android:orientation="horizontal"
         android:padding="8dip">
 
-        <CheckBox
-            android:id="@+id/checkbox"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:visibility="gone" />
-
         <RelativeLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1">
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/text1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textAppearance="?attr/textAppearanceBodyMedium"
                 android:textColor="@color/list_item_color_selector" />
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/text2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/text1"
-                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textAppearance="?attr/textAppearanceBodySmall"
                 android:textColor="@color/list_item_color_selector" />
 
         </RelativeLayout>
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="end"
@@ -58,24 +45,25 @@
             android:paddingStart="8dp"
             android:paddingEnd="0dp">
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/text3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textAppearance="?attr/textAppearanceBodyMedium"
                 android:textColor="@color/list_item_color_selector" />
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/text4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_below="@id/text3"
                 android:singleLine="true"
-                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textAppearance="?attr/textAppearanceBodySmall"
                 android:textColor="@color/list_item_color_selector"
                 android:visibility="gone" />
 
-        </LinearLayout>
+        </RelativeLayout>
 
-    </LinearLayout>
+    </androidx.appcompat.widget.LinearLayoutCompat>
 
 </LinearLayout>

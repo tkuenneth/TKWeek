@@ -24,6 +24,7 @@
 package com.thomaskuenneth.tkweek.fragment
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.net.Uri
@@ -133,7 +134,7 @@ class MyDayFragment : TKWeekBaseFragment<MydayBinding>() {
         ) {
             permissions.add(Manifest.permission.READ_CALENDAR)
         }
-        if (permissions.size > 0) {
+        if (permissions.isNotEmpty()) {
             val l = arrayOfNulls<String>(permissions.size)
             permissions.toArray(l)
             requestPermissions(l, 0)
@@ -189,7 +190,7 @@ class MyDayFragment : TKWeekBaseFragment<MydayBinding>() {
                 try {
                     startActivity(i2)
                 } catch (e: ActivityNotFoundException) {
-                    Log.e(TAG, "keine passende Activity", e)
+                    Log.e(TAG, "no activity found", e)
                 }
                 return true
             }
@@ -236,7 +237,8 @@ class MyDayFragment : TKWeekBaseFragment<MydayBinding>() {
 
     private fun prepareEventsLoader() {
         cancelEventsLoader()
-        eventsLoader = object : AsyncTask<Void, Void, AnnualEventsListAdapter>() {
+        eventsLoader = @SuppressLint("StaticFieldLeak")
+        object : AsyncTask<Void, Void, AnnualEventsListAdapter>() {
             @Deprecated("Deprecated in Java")
             override fun onPreExecute() {
             }

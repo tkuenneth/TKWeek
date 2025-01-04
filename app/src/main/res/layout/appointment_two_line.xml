@@ -1,12 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-	appointment_two_line.xml
-	TKWeek (c) 2012 - 2020 Thomas Künneth
-	           2021 MATHEMA GmbH
-	All rights reserved.
--->
-
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
@@ -23,22 +16,22 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/appointment_two_line_1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:ellipsize="end"
             android:maxLines="4"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
+            android:textAppearance="?attr/textAppearanceBodyMedium" />
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/appointment_two_line_2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/appointment_two_line_1"
             android:layout_alignStart="@id/appointment_two_line_1"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
+            android:textAppearance="?attr/textAppearanceBodyMedium" />
 
     </RelativeLayout>
 
-</LinearLayout>
+</androidx.appcompat.widget.LinearLayoutCompat>

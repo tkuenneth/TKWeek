@@ -3,7 +3,7 @@
  *
  * Copyright 2009 - 2020 Thomas Künneth
  * Copyright 2021 MATHEMA GmbH
- *           2022 - 2023 Thomas Künneth
+ *           2022 - 2025 Thomas Künneth
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
@@ -35,10 +35,9 @@ import android.widget.TableRow
 import android.widget.TextView
 import com.thomaskuenneth.tkweek.R
 import com.thomaskuenneth.tkweek.activity.TKWeekActivity
-import com.thomaskuenneth.tkweek.databinding.AboutAYearActivityBinding
+import com.thomaskuenneth.tkweek.databinding.AboutAYearBinding
 import com.thomaskuenneth.tkweek.types.Seasons
 import com.thomaskuenneth.tkweek.types.Seasons.SEASON
-import com.thomaskuenneth.tkweek.updateRecents
 import com.thomaskuenneth.tkweek.util.*
 import com.thomaskuenneth.tkweek.util.CalendarCondition.CONDITION
 import java.util.*
@@ -46,8 +45,7 @@ import java.util.*
 private const val TAG = "AboutYearFragment"
 private const val YEAR_KEY = "year"
 
-class AboutYearFragment : TKWeekBaseFragment<AboutAYearActivityBinding>(),
-    View.OnClickListener {
+class AboutYearFragment : TKWeekBaseFragment<AboutAYearBinding>(), View.OnClickListener {
 
     private val binding get() = backing!!
 
@@ -57,10 +55,9 @@ class AboutYearFragment : TKWeekBaseFragment<AboutAYearActivityBinding>(),
     private lateinit var cc: CalendarCondition
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?, savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
-        backing = AboutAYearActivityBinding.inflate(inflater, container, false)
+        backing = AboutAYearBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -75,8 +72,7 @@ class AboutYearFragment : TKWeekBaseFragment<AboutAYearActivityBinding>(),
         seasons = Seasons(context)
         sb = StringBuilder()
         cc = CalendarCondition.createCalendarCondition(
-            CONDITION.EQUAL,
-            Calendar.DAY_OF_WEEK, Calendar.FRIDAY, false
+            CONDITION.EQUAL, Calendar.DAY_OF_WEEK, Calendar.FRIDAY, false
         )
         binding.aboutAYearDown.setOnClickListener(this)
         binding.aboutAYearUp.setOnClickListener(this)
@@ -119,31 +115,25 @@ class AboutYearFragment : TKWeekBaseFragment<AboutAYearActivityBinding>(),
         // Beginn und Ende der Sommerzeit
         val dst = DaylightSavingTime(year)
         val strFrom = dst.begin.let {
-            if (it != null)
-                TKWeekActivity.FORMAT_FULL.format(it)
+            if (it != null) TKWeekActivity.FORMAT_FULL.format(it)
             else TKWeekActivity.DASHES
         }
         val strTo = dst.end.let {
-            if (it != null)
-                TKWeekActivity.FORMAT_FULL.format(it)
+            if (it != null) TKWeekActivity.FORMAT_FULL.format(it)
             else TKWeekActivity.DASHES
         }
         binding.aboutAYearDaylightSavingsFromTo.text =
-            if (strFrom == TKWeekActivity.DASHES || strTo == TKWeekActivity.DASHES)
-                getString(R.string.no_daylight_savings)
-            else
-                getString(
-                    R.string.string1_dash_string2,
-                    strFrom, strTo
-                )
+            if (strFrom == TKWeekActivity.DASHES || strTo == TKWeekActivity.DASHES) getString(R.string.no_daylight_savings)
+            else getString(
+                R.string.string1_dash_string2, strFrom, strTo
+            )
         // Jahr
-        binding.aboutAYearYear.text =
-            TKWeekUtils.integerToString(year)
+        binding.aboutAYearYear.text = TKWeekUtils.integerToString(year)
         cal[Calendar.DAY_OF_MONTH] = 13
         cal[Calendar.MONTH] = Calendar.JANUARY
         val temp = cal.clone() as Calendar
         sb.setLength(0)
-        for (i in 0..11) {
+        (0..11).forEach { i ->
             try {
                 if (cc.matches(temp)) {
                     if (sb.isNotEmpty()) {
@@ -158,8 +148,7 @@ class AboutYearFragment : TKWeekBaseFragment<AboutAYearActivityBinding>(),
         }
         binding.aboutAYearMonths.text = sb.toString()
         val s = "${DateUtilities.toRoman(year)}${
-            if (DateUtilities.isSchaltjahr(cal[Calendar.YEAR]))
-                ", ${requireContext().getString(R.string.leap_year)}" else ""
+            if (DateUtilities.isSchaltjahr(cal[Calendar.YEAR])) ", ${requireContext().getString(R.string.leap_year)}" else ""
         }"
         binding.leapyearIsLeapYear.text = s
         updateWeekInfo()
@@ -201,8 +190,7 @@ class AboutYearFragment : TKWeekBaseFragment<AboutAYearActivityBinding>(),
     private fun getTextViews(index: Int): List<TextView> {
         val row = binding.aboutAYearLayoutWeekinfo.root.getChildAt(index) as TableRow
         val result = mutableListOf<TextView>()
-        for (i in 0..8)
-            result.add(row.getChildAt(i) as TextView)
+        for (i in 0..8) result.add(row.getChildAt(i) as TextView)
         return result
     }
 
@@ -226,9 +214,7 @@ class AboutYearFragment : TKWeekBaseFragment<AboutAYearActivityBinding>(),
             ).substring(0, 1)
             val dayOfWeek = temp[Calendar.DAY_OF_WEEK]
             dayOfWeekToPos[pos] = dayOfWeek
-            if (dayOfWeek == Calendar.SATURDAY
-                || dayOfWeek == Calendar.SUNDAY
-            ) {
+            if (dayOfWeek == Calendar.SATURDAY || dayOfWeek == Calendar.SUNDAY) {
                 info[pos].setTextColor(Color.RED)
             } else {
                 info[pos].setTextColor(info[8].textColors)
@@ -251,13 +237,11 @@ class AboutYearFragment : TKWeekBaseFragment<AboutAYearActivityBinding>(),
             for (weekday in 1..7) {
                 val amount = count[month][dayOfWeekToPos[weekday]]
                 sum += amount
-                info[weekday].text =
-                    TKWeekUtils.integerToString(
-                        amount
-                    )
+                info[weekday].text = TKWeekUtils.integerToString(
+                    amount
+                )
             }
-            info[8].text =
-                TKWeekUtils.integerToString(sum)
+            info[8].text = TKWeekUtils.integerToString(sum)
         }
     }
 

@@ -29,14 +29,14 @@
 
             <TableRow>
 
-                <TextView
+                <com.google.android.material.textview.MaterialTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="2dp"
                     android:gravity="end"
                     android:labelFor="@id/days"
                     android:text="@string/days"
-                    android:textAppearance="?android:attr/textAppearanceSmall" />
+                    android:textAppearance="?attr/textAppearanceBodySmall" />
 
                 <EditText
                     android:id="@+id/days"
@@ -45,16 +45,17 @@
                     android:ems="4"
                     android:importantForAutofill="no"
                     android:inputType="numberDecimal"
+                    android:minHeight="48dp"
                     android:singleLine="true" />
 
-                <TextView
+                <com.google.android.material.textview.MaterialTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="2dp"
                     android:gravity="end"
                     android:labelFor="@id/weeks"
                     android:text="@string/weeks"
-                    android:textAppearance="?android:attr/textAppearanceSmall" />
+                    android:textAppearance="?attr/textAppearanceBodySmall" />
 
                 <EditText
                     android:id="@+id/weeks"
@@ -63,6 +64,7 @@
                     android:ems="4"
                     android:importantForAutofill="no"
                     android:inputType="numberDecimal"
+                    android:minHeight="48dp"
                     android:singleLine="true" />
 
             </TableRow>
@@ -71,14 +73,14 @@
 
             <TableRow>
 
-                <TextView
+                <com.google.android.material.textview.MaterialTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="2dp"
                     android:gravity="end"
                     android:labelFor="@id/months"
                     android:text="@string/months"
-                    android:textAppearance="?android:attr/textAppearanceSmall" />
+                    android:textAppearance="?attr/textAppearanceBodySmall" />
 
                 <EditText
                     android:id="@+id/months"
@@ -87,16 +89,17 @@
                     android:ems="4"
                     android:importantForAutofill="no"
                     android:inputType="numberDecimal"
+                    android:minHeight="48dp"
                     android:singleLine="true" />
 
-                <TextView
+                <com.google.android.material.textview.MaterialTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="2dp"
                     android:gravity="end"
                     android:labelFor="@id/years"
                     android:text="@string/years"
-                    android:textAppearance="?android:attr/textAppearanceSmall" />
+                    android:textAppearance="?attr/textAppearanceBodySmall" />
 
                 <EditText
                     android:id="@+id/years"
@@ -105,6 +108,7 @@
                     android:ems="4"
                     android:importantForAutofill="no"
                     android:inputType="numberDecimal"
+                    android:minHeight="48dp"
                     android:singleLine="true" />
 
             </TableRow>
@@ -121,13 +125,13 @@
             android:layout_marginTop="8dp"
             android:gravity="center_horizontal">
 
-            <CheckBox
+            <com.google.android.material.checkbox.MaterialCheckBox
                 android:id="@+id/date_calculator_count_business_days_only"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/count_business_days_only" />
 
-            <CheckBox
+            <com.google.android.material.checkbox.MaterialCheckBox
                 android:id="@+id/date_calculator_reuse_result"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -147,14 +151,14 @@
             android:layout_marginTop="8dp"
             android:orientation="horizontal">
 
-            <Button
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/date_calculator_add"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:ems="4"
                 android:text="@string/add" />
 
-            <Button
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/date_calculator_subtract"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -164,7 +168,7 @@
                 android:ems="4"
                 android:text="@string/subtract" />
 
-            <Button
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/date_calculator_clear"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -175,7 +179,7 @@
 
         </RelativeLayout>
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/date_calculator_result"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -183,7 +187,7 @@
             android:layout_alignParentStart="true"
             android:layout_marginTop="16dp"
             android:gravity="center_horizontal"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
+            android:textAppearance="?attr/textAppearanceBodyMedium" />
 
         <com.thomaskuenneth.tkweek.util.BottomSpace
             android:layout_width="wrap_content"

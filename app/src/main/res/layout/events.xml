@@ -14,15 +14,15 @@
             android:layout_marginHorizontal="16dp"
             android:nestedScrollingEnabled="true">
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/header"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
-                android:layout_margin="16dp"
+                android:layout_margin="8dp"
                 android:gravity="center_horizontal"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:textColor="?colorPrimary" />
+                android:textAppearance="?attr/textAppearanceBodyLarge"
+                android:textColor="?attr/colorAccent" />
 
             <include
                 android:id="@+id/message_link_to_settings_contacts"

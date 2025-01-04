@@ -10,14 +10,14 @@
         android:layout_height="wrap_content"
         android:padding="16dp">
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/myday_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:gravity="center"
             android:paddingBottom="16dp"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
+            android:textAppearance="?attr/textAppearanceBodyMedium" />
 
         <RelativeLayout
             android:id="@+id/myday_layout_week_number"
@@ -25,21 +25,21 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/myday_date">
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/myday_label_week_number"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/week_number"
-                android:textAppearance="?android:attr/textAppearanceSmall" />
+                android:textAppearance="?attr/textAppearanceBodySmall" />
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/myday_week_number"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignBaseline="@id/myday_label_week_number"
                 android:layout_marginStart="6dip"
                 android:layout_toEndOf="@id/myday_label_week_number"
-                android:textAppearance="?android:attr/textAppearanceMedium" />
+                android:textAppearance="?attr/textAppearanceBodyMedium" />
 
         </RelativeLayout>
 
@@ -49,21 +49,21 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/myday_layout_week_number">
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/myday_label_day_in_year"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/label_day_of_year"
-                android:textAppearance="?android:attr/textAppearanceSmall" />
+                android:textAppearance="?attr/textAppearanceBodySmall" />
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/myday_day_in_year"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignBaseline="@id/myday_label_day_in_year"
                 android:layout_marginStart="6dip"
                 android:layout_toEndOf="@id/myday_label_day_in_year"
-                android:textAppearance="?android:attr/textAppearanceMedium" />
+                android:textAppearance="?attr/textAppearanceBodyMedium" />
 
         </RelativeLayout>
 
@@ -73,21 +73,21 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/myday_layout_day_in_year">
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/myday_label_is_leap_year"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/is_leap_year"
-                android:textAppearance="?android:attr/textAppearanceSmall" />
+                android:textAppearance="?attr/textAppearanceBodySmall" />
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/myday_is_leap_year"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignBaseline="@id/myday_label_is_leap_year"
                 android:layout_marginStart="6dip"
                 android:layout_toEndOf="@id/myday_label_is_leap_year"
-                android:textAppearance="?android:attr/textAppearanceMedium" />
+                android:textAppearance="?attr/textAppearanceBodyMedium" />
 
         </RelativeLayout>
 
@@ -97,21 +97,21 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/myday_layout_is_leap_year">
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/myday_label_astrological_sign"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/astrological_sign"
-                android:textAppearance="?android:attr/textAppearanceSmall" />
+                android:textAppearance="?attr/textAppearanceBodySmall" />
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/myday_astrological_sign"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignBaseline="@id/myday_label_astrological_sign"
                 android:layout_marginStart="6dip"
                 android:layout_toEndOf="@id/myday_label_astrological_sign"
-                android:textAppearance="?android:attr/textAppearanceMedium" />
+                android:textAppearance="?attr/textAppearanceBodyMedium" />
 
         </RelativeLayout>
 
@@ -121,21 +121,21 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/myday_layout_astrological_sign">
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/myday_label_nameday"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/nameday"
-                android:textAppearance="?android:attr/textAppearanceSmall" />
+                android:textAppearance="?attr/textAppearanceBodySmall" />
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/myday_nameday"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignBaseline="@id/myday_label_nameday"
                 android:layout_marginStart="6dip"
                 android:layout_toEndOf="@id/myday_label_nameday"
-                android:textAppearance="?android:attr/textAppearanceMedium" />
+                android:textAppearance="?attr/textAppearanceBodyMedium" />
 
         </RelativeLayout>
 
@@ -166,7 +166,7 @@
                 android:contentDescription="@string/edit"
                 app:icon="@drawable/ic_baseline_edit_24" />
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/myday_notes"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -175,20 +175,20 @@
                 android:layout_marginStart="6dip"
                 android:layout_toStartOf="@id/myday_symbol_notes"
                 android:hint="@string/no_notes"
-                android:textAppearance="?android:attr/textAppearanceMedium" />
+                android:textAppearance="?attr/textAppearanceBodyMedium" />
 
         </RelativeLayout>
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/myday_label_events"
-            style="@style/Headline"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/myday_layout_notes"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="16dp"
             android:layout_marginBottom="8dp"
-            android:text="@string/events" />
+            android:text="@string/events"
+            android:textAppearance="@style/TextAppearance.Material3.BodyLarge" />
 
         <LinearLayout
             android:id="@+id/myday_events"
@@ -198,16 +198,16 @@
             android:layout_alignParentStart="true"
             android:orientation="vertical" />
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/myday_label_appointments"
-            style="@style/Headline"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/myday_events"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="16dp"
             android:layout_marginBottom="8dp"
-            android:text="@string/appointments" />
+            android:text="@string/appointments"
+            android:textAppearance="@style/TextAppearance.Material3.BodyLarge" />
 
         <LinearLayout
             android:id="@+id/myday_appointments"
@@ -217,9 +217,8 @@
             android:layout_alignParentStart="true"
             android:orientation="vertical" />
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/myday_label_tasks"
-            style="@style/Headline"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/myday_appointments"
@@ -227,6 +226,7 @@
             android:layout_marginTop="16dp"
             android:layout_marginBottom="8dp"
             android:text="@string/tasks"
+            android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
             android:visibility="gone" />
 
         <LinearLayout

@@ -38,20 +38,19 @@ import androidx.preference.PreferenceManager
 import com.thomaskuenneth.tkweek.R
 import com.thomaskuenneth.tkweek.activity.TKWeekActivity
 import com.thomaskuenneth.tkweek.appwidget.WeekInfoWidget
-import com.thomaskuenneth.tkweek.databinding.WeekActivityBinding
+import com.thomaskuenneth.tkweek.databinding.WeekBinding
 import com.thomaskuenneth.tkweek.util.TKWeekUtils
 import java.util.*
 
-class WeekFragment : TKWeekBaseFragment<WeekActivityBinding>(),
-    OnDateChangedListener, OnSeekBarChangeListener, View.OnClickListener {
+class WeekFragment : TKWeekBaseFragment<WeekBinding>(), OnDateChangedListener,
+    OnSeekBarChangeListener, View.OnClickListener {
 
     private val binding get() = backing!!
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?, savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
-        backing = WeekActivityBinding.inflate(inflater, container, false)
+        backing = WeekBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -95,8 +94,7 @@ class WeekFragment : TKWeekBaseFragment<WeekActivityBinding>(),
     }
 
     override fun onDateChanged(
-        view: DatePicker?, year: Int, monthOfYear: Int,
-        dayOfMonth: Int
+        view: DatePicker?, year: Int, monthOfYear: Int, dayOfMonth: Int
     ) {
         cal[Calendar.YEAR] = year
         cal[Calendar.MONTH] = monthOfYear
@@ -105,9 +103,7 @@ class WeekFragment : TKWeekBaseFragment<WeekActivityBinding>(),
     }
 
     override fun onProgressChanged(
-        seekBar: SeekBar?,
-        progress: Int,
-        fromUser: Boolean
+        seekBar: SeekBar?, progress: Int, fromUser: Boolean
     ) {
         if (fromUser) {
             val dif = progress - (cal[Calendar.WEEK_OF_YEAR] - 1)
@@ -140,8 +136,7 @@ class WeekFragment : TKWeekBaseFragment<WeekActivityBinding>(),
         if (m != null) {
             val appWidgetIds = m.getAppWidgetIds(
                 ComponentName(
-                    context,
-                    WeekInfoWidget::class.java
+                    context, WeekInfoWidget::class.java
                 )
             )
             if (appWidgetIds != null && appWidgetIds.isNotEmpty()) {
@@ -152,8 +147,7 @@ class WeekFragment : TKWeekBaseFragment<WeekActivityBinding>(),
 
     private fun updatViewsFromCalendar(updateWeekSelection: Boolean = true) {
         binding.dateWithinWeek.init(
-            cal[Calendar.YEAR], cal[Calendar.MONTH],
-            cal[Calendar.DAY_OF_MONTH], this
+            cal[Calendar.YEAR], cal[Calendar.MONTH], cal[Calendar.DAY_OF_MONTH], this
         )
         updateViews(updateWeekSelection)
     }
@@ -161,8 +155,7 @@ class WeekFragment : TKWeekBaseFragment<WeekActivityBinding>(),
     private fun updateViews(updateWeekSelection: Boolean = true) {
         binding.day.text = TKWeekActivity.FORMAT_DAY_OF_WEEK.format(cal.time)
         val weekOfYear = cal[Calendar.WEEK_OF_YEAR]
-        binding.weekNumber.text =
-            TKWeekUtils.integerToString(weekOfYear)
+        binding.weekNumber.text = TKWeekUtils.integerToString(weekOfYear)
         val temp = cal.clone() as Calendar
         if (updateWeekSelection) {
             binding.weekSelection.max = temp.getActualMaximum(Calendar.WEEK_OF_YEAR) - 1
@@ -198,11 +191,9 @@ class WeekFragment : TKWeekBaseFragment<WeekActivityBinding>(),
 
         @JvmStatic
         fun prepareCalendar(
-            cal: Calendar, context: Context,
-            label_week_number: TextView?, appendColon: Boolean
+            cal: Calendar, context: Context, label_week_number: TextView?, appendColon: Boolean
         ) {
-            val prefs = PreferenceManager
-                .getDefaultSharedPreferences(context)
+            val prefs = PreferenceManager.getDefaultSharedPreferences(context)
             val useISO = prefs.getBoolean(USE_ISO_WEEKS, false)
             if (useISO) {
                 cal.minimalDaysInFirstWeek = 4
@@ -214,7 +205,7 @@ class WeekFragment : TKWeekBaseFragment<WeekActivityBinding>(),
                 var start = -1
                 try {
                     start = s!!.toInt()
-                } catch (e: NumberFormatException) {
+                } catch (_: NumberFormatException) {
                     // no logging needed
                 }
                 if (start != -1) {

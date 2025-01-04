@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:fillViewport="true">
 
-    <LinearLayout
+    <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
@@ -16,41 +16,41 @@
             android:layout_gravity="center"
             android:src="@drawable/ic_tkweek_no_gradients" />
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/about_version_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
+            android:textAppearance="?attr/textAppearanceBodyMedium" />
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="0dp"
             android:layout_marginBottom="16dp"
             android:text="@string/made_with_love"
-            android:textAppearance="?android:attr/textAppearanceSmall" />
+            android:textAppearance="?attr/textAppearanceBodySmall" />
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/about_label_language"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/about_language"
-                android:textAppearance="?android:attr/textAppearanceSmall" />
+                android:textAppearance="?attr/textAppearanceBodySmall" />
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/about_language"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignBaseline="@id/about_label_language"
                 android:layout_marginStart="8dp"
                 android:layout_toEndOf="@id/about_label_language"
-                android:textAppearance="?android:attr/textAppearanceMedium" />
+                android:textAppearance="?attr/textAppearanceBodyMedium" />
 
         </RelativeLayout>
 
@@ -58,21 +58,21 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/about_label_country"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/about_country"
-                android:textAppearance="?android:attr/textAppearanceSmall" />
+                android:textAppearance="?attr/textAppearanceBodySmall" />
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/about_country"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignBaseline="@id/about_label_country"
                 android:layout_marginStart="8dp"
                 android:layout_toEndOf="@id/about_label_country"
-                android:textAppearance="?android:attr/textAppearanceMedium" />
+                android:textAppearance="?attr/textAppearanceBodyMedium" />
 
         </RelativeLayout>
 
@@ -80,21 +80,21 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/about_label_timezone"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/about_timezone"
-                android:textAppearance="?android:attr/textAppearanceSmall" />
+                android:textAppearance="?attr/textAppearanceBodySmall" />
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/about_timezone"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignBaseline="@id/about_label_timezone"
                 android:layout_marginStart="8dp"
                 android:layout_toEndOf="@id/about_label_timezone"
-                android:textAppearance="?android:attr/textAppearanceMedium" />
+                android:textAppearance="?attr/textAppearanceBodyMedium" />
 
         </RelativeLayout>
 
@@ -102,21 +102,21 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/about_label_calendar_class"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/about_calendar_class"
-                android:textAppearance="?android:attr/textAppearanceSmall" />
+                android:textAppearance="?attr/textAppearanceBodySmall" />
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/about_calendar_class"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignBaseline="@id/about_label_calendar_class"
                 android:layout_marginStart="8dp"
                 android:layout_toEndOf="@id/about_label_calendar_class"
-                android:textAppearance="?android:attr/textAppearanceMedium" />
+                android:textAppearance="?attr/textAppearanceBodyMedium" />
 
         </RelativeLayout>
 
@@ -124,23 +124,23 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/about_label_density"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/about_density"
-                android:textAppearance="?android:attr/textAppearanceSmall" />
+                android:textAppearance="?attr/textAppearanceBodySmall" />
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/about_density"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignBaseline="@id/about_label_density"
                 android:layout_marginStart="8dp"
                 android:layout_toEndOf="@id/about_label_density"
-                android:textAppearance="?android:attr/textAppearanceMedium" />
+                android:textAppearance="?attr/textAppearanceBodyMedium" />
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignBaseline="@id/about_density"
@@ -148,7 +148,7 @@
                 android:paddingStart="8dp"
                 android:paddingEnd="0dp"
                 android:text="@string/dpi"
-                android:textAppearance="?android:attr/textAppearanceSmall" />
+                android:textAppearance="?attr/textAppearanceBodySmall" />
 
         </RelativeLayout>
 
@@ -156,21 +156,21 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/about_label_size_in_pixel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/about_size_in_pixel"
-                android:textAppearance="?android:attr/textAppearanceSmall" />
+                android:textAppearance="?attr/textAppearanceBodySmall" />
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/about_size_in_pixel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignBaseline="@id/about_label_size_in_pixel"
                 android:layout_marginStart="8dp"
                 android:layout_toEndOf="@id/about_label_size_in_pixel"
-                android:textAppearance="?android:attr/textAppearanceMedium" />
+                android:textAppearance="?attr/textAppearanceBodyMedium" />
 
         </RelativeLayout>
 
@@ -178,25 +178,25 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/about_label_android_version"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/about_android_version"
-                android:textAppearance="?android:attr/textAppearanceSmall" />
+                android:textAppearance="?attr/textAppearanceBodySmall" />
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/about_android_version"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignBaseline="@id/about_label_android_version"
                 android:layout_marginStart="8dp"
                 android:layout_toEndOf="@id/about_label_android_version"
-                android:textAppearance="?android:attr/textAppearanceMedium" />
+                android:textAppearance="?attr/textAppearanceBodyMedium" />
 
         </RelativeLayout>
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:autoLink="email|web"
@@ -208,6 +208,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
-    </LinearLayout>
+    </androidx.appcompat.widget.LinearLayoutCompat>
 
 </androidx.core.widget.NestedScrollView>

@@ -18,21 +18,21 @@
             android:calendarViewShown="false"
             android:datePickerMode="spinner" />
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/day"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
+            android:textAppearance="?attr/textAppearanceBodyMedium" />
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/label_week_number"
-            style="@style/Headline"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
             android:layout_marginBottom="8dp"
-            android:gravity="center_horizontal" />
+            android:gravity="center_horizontal"
+            android:textAppearance="@style/TextAppearance.Material3.BodyLarge" />
 
         <RelativeLayout
             android:layout_width="wrap_content"
@@ -40,14 +40,14 @@
             android:layout_gravity="center_horizontal"
             android:padding="8dp">
 
-            <Button
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/down"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:ems="4"
                 android:text="@string/minus" />
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/week_number"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -55,9 +55,9 @@
                 android:layout_toEndOf="@id/down"
                 android:ems="3"
                 android:gravity="center"
-                android:textAppearance="?android:attr/textAppearanceMedium" />
+                android:textAppearance="?attr/textAppearanceBodyMedium" />
 
-            <Button
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/up"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -75,13 +75,13 @@
             android:layout_marginHorizontal="24dp"
             android:layout_marginVertical="16dp" />
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/first_and_last_day_of_week"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="6dp"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
+            android:textAppearance="?attr/textAppearanceBodyMedium" />
 
         <com.thomaskuenneth.tkweek.util.BottomSpace
             android:layout_width="wrap_content"

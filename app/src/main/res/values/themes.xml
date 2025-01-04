@@ -53,16 +53,12 @@
     </style>
 
     <style name="WeekInfo">
-        <item name="android:textAppearance">?android:attr/textAppearanceMedium</item>
+        <item name="android:textAppearance">?attr/textAppearanceBodyMedium</item>
         <item name="android:gravity">center</item>
         <item name="android:paddingLeft">8dp</item>
         <item name="android:paddingRight">8dp</item>
         <item name="android:paddingTop">4dp</item>
         <item name="android:paddingBottom">4dp</item>
-    </style>
-
-    <style name="WeekInfo.Small">
-        <item name="android:textAppearance">?android:attr/textAppearanceSmall</item>
     </style>
 
 </resources>

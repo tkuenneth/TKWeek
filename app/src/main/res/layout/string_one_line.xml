@@ -3,4 +3,4 @@
     android:id="@+id/string_one_line"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:textAppearance="?attr/textAppearanceBodySmall" />
+    android:textAppearance="?attr/textAppearanceBodyMedium" />

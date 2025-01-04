@@ -5,67 +5,54 @@
     android:layout_height="wrap_content"
     android:layout_centerHorizontal="true" >
 
-    <!-- Überschriften -->
-	<include layout="@layout/weekinfo_tablerow_small"
-	    android:layout_width="wrap_content"
-	    android:layout_height="wrap_content"/>
-
-    <!-- Jan -->
 	<include layout="@layout/weekinfo_tablerow"
 	    android:layout_width="wrap_content"
 	    android:layout_height="wrap_content"/>
 
-    <!-- Feb -->
 	<include layout="@layout/weekinfo_tablerow"
 	    android:layout_width="wrap_content"
 	    android:layout_height="wrap_content"/>
 
-    <!-- Mär -->
 	<include layout="@layout/weekinfo_tablerow"
 	    android:layout_width="wrap_content"
 	    android:layout_height="wrap_content"/>
 
-    <!-- Apr -->
 	<include layout="@layout/weekinfo_tablerow"
 	    android:layout_width="wrap_content"
 	    android:layout_height="wrap_content"/>
 
-    <!-- Mai -->
 	<include layout="@layout/weekinfo_tablerow"
 	    android:layout_width="wrap_content"
 	    android:layout_height="wrap_content"/>
 
-    <!-- Jun -->
 	<include layout="@layout/weekinfo_tablerow"
 	    android:layout_width="wrap_content"
 	    android:layout_height="wrap_content"/>
 
-    <!-- Jul -->
 	<include layout="@layout/weekinfo_tablerow"
 	    android:layout_width="wrap_content"
 	    android:layout_height="wrap_content"/>
 
-    <!-- Aug -->
 	<include layout="@layout/weekinfo_tablerow"
 	    android:layout_width="wrap_content"
 	    android:layout_height="wrap_content"/>
 
-    <!-- Sep -->
 	<include layout="@layout/weekinfo_tablerow"
 	    android:layout_width="wrap_content"
 	    android:layout_height="wrap_content"/>
 
-    <!-- Okt -->
 	<include layout="@layout/weekinfo_tablerow"
 	    android:layout_width="wrap_content"
 	    android:layout_height="wrap_content"/>
 
-    <!-- Nov -->
 	<include layout="@layout/weekinfo_tablerow"
 	    android:layout_width="wrap_content"
 	    android:layout_height="wrap_content"/>
 
-    <!-- Dez -->
+	<include layout="@layout/weekinfo_tablerow"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"/>
+
 	<include layout="@layout/weekinfo_tablerow"
 	    android:layout_width="wrap_content"
 	    android:layout_height="wrap_content"/>

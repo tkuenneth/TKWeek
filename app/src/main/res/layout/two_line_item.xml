@@ -1,69 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="?android:attr/activatedBackgroundIndicator"
     android:baselineAligned="false"
-    android:orientation="vertical"
-    android:paddingStart="8dp"
-    android:paddingEnd="8dp">
+    android:orientation="horizontal"
+    android:padding="8dip">
 
-    <androidx.appcompat.widget.LinearLayoutCompat
-        android:layout_width="match_parent"
+    <RelativeLayout
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:baselineAligned="false"
-        android:orientation="horizontal"
-        android:padding="8dip">
+        android:layout_weight="1">
 
-        <RelativeLayout
-            android:layout_width="0dp"
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/text1"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1">
+            android:textAppearance="?attr/textAppearanceBodyLarge"
+            android:textColor="@color/list_item_color_selector" />
 
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/text1"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textAppearance="?attr/textAppearanceBodyMedium"
-                android:textColor="@color/list_item_color_selector" />
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/text2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/text1"
+            android:textAppearance="?attr/textAppearanceBodyMedium"
+            android:textColor="@color/list_item_color_selector" />
 
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/text2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/text1"
-                android:textAppearance="?attr/textAppearanceBodySmall"
-                android:textColor="@color/list_item_color_selector" />
+    </RelativeLayout>
 
-        </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingStart="8dp"
+        android:paddingEnd="0dp">
 
-        <RelativeLayout
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/text3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="end"
-            android:orientation="vertical"
-            android:paddingStart="8dp"
-            android:paddingEnd="0dp">
+            android:textAppearance="?attr/textAppearanceBodyLarge"
+            android:textColor="@color/list_item_color_selector" />
 
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/text3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?attr/textAppearanceBodyMedium"
-                android:textColor="@color/list_item_color_selector" />
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/text4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/text3"
+            android:layout_alignEnd="@id/text3"
+            android:singleLine="true"
+            android:textAppearance="?attr/textAppearanceBodyMedium"
+            android:textColor="@color/list_item_color_selector"
+            android:visibility="gone" />
 
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/text4"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/text3"
-                android:singleLine="true"
-                android:textAppearance="?attr/textAppearanceBodySmall"
-                android:textColor="@color/list_item_color_selector"
-                android:visibility="gone" />
+    </RelativeLayout>
 
-        </RelativeLayout>
-
-    </androidx.appcompat.widget.LinearLayoutCompat>
-
-</LinearLayout>
+</androidx.appcompat.widget.LinearLayoutCompat>

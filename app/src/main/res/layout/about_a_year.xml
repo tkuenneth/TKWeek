@@ -148,6 +148,7 @@
                     android:id="@+id/about_a_year_label_spring"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:maxLines="1"
                     android:textAppearance="?attr/textAppearanceBodySmall" />
 
                 <com.google.android.material.textview.MaterialTextView
@@ -165,7 +166,8 @@
                 android:id="@+id/about_a_year_layout_summer"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/about_a_year_layout_spring">
+                android:layout_below="@id/about_a_year_layout_spring"
+                android:maxLines="1">
 
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/about_a_year_label_summer"
@@ -194,6 +196,7 @@
                     android:id="@+id/about_a_year_label_autumn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:maxLines="1"
                     android:textAppearance="?attr/textAppearanceBodySmall" />
 
                 <com.google.android.material.textview.MaterialTextView
@@ -217,6 +220,7 @@
                     android:id="@+id/about_a_year_label_winter"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:maxLines="1"
                     android:textAppearance="?attr/textAppearanceBodySmall" />
 
                 <com.google.android.material.textview.MaterialTextView

@@ -3,7 +3,7 @@
  *
  * Copyright 2009 - 2020 Thomas Künneth
  *           2021 MATHEMA GmbH
- *           2022 - 2024 Thomas Künneth
+ *           2022 - 2025 Thomas Künneth
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
@@ -39,7 +39,6 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import com.google.android.material.color.MaterialColors;
 import com.thomaskuenneth.tkweek.R;
 import com.thomaskuenneth.tkweek.activity.TKWeekActivity;
 import com.thomaskuenneth.tkweek.appwidget.EventsListWidget;
@@ -95,6 +94,7 @@ public class AnnualEventsListAdapter extends BaseAdapter implements Comparator<E
             R.string.valentinstag, Calendar.FEBRUARY, 14,
             R.string.tolkien_reading_day, Calendar.MARCH, 25,
             R.string.hobbit_day, Calendar.SEPTEMBER, 22,
+            R.string.world_seagrass_day, Calendar.MARCH, 1,
     };
 
     private static final int[] nationalEvents_FR = {
@@ -312,12 +312,16 @@ public class AnnualEventsListAdapter extends BaseAdapter implements Comparator<E
         Event event = (Event) getItem(position);
         Context context = convertView.getContext();
         holder.text1.setText(getDescription(event, context));
-        // We could check days off using
-        // CalendarFragment.isDayOff(context, DateUtilities.getCalendar(event).getTime())
-        holder.text2.setText(getDateAsString(event, context));
+        var strDate = getDateAsString(event, context);
+        if (CalendarFragment.isDayOff(context, DateUtilities.getCalendar(event).getTime())) {
+            holder.text2.setText(context.getString(R.string.string1_string2, strDate, context.getString(R.string.day_off)));
+        } else {
+            holder.text2.setText(strDate);
+        }
         holder.text3.setText(getDaysAsString(event));
         String calendarName = getCalendarName(event);
         holder.text4.setText(calendarName);
+        holder.text4.setVisibility(View.VISIBLE);
         holder.text4.setVisibility(!calendarName.isEmpty() ? View.VISIBLE : View.GONE);
         return convertView;
     }

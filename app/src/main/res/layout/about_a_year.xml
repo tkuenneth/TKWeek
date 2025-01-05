@@ -20,6 +20,7 @@
                 android:id="@+id/about_a_year_down"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:contentDescription="@string/previous_year"
                 android:ems="4"
                 android:text="@string/minus" />
 
@@ -37,6 +38,7 @@
                 android:id="@+id/about_a_year_up"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:contentDescription="@string/next_year"
                 android:layout_alignBaseline="@id/about_a_year_year"
                 android:layout_toEndOf="@id/about_a_year_year"
                 android:ems="4"
@@ -45,7 +47,7 @@
         </RelativeLayout>
 
         <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/leapyear_is_leap_year"
+            android:id="@+id/is_leap_year"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/year_selection"
@@ -57,12 +59,12 @@
             android:id="@+id/leap_year_buttons"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/leapyear_is_leap_year"
+            android:layout_below="@id/is_leap_year"
             android:layout_centerHorizontal="true"
             android:orientation="horizontal">
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/leapyear_previous_year"
+                android:id="@+id/previous_leap_year"
                 style="@style/Widget.Material3.Button.TextButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -73,7 +75,7 @@
                 android:layout_height="wrap_content" />
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/leapyear_next_year"
+                android:id="@+id/next_leap_year"
                 style="@style/Widget.Material3.Button.TextButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

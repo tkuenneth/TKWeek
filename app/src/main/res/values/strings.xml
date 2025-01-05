@@ -57,6 +57,8 @@
     <string name="widget_retired">This TKWeek widget is no longer supported. Please remove.</string>
     <string name="number_of_events">%1$d events</string>
     <string name="year">year</string>
+    <string name="next_year">Next year</string>
+    <string name="previous_year">Previous year</string>
 
     <!-- moon phases -->
     <string name="new_moon">New Moon</string>
@@ -306,7 +308,7 @@ access your contacts data to display birthdays and anniversaries. You can deacti
     <string name="hour">hour</string>
     <string name="hours">hours</string>
     <string name="day">day</string>
-    <string name="day_off">marked as day off</string>
+    <string name="day_off">day off</string>
     <string name="tasks">tasks</string>
     <string name="events">events</string>
     <string name="toast_task_completed">Task completed.</string>
@@ -347,6 +349,7 @@ TKWeek needs to access your contacts.</string>
     <string name="augsburger_friedensfest">Augsburg Peace Festival</string>
     <string name="tolkien_reading_day">Tolkien Reading Day</string>
     <string name="hobbit_day">Hobbit Day</string>
+    <string name="world_seagrass_day">World Seagrass Day</string>
 
     <string translatable="false" name="welcome_text">Thank you very much for downloading this app.
 If you have any questions or suggestions, please feel free to contact me at tkweek@thomaskuenneth.de

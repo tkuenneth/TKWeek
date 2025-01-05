@@ -76,8 +76,8 @@ class AboutYearFragment : TKWeekBaseFragment<AboutAYearBinding>(), View.OnClickL
         )
         binding.aboutAYearDown.setOnClickListener(this)
         binding.aboutAYearUp.setOnClickListener(this)
-        binding.leapyearPreviousYear.setOnClickListener(this)
-        binding.leapyearNextYear.setOnClickListener(this)
+        binding.previousLeapYear.setOnClickListener(this)
+        binding.nextLeapYear.setOnClickListener(this)
         savedInstanceState?.run {
             val year = getInt(YEAR_KEY, cal.get(Calendar.YEAR))
             cal.set(Calendar.YEAR, year)
@@ -95,11 +95,11 @@ class AboutYearFragment : TKWeekBaseFragment<AboutAYearBinding>(), View.OnClickL
                 cal.add(Calendar.YEAR, 1)
             }
 
-            binding.leapyearPreviousYear == v -> {
+            binding.previousLeapYear == v -> {
                 jumpToLeapYear(-1)
             }
 
-            binding.leapyearNextYear == v -> {
+            binding.nextLeapYear == v -> {
                 jumpToLeapYear(1)
             }
         }
@@ -150,7 +150,7 @@ class AboutYearFragment : TKWeekBaseFragment<AboutAYearBinding>(), View.OnClickL
         val s = "${DateUtilities.toRoman(year)}${
             if (DateUtilities.isSchaltjahr(cal[Calendar.YEAR])) ", ${requireContext().getString(R.string.leap_year)}" else ""
         }"
-        binding.leapyearIsLeapYear.text = s
+        binding.isLeapYear.text = s
         updateWeekInfo()
     }
 

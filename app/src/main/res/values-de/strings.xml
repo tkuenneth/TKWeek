@@ -43,6 +43,8 @@
     <string name="notes">Notizen</string>
     <string name="saved">%1$s gespeichert</string>
     <string name="year">Jahr</string>
+    <string name="next_year">Nächstes Jahr</string>
+    <string name="previous_year">Vorheriges Jahr</string>
 
     <!-- Mondphasen -->
     <string name="new_moon">Neumond</string>
@@ -245,7 +247,7 @@
     <string name="hour">Stunde</string>
     <string name="hours">Stunden</string>
     <string name="day">Tag</string>
-    <string name="day_off">als Ruhetag gekennzeichnet</string>
+    <string name="day_off">Ruhetag</string>
     <string name="tasks">Aufgaben</string>
     <string name="events">Ereignisse</string>
     <string name="toast_task_completed">Aufgabe abgeschlossen.</string>
@@ -309,5 +311,6 @@ Sie TKWeek den Zugriff auf Kontakte gestatten.</string>
 
     <string name="tolkien_reading_day">Tag der Tolkien-Lektüre</string>
     <string name="hobbit_day">Hobbit-Tag</string>
+    <string name="world_seagrass_day">Welttag des Seegrases</string>
 
 </resources>

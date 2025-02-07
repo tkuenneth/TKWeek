@@ -12,8 +12,8 @@ android {
         applicationId "com.thomaskuenneth.tkweek"
         minSdk 24
         targetSdk 35
-        versionCode 21807
-        versionName "2.1.9"
+        versionCode 22001
+        versionName "2.2.0"
     }
 
     buildTypes {
@@ -43,7 +43,7 @@ android {
 dependencies {
     implementation 'androidx.annotation:annotation:1.9.1'
     implementation 'androidx.appcompat:appcompat:1.7.0'
-    implementation "androidx.activity:activity-ktx:1.9.3"
+    implementation "androidx.activity:activity-ktx:1.10.0"
     implementation 'androidx.fragment:fragment-ktx:1.8.5'
     implementation 'androidx.preference:preference-ktx:1.2.1'
     implementation "androidx.core:core-ktx:1.15.0"

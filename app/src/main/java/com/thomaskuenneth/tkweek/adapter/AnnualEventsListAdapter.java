@@ -82,6 +82,10 @@ public class AnnualEventsListAdapter extends BaseAdapter implements Comparator<E
     private static final String FIXED_EVENT = "_fixed_event";
     private static final String FILENAME = "AnnualEvents.txt";
 
+    private static final int[] birthdays = {
+            R.string.charles_dickens, Calendar.FEBRUARY, 7, 1812,
+    };
+
     private static final int[] internationalEvents = {
             R.string.weltfrauentag, Calendar.MARCH, 8,
             R.string.weltkindertag, Calendar.NOVEMBER, 20,
@@ -216,6 +220,7 @@ public class AnnualEventsListAdapter extends BaseAdapter implements Comparator<E
             if (!prefs.getBoolean("hide_birthdays", false)) {
                 loadBirthdays(context, year);
             }
+            addBirthdays(context, year);
         }
         loadUserEvents(context, getUserEventsFile(context), yearFrom, yearTo);
         if (!prefs.getBoolean("hide_allday_events", false)) {
@@ -765,6 +770,26 @@ public class AnnualEventsListAdapter extends BaseAdapter implements Comparator<E
             return true;
         }
         return false;
+    }
+
+    private void addBirthdays(Context context, int year) {
+        for (int i = 0; i < AnnualEventsListAdapter.birthdays.length; i += 4) {
+            Calendar cal = DateUtilities.getCalendar(
+                    AnnualEventsListAdapter.birthdays[i + 3],
+                    AnnualEventsListAdapter.birthdays[i + 1],
+                    AnnualEventsListAdapter.birthdays[i + 2]
+            );
+            Birthday e = new Birthday(cal,
+                    context.getString(AnnualEventsListAdapter.birthdays[i]), null);
+            if (e.getYear() != Event.NOT_SPECIFIED) {
+                Calendar birthday = DateUtilities.getCalendar(e);
+                Calendar temp = DateUtilities.getCalendar(birthday);
+                temp.set(Calendar.YEAR, year);
+                e.occurrences = DateUtilities.getAge(birthday.getTime(), temp);
+            }
+            e.setYear(year);
+            add(e, false);
+        }
     }
 
     private void addSimpleEvents(Context context, int[] events, int year) {

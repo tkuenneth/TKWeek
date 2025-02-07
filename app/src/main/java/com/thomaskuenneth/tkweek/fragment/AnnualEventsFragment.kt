@@ -342,7 +342,7 @@ class AnnualEventsFragment : TKWeekBaseFragment<EventsBinding>(), AdapterView.On
 
     override fun onItemClick(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
         val o = listAdapter?.getItem(position)
-        if (o as? IContactId? != null) {
+        if (o as? IContactId? != null && o.contactId != null) {
             val intent = Intent(
                 Intent.ACTION_VIEW, Uri.withAppendedPath(
                     ContactsContract.Contacts.CONTENT_URI, o.contactId

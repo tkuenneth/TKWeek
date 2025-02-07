@@ -351,6 +351,9 @@ TKWeek needs to access your contacts.</string>
     <string name="hobbit_day">Hobbit Day</string>
     <string name="world_seagrass_day">World Seagrass Day</string>
 
+    <!-- birthdays -->
+    <string name="charles_dickens" translatable="false">Charles Dickens</string>
+
     <string translatable="false" name="welcome_text">Thank you very much for downloading this app.
 If you have any questions or suggestions, please feel free to contact me at tkweek@thomaskuenneth.de
 \n\n<b>Your privacy</b>\n
@@ -363,7 +366,7 @@ If you have any questions or suggestions, please feel free to contact me at tkwe
 You can find their privacy policy at https://wikimediafoundation.org/wiki/Privacy_policy
 \n\n<b>Terms of use</b>\n\nCopyright 2009 - 2020 Thomas Künneth
 \nCopyright 2021 MATHEMA GmbH
-\nCopyright 2022 - 2024 Thomas Künneth\n
+\nCopyright 2022 - 2025 Thomas Künneth\n
 \nPermission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the \"Software\"), to deal
 in the Software without restriction, including without limitation the rights

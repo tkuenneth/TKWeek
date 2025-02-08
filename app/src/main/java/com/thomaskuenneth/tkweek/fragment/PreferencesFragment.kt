@@ -34,7 +34,7 @@ import com.thomaskuenneth.tkweek.R
 
 class PreferencesFragment : PreferenceFragmentCompat() {
 
-    private var LastRecyclerView: RecyclerView? = null
+    private var lastRecyclerView: RecyclerView? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,10 +51,9 @@ class PreferencesFragment : PreferenceFragmentCompat() {
     ): RecyclerView {
         val recyclerView = super.onCreateRecyclerView(inflater, parent, savedInstanceState)
         ViewCompat.setOnApplyWindowInsetsListener(recyclerView) { view, insets ->
-            val navigationBarsInsets = insets.getInsets(WindowInsetsCompat.Type.navigationBars())
-            val offset = if (LastRecyclerView != recyclerView) {
-                LastRecyclerView = recyclerView
-                navigationBarsInsets.bottom
+            val offset = if (lastRecyclerView != recyclerView) {
+                lastRecyclerView = recyclerView
+                insets.getInsets(WindowInsetsCompat.Type.navigationBars()).bottom
             } else 0
             recyclerView.setPadding(
                 recyclerView.paddingLeft,

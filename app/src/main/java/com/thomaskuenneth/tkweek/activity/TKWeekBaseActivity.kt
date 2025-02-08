@@ -2,7 +2,7 @@
  * TKWeekBaseActivity.kt
  *
  * Copyright 2021 MATHEMA GmbH
- *           2022 - 2024 Thomas Künneth
+ *           2022 - 2025 Thomas Künneth
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
@@ -108,6 +108,10 @@ abstract class TKWeekBaseActivity : AppCompatActivity() {
     private fun preferencesFinished(resultCode: Int, data: Intent?) {
         val fragment =
             supportFragmentManager.findFragmentByTag(getString(R.string.tag_module_fragment)) as TKWeekBaseFragment<*>?
-        fragment?.preferencesFinished(resultCode, data)
+        fragment?.preferencesFinished(resultCode, data) ?: run {
+            supportFragmentManager.fragments.forEach {
+                (it as? TKWeekBaseFragment<*>)?.preferencesFinished(resultCode, data)
+            }
+        }
     }
 }

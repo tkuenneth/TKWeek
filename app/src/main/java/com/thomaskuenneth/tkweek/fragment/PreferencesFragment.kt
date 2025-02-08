@@ -2,7 +2,7 @@
  * PreferencesFragment.kt
  *
  * Copyright 2021 MATHEMA GmbH
- *           2022 - 2023 Thomas Künneth
+ *           2022 - 2025 Thomas Künneth
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
@@ -24,12 +24,46 @@
 package com.thomaskuenneth.tkweek.fragment
 
 import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.ViewGroup
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.preference.PreferenceFragmentCompat
+import androidx.recyclerview.widget.RecyclerView
 import com.thomaskuenneth.tkweek.R
 
 class PreferencesFragment : PreferenceFragmentCompat() {
 
+    private var LastRecyclerView: RecyclerView? = null
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+    }
+
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         addPreferencesFromResource(R.xml.tkweek_preferences)
+    }
+
+    override fun onCreateRecyclerView(
+        inflater: LayoutInflater,
+        parent: ViewGroup,
+        savedInstanceState: Bundle?
+    ): RecyclerView {
+        val recyclerView = super.onCreateRecyclerView(inflater, parent, savedInstanceState)
+        ViewCompat.setOnApplyWindowInsetsListener(recyclerView) { view, insets ->
+            val navigationBarsInsets = insets.getInsets(WindowInsetsCompat.Type.navigationBars())
+            val offset = if (LastRecyclerView != recyclerView) {
+                LastRecyclerView = recyclerView
+                navigationBarsInsets.bottom
+            } else 0
+            recyclerView.setPadding(
+                recyclerView.paddingLeft,
+                recyclerView.paddingTop,
+                recyclerView.paddingRight,
+                recyclerView.paddingBottom + offset
+            )
+            insets
+        }
+        return recyclerView
     }
 }

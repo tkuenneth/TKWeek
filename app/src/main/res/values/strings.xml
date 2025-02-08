@@ -228,7 +228,6 @@ access your contacts data to display birthdays and anniversaries. You can deacti
     <string name="groundhog_day_us">Groundhog Day</string>
     <string name="election_day_us" translatable="false">Election Day</string>
     <string name="karfreitag">Good Friday</string>
-    <string name="lincolns_birthday" translatable="false">Lincoln’s Birthday</string>
     <string name="flag_day_usa" translatable="false">Flag Day</string>
     <string name="st_patricks_day" translatable="false">St. Patrick’s Day</string>
     <string name="erster_weihnachtstag">Christmas</string>
@@ -353,6 +352,8 @@ TKWeek needs to access your contacts.</string>
 
     <!-- birthdays -->
     <string name="charles_dickens" translatable="false">Charles Dickens</string>
+    <string name="abraham_lincoln" translatable="false">Abraham Lincoln</string>
+    <string name="charles_babbage" translatable="false">Charles Babbage</string>
 
     <string translatable="false" name="welcome_text">Thank you very much for downloading this app.
 If you have any questions or suggestions, please feel free to contact me at tkweek@thomaskuenneth.de

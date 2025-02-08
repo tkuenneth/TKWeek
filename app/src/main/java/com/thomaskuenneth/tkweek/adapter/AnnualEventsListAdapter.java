@@ -84,6 +84,8 @@ public class AnnualEventsListAdapter extends BaseAdapter implements Comparator<E
 
     private static final int[] birthdays = {
             R.string.charles_dickens, Calendar.FEBRUARY, 7, 1812,
+            R.string.abraham_lincoln, Calendar.FEBRUARY, 12, 1809,
+            R.string.charles_babbage, Calendar.DECEMBER, 26, 1791
     };
 
     private static final int[] internationalEvents = {
@@ -131,7 +133,6 @@ public class AnnualEventsListAdapter extends BaseAdapter implements Comparator<E
     private static final int[] nationalEvents_US = {
             R.string.veterans_day_us, Calendar.NOVEMBER, 11,
             R.string.groundhog_day_us, Calendar.FEBRUARY, 2,
-            R.string.lincolns_birthday, Calendar.FEBRUARY, 12,
             R.string.flag_day_usa, Calendar.JUNE, 14,
             R.string.independence_day_usa, Calendar.JULY, 4
     };
@@ -219,8 +220,8 @@ public class AnnualEventsListAdapter extends BaseAdapter implements Comparator<E
             addBuiltinEvents(context, prefs, year);
             if (!prefs.getBoolean("hide_birthdays", false)) {
                 loadBirthdays(context, year);
+                addBirthdays(context, year);
             }
-            addBirthdays(context, year);
         }
         loadUserEvents(context, getUserEventsFile(context), yearFrom, yearTo);
         if (!prefs.getBoolean("hide_allday_events", false)) {

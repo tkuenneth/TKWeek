@@ -2,6 +2,7 @@
  * RecentDates.kt
  *
  * Copyright 2021 MATHEMA GmbH
+ *           2022 - 2025 Thomas Künneth
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
@@ -86,7 +87,7 @@ private fun populateRecent(tv: TextView, pos: Int) {
             date?.let {
                 tv.text = TKWeekActivity.FORMAT_DATE_SHORT.format(it)
             }
-        } catch (e: ParseException) {
+        } catch (_: ParseException) {
             tv.text = TKWeekActivity.DASHES
         }
     }

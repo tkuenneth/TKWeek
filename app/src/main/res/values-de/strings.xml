@@ -288,8 +288,6 @@ Sie TKWeek den Zugriff auf Kontakte gestatten.</string>
     <string name="sg_national_day">Nationaltag (Singapur)</string>
     <string name="widget_retired">Dieses TKWeek widget wird nicht länger unterstützt. Bitte entfernen Sie es.</string>
     <string name="show_school_holidays">Bundesland auswählen</string>
-    <string name="configure_moon_phases">Mondphasen-Sichtbarkeit konfigurieren</string>
-    <string name="moon_phases">Mondphasen</string>
     <string name="set_alarm">Kürzliche Ereignisse als Benachrichtigungen anzeigen</string>
     <string name="set_alarm_description">Benachrichtigungseinstellungen</string>
     <string name="show_moon_phases">Mondphasen anzeigen</string>

@@ -137,9 +137,7 @@ access your contacts data to display birthdays and anniversaries. You can deacti
     <string name="first_sunday_of_september">First Sunday of September</string>
     <string name="set_alarm">Show upcoming events as notifications</string>
     <string name="set_alarm_description">Configure notification delivery</string>
-    <string name="moon_phases">Moon phases</string>
     <string name="show_moon_phases">Show Moon phases</string>
-    <string name="configure_moon_phases">Configure moon phases visibility</string>
     <string name="myday_activity_hide_appointments">Hide appointments</string>
 
     <!-- Wochenanfang -->

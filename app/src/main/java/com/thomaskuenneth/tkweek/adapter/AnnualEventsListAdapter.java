@@ -43,7 +43,6 @@ import com.thomaskuenneth.tkweek.R;
 import com.thomaskuenneth.tkweek.activity.TKWeekActivity;
 import com.thomaskuenneth.tkweek.appwidget.EventsListWidget;
 import com.thomaskuenneth.tkweek.fragment.CalendarFragment;
-import com.thomaskuenneth.tkweek.preference.MoonPhasesPreference;
 import com.thomaskuenneth.tkweek.preference.PickCountriesPreference;
 import com.thomaskuenneth.tkweek.types.Anniversary;
 import com.thomaskuenneth.tkweek.types.Birthday;
@@ -464,23 +463,9 @@ public class AnnualEventsListAdapter extends BaseAdapter implements Comparator<E
         if (!prefs.getBoolean("hide_seasons", false)) {
             addSeasons(context, year);
         }
-        if (!prefs.getBoolean(MoonPhasesPreference.HIDE_MOONPHASES, false)) {
+        if (prefs.getBoolean("show_moon_phases", true)) {
             List<Event> moonPhases = Mondphasen.getMoonPhases(context, year);
-            for (Event e : moonPhases) {
-                String key;
-                if (e.descr.equals(context.getString(R.string.new_moon))) {
-                    key = MoonPhasesPreference.SHOW_NEW_MOON;
-                } else if (e.descr.equals(context.getString(R.string.full_moon))) {
-                    key = MoonPhasesPreference.SHOW_FULL_MOON;
-                } else if (e.descr.equals(context.getString(R.string.first_quarter))) {
-                    key = MoonPhasesPreference.SHOW_FIRST_QUARTER;
-                } else {
-                    key = MoonPhasesPreference.SHOW_LAST_QUARTER;
-                }
-                if (prefs.getBoolean(key, true)) {
-                    add(e, false);
-                }
-            }
+            moonPhases.forEach(event -> add(event, false));
         }
         if (!prefs.getBoolean("hide_builtin_events", false)) {
             if (addSimpleEvents(context, TKWeekUtils.NETHERLANDS, nationalEvents_NL, year)) {

@@ -70,14 +70,6 @@
             android:title="@string/schulferien_bundesland" />
         -->
 
-        <!--
-
-        <com.thomaskuenneth.tkweek.preference.MoonPhasesPreference
-            android:summary="@string/configure_moon_phases"
-            android:dialogTitle="@string/configure_moon_phases"
-            android:title="@string/moon_phases" />
--->
-
         <CheckBoxPreference
             android:key="hide_allday_events"
             android:title="@string/week_activity_hide_allday_events" />
@@ -97,6 +89,11 @@
         <CheckBoxPreference
             android:key="load_all_user_events"
             android:title="@string/load_all_user_events" />
+
+        <CheckBoxPreference
+            android:key="show_moon_phases"
+            android:defaultValue="true"
+            android:title="@string/show_moon_phases" />
 
     </PreferenceCategory>
 

@@ -16,7 +16,7 @@ layout: home
 
 <p>Some of the other special days TKWeek knows: Ice Saints, Valentine&apos;s Day, Mother&apos;s Day, Halloween, St. Patrick&apos;s Day, Earth Day, All Saints. And there are so many more included.</p>
 
-<img style="border: solid; size: 1px; color: lightGrey; display: block; margin-left: auto; margin-right: auto; width: 50%;" src="/assets/TKWeek-animated.gif" width="50%">
+<img style="border: solid; size: 1px; color: lightGrey; display: block; margin-left: auto; margin-right: auto; width: 50%;" src="./assets/TKWeek-animated.gif" width="50%">
 
 <p>Also important:</p>
 

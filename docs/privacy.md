@@ -1,14 +1,7 @@
 ---
-layout: home
+layout: page
+title: Privacy
 ---
-
-<table style="width: 100%; border: none">
-<tr style="background-color: transparent;">
-<td align="center" style="border: none">
-<a href="./">About</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;<strong>Privacy Policy</strong>
-</td>
-</tr>
-</table>
 
 We respect your privacy.
 

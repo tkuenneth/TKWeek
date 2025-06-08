@@ -29,6 +29,7 @@ other.xml
 studiobot.xml
 kotlinc.xml
 runConfigurations.xml
+AndroidProjectSystem.xml
 
 codeStyles/Project.xml
 codeStyles/codeStyleConfig.xml

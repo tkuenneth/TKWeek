@@ -326,6 +326,9 @@ TKWeek needs to access your contacts.</string>
     <string name="weekinfowidget_name">Week Info</string>
     <string name="weekinfowidget_template">%1$s %2$d of %3$d</string>
     <string translatable="false" name="weekinfowidget_from_to">%1$s - %2$s</string>
+    <string name="text1">week number 24 of 52</string>
+    <string name="text2">Jun 8, 2025 - Jun 14, 2025</string>
+    <string name="text3">Saturday, June 14, 2025</string>
 
     <!-- DateWidget -->
     <string name="datewidget_name">Current date</string>

@@ -271,6 +271,9 @@ Sie TKWeek den Zugriff auf Kontakte gestatten.</string>
     <!-- WeekInfoWidget -->
     <string name="weekinfowidget_name">Wocheninfo</string>
     <string name="weekinfowidget_template">%1$s %2$d von %3$d</string>
+    <string name="text1">Wochennr. 24 von 52</string>
+    <string name="text2">09.06.2025 – 15.06.2025</string>
+    <string name="text3">Samstag, 14. Juni 2025</string>
 
     <!-- DateWidget -->
     <string name="datewidget_name">Heutiges Datum</string>

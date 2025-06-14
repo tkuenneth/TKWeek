@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="TKWeekWidgetTheme" parent="@android:style/Theme.DeviceDefault.DayNight">
-        <item name="colorPrimary">?android:attr/textColorPrimary</item>
+    <style name="TKWeekWidgetTheme" parent="Theme.Material3.DynamicColors.DayNight">
     </style>
 </resources>

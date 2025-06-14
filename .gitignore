@@ -89,3 +89,6 @@ docs/Gemfile.lock
 keystore
 
 .kotlin/sessions/
+.idea/deviceManager.xml
+.idea/detekt.xml
+.idea/appInsightsSettings.xml

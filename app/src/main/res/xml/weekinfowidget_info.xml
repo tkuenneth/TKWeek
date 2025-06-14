@@ -1,15 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-	weekinfowidget_info.xml
-	TKWeek (c) 2010 - 2020 Thomas Künneth
-	           2021 MATHEMA GmbH
-	Alle Rechte beim Autoren. All rights reserved.
--->
 <appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
-	android:minWidth="@dimen/AppWidget_3Cell"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:minWidth="@dimen/AppWidget_3Cell"
 	android:minHeight="@dimen/AppWidget_1Cell"
     android:updatePeriodMillis="1800000"
 	android:resizeMode="horizontal"
-    android:previewImage="@drawable/preview_weekinfowidget"
+	android:previewImage="@drawable/preview_week_info_widget"
+    android:previewLayout="@layout/week_info_widget"
     android:initialLayout="@layout/widget_initial_layout"
-/>
+    tools:targetApi="31" />

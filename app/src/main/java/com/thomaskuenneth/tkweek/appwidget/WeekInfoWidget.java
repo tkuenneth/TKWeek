@@ -53,13 +53,13 @@ public class WeekInfoWidget extends AppWidgetProvider {
     public static void updateWidgets(Context context,
                                      AppWidgetManager appWidgetManager, int[] appWidgetIds) {
         RemoteViews updateViews = new RemoteViews(context.getPackageName(),
-                R.layout.weekinfowidget_new);
+                R.layout.week_info_widget);
         try {
             updateViews(updateViews, context);
         } catch (IOException e) {
             Log.e(TAG, "updateWidgets", e);
         }
-        updateViews.setOnClickPendingIntent(R.id.weekinfowidget_id,
+        updateViews.setOnClickPendingIntent(R.id.week_info_widget_id,
                 TKWeekActivity.createPendingIntentToLaunchTKWeek(context,
                         REQUEST_CODE_WEEK_INFO_WIDGET,
                         WeekFragment.class));

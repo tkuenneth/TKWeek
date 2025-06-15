@@ -1,43 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/week_info_widget_id"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="8dp"
     android:background="?attr/colorSecondaryContainer"
-    android:theme="@style/TKWeekWidgetTheme">
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    android:padding="8dp"
+    android:theme="@style/TKWeekWidgetTheme"
+    android:weightSum="3">
 
     <TextView
         android:id="@+id/text1"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="top|center_horizontal"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:autoSizeTextType="uniform"
         android:ellipsize="middle"
+        android:gravity="center"
         android:maxLines="1"
+        android:paddingVertical="2dp"
         android:text="@string/text1"
         android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
-        android:textColor="?attr/colorSecondary" />
+        android:textColor="?attr/colorSecondary"
+        tools:targetApi="26" />
 
     <TextView
         android:id="@+id/text2"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:autoSizeTextType="uniform"
         android:ellipsize="middle"
-        android:text="@string/text2"
+        android:gravity="center"
         android:maxLines="1"
+        android:paddingVertical="2dp"
+        android:text="@string/text2"
         android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
-        android:textColor="?attr/colorPrimary" />
+        android:textColor="?attr/colorPrimary"
+        android:textFontWeight="600"
+        tools:targetApi="28" />
 
     <TextView
         android:id="@+id/text3"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|center_horizontal"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:autoSizeTextType="uniform"
         android:ellipsize="middle"
-        android:text="@string/text3"
+        android:gravity="center"
         android:maxLines="1"
+        android:paddingVertical="2dp"
+        android:text="@string/text3"
         android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
-        android:textColor="?attr/colorSecondary" />
+        android:textColor="?attr/colorSecondary"
+        tools:targetApi="26" />
 
-</FrameLayout>
+</LinearLayout>

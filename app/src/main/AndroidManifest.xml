@@ -39,49 +39,49 @@
         <receiver
             android:name=".appwidget.EventsListWidget"
             android:exported="true"
-            android:label="@string/eventslistwidget_name">
+            android:label="@string/events_list_widget_name">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
             <meta-data
                 android:name="android.appwidget.provider"
-                android:resource="@xml/eventslistwidget_info" />
+                android:resource="@xml/events_list_widget_info" />
         </receiver>
 
         <receiver
             android:name=".appwidget.WeekInfoWidget"
             android:exported="true"
-            android:label="@string/weekinfowidget_name">
+            android:label="@string/week_info_widget_name">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
             <meta-data
                 android:name="android.appwidget.provider"
-                android:resource="@xml/weekinfowidget_info" />
+                android:resource="@xml/week_info_widget_info" />
         </receiver>
 
         <receiver
             android:name=".appwidget.DateWidget"
             android:exported="true"
-            android:label="@string/datewidget_name">
+            android:label="@string/date_widget_name">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
             <meta-data
                 android:name="android.appwidget.provider"
-                android:resource="@xml/datewidget_info" />
+                android:resource="@xml/date_widget_info" />
         </receiver>
 
         <receiver
             android:name=".appwidget.DayOfYearWidget"
             android:exported="true"
-            android:label="@string/dayofyearwidget_name">
+            android:label="@string/day_of_year_widget_name">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
             <meta-data
                 android:name="android.appwidget.provider"
-                android:resource="@xml/dayofyearwidget_info" />
+                android:resource="@xml/day_of_year_widget_info" />
         </receiver>
 
         <receiver

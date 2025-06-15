@@ -48,7 +48,7 @@ public class DayOfYearWidget extends AppWidgetProvider {
     public static void updateWidgets(final Context context,
                                      final AppWidgetManager appWidgetManager, final int[] appWidgetIds) {
         final RemoteViews updateViews = new RemoteViews(
-                context.getPackageName(), R.layout.datewidget_layout);
+                context.getPackageName(), R.layout.date_widget_layout);
         Calendar cal = DateUtilities.getCalendarClearTimeRelatedFields();
         String dayOfYear = Integer.toString(cal.get(Calendar.DAY_OF_YEAR));
         String year = Integer.toString(cal.get(Calendar.YEAR));
@@ -56,7 +56,7 @@ public class DayOfYearWidget extends AppWidgetProvider {
         updateViews.setTextViewText(R.id.text_month, daysInYear);
         updateViews.setTextViewText(R.id.text_day, dayOfYear);
         updateViews.setTextViewText(R.id.text_weekday, year);
-        updateViews.setOnClickPendingIntent(R.id.datewidget_id,
+        updateViews.setOnClickPendingIntent(R.id.date_widget_id,
                 TKWeekActivity.createPendingIntentToLaunchTKWeek(context,
                         REQUEST_CODE_DAY_OF_YEAR_WIDGET, MyDayFragment.class));
         appWidgetManager.updateAppWidget(appWidgetIds, updateViews);

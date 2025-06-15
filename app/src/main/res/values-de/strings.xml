@@ -265,21 +265,31 @@ Sie TKWeek den Zugriff auf Kontakte gestatten.</string>
     <string name="str_permission_post_notifications">TKWeek möchte einmal pro Tag Benachrichtigungen senden.</string>
 
     <!-- EventsListWidget -->
-    <string name="eventslistwidget_name">Ereignisliste</string>
-    <string name="eventslistwidget_no_events">Keine Ereignisse</string>
+    <string name="events_list_widget_name">Ereignisliste</string>
+    <string name="events_list_widget_no_events">Keine Ereignisse</string>
+    <string name="events_list_widget_text1l">Vollmond</string>
+    <string name="events_list_widget_text1r">vor 4 Tagen</string>
+    <string name="events_list_widget_text2l">Flag Day (\u221E)</string>
+    <string name="events_list_widget_text2r">Gestern</string>
+    <string name="events_list_widget_text3l">Bloomsday (\u221E)</string>
+    <string name="events_list_widget_text3r">Morgen</string>
+    <string name="events_list_widget_text4l">Abnehmender Mond</string>
+    <string name="events_list_widget_text4r">3 Tage</string>
 
     <!-- WeekInfoWidget -->
-    <string name="weekinfowidget_name">Wocheninfo</string>
-    <string name="weekinfowidget_template">%1$s %2$d von %3$d</string>
+    <string name="week_info_widget_name">Wocheninfo</string>
+    <string name="week_info_widget_template">%1$s %2$d von %3$d</string>
     <string name="text1">Wochennr. 24 von 52</string>
     <string name="text2">09.06.2025 – 15.06.2025</string>
     <string name="text3">Samstag, 14. Juni 2025</string>
 
     <!-- DateWidget -->
-    <string name="datewidget_name">Heutiges Datum</string>
+    <string name="date_widget_name">Heutiges Datum</string>
+    <string name="date_widget_text1">Juni</string>
+    <string name="date_widget_text3">So.</string>
 
     <!-- DayOfYearWidget -->
-    <string name="dayofyearwidget_name">Tag des Jahres</string>
+    <string name="day_of_year_widget_name">Tag des Jahres</string>
 
     <string name="buss_und_bettag_de">Buß- und Bettag</string>
     <string name="weltkindertag">Weltkindertag</string>

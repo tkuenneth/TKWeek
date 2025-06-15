@@ -319,22 +319,36 @@ TKWeek needs to access your contacts.</string>
     <string name="no_permission">no permission</string>
 
     <!-- EventsListWidget -->
-    <string name="eventslistwidget_name">Events list</string>
-    <string name="eventslistwidget_no_events">No upcoming events</string>
+    <string name="events_list_widget_name">Events list</string>
+    <string name="events_list_widget_no_events">No upcoming events</string>
+    <string name="events_list_widget_text1l">Full Moon</string>
+    <string name="events_list_widget_text1r">4 days ago</string>
+    <string name="events_list_widget_text2l">Flag Day (\u221E)</string>
+    <string name="events_list_widget_text2r">Yesterday</string>
+    <string name="events_list_widget_text3l">Bloomsday (\u221E)</string>
+    <string name="events_list_widget_text3r">Tomorrow</string>
+    <string name="events_list_widget_text4l">Last Querter</string>
+    <string name="events_list_widget_text4r">3 days</string>
 
     <!-- WeekInfoWidget -->
-    <string name="weekinfowidget_name">Week Info</string>
-    <string name="weekinfowidget_template">%1$s %2$d of %3$d</string>
-    <string translatable="false" name="weekinfowidget_from_to">%1$s - %2$s</string>
+    <string name="week_info_widget_name">Week Info</string>
+    <string name="week_info_widget_template">%1$s %2$d of %3$d</string>
+    <string translatable="false" name="week_info_widget_from_to">%1$s - %2$s</string>
     <string name="text1">week number 24 of 52</string>
     <string name="text2">Jun 8, 2025 - Jun 14, 2025</string>
     <string name="text3">Saturday, June 14, 2025</string>
 
     <!-- DateWidget -->
-    <string name="datewidget_name">Current date</string>
+    <string name="date_widget_name">Current date</string>
+    <string name="date_widget_text1">Jun</string>
+    <string name="date_widget_text2" translatable="false">15</string>
+    <string name="date_widget_text3">Sun</string>
 
     <!-- DayOfYearWidget -->
-    <string name="dayofyearwidget_name">Day of year</string>
+    <string name="day_of_year_widget_name">Day of year</string>
+    <string name="day_of_year_widget_text1" translatable="false">365</string>
+    <string name="day_of_year_widget_text2" translatable="false">166</string>
+    <string name="day_of_year_widget_text3" translatable="false">2025</string>
 
     <string name="buss_und_bettag_de">day of repentance and prayer</string>
     <string name="weltkindertag">Universal Children\'s Day</string>

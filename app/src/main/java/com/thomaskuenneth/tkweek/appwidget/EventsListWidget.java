@@ -59,7 +59,7 @@ public class EventsListWidget extends AppWidgetProvider {
         final int numberOfPastDays = AnnualEventsListAdapter
                 .getNumberOfPastDays(prefs);
         final RemoteViews updateViews = new RemoteViews(
-                context.getPackageName(), R.layout.eventslistwidget_layout);
+                context.getPackageName(), R.layout.events_list_widget_layout);
         AsyncTask<Void, Void, AnnualEventsListAdapter> task = new AsyncTask<Void, Void, AnnualEventsListAdapter>() {
 
             @Override
@@ -72,7 +72,7 @@ public class EventsListWidget extends AppWidgetProvider {
             protected void onPostExecute(AnnualEventsListAdapter adapter) {
                 String text_1r = "";
                 String text_1l = context
-                        .getString(R.string.eventslistwidget_no_events);
+                        .getString(R.string.events_list_widget_no_events);
                 String text_2r = "";
                 String text_2l = "";
                 String text_3r = "";
@@ -143,7 +143,7 @@ public class EventsListWidget extends AppWidgetProvider {
                 updateViews.setTextViewText(R.id.text_3l, text_3l);
                 updateViews.setTextViewText(R.id.text_4r, text_4r);
                 updateViews.setTextViewText(R.id.text_4l, text_4l);
-                updateViews.setOnClickPendingIntent(R.id.eventslistwidget_id,
+                updateViews.setOnClickPendingIntent(R.id.events_list_widget_id,
                         TKWeekActivity.createPendingIntentToLaunchTKWeek(context,
                                 REQUEST_CODE_EVENTS_LIST_WIDGET,
                                 AnnualEventsFragment.class));

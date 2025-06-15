@@ -1,16 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-	eventslistwidget_info.xml
-	TKWeek (c) 2012 - 202 Thomas Künneth
-	           2021 MATHEMA GmbH
-	All rights reserved.
--->
-
 <appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
-	android:minWidth="@dimen/AppWidget_4Cell"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:minWidth="@dimen/AppWidget_4Cell"
 	android:minHeight="@dimen/AppWidget_1Cell"
 	android:resizeMode="horizontal"
-	android:previewImage="@drawable/preview_eventslistwidget"
+	android:previewImage="@drawable/preview_events_list_widget"
+	android:previewLayout="@layout/events_list_widget_layout"
     android:updatePeriodMillis="1800000"
     android:initialLayout="@layout/widget_initial_layout"
-/>
+    tools:targetApi="31" />

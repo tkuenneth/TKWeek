@@ -85,7 +85,7 @@ public class WeekInfoWidget extends AppWidgetProvider {
         String text3 = TKWeekActivity.FORMAT_FULL.format(cal.getTime());
         // Wochennummer
         updateViews.setTextViewText(R.id.text1, context.getString(
-                R.string.weekinfowidget_template, text1, cal
+                R.string.week_info_widget_template, text1, cal
                         .get(Calendar.WEEK_OF_YEAR), maxWeeks));
         Calendar temp = (Calendar) cal.clone();
         while (temp.get(Calendar.DAY_OF_WEEK) != temp.getFirstDayOfWeek()) {
@@ -94,7 +94,7 @@ public class WeekInfoWidget extends AppWidgetProvider {
         Date start = temp.getTime();
         temp.add(Calendar.DAY_OF_MONTH, 6);
         Date end = temp.getTime();
-        String text2 = context.getString(R.string.weekinfowidget_from_to,
+        String text2 = context.getString(R.string.week_info_widget_from_to,
                 TKWeekActivity.FORMAT_DEFAULT.format(start),
                 TKWeekActivity.FORMAT_DEFAULT.format(end));
         updateViews.setTextViewText(R.id.text2, text2);

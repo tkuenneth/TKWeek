@@ -48,7 +48,7 @@ public class DateWidget extends AppWidgetProvider {
     public static void updateWidgets(final Context context,
                                      final AppWidgetManager appWidgetManager, final int[] appWidgetIds) {
         final RemoteViews updateViews = new RemoteViews(
-                context.getPackageName(), R.layout.datewidget_layout);
+                context.getPackageName(), R.layout.date_widget_layout);
         Calendar cal = Calendar.getInstance();
         String day = Integer.toString(cal.get(Calendar.DAY_OF_MONTH));
         Date date = cal.getTime();
@@ -57,7 +57,7 @@ public class DateWidget extends AppWidgetProvider {
         updateViews.setTextViewText(R.id.text_month, month);
         updateViews.setTextViewText(R.id.text_day, day);
         updateViews.setTextViewText(R.id.text_weekday, weekday);
-        updateViews.setOnClickPendingIntent(R.id.datewidget_id, TKWeekActivity.createPendingIntentToLaunchTKWeek(context, REQUEST_CODE_DATE_WIDGET, MyDayFragment.class));
+        updateViews.setOnClickPendingIntent(R.id.date_widget_id, TKWeekActivity.createPendingIntentToLaunchTKWeek(context, REQUEST_CODE_DATE_WIDGET, MyDayFragment.class));
         appWidgetManager.updateAppWidget(appWidgetIds, updateViews);
     }
 }

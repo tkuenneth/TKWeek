@@ -5,4 +5,5 @@
     android:updatePeriodMillis="1800000"
     android:previewImage="@drawable/preview_day_of_year_widget"
     android:initialLayout="@layout/widget_initial_layout"
+	android:widgetCategory="home_screen|keyguard"
 />

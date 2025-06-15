@@ -8,4 +8,5 @@
 	android:previewImage="@drawable/preview_week_info_widget"
     android:previewLayout="@layout/week_info_widget"
     android:initialLayout="@layout/widget_initial_layout"
+	android:widgetCategory="home_screen|keyguard"
     tools:targetApi="31" />

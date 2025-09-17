@@ -252,7 +252,7 @@ class CalendarFragment : TKWeekBaseFragment<CalendarBinding>(), View.OnClickList
             requireContext(), com.google.android.material.R.attr.colorSurface, Color.GREEN
         )
         val accentColor = MaterialColors.getColor(
-            requireContext(), com.google.android.material.R.attr.colorAccent, Color.GREEN
+            requireContext(), com.google.android.material.R.attr.colorSecondary, Color.GREEN
         )
         var businessDays = 0
         var daysOff = 0

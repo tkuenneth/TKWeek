@@ -36,15 +36,13 @@ import android.view.View
 import android.view.View.OnLongClickListener
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
-import android.widget.AdapterView
-import android.widget.AdapterView.OnItemSelectedListener
 import android.widget.TextView
-import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.color.MaterialColors
 import com.thomaskuenneth.tkweek.R
 import com.thomaskuenneth.tkweek.activity.TKWeekActivity
-import com.thomaskuenneth.tkweek.adapter.MonthsAsTextAdapter
+import com.thomaskuenneth.tkweek.adapter.MonthsAdapter
 import com.thomaskuenneth.tkweek.addDate
 import com.thomaskuenneth.tkweek.databinding.CalendarBinding
 import com.thomaskuenneth.tkweek.fragment.WeekFragment.Companion.prepareCalendar
@@ -57,8 +55,7 @@ import java.util.Date
 const val KEY_RECENT_DATES = "CalendarFragment"
 private const val TAG = "CalendarFragment"
 
-class CalendarFragment : TKWeekBaseFragment<CalendarBinding>(), View.OnClickListener,
-    OnItemSelectedListener {
+class CalendarFragment : TKWeekBaseFragment<CalendarBinding>(), View.OnClickListener {
 
     private val binding get() = backing!!
 
@@ -111,8 +108,12 @@ class CalendarFragment : TKWeekBaseFragment<CalendarBinding>(), View.OnClickList
         }
         binding.calendarDown.setOnClickListener(this)
         binding.calendarUp.setOnClickListener(this)
-        binding.calendarGallery.adapter = MonthsAsTextAdapter(requireContext())
-        binding.calendarGallery.onItemSelectedListener = this
+        binding.calendarGallery.adapter = MonthsAdapter(requireContext()) { position ->
+            cal[Calendar.MONTH] = position
+            updateCalendar()
+        }
+        binding.calendarGallery.layoutManager =
+            LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         days = mutableListOf()
         days.add(binding.calendar11)
         days.add(binding.calendar12)
@@ -228,18 +229,9 @@ class CalendarFragment : TKWeekBaseFragment<CalendarBinding>(), View.OnClickList
         updateCalendar()
     }
 
-    override fun onItemSelected(
-        parent: AdapterView<*>?, view: View?, position: Int, id: Long
-    ) {
-        cal[Calendar.MONTH] = position
-        updateCalendar()
-    }
-
-    override fun onNothingSelected(parent: AdapterView<*>?) {}
-
     private fun update() {
         binding.calendarYear.setText("${cal[Calendar.YEAR]}")
-        binding.calendarGallery.setSelection(cal[Calendar.MONTH])
+        binding.calendarGallery.scrollToPosition(cal[Calendar.MONTH])
         updateCalendar()
     }
 

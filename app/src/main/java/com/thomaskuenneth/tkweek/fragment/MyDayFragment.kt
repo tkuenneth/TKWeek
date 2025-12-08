@@ -270,9 +270,12 @@ class MyDayFragment : TKWeekBaseFragment<MydayBinding>() {
         val prefs = PreferenceManager
             .getDefaultSharedPreferences(requireContext())
         val hide = prefs.getBoolean("hide_nameday", false)
-        binding.mydayLayoutNameday.visibility = if (hide) View.GONE else View.VISIBLE
+        binding.mydayNameday.visibility = if (hide) View.GONE else View.VISIBLE
+        binding.mydayLabelNameday.visibility = if (hide) View.GONE else View.VISIBLE
         val hideAstrologicalSign = prefs.getBoolean("hide_astrological_sign", false)
-        binding.mydayLayoutAstrologicalSign.visibility =
+        binding.mydayAstrologicalSign.visibility =
+            if (hideAstrologicalSign) View.GONE else View.VISIBLE
+        binding.mydayLabelAstrologicalSign.visibility =
             if (hideAstrologicalSign) View.GONE else View.VISIBLE
         prepareCalendar(cal, requireContext(), binding.mydayLabelWeekNumber, true)
         DateUtilities.clearTimeRelatedFields(cal)

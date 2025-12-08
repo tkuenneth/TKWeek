@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true">
 
-    <RelativeLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="16dip">
@@ -13,149 +14,153 @@
             android:id="@+id/label_first_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
             android:layout_marginBottom="8dp"
             android:text="@string/first_date"
-            android:textAppearance="@style/TextAppearance.Material3.BodyLarge" />
+            android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/first_date_pick"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/label_first_date"
-            android:layout_alignParentEnd="true"
             android:layout_marginStart="8dp"
             android:ems="7"
-            android:text="@string/pick" />
+            android:text="@string/pick"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/label_first_date" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/first_date_today"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/label_first_date"
-            android:layout_toStartOf="@id/first_date_pick"
             android:ems="7"
-            android:text="@string/today" />
+            android:text="@string/today"
+            app:layout_constraintEnd_toStartOf="@id/first_date_pick"
+            app:layout_constraintTop_toBottomOf="@id/label_first_date" />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/first_date"
             android:layout_width="0dip"
             android:layout_height="wrap_content"
-            android:layout_below="@id/label_first_date"
-            android:layout_alignBaseline="@id/first_date_today"
-            android:layout_alignParentStart="true"
-            android:layout_toStartOf="@id/first_date_today"
-            android:textAppearance="?attr/textAppearanceBodyMedium" />
+            android:textAppearance="?attr/textAppearanceBodyMedium"
+            app:layout_constraintBaseline_toBaselineOf="@id/first_date_today"
+            app:layout_constraintEnd_toStartOf="@id/first_date_today"
+            app:layout_constraintStart_toStartOf="parent" />
 
         <com.google.android.material.checkbox.MaterialCheckBox
             android:id="@+id/checkbox_include_first_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/first_date_today"
-            android:text="@string/include_first_date" />
+            android:text="@string/include_first_date"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/first_date_today" />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/label_second_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/checkbox_include_first_date"
-            android:layout_centerHorizontal="true"
             android:layout_marginBottom="8dp"
             android:text="@string/second_date"
-            android:textAppearance="@style/TextAppearance.Material3.BodyLarge" />
+            android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/checkbox_include_first_date" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/second_date_pick"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/label_second_date"
-            android:layout_alignParentEnd="true"
             android:layout_marginStart="8dp"
             android:ems="7"
-            android:text="@string/pick" />
+            android:text="@string/pick"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/label_second_date" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/second_date_today"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/label_second_date"
-            android:layout_toStartOf="@id/second_date_pick"
             android:ems="7"
-            android:text="@string/today" />
+            android:text="@string/today"
+            app:layout_constraintEnd_toStartOf="@id/second_date_pick"
+            app:layout_constraintTop_toBottomOf="@id/label_second_date" />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/second_date"
             android:layout_width="0dip"
             android:layout_height="wrap_content"
-            android:layout_below="@id/label_second_date"
-            android:layout_alignBaseline="@id/second_date_today"
-            android:layout_alignParentStart="true"
-            android:layout_toStartOf="@id/second_date_today"
-            android:textAppearance="?attr/textAppearanceBodyMedium" />
+            android:textAppearance="?attr/textAppearanceBodyMedium"
+            app:layout_constraintBaseline_toBaselineOf="@id/second_date_today"
+            app:layout_constraintEnd_toStartOf="@id/second_date_today"
+            app:layout_constraintStart_toStartOf="parent" />
 
-        <RelativeLayout
-            android:id="@+id/relative_layout_days_between_dates"
-            android:layout_width="wrap_content"
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/days_between_dates_total1"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_below="@id/second_date_today"
-            android:layout_marginTop="32dp">
+            android:paddingBottom="8dp"
+            android:textAppearance="?attr/textAppearanceBodyMedium"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/second_date_today" />
 
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/days_between_dates_total1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingBottom="8dp"
-                android:textAppearance="?attr/textAppearanceBodyMedium" />
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/days_between_dates_total2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:paddingBottom="8dp"
+            android:textAppearance="?attr/textAppearanceBodyMedium"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/days_between_dates_total1" />
 
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/days_between_dates_total2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/days_between_dates_total1"
-                android:paddingBottom="8dp"
-                android:textAppearance="?attr/textAppearanceBodyMedium" />
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/days_between_dates_weekends"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:paddingBottom="8dp"
+            android:textAppearance="?attr/textAppearanceBodyMedium"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/days_between_dates_total2" />
 
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/days_between_dates_weekends"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/days_between_dates_total2"
-                android:paddingBottom="8dp"
-                android:textAppearance="?attr/textAppearanceBodyMedium" />
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/days_between_dates_weeks"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:paddingBottom="8dp"
+            android:textAppearance="?attr/textAppearanceBodyMedium"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/days_between_dates_weekends" />
 
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/days_between_dates_weeks"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/days_between_dates_weekends"
-                android:paddingBottom="8dp"
-                android:textAppearance="?attr/textAppearanceBodyMedium" />
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/days_between_dates_month_turns"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:paddingBottom="8dp"
+            android:textAppearance="?attr/textAppearanceBodyMedium"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/days_between_dates_weeks" />
 
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/days_between_dates_month_turns"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/days_between_dates_weeks"
-                android:layout_alignParentStart="true"
-                android:paddingBottom="8dp"
-                android:textAppearance="?attr/textAppearanceBodyMedium" />
-
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/days_between_dates_year_turns"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/days_between_dates_month_turns"
-                android:layout_alignParentStart="true"
-                android:textAppearance="?attr/textAppearanceBodyMedium" />
-
-        </RelativeLayout>
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/days_between_dates_year_turns"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textAppearance="?attr/textAppearanceBodyMedium"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/days_between_dates_month_turns" />
 
         <com.thomaskuenneth.tkweek.util.BottomSpace
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/relative_layout_days_between_dates" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/days_between_dates_year_turns" />
 
-    </RelativeLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.core.widget.NestedScrollView>

@@ -1,60 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/weekinfo_layout_weekcount"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_centerHorizontal="true" >
+    android:orientation="vertical">
 
-	<include layout="@layout/weekinfo_tablerow"
-	    android:layout_width="wrap_content"
-	    android:layout_height="wrap_content"/>
+    <include layout="@layout/weekinfo_tablerow" />
 
-	<include layout="@layout/weekinfo_tablerow"
-	    android:layout_width="wrap_content"
-	    android:layout_height="wrap_content"/>
+    <include layout="@layout/weekinfo_tablerow" />
 
-	<include layout="@layout/weekinfo_tablerow"
-	    android:layout_width="wrap_content"
-	    android:layout_height="wrap_content"/>
+    <include layout="@layout/weekinfo_tablerow" />
 
-	<include layout="@layout/weekinfo_tablerow"
-	    android:layout_width="wrap_content"
-	    android:layout_height="wrap_content"/>
+    <include layout="@layout/weekinfo_tablerow" />
 
-	<include layout="@layout/weekinfo_tablerow"
-	    android:layout_width="wrap_content"
-	    android:layout_height="wrap_content"/>
+    <include layout="@layout/weekinfo_tablerow" />
 
-	<include layout="@layout/weekinfo_tablerow"
-	    android:layout_width="wrap_content"
-	    android:layout_height="wrap_content"/>
+    <include layout="@layout/weekinfo_tablerow" />
 
-	<include layout="@layout/weekinfo_tablerow"
-	    android:layout_width="wrap_content"
-	    android:layout_height="wrap_content"/>
+    <include layout="@layout/weekinfo_tablerow" />
 
-	<include layout="@layout/weekinfo_tablerow"
-	    android:layout_width="wrap_content"
-	    android:layout_height="wrap_content"/>
+    <include layout="@layout/weekinfo_tablerow" />
 
-	<include layout="@layout/weekinfo_tablerow"
-	    android:layout_width="wrap_content"
-	    android:layout_height="wrap_content"/>
+    <include layout="@layout/weekinfo_tablerow" />
 
-	<include layout="@layout/weekinfo_tablerow"
-	    android:layout_width="wrap_content"
-	    android:layout_height="wrap_content"/>
+    <include layout="@layout/weekinfo_tablerow" />
 
-	<include layout="@layout/weekinfo_tablerow"
-	    android:layout_width="wrap_content"
-	    android:layout_height="wrap_content"/>
+    <include layout="@layout/weekinfo_tablerow" />
 
-	<include layout="@layout/weekinfo_tablerow"
-	    android:layout_width="wrap_content"
-	    android:layout_height="wrap_content"/>
+    <include layout="@layout/weekinfo_tablerow" />
 
-	<include layout="@layout/weekinfo_tablerow"
-	    android:layout_width="wrap_content"
-	    android:layout_height="wrap_content"/>
+    <include layout="@layout/weekinfo_tablerow" />
 
-</TableLayout>
+</LinearLayout>

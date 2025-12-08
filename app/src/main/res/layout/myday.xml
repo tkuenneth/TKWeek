@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:fillViewport="true">
 
-    <RelativeLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="16dp">
@@ -14,236 +14,211 @@
             android:id="@+id/myday_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
             android:gravity="center"
             android:paddingBottom="16dp"
-            android:textAppearance="?attr/textAppearanceBodyMedium" />
+            android:textAppearance="?attr/textAppearanceBodyMedium"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-        <RelativeLayout
-            android:id="@+id/myday_layout_week_number"
-            android:layout_width="match_parent"
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/myday_label_week_number"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/myday_date">
+            android:text="@string/week_number"
+            android:textAppearance="?attr/textAppearanceBodySmall"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/myday_date" />
 
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/myday_label_week_number"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/week_number"
-                android:textAppearance="?attr/textAppearanceBodySmall" />
-
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/myday_week_number"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignBaseline="@id/myday_label_week_number"
-                android:layout_marginStart="6dip"
-                android:layout_toEndOf="@id/myday_label_week_number"
-                android:textAppearance="?attr/textAppearanceBodyMedium" />
-
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/myday_layout_day_in_year"
-            android:layout_width="match_parent"
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/myday_week_number"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_below="@id/myday_layout_week_number">
+            android:layout_marginStart="6dip"
+            android:textAppearance="?attr/textAppearanceBodyMedium"
+            app:layout_constraintBaseline_toBaselineOf="@id/myday_label_week_number"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/myday_label_week_number" />
 
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/myday_label_day_in_year"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/label_day_of_year"
-                android:textAppearance="?attr/textAppearanceBodySmall" />
-
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/myday_day_in_year"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignBaseline="@id/myday_label_day_in_year"
-                android:layout_marginStart="6dip"
-                android:layout_toEndOf="@id/myday_label_day_in_year"
-                android:textAppearance="?attr/textAppearanceBodyMedium" />
-
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/myday_layout_is_leap_year"
-            android:layout_width="match_parent"
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/myday_label_day_in_year"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/myday_layout_day_in_year">
+            android:text="@string/label_day_of_year"
+            android:textAppearance="?attr/textAppearanceBodySmall"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/myday_label_week_number" />
 
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/myday_label_is_leap_year"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/is_leap_year"
-                android:textAppearance="?attr/textAppearanceBodySmall" />
-
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/myday_is_leap_year"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignBaseline="@id/myday_label_is_leap_year"
-                android:layout_marginStart="6dip"
-                android:layout_toEndOf="@id/myday_label_is_leap_year"
-                android:textAppearance="?attr/textAppearanceBodyMedium" />
-
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/myday_layout_astrological_sign"
-            android:layout_width="match_parent"
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/myday_day_in_year"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_below="@id/myday_layout_is_leap_year">
+            android:layout_marginStart="6dip"
+            android:textAppearance="?attr/textAppearanceBodyMedium"
+            app:layout_constraintBaseline_toBaselineOf="@id/myday_label_day_in_year"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/myday_label_day_in_year" />
 
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/myday_label_astrological_sign"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/astrological_sign"
-                android:textAppearance="?attr/textAppearanceBodySmall" />
-
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/myday_astrological_sign"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignBaseline="@id/myday_label_astrological_sign"
-                android:layout_marginStart="6dip"
-                android:layout_toEndOf="@id/myday_label_astrological_sign"
-                android:textAppearance="?attr/textAppearanceBodyMedium" />
-
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/myday_layout_nameday"
-            android:layout_width="match_parent"
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/myday_label_is_leap_year"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/myday_layout_astrological_sign">
+            android:text="@string/is_leap_year"
+            android:textAppearance="?attr/textAppearanceBodySmall"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/myday_label_day_in_year" />
 
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/myday_label_nameday"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/nameday"
-                android:textAppearance="?attr/textAppearanceBodySmall" />
-
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/myday_nameday"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignBaseline="@id/myday_label_nameday"
-                android:layout_marginStart="6dip"
-                android:layout_toEndOf="@id/myday_label_nameday"
-                android:textAppearance="?attr/textAppearanceBodyMedium" />
-
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/myday_layout_notes"
-            android:layout_width="match_parent"
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/myday_is_leap_year"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_below="@id/myday_layout_nameday"
-            android:paddingTop="16dp">
+            android:layout_marginStart="6dip"
+            android:textAppearance="?attr/textAppearanceBodyMedium"
+            app:layout_constraintBaseline_toBaselineOf="@id/myday_label_is_leap_year"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/myday_label_is_leap_year" />
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/myday_symbol_delete"
-                style="@style/Widget.Material3.Button.IconButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentEnd="true"
-                android:contentDescription="@string/delete"
-                app:icon="@drawable/ic_baseline_delete_24" />
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/myday_label_astrological_sign"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/astrological_sign"
+            android:textAppearance="?attr/textAppearanceBodySmall"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/myday_label_is_leap_year" />
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/myday_symbol_notes"
-                style="@style/Widget.Material3.Button.IconButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignBaseline="@+id/myday_symbol_delete"
-                android:layout_toStartOf="@id/myday_symbol_delete"
-                android:contentDescription="@string/edit"
-                app:icon="@drawable/ic_baseline_edit_24" />
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/myday_astrological_sign"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="6dip"
+            android:textAppearance="?attr/textAppearanceBodyMedium"
+            app:layout_constraintBaseline_toBaselineOf="@id/myday_label_astrological_sign"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/myday_label_astrological_sign" />
 
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/myday_notes"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignBaseline="@id/myday_symbol_delete"
-                android:layout_alignParentStart="true"
-                android:layout_marginStart="6dip"
-                android:layout_toStartOf="@id/myday_symbol_notes"
-                android:hint="@string/no_notes"
-                android:textAppearance="?attr/textAppearanceBodyMedium" />
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/myday_label_nameday"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/nameday"
+            android:textAppearance="?attr/textAppearanceBodySmall"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/myday_label_astrological_sign" />
 
-        </RelativeLayout>
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/myday_nameday"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="6dip"
+            android:textAppearance="?attr/textAppearanceBodyMedium"
+            app:layout_constraintBaseline_toBaselineOf="@id/myday_label_nameday"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/myday_label_nameday" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/myday_symbol_delete"
+            style="@style/Widget.Material3.Button.IconButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/delete"
+            app:icon="@drawable/ic_baseline_delete_24"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/myday_label_nameday" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/myday_symbol_notes"
+            style="@style/Widget.Material3.Button.IconButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/edit"
+            app:icon="@drawable/ic_baseline_edit_24"
+            app:layout_constraintBaseline_toBaselineOf="@+id/myday_symbol_delete"
+            app:layout_constraintEnd_toStartOf="@id/myday_symbol_delete" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/myday_notes"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="6dip"
+            android:hint="@string/no_notes"
+            android:textAppearance="?attr/textAppearanceBodyMedium"
+            app:layout_constraintBaseline_toBaselineOf="@id/myday_symbol_delete"
+            app:layout_constraintEnd_toStartOf="@id/myday_symbol_notes"
+            app:layout_constraintStart_toStartOf="parent" />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/myday_label_events"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/myday_layout_notes"
-            android:layout_centerHorizontal="true"
             android:layout_marginTop="16dp"
             android:layout_marginBottom="8dp"
             android:text="@string/events"
-            android:textAppearance="@style/TextAppearance.Material3.BodyLarge" />
+            android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/myday_symbol_delete" />
 
         <LinearLayout
             android:id="@+id/myday_events"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_below="@id/myday_label_events"
-            android:layout_alignParentStart="true"
-            android:orientation="vertical" />
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/myday_label_events" />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/myday_label_appointments"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/myday_events"
-            android:layout_centerHorizontal="true"
             android:layout_marginTop="16dp"
             android:layout_marginBottom="8dp"
             android:text="@string/appointments"
-            android:textAppearance="@style/TextAppearance.Material3.BodyLarge" />
+            android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/myday_events" />
 
         <LinearLayout
             android:id="@+id/myday_appointments"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_below="@id/myday_label_appointments"
-            android:layout_alignParentStart="true"
-            android:orientation="vertical" />
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/myday_label_appointments" />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/myday_label_tasks"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/myday_appointments"
-            android:layout_centerHorizontal="true"
             android:layout_marginTop="16dp"
             android:layout_marginBottom="8dp"
             android:text="@string/tasks"
             android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
-            android:visibility="gone" />
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/myday_appointments" />
 
         <LinearLayout
             android:id="@+id/myday_tasks"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_below="@id/myday_label_tasks"
-            android:layout_alignParentStart="true"
             android:animateLayoutChanges="true"
             android:orientation="vertical"
-            android:visibility="gone" />
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/myday_label_tasks" />
 
         <com.thomaskuenneth.tkweek.util.BottomSpace
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/myday_label_tasks" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/myday_tasks" />
 
-    </RelativeLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.core.widget.NestedScrollView>

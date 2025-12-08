@@ -31,8 +31,8 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TableRow
 import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintLayout
 import com.thomaskuenneth.tkweek.R
 import com.thomaskuenneth.tkweek.activity.TKWeekActivity
 import com.thomaskuenneth.tkweek.databinding.AboutAYearBinding
@@ -188,9 +188,17 @@ class AboutYearFragment : TKWeekBaseFragment<AboutAYearBinding>(), View.OnClickL
     }
 
     private fun getTextViews(index: Int): List<TextView> {
-        val row = binding.aboutAYearLayoutWeekinfo.root.getChildAt(index) as TableRow
+        val row = binding.aboutAYearLayoutWeekinfo.root.getChildAt(index) as ConstraintLayout
         val result = mutableListOf<TextView>()
-        for (i in 0..8) result.add(row.getChildAt(i) as TextView)
+        result.add(row.findViewById(R.id.cell1))
+        result.add(row.findViewById(R.id.cell2))
+        result.add(row.findViewById(R.id.cell3))
+        result.add(row.findViewById(R.id.cell4))
+        result.add(row.findViewById(R.id.cell5))
+        result.add(row.findViewById(R.id.cell6))
+        result.add(row.findViewById(R.id.cell7))
+        result.add(row.findViewById(R.id.cell8))
+        result.add(row.findViewById(R.id.cell9))
         return result
     }
 

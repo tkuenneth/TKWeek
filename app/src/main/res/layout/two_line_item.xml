@@ -6,7 +6,8 @@
     android:background="?android:attr/activatedBackgroundIndicator"
     android:baselineAligned="false"
     android:orientation="horizontal"
-    android:padding="8dip">
+    android:paddingHorizontal="16dp"
+    android:paddingVertical="12dp">
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/text1"
@@ -34,8 +35,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="end"
-        android:paddingStart="16dp"
-        android:paddingEnd="0dp"
+        android:layout_marginStart="16dp"
         android:textAppearance="?attr/textAppearanceBodyLarge"
         android:textColor="@color/list_item_color_selector"
         app:layout_constraintBaseline_toBaselineOf="@id/text1"
@@ -47,8 +47,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:gravity="end"
-        android:paddingStart="16dp"
-        android:paddingEnd="0dp"
+        android:layout_marginStart="16dp"
         android:singleLine="true"
         android:textAppearance="?attr/textAppearanceBodyMedium"
         android:textColor="@color/list_item_color_selector"

@@ -24,14 +24,15 @@
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/about_a_year_year"
-            android_layout_width="wrap_content"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:ems="4"
             android:gravity="center"
             android:textAppearance="?attr/textAppearanceBodyMedium"
-            app:layout_constraintBaseline_toBaselineOf="@id/about_a_year_down"
+            app:layout_constraintBottom_toBottomOf="@id/about_a_year_down"
             app:layout_constraintEnd_toStartOf="@+id/about_a_year_up"
-            app:layout_constraintStart_toEndOf="@id/about_a_year_down" />
+            app:layout_constraintStart_toEndOf="@id/about_a_year_down"
+            app:layout_constraintTop_toTopOf="@id/about_a_year_down" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/about_a_year_up"
@@ -40,9 +41,10 @@
             android:contentDescription="@string/next_year"
             android:ems="4"
             android:text="@string/plus"
-            app:layout_constraintBaseline_toBaselineOf="@id/about_a_year_year"
+            app:layout_constraintBottom_toBottomOf="@id/about_a_year_down"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/about_a_year_year" />
+            app:layout_constraintStart_toEndOf="@id/about_a_year_year"
+            app:layout_constraintTop_toTopOf="@id/about_a_year_down" />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/is_leap_year"

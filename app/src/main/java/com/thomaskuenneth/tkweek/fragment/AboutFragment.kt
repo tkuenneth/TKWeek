@@ -87,8 +87,16 @@ class AboutFragment : TKWeekBaseFragment<AboutBinding>() {
             "${metrics.widthPixels} ${getString(R.string.times_symbol)} ${metrics.heightPixels}"
         val sizeInDp =
             "${(metrics.widthPixels / metrics.density).toInt()} ${getString(R.string.times_symbol)} ${(metrics.heightPixels / metrics.density).toInt()}"
-        binding.aboutSizeInPixel.text = "$sizeInPixels ${getString(R.string.pixel)}"
-        binding.aboutSizeInDp.text = "$sizeInDp ${getString(R.string.dp)}"
+        binding.aboutSizeInPixel.text = getString(
+            R.string.template_string_string,
+            sizeInPixels,
+            getString(R.string.pixel)
+        )
+        binding.aboutSizeInDp.text = getString(
+            R.string.template_string_string,
+            sizeInDp,
+            getString(R.string.dp)
+        )
         val sb = StringBuilder(Build.VERSION.RELEASE)
         sb.append(" (${Build.VERSION.SDK_INT})")
         binding.aboutAndroidVersion.text = sb.toString()

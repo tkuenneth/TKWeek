@@ -31,10 +31,9 @@ import android.os.Bundle
 import android.view.*
 import android.widget.DatePicker
 import android.widget.DatePicker.OnDateChangedListener
-import android.widget.SeekBar
-import android.widget.SeekBar.OnSeekBarChangeListener
 import android.widget.TextView
 import androidx.preference.PreferenceManager
+import com.google.android.material.slider.Slider
 import com.thomaskuenneth.tkweek.R
 import com.thomaskuenneth.tkweek.activity.TKWeekActivity
 import com.thomaskuenneth.tkweek.appwidget.WeekInfoWidget
@@ -43,7 +42,7 @@ import com.thomaskuenneth.tkweek.util.TKWeekUtils
 import java.util.*
 
 class WeekFragment : TKWeekBaseFragment<WeekBinding>(), OnDateChangedListener,
-    OnSeekBarChangeListener, View.OnClickListener {
+    View.OnClickListener {
 
     private val binding get() = backing!!
 
@@ -56,7 +55,17 @@ class WeekFragment : TKWeekBaseFragment<WeekBinding>(), OnDateChangedListener,
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         TKWeekActivity.configureDatePicker(binding.dateWithinWeek)
-        binding.weekSelection.setOnSeekBarChangeListener(this)
+        binding.weekSelection.addOnChangeListener { slider, value, fromUser ->
+            if (fromUser) {
+                val newWeek = value.toInt()
+                val currentWeek = cal[Calendar.WEEK_OF_YEAR]
+                val diff = newWeek - currentWeek
+                if (diff != 0) {
+                    cal.add(Calendar.DAY_OF_MONTH, 7 * diff)
+                    updateViewsFromCalendar(updateWeekSelection = false)
+                }
+            }
+        }
         binding.down.setOnClickListener(this)
         binding.up.setOnClickListener(this)
     }
@@ -102,24 +111,6 @@ class WeekFragment : TKWeekBaseFragment<WeekBinding>(), OnDateChangedListener,
         updateViews()
     }
 
-    override fun onProgressChanged(
-        seekBar: SeekBar?, progress: Int, fromUser: Boolean
-    ) {
-        if (fromUser) {
-            val dif = progress - (cal[Calendar.WEEK_OF_YEAR] - 1)
-            if (dif != 0) {
-                cal.add(Calendar.DAY_OF_MONTH, 7 * dif)
-                updateViewsFromCalendar(updateWeekSelection = false)
-            }
-        }
-    }
-
-    override fun onStartTrackingTouch(seekBar: SeekBar?) {
-    }
-
-    override fun onStopTrackingTouch(seekBar: SeekBar?) {
-    }
-
     override fun onClick(v: View) {
         var current = cal[Calendar.DAY_OF_MONTH]
         if (v === binding.down) {
@@ -158,8 +149,9 @@ class WeekFragment : TKWeekBaseFragment<WeekBinding>(), OnDateChangedListener,
         binding.weekNumber.text = TKWeekUtils.integerToString(weekOfYear)
         val temp = cal.clone() as Calendar
         if (updateWeekSelection) {
-            binding.weekSelection.max = temp.getActualMaximum(Calendar.WEEK_OF_YEAR) - 1
-            binding.weekSelection.progress = weekOfYear - 1
+            binding.weekSelection.valueFrom = 1f
+            binding.weekSelection.valueTo = temp.getActualMaximum(Calendar.WEEK_OF_YEAR).toFloat()
+            binding.weekSelection.value = weekOfYear.toFloat()
         }
         while (temp[Calendar.DAY_OF_WEEK] != temp.firstDayOfWeek) {
             temp.add(Calendar.DAY_OF_MONTH, -1)

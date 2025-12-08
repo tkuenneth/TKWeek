@@ -29,10 +29,9 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.*
-import android.widget.DatePicker
-import android.widget.DatePicker.OnDateChangedListener
 import android.widget.TextView
 import androidx.preference.PreferenceManager
+import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.slider.Slider
 import com.thomaskuenneth.tkweek.R
 import com.thomaskuenneth.tkweek.activity.TKWeekActivity
@@ -41,7 +40,7 @@ import com.thomaskuenneth.tkweek.databinding.WeekBinding
 import com.thomaskuenneth.tkweek.util.TKWeekUtils
 import java.util.*
 
-class WeekFragment : TKWeekBaseFragment<WeekBinding>(), OnDateChangedListener,
+class WeekFragment : TKWeekBaseFragment<WeekBinding>(),
     View.OnClickListener {
 
     private val binding get() = backing!!
@@ -54,8 +53,17 @@ class WeekFragment : TKWeekBaseFragment<WeekBinding>(), OnDateChangedListener,
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        TKWeekActivity.configureDatePicker(binding.dateWithinWeek)
-        binding.weekSelection.addOnChangeListener { slider, value, fromUser ->
+        binding.dateWithinWeek.setOnClickListener {
+            val picker = MaterialDatePicker.Builder.datePicker()
+                .setSelection(cal.timeInMillis)
+                .build()
+            picker.addOnPositiveButtonClickListener { selection ->
+                cal.timeInMillis = selection
+                updateViewsFromCalendar()
+            }
+            picker.show(parentFragmentManager, "date_picker")
+        }
+        binding.weekSelection.addOnChangeListener { _, value, fromUser ->
             if (fromUser) {
                 val newWeek = value.toInt()
                 val currentWeek = cal[Calendar.WEEK_OF_YEAR]
@@ -66,6 +74,14 @@ class WeekFragment : TKWeekBaseFragment<WeekBinding>(), OnDateChangedListener,
                 }
             }
         }
+        binding.weekSelection.addOnSliderTouchListener(object : Slider.OnSliderTouchListener {
+            override fun onStartTrackingTouch(slider: Slider) {
+            }
+
+            override fun onStopTrackingTouch(slider: Slider) {
+                updateViewsFromCalendar(updateWeekSelection = true)
+            }
+        })
         binding.down.setOnClickListener(this)
         binding.up.setOnClickListener(this)
     }
@@ -102,15 +118,6 @@ class WeekFragment : TKWeekBaseFragment<WeekBinding>(), OnDateChangedListener,
         updateWeekInfoWidgets(requireContext())
     }
 
-    override fun onDateChanged(
-        view: DatePicker?, year: Int, monthOfYear: Int, dayOfMonth: Int
-    ) {
-        cal[Calendar.YEAR] = year
-        cal[Calendar.MONTH] = monthOfYear
-        cal[Calendar.DAY_OF_MONTH] = dayOfMonth
-        updateViews()
-    }
-
     override fun onClick(v: View) {
         var current = cal[Calendar.DAY_OF_MONTH]
         if (v === binding.down) {
@@ -137,14 +144,11 @@ class WeekFragment : TKWeekBaseFragment<WeekBinding>(), OnDateChangedListener,
     }
 
     private fun updateViewsFromCalendar(updateWeekSelection: Boolean = true) {
-        binding.dateWithinWeek.init(
-            cal[Calendar.YEAR], cal[Calendar.MONTH], cal[Calendar.DAY_OF_MONTH], this
-        )
         updateViews(updateWeekSelection)
     }
 
     private fun updateViews(updateWeekSelection: Boolean = true) {
-        binding.day.text = TKWeekActivity.FORMAT_DAY_OF_WEEK.format(cal.time)
+        binding.dateWithinWeek.text = TKWeekActivity.FORMAT_FULL.format(cal.time)
         val weekOfYear = cal[Calendar.WEEK_OF_YEAR]
         binding.weekNumber.text = TKWeekUtils.integerToString(weekOfYear)
         val temp = cal.clone() as Calendar

@@ -26,21 +26,24 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/date_within_week"
+                <FrameLayout
+                    android:id="@+id/date_picker_container"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:background="?attr/selectableItemBackground"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:gravity="center_vertical|start"
                     android:padding="16dp"
-                    android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
-                    android:textColor="?attr/colorOnSurface"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    tools:text="Friday, June 14, 2024" />
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/date_within_week"
+                        style="@style/Widget.Material3.Button.OutlinedButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        tools:text="Friday, June 14, 2024" />
+
+                </FrameLayout>
 
                 <com.google.android.material.divider.MaterialDivider
                     android:id="@+id/divider1"
@@ -50,7 +53,7 @@
                     app:dividerThickness="2dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/date_within_week" />
+                    app:layout_constraintTop_toBottomOf="@id/date_picker_container" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/week_controls_container"
@@ -58,6 +61,7 @@
                     android:layout_height="wrap_content"
                     android:padding="16dp"
                     app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/divider1">
 
@@ -66,10 +70,11 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="8dp"
-                        android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
+                        android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
                         android:textColor="?attr/colorOnSurfaceVariant"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:text="@string/week_number" />
 
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/down"
@@ -130,7 +135,7 @@
                     android:id="@+id/first_and_last_day_of_week"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:gravity="center_vertical|start"
+                    android:gravity="center"
                     android:padding="16dp"
                     android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
                     android:textColor="?attr/colorOnSurface"

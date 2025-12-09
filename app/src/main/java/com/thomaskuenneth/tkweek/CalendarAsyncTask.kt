@@ -2,6 +2,7 @@
  * CalendarAsyncTask.java
  *
  * Copyright 2021 MATHEMA GmbH 2021
+ *           2022 - 2025 Thomas Künneth
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
@@ -121,9 +122,9 @@ class CalendarAsyncTask(
 
     @Deprecated("Deprecated in Java")
     override fun onPostExecute(b: Bundle) {
-        binding.firstDatePick.isEnabled = true
+        binding.firstDate.isEnabled = true
+        binding.secondDate.isEnabled = true
         binding.firstDateToday.isEnabled = true
-        binding.secondDatePick.isEnabled = true
         binding.secondDateToday.isEnabled = true
         val days = b.getInt(DAYS)
         binding.daysBetweenDatesTotal1.text = context.getString(

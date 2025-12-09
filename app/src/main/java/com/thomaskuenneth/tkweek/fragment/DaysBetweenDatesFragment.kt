@@ -2,7 +2,7 @@
  * DaysBetweenDatesFragment.kt
  *
  * Copyright 2021 MATHEMA GmbH
- *           2022 - 2023 Thomas Künneth
+ *           2022 - 2025 Thomas Künneth
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
@@ -28,7 +28,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.setFragmentResultListener
+import com.google.android.material.datepicker.MaterialDatePicker
 import com.thomaskuenneth.tkweek.CalendarAsyncTask
 import com.thomaskuenneth.tkweek.activity.TKWeekActivity
 import com.thomaskuenneth.tkweek.databinding.DaysBetweenDatesActivityBinding
@@ -36,28 +36,9 @@ import com.thomaskuenneth.tkweek.util.DateUtilities
 import java.util.Calendar
 import java.util.Date
 
-private const val FIRST_PICKER = 1
-private const val SECOND_PICKER = 2
-
 class DaysBetweenDatesFragment : TKWeekBaseFragment<DaysBetweenDatesActivityBinding>() {
 
     private val binding get() = backing!!
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setFragmentResultListener(RESULT_DATEPICKER) { _, bundle ->
-            val date = DateUtilities.getCalendar(
-                bundle.getInt(ARGS_YEAR),
-                bundle.getInt(ARGS_MONTH),
-                bundle.getInt(ARGS_DAY_OF_MONTH)
-            )
-            when (bundle.getInt(ARGS_PICKER)) {
-                FIRST_PICKER -> calFirstDate = date
-                SECOND_PICKER -> calSecondDate = date
-            }
-            update()
-        }
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -83,41 +64,25 @@ class DaysBetweenDatesFragment : TKWeekBaseFragment<DaysBetweenDatesActivityBind
             calFirstDate = calSecondDate
             calSecondDate = temp
         }
+        binding.firstDate.setOnClickListener {
+            showDatePicker(calFirstDate) { time ->
+                calFirstDate.timeInMillis = time
+                update()
+            }
+        }
         binding.firstDateToday.setOnClickListener {
-            calFirstDate.time = Date()
+            calFirstDate.timeInMillis = MaterialDatePicker.todayInUtcMilliseconds()
             update()
         }
-        binding.firstDatePick.setOnClickListener {
-            val datePickerFragment = DatePickerFragment().also {
-                it.arguments = Bundle().also { bundle ->
-                    bundle.putInt(ARGS_PICKER, FIRST_PICKER)
-                    bundle.putInt(ARGS_YEAR, calFirstDate.get(Calendar.YEAR))
-                    bundle.putInt(ARGS_MONTH, calFirstDate.get(Calendar.MONTH))
-                    bundle.putInt(ARGS_DAY_OF_MONTH, calFirstDate.get(Calendar.DAY_OF_MONTH))
-                }
+        binding.secondDate.setOnClickListener {
+            showDatePicker(calSecondDate) { time ->
+                calSecondDate.timeInMillis = time
+                update()
             }
-            datePickerFragment.show(
-                parentFragmentManager,
-                DatePickerFragment.TAG
-            )
         }
         binding.secondDateToday.setOnClickListener {
-            calSecondDate.time = Date()
+            calSecondDate.timeInMillis = MaterialDatePicker.todayInUtcMilliseconds()
             update()
-        }
-        binding.secondDatePick.setOnClickListener {
-            val datePickerFragment = DatePickerFragment().also {
-                it.arguments = Bundle().also { bundle ->
-                    bundle.putInt(ARGS_PICKER, SECOND_PICKER)
-                    bundle.putInt(ARGS_YEAR, calSecondDate.get(Calendar.YEAR))
-                    bundle.putInt(ARGS_MONTH, calSecondDate.get(Calendar.MONTH))
-                    bundle.putInt(ARGS_DAY_OF_MONTH, calSecondDate.get(Calendar.DAY_OF_MONTH))
-                }
-            }
-            datePickerFragment.show(
-                parentFragmentManager,
-                DatePickerFragment.TAG
-            )
         }
         update()
     }
@@ -136,11 +101,19 @@ class DaysBetweenDatesFragment : TKWeekBaseFragment<DaysBetweenDatesActivityBind
             c1 = c2
             c2 = temp
         }
-        binding.firstDatePick.isEnabled = false
+        binding.firstDate.isEnabled = false
+        binding.secondDate.isEnabled = false
         binding.firstDateToday.isEnabled = false
-        binding.secondDatePick.isEnabled = false
         binding.secondDateToday.isEnabled = false
         CalendarAsyncTask(requireContext(), binding).execute(c1, c2)
+    }
+
+    private fun showDatePicker(cal: Calendar, onDateSelected: (Long) -> Unit) {
+        val picker = MaterialDatePicker.Builder.datePicker()
+            .setSelection(cal.timeInMillis)
+            .build()
+        picker.addOnPositiveButtonClickListener(onDateSelected)
+        picker.show(parentFragmentManager, "date_picker")
     }
 
     companion object {

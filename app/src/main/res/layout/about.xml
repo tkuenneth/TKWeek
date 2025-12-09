@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true">
@@ -26,7 +27,8 @@
             android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/about_icon" />
+            app:layout_constraintTop_toBottomOf="@id/about_icon"
+            tools:text="1.0.0" />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/about_made_with_love"
@@ -44,8 +46,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:text="@string/about_language"
-            android:textColor="?attr/colorOnSurfaceVariant"
             android:textAppearance="@style/TextAppearance.Material3.BodySmall"
+            android:textColor="?attr/colorOnSurfaceVariant"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/about_made_with_love" />
 
@@ -56,15 +58,16 @@
             android:layout_marginStart="8dp"
             android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
             app:layout_constraintBaseline_toBaselineOf="@id/about_label_language"
-            app:layout_constraintStart_toEndOf="@id/about_label_language" />
+            app:layout_constraintStart_toEndOf="@id/about_label_language"
+            tools:text="en" />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/about_label_country"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/about_country"
-            android:textColor="?attr/colorOnSurfaceVariant"
             android:textAppearance="@style/TextAppearance.Material3.BodySmall"
+            android:textColor="?attr/colorOnSurfaceVariant"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/about_label_language" />
 
@@ -75,15 +78,16 @@
             android:layout_marginStart="8dp"
             android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
             app:layout_constraintBaseline_toBaselineOf="@id/about_label_country"
-            app:layout_constraintStart_toEndOf="@id/about_label_country" />
+            app:layout_constraintStart_toEndOf="@id/about_label_country"
+            tools:text="uk" />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/about_label_timezone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/about_timezone"
-            android:textColor="?attr/colorOnSurfaceVariant"
             android:textAppearance="@style/TextAppearance.Material3.BodySmall"
+            android:textColor="?attr/colorOnSurfaceVariant"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/about_label_country" />
 
@@ -94,15 +98,16 @@
             android:layout_marginStart="8dp"
             android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
             app:layout_constraintBaseline_toBaselineOf="@id/about_label_timezone"
-            app:layout_constraintStart_toEndOf="@id/about_label_timezone" />
+            app:layout_constraintStart_toEndOf="@id/about_label_timezone"
+            tools:text="UTC" />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/about_label_calendar_class"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/about_calendar_class"
-            android:textColor="?attr/colorOnSurfaceVariant"
             android:textAppearance="@style/TextAppearance.Material3.BodySmall"
+            android:textColor="?attr/colorOnSurfaceVariant"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/about_label_timezone" />
 
@@ -113,15 +118,16 @@
             android:layout_marginStart="8dp"
             android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
             app:layout_constraintBaseline_toBaselineOf="@id/about_label_calendar_class"
-            app:layout_constraintStart_toEndOf="@id/about_label_calendar_class" />
+            app:layout_constraintStart_toEndOf="@id/about_label_calendar_class"
+            tools:text="Gregorian" />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/about_label_density"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/about_density"
-            android:textColor="?attr/colorOnSurfaceVariant"
             android:textAppearance="@style/TextAppearance.Material3.BodySmall"
+            android:textColor="?attr/colorOnSurfaceVariant"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/about_label_calendar_class" />
 
@@ -132,25 +138,16 @@
             android:layout_marginStart="8dp"
             android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
             app:layout_constraintBaseline_toBaselineOf="@id/about_label_density"
-            app:layout_constraintStart_toEndOf="@id/about_label_density" />
-
-        <com.google.android.material.textview.MaterialTextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingStart="8dp"
-            android:paddingEnd="0dp"
-            android:text="@string/dpi"
-            android:textAppearance="@style/TextAppearance.Material3.BodySmall"
-            app:layout_constraintBaseline_toBaselineOf="@id/about_density"
-            app:layout_constraintStart_toEndOf="@id/about_density" />
+            app:layout_constraintStart_toEndOf="@id/about_label_density"
+            tools:text="320 dpi" />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/about_label_size_in_pixel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/about_size_in_pixel"
-            android:textColor="?attr/colorOnSurfaceVariant"
             android:textAppearance="@style/TextAppearance.Material3.BodySmall"
+            android:textColor="?attr/colorOnSurfaceVariant"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/about_label_density" />
 
@@ -159,32 +156,21 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:includeFontPadding="false"
             android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
             app:layout_constraintBaseline_toBaselineOf="@id/about_label_size_in_pixel"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/about_label_size_in_pixel"
-            app:layout_constraintTop_toBottomOf="@id/about_label_size_in_pixel" />
-
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/about_size_in_dp"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:includeFontPadding="false"
-            android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@id/about_size_in_pixel"
-            app:layout_constraintTop_toBottomOf="@id/about_size_in_pixel" />
+            tools:text="line 1\nline 2" />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/about_label_android_version"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/about_android_version"
-            android:textColor="?attr/colorOnSurfaceVariant"
             android:textAppearance="@style/TextAppearance.Material3.BodySmall"
+            android:textColor="?attr/colorOnSurfaceVariant"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/about_size_in_dp" />
+            app:layout_constraintTop_toBottomOf="@id/about_size_in_pixel" />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/about_android_version"
@@ -193,15 +179,16 @@
             android:layout_marginStart="8dp"
             android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
             app:layout_constraintBaseline_toBaselineOf="@id/about_label_android_version"
-            app:layout_constraintStart_toEndOf="@id/about_label_android_version" />
+            app:layout_constraintStart_toEndOf="@id/about_label_android_version"
+            tools:text="16" />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/about_welcome_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:maxWidth="600dp"
             android:autoLink="email|web"
             android:linksClickable="true"
+            android:maxWidth="600dp"
             android:paddingTop="8dp"
             android:text="@string/welcome_text"
             app:layout_constraintStart_toStartOf="parent"

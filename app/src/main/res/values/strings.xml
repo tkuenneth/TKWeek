@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string translatable="false" name="made_with_love">Made with \u2764 by Thomas Künneth</string>
+    <string name="made_with_love" translatable="false">Made with \u2764 by Thomas Künneth</string>
     <string name="not_successful">%1$s was not successful.</string>
     <string name="contacts">Contacts</string>
     <string name="pick_a_date">Pick a date</string>
-    <string name="four_strings_two_lines" translatable="false">%1$s %2$s\n%3$s %4$s</string>
+    <string name="four_strings_two_lines" translatable="false">%1$s %2$s (%3$s %4$s)</string>
     <string name="template_string_string" translatable="false">%1$s %2$s</string>
     <string name="tag_module_selection" translatable="false">module_selection</string>
     <string name="tag_module_fragment" translatable="false">moduleFragment</string>
@@ -42,7 +42,7 @@
     <string name="dpi" translatable="false">dpi</string>
     <string name="times_symbol" translatable="false">\ud7</string>
     <string name="pixel">pixel</string>
-    <string name="dp">Density-independent pixels</string>
+    <string name="dp" translatable="false">dp</string>
     <string name="none">none</string>
     <string name="sigma" translatable="false">\u3A3</string>
     <string name="spring">First Day of Spring</string>
@@ -310,9 +310,9 @@ access your contacts data to display birthdays and anniversaries. You can deacti
     <string name="tasks">tasks</string>
     <string name="events">events</string>
     <string name="toast_task_completed">Task completed.</string>
-	<string name="missing_right_create_task">To create tasks,
+    <string name="missing_right_create_task">To create tasks,
 you need to grant access to contacts in system settings.</string>
-	<string name="needed_right_create_task">To create tasks,
+    <string name="needed_right_create_task">To create tasks,
 TKWeek needs to access your contacts.</string>
     <string name="no_title">(no title)</string>
     <string name="new_appointment">New appointment</string>
@@ -334,7 +334,7 @@ TKWeek needs to access your contacts.</string>
     <!-- WeekInfoWidget -->
     <string name="week_info_widget_name">Week Info</string>
     <string name="week_info_widget_template">%1$s %2$d of %3$d</string>
-    <string translatable="false" name="week_info_widget_from_to">%1$s - %2$s</string>
+    <string name="week_info_widget_from_to" translatable="false">%1$s - %2$s</string>
     <string name="text1">week number 24 of 52</string>
     <string name="text2">Jun 8, 2025 - Jun 14, 2025</string>
     <string name="text3">Saturday, June 14, 2025</string>
@@ -371,7 +371,7 @@ TKWeek needs to access your contacts.</string>
     <string name="abraham_lincoln" translatable="false">Abraham Lincoln</string>
     <string name="charles_babbage" translatable="false">Charles Babbage</string>
 
-    <string translatable="false" name="welcome_text">Thank you very much for downloading this app.
+    <string name="welcome_text" translatable="false">Thank you very much for downloading this app.
 If you have any questions or suggestions, please feel free to contact me at mail@tkuenneth.dev.
 \n\n<b>Your privacy</b>\n
 \nWe do not process your data.

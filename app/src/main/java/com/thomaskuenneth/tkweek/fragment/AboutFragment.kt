@@ -34,7 +34,10 @@ import android.view.ViewGroup
 import com.thomaskuenneth.tkweek.R
 import com.thomaskuenneth.tkweek.databinding.AboutBinding
 import com.thomaskuenneth.tkweek.util.TKWeekUtils
-import java.util.*
+import java.util.Calendar
+import java.util.Date
+import java.util.Locale
+import java.util.TimeZone
 
 private const val TAG = "AboutFragment"
 
@@ -81,21 +84,18 @@ class AboutFragment : TKWeekBaseFragment<AboutBinding>() {
         binding.aboutTimezone.text = tzn
         binding.aboutCalendarClass.text = Calendar.getInstance().javaClass.simpleName
         val metrics = resources.displayMetrics
-        binding.aboutDensity.text =
-            TKWeekUtils.integerToString(metrics.densityDpi)
+        binding.aboutDensity.text = getString(
+            R.string.template_string_string,
+            TKWeekUtils.integerToString(metrics.densityDpi),
+            getString(R.string.dpi)
+        )
         val sizeInPixels =
             "${metrics.widthPixels} ${getString(R.string.times_symbol)} ${metrics.heightPixels}"
         val sizeInDp =
             "${(metrics.widthPixels / metrics.density).toInt()} ${getString(R.string.times_symbol)} ${(metrics.heightPixels / metrics.density).toInt()}"
         binding.aboutSizeInPixel.text = getString(
-            R.string.template_string_string,
-            sizeInPixels,
-            getString(R.string.pixel)
-        )
-        binding.aboutSizeInDp.text = getString(
-            R.string.template_string_string,
-            sizeInDp,
-            getString(R.string.dp)
+            R.string.four_strings_two_lines,
+            sizeInPixels, getString(R.string.pixel), sizeInDp, getString(R.string.dp)
         )
         val sb = StringBuilder(Build.VERSION.RELEASE)
         sb.append(" (${Build.VERSION.SDK_INT})")

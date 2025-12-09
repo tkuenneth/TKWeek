@@ -31,7 +31,6 @@
     <string name="day_x_of_y">Tag %1$d von %2$d %3$s</string>
     <string name="action_could_not_be_completed">Die Aktion konnte nicht ausgeführt werden.</string>
     <string name="pixel">Pixel</string>
-    <string name="dp">Geräte-unabhängige Pixel</string>
     <string name="none">Keine</string>
     <string name="spring">Frühlingsanfang</string>
     <string name="summer">Sommeranfang</string>

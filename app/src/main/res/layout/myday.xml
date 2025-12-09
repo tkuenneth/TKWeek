@@ -26,7 +26,7 @@
                 android:layout_height="wrap_content">
 
                 <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/myday_date"
+                    android:id="@+id/my_day_date"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:gravity="center"
@@ -44,7 +44,7 @@
                     app:dividerThickness="2dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/myday_date" />
+                    app:layout_constraintTop_toBottomOf="@id/my_day_date" />
 
                 <!-- Key-Value Section -->
                 <androidx.constraintlayout.widget.ConstraintLayout
@@ -57,105 +57,105 @@
                     app:layout_constraintTop_toBottomOf="@id/divider0">
 
                     <com.google.android.material.textview.MaterialTextView
-                        android:id="@+id/myday_label_week_number"
+                        android:id="@+id/my_day_label_week_number"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/week_number"
-                        app:layout_constraintBaseline_toBaselineOf="@id/myday_week_number"
                         android:textAppearance="@style/TextAppearance.Material3.BodySmall"
                         android:textColor="?attr/colorOnSurfaceVariant"
+                        app:layout_constraintBaseline_toBaselineOf="@id/my_day_week_number"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <com.google.android.material.textview.MaterialTextView
-                        android:id="@+id/myday_week_number"
+                        android:id="@+id/my_day_week_number"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="6dip"
                         android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
-                        app:layout_constraintBaseline_toBaselineOf="@id/myday_label_week_number"
+                        app:layout_constraintBaseline_toBaselineOf="@id/my_day_label_week_number"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toEndOf="@id/myday_label_week_number" />
+                        app:layout_constraintStart_toEndOf="@id/my_day_label_week_number" />
 
                     <com.google.android.material.textview.MaterialTextView
-                        android:id="@+id/myday_label_day_in_year"
+                        android:id="@+id/my_day_label_day_in_year"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/label_day_of_year"
                         android:textAppearance="@style/TextAppearance.Material3.BodySmall"
                         android:textColor="?attr/colorOnSurfaceVariant"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/myday_label_week_number" />
+                        app:layout_constraintTop_toBottomOf="@id/my_day_label_week_number" />
 
                     <com.google.android.material.textview.MaterialTextView
-                        android:id="@+id/myday_day_in_year"
+                        android:id="@+id/my_day_day_in_year"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="6dip"
                         android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
-                        app:layout_constraintBaseline_toBaselineOf="@id/myday_label_day_in_year"
+                        app:layout_constraintBaseline_toBaselineOf="@id/my_day_label_day_in_year"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toEndOf="@id/myday_label_day_in_year" />
+                        app:layout_constraintStart_toEndOf="@id/my_day_label_day_in_year" />
 
                     <com.google.android.material.textview.MaterialTextView
-                        android:id="@+id/myday_label_is_leap_year"
+                        android:id="@+id/my_day_label_is_leap_year"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/is_leap_year"
                         android:textAppearance="@style/TextAppearance.Material3.BodySmall"
                         android:textColor="?attr/colorOnSurfaceVariant"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/myday_label_day_in_year" />
+                        app:layout_constraintTop_toBottomOf="@id/my_day_label_day_in_year" />
 
                     <com.google.android.material.textview.MaterialTextView
-                        android:id="@+id/myday_is_leap_year"
+                        android:id="@+id/my_day_is_leap_year"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="6dip"
                         android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
-                        app:layout_constraintBaseline_toBaselineOf="@id/myday_label_is_leap_year"
+                        app:layout_constraintBaseline_toBaselineOf="@id/my_day_label_is_leap_year"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toEndOf="@id/myday_label_is_leap_year" />
+                        app:layout_constraintStart_toEndOf="@id/my_day_label_is_leap_year" />
 
                     <com.google.android.material.textview.MaterialTextView
-                        android:id="@+id/myday_label_astrological_sign"
+                        android:id="@+id/my_day_label_astrological_sign"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/astrological_sign"
                         android:textAppearance="@style/TextAppearance.Material3.BodySmall"
                         android:textColor="?attr/colorOnSurfaceVariant"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/myday_label_is_leap_year" />
+                        app:layout_constraintTop_toBottomOf="@id/my_day_label_is_leap_year" />
 
                     <com.google.android.material.textview.MaterialTextView
-                        android:id="@+id/myday_astrological_sign"
+                        android:id="@+id/my_day_astrological_sign"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="6dip"
                         android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
-                        app:layout_constraintBaseline_toBaselineOf="@id/myday_label_astrological_sign"
+                        app:layout_constraintBaseline_toBaselineOf="@id/my_day_label_astrological_sign"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toEndOf="@id/myday_label_astrological_sign" />
+                        app:layout_constraintStart_toEndOf="@id/my_day_label_astrological_sign" />
 
                     <com.google.android.material.textview.MaterialTextView
-                        android:id="@+id/myday_label_nameday"
+                        android:id="@+id/my_day_label_name_day"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/nameday"
+                        android:text="@string/name_day"
                         android:textAppearance="@style/TextAppearance.Material3.BodySmall"
                         android:textColor="?attr/colorOnSurfaceVariant"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/myday_label_astrological_sign" />
+                        app:layout_constraintTop_toBottomOf="@id/my_day_label_astrological_sign" />
 
                     <com.google.android.material.textview.MaterialTextView
-                        android:id="@+id/myday_nameday"
+                        android:id="@+id/my_day_name_day"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="6dip"
                         android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
-                        app:layout_constraintBaseline_toBaselineOf="@id/myday_label_nameday"
+                        app:layout_constraintBaseline_toBaselineOf="@id/my_day_label_name_day"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toEndOf="@id/myday_label_nameday" />
+                        app:layout_constraintStart_toEndOf="@id/my_day_label_name_day" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -180,7 +180,7 @@
                     app:layout_constraintTop_toBottomOf="@id/divider1">
 
                     <com.google.android.material.button.MaterialButton
-                        android:id="@+id/myday_symbol_delete"
+                        android:id="@+id/my_day_symbol_delete"
                         style="@style/Widget.Material3.Button.IconButton"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -190,24 +190,27 @@
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <com.google.android.material.button.MaterialButton
-                        android:id="@+id/myday_symbol_notes"
+                        android:id="@+id/my_day_symbol_notes"
                         style="@style/Widget.Material3.Button.IconButton"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:contentDescription="@string/edit"
                         app:icon="@drawable/ic_baseline_edit_24"
-                        app:layout_constraintBaseline_toBaselineOf="@+id/myday_symbol_delete"
-                        app:layout_constraintEnd_toStartOf="@id/myday_symbol_delete" />
+                        app:layout_constraintBaseline_toBaselineOf="@+id/my_day_symbol_delete"
+                        app:layout_constraintEnd_toStartOf="@id/my_day_symbol_delete" />
 
                     <com.google.android.material.textview.MaterialTextView
-                        android:id="@+id/myday_notes"
+                        android:id="@+id/my_day_notes"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="6dip"
+                        android:ellipsize="end"
                         android:hint="@string/no_notes"
+                        android:maxLines="5"
                         android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
-                        app:layout_constraintBaseline_toBaselineOf="@id/myday_symbol_delete"
-                        app:layout_constraintEnd_toStartOf="@id/myday_symbol_notes"
+                        android:textColorHint="?attr/colorOnSurfaceVariant"
+                        app:layout_constraintBaseline_toBaselineOf="@id/my_day_symbol_delete"
+                        app:layout_constraintEnd_toStartOf="@id/my_day_symbol_notes"
                         app:layout_constraintStart_toStartOf="parent" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
@@ -234,7 +237,7 @@
                     app:layout_constraintTop_toBottomOf="@id/divider2">
 
                     <com.google.android.material.textview.MaterialTextView
-                        android:id="@+id/myday_label_events"
+                        android:id="@+id/my_day_label_events"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
@@ -243,7 +246,7 @@
                         android:textAppearance="@style/TextAppearance.Material3.TitleMedium" />
 
                     <LinearLayout
-                        android:id="@+id/myday_events"
+                        android:id="@+id/my_day_events"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical" />
@@ -271,7 +274,7 @@
                     app:layout_constraintTop_toBottomOf="@id/divider3">
 
                     <com.google.android.material.textview.MaterialTextView
-                        android:id="@+id/myday_label_appointments"
+                        android:id="@+id/my_day_label_appointments"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
@@ -280,7 +283,7 @@
                         android:textAppearance="@style/TextAppearance.Material3.TitleMedium" />
 
                     <LinearLayout
-                        android:id="@+id/myday_appointments"
+                        android:id="@+id/my_day_appointments"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical" />
@@ -309,7 +312,7 @@
                     app:layout_constraintTop_toBottomOf="@id/divider4">
 
                     <com.google.android.material.textview.MaterialTextView
-                        android:id="@+id/myday_label_tasks"
+                        android:id="@+id/my_day_label_tasks"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
@@ -318,7 +321,7 @@
                         android:textAppearance="@style/TextAppearance.Material3.TitleMedium" />
 
                     <LinearLayout
-                        android:id="@+id/myday_tasks"
+                        android:id="@+id/my_day_tasks"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:animateLayoutChanges="true"

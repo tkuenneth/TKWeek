@@ -1,8 +1,8 @@
 /*
- * MyDayFragment.kt
+ * myDayFragment.kt
  *
  * Copyright 2021 MATHEMA GmbH
- *           2022 - 2023 Thomas Künneth
+ *           2022 - 2025 Thomas Künneth
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
@@ -103,10 +103,10 @@ class MyDayFragment : TKWeekBaseFragment<MydayBinding>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         eventsLoader = null
-        binding.mydaySymbolNotes.setOnClickListener {
+        binding.myDaySymbolNotes.setOnClickListener {
             val fragment = EditNotesFragment().also {
                 it.arguments = Bundle().also { bundle ->
-                    bundle.putString(ARGS_NOTES, binding.mydayNotes.text.toString())
+                    bundle.putString(ARGS_NOTES, binding.myDayNotes.text.toString())
                 }
             }
             fragment.show(
@@ -114,7 +114,7 @@ class MyDayFragment : TKWeekBaseFragment<MydayBinding>() {
                 EditNotesFragment.TAG
             )
         }
-        binding.mydaySymbolDelete.setOnClickListener {
+        binding.myDaySymbolDelete.setOnClickListener {
             saveNoteAndUpdateUI("")
         }
         cal = Calendar.getInstance()
@@ -270,18 +270,18 @@ class MyDayFragment : TKWeekBaseFragment<MydayBinding>() {
         val prefs = PreferenceManager
             .getDefaultSharedPreferences(requireContext())
         val hide = prefs.getBoolean("hide_nameday", false)
-        binding.mydayNameday.visibility = if (hide) View.GONE else View.VISIBLE
-        binding.mydayLabelNameday.visibility = if (hide) View.GONE else View.VISIBLE
+        binding.myDayNameDay.visibility = if (hide) View.GONE else View.VISIBLE
+        binding.myDayLabelNameDay.visibility = if (hide) View.GONE else View.VISIBLE
         val hideAstrologicalSign = prefs.getBoolean("hide_astrological_sign", false)
-        binding.mydayAstrologicalSign.visibility =
+        binding.myDayAstrologicalSign.visibility =
             if (hideAstrologicalSign) View.GONE else View.VISIBLE
-        binding.mydayLabelAstrologicalSign.visibility =
+        binding.myDayLabelAstrologicalSign.visibility =
             if (hideAstrologicalSign) View.GONE else View.VISIBLE
-        prepareCalendar(cal, requireContext(), binding.mydayLabelWeekNumber, true)
+        prepareCalendar(cal, requireContext(), binding.myDayLabelWeekNumber, true)
         DateUtilities.clearTimeRelatedFields(cal)
         val weekNumber = cal.get(Calendar.WEEK_OF_YEAR)
         val maxWeekNumber = cal.getActualMaximum(Calendar.WEEK_OF_YEAR)
-        binding.mydayWeekNumber.text = getString(
+        binding.myDayWeekNumber.text = getString(
             R.string.day_of_year, weekNumber,
             maxWeekNumber, maxWeekNumber - weekNumber
         )
@@ -295,27 +295,27 @@ class MyDayFragment : TKWeekBaseFragment<MydayBinding>() {
             TKWeekActivity.FORMAT_FULL.format(cal.time)
         }
         if (isDayOff(requireContext(), cal.time)) {
-            binding.mydayDate.text = getString(
+            binding.myDayDate.text = getString(
                 R.string.string1_dash_string2, strDate,
                 getString(R.string.day_off)
             )
         } else {
-            binding.mydayDate.text = strDate
+            binding.myDayDate.text = strDate
         }
         val date = cal.time
         val current = cal.get(Calendar.DAY_OF_YEAR)
         val max = cal.getActualMaximum(Calendar.DAY_OF_YEAR)
-        binding.mydayDayInYear.text = getString(
+        binding.myDayDayInYear.text = getString(
             R.string.day_of_year, current, max, max
                     - current
         )
-        binding.mydayIsLeapYear.text = if (DateUtilities.isSchaltjahr(cal.get(Calendar.YEAR)))
+        binding.myDayIsLeapYear.text = if (DateUtilities.isSchaltjahr(cal.get(Calendar.YEAR)))
             getString(R.string.yes)
         else getString(
             R.string.no
         )
-        binding.mydayAstrologicalSign.text = Zodiac.getSign(requireContext(), date)
-        binding.mydayNameday.text = Namenstage.getNameDays(requireContext(), date)
+        binding.myDayAstrologicalSign.text = Zodiac.getSign(requireContext(), date)
+        binding.myDayNameDay.text = Namenstage.getNameDays(requireContext(), date)
         prepareEventsLoader()
         updateNotes()
     }
@@ -323,14 +323,14 @@ class MyDayFragment : TKWeekBaseFragment<MydayBinding>() {
     private fun updateEvents(adapter: AnnualEventsListAdapter) {
         if (!isAdded) return
         layoutInflater.run {
-            binding.mydayEvents.removeAllViews()
+            binding.myDayEvents.removeAllViews()
             if (shouldShowBirthdays() && !TKWeekUtils.canReadContacts(requireContext())
                 && shouldShowPermissionReadContactsRationale()
             ) {
                 val layout =
                     inflate(
                         R.layout.message_link_to_settings,
-                        binding.mydayEvents,
+                        binding.myDayEvents,
                         false
                     ) as ConstraintLayout
                 linkToSettings(layout, requireActivity(), R.string.str_permission_read_contacts)
@@ -338,7 +338,7 @@ class MyDayFragment : TKWeekBaseFragment<MydayBinding>() {
                 button.setOnClickListener {
                     requestReadContacts()
                 }
-                binding.mydayEvents.addView(layout)
+                binding.myDayEvents.addView(layout)
             }
             for (position in 0 until adapter.count) {
                 val event = adapter.getItem(position) as Event
@@ -353,8 +353,8 @@ class MyDayFragment : TKWeekBaseFragment<MydayBinding>() {
                 if (DateUtilities.diffDayPeriods(cal, temp) == 0L) {
                     val descr = adapter.getDescription(event, requireContext())
                     val parent =
-                        inflate(R.layout.string_one_line2, binding.mydayEvents, false)
-                    binding.mydayEvents.addView(parent)
+                        inflate(R.layout.string_one_line2, binding.myDayEvents, false)
+                    binding.myDayEvents.addView(parent)
                     val str = parent
                         .findViewById<TextView>(R.id.string_one_line2_text)
                     str.text = descr
@@ -362,13 +362,13 @@ class MyDayFragment : TKWeekBaseFragment<MydayBinding>() {
                     color.setBackgroundColor(event.color)
                 }
             }
-            maybeAddNone(this, binding.mydayEvents)
+            maybeAddNone(this, binding.myDayEvents)
             updateAppointments(this)
         }
     }
 
     private fun updateAppointments(inflater: LayoutInflater) {
-        binding.mydayAppointments.removeAllViews()
+        binding.myDayAppointments.removeAllViews()
         val show = shouldShowAppointments()
         var showIfNoPermission = true
         if (show && !TKWeekUtils.canReadCalendar(requireContext())
@@ -377,7 +377,7 @@ class MyDayFragment : TKWeekBaseFragment<MydayBinding>() {
             val layout =
                 inflater.inflate(
                     R.layout.message_link_to_settings,
-                    binding.mydayAppointments,
+                    binding.myDayAppointments,
                     false
                 ) as ConstraintLayout
             linkToSettings(layout, requireActivity(), R.string.str_permission_read_calendar)
@@ -385,7 +385,7 @@ class MyDayFragment : TKWeekBaseFragment<MydayBinding>() {
             button.setOnClickListener {
                 requestReadCalendar()
             }
-            binding.mydayAppointments.addView(layout)
+            binding.myDayAppointments.addView(layout)
             showIfNoPermission = false
         }
         if (TKWeekUtils.canReadCalendar(requireContext())) {
@@ -398,10 +398,10 @@ class MyDayFragment : TKWeekBaseFragment<MydayBinding>() {
                 val parent =
                     inflater.inflate(
                         R.layout.appointment_two_line,
-                        binding.mydayAppointments,
+                        binding.myDayAppointments,
                         false
                     )
-                binding.mydayAppointments.addView(parent)
+                binding.myDayAppointments.addView(parent)
                 val from = Date(appointment.dtstart)
                 val to = Date(appointment.dtend)
                 val isFutureOrOngoing = now.before(to)
@@ -441,12 +441,12 @@ class MyDayFragment : TKWeekBaseFragment<MydayBinding>() {
                 val color = parent.findViewById<View>(R.id.appointment_two_line_color)
                 color.setBackgroundColor(appointment.color)
             }
-            maybeAddNone(inflater, binding.mydayAppointments)
+            maybeAddNone(inflater, binding.myDayAppointments)
         } else if (showIfNoPermission) {
-            addNoPermission(inflater, binding.mydayAppointments)
+            addNoPermission(inflater, binding.myDayAppointments)
         }
-        binding.mydayLabelAppointments.visibility = if (show) View.VISIBLE else View.GONE
-        binding.mydayAppointments.visibility = if (show) View.VISIBLE else View.GONE
+        binding.myDayLabelAppointments.visibility = if (show) View.VISIBLE else View.GONE
+        binding.myDayAppointments.visibility = if (show) View.VISIBLE else View.GONE
     }
 
     private fun appendTime(minutes: Int, sb: StringBuilder): Int {
@@ -542,7 +542,7 @@ class MyDayFragment : TKWeekBaseFragment<MydayBinding>() {
     }
 
     private fun updateNoteAndDeleteButton(note: String) {
-        binding.mydayNotes.text = note
-        binding.mydaySymbolDelete.isEnabled = note.isNotEmpty()
+        binding.myDayNotes.text = note
+        binding.myDaySymbolDelete.isEnabled = note.isNotEmpty()
     }
 }

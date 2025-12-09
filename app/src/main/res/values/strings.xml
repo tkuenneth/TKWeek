@@ -52,7 +52,7 @@
     <string name="hide">Hide</string>
     <string name="grant">Grant</string>
     <string name="close">Close</string>
-    <string name="notes">notes</string>
+    <string name="notes">Notes</string>
     <string name="edit">Edit</string>
     <string name="saved">%1$s saved</string>
     <string name="widget_retired">This TKWeek widget is no longer supported. Please remove.</string>
@@ -167,7 +167,7 @@ access your contacts data to display birthdays and anniversaries. You can deacti
     <string name="day_of_year">%1$d of %2$d (%3$d left)</string>
     <string name="is_leap_year">Leap year:</string>
     <string name="astrological_sign">Sign of the Zodiac:</string>
-    <string name="nameday">Name day:</string>
+    <string name="name_day">Name day:</string>
     <string name="look_up_in_wikipedia">Look up in Wikipedia</string>
 
     <!-- DaysBetweenDatesActivity -->

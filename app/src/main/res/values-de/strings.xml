@@ -133,7 +133,7 @@
     <string name="day_of_year">%1$d von %2$d (%3$d verbleibend)</string>
     <string name="is_leap_year">Schaltjahr:</string>
     <string name="astrological_sign">Tierkreiszeichen:</string>
-    <string name="nameday">Namenstag:</string>
+    <string name="name_day">Namenstag:</string>
     <string name="look_up_in_wikipedia">In Wikipedia nachschlagen</string>
 
     <!-- DaysBetweenDatesActivity -->

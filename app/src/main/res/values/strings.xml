@@ -318,6 +318,8 @@ TKWeek needs to access your contacts.</string>
     <string name="new_appointment">New appointment</string>
     <string name="no_notes">no notes</string>
     <string name="no_permission">no permission</string>
+    <string name="add_note">Add note</string>
+    <string name="edit_note">Edit note</string>
 
     <!-- EventsListWidget -->
     <string name="events_list_widget_name">Events list</string>

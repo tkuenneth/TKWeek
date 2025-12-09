@@ -43,8 +43,10 @@ class EditNotesFragment : DialogFragment() {
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val view = layoutInflater.inflate(R.layout.enter_notes, null)
         notes = view.findViewById(R.id.notes)
+        val initialNote = requireArguments().getString(ARGS_NOTES, "")
+        val title = if (initialNote.isEmpty()) R.string.add_note else R.string.edit_note
         val dialog = AlertDialog.Builder(requireContext())
-            .setTitle(R.string.notes)
+            .setTitle(title)
             .setView(view)
             .setPositiveButton(android.R.string.ok) { _: DialogInterface, _: Int ->
                 Bundle().also {
@@ -58,7 +60,7 @@ class EditNotesFragment : DialogFragment() {
             updateButton(dialog)
         }
         dialog.setOnShowListener {
-            notes.setText(requireArguments().getString(ARGS_NOTES, ""))
+            notes.setText(initialNote)
             updateButton(dialog)
         }
         return dialog

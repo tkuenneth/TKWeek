@@ -168,9 +168,10 @@
 
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/date_calculator_add"
+                        style="?attr/materialIconButtonFilledStyle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:ems="4"
+                        android:minWidth="64dp"
                         android:text="@string/add"
                         app:layout_constraintEnd_toStartOf="@+id/date_calculator_subtract"
                         app:layout_constraintHorizontal_chainStyle="packed"
@@ -179,11 +180,12 @@
 
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/date_calculator_subtract"
+                        style="?attr/materialIconButtonFilledStyle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
                         android:layout_marginEnd="8dp"
-                        android:ems="4"
+                        android:minWidth="64dp"
                         android:text="@string/subtract"
                         app:layout_constraintEnd_toStartOf="@+id/date_calculator_clear"
                         app:layout_constraintStart_toEndOf="@id/date_calculator_add"

@@ -37,10 +37,11 @@
 
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/calendar_down"
+                        style="?attr/materialIconButtonFilledStyle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:contentDescription="@string/previous_year"
-                        android:ems="4"
+                        android:minWidth="64dp"
                         android:text="@string/minus"
                         app:layout_constraintEnd_toStartOf="@+id/calendar_year"
                         app:layout_constraintHorizontal_chainStyle="packed"
@@ -61,10 +62,11 @@
 
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/calendar_up"
+                        style="?attr/materialIconButtonFilledStyle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:contentDescription="@string/next_year"
-                        android:ems="4"
+                        android:minWidth="64dp"
                         android:text="@string/plus"
                         app:layout_constraintBaseline_toBaselineOf="@id/calendar_down"
                         app:layout_constraintEnd_toEndOf="parent"

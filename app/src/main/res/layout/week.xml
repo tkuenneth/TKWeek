@@ -92,12 +92,13 @@
                         android:id="@+id/week_number"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:ems="3"
+                        android:ems="4"
                         android:gravity="center"
-                        android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
+                        android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
                         app:layout_constraintBaseline_toBaselineOf="@id/down"
                         app:layout_constraintEnd_toStartOf="@+id/up"
-                        app:layout_constraintStart_toEndOf="@id/down" />
+                        app:layout_constraintStart_toEndOf="@id/down"
+                        tools:text="42" />
 
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/up"

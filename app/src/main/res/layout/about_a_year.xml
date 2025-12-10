@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true">
@@ -8,53 +9,53 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="16dip">
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/about_a_year_down"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:contentDescription="@string/previous_year"
-            android:ems="4"
-            android:text="@string/minus"
-            app:layout_constraintEnd_toStartOf="@+id/about_a_year_year"
-            app:layout_constraintHorizontal_chainStyle="packed"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+        android:padding="16dp">
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/about_a_year_year"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:ems="4"
+            android:ems="3"
             android:gravity="center"
-            android:textAppearance="?attr/textAppearanceBodyMedium"
-            app:layout_constraintBottom_toBottomOf="@id/about_a_year_down"
-            app:layout_constraintEnd_toStartOf="@+id/about_a_year_up"
-            app:layout_constraintStart_toEndOf="@id/about_a_year_down"
-            app:layout_constraintTop_toTopOf="@id/about_a_year_down" />
+            android:paddingVertical="16dp"
+            android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="1970" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/about_a_year_down"
+            style="?attr/materialIconButtonFilledStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/previous_year"
+            android:ems="4"
+            android:text="@string/minus"
+            app:layout_constraintBaseline_toBaselineOf="@id/about_a_year_year"
+            app:layout_constraintEnd_toStartOf="@+id/about_a_year_year" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/about_a_year_up"
+            style="?attr/materialIconButtonFilledStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:contentDescription="@string/next_year"
             android:ems="4"
             android:text="@string/plus"
-            app:layout_constraintBottom_toBottomOf="@id/about_a_year_down"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/about_a_year_year"
-            app:layout_constraintTop_toTopOf="@id/about_a_year_down" />
+            app:layout_constraintBaseline_toBaselineOf="@id/about_a_year_year"
+            app:layout_constraintStart_toEndOf="@id/about_a_year_year" />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/is_leap_year"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
             android:text="@string/leap_year"
             android:textAppearance="?attr/textAppearanceBodyMedium"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/about_a_year_year" />
+            app:layout_constraintTop_toBottomOf="@id/about_a_year_down" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/previous_leap_year"
@@ -83,7 +84,7 @@
             android:layout_height="wrap_content"
             android:paddingBottom="8dp"
             android:text="@string/about_a_year_label1"
-            android:textAppearance="?attr/textAppearanceBodyLarge"
+            android:textAppearance="?attr/textAppearanceTitleMedium"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/previous_leap_year" />
@@ -105,7 +106,7 @@
             android:layout_marginTop="16dp"
             android:paddingBottom="8dp"
             android:text="@string/daylight_savings"
-            android:textAppearance="?attr/textAppearanceBodyLarge"
+            android:textAppearance="?attr/textAppearanceTitleMedium"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/about_a_year_months" />
@@ -127,7 +128,7 @@
             android:layout_marginTop="16dp"
             android:paddingBottom="8dp"
             android:text="@string/seasons"
-            android:textAppearance="?attr/textAppearanceBodyLarge"
+            android:textAppearance="?attr/textAppearanceTitleMedium"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/about_a_year_daylight_savings_from_to" />
@@ -215,7 +216,7 @@
             android:layout_marginTop="16dp"
             android:paddingBottom="8dp"
             android:text="@string/about_a_year_weekday_distribution"
-            android:textAppearance="?attr/textAppearanceBodyLarge"
+            android:textAppearance="?attr/textAppearanceTitleMedium"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/about_a_year_label_winter" />

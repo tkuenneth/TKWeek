@@ -3,171 +3,222 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:fillViewport="true">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="16dp">
+        android:paddingHorizontal="16dp">
 
-        <FrameLayout
-            android:id="@+id/date_picker_container"
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/main_card"
+            style="?attr/materialCardViewFilledStyle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:padding="16dp"
+            app:cardBackgroundColor="?attr/colorSurfaceContainer"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintWidth_max="500dp">
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/date_calculator_date"
-                style="@style/Widget.Material3.Button.OutlinedButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                tools:text="Friday, June 14, 2024" />
-
-        </FrameLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/days_layout"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="2dp"
-            android:hint="@string/days"
-            app:layout_constraintEnd_toStartOf="@+id/weeks_layout"
-            app:layout_constraintHorizontal_chainStyle="spread"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/date_picker_container">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/days"
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="numberDecimal"
-                android:singleLine="true" />
-        </com.google.android.material.textfield.TextInputLayout>
+                android:layout_height="wrap_content">
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/weeks_layout"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:hint="@string/weeks"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/days_layout"
-            app:layout_constraintTop_toBottomOf="@id/date_picker_container">
+                <FrameLayout
+                    android:id="@+id/date_picker_container"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:padding="16dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/weeks"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="numberDecimal"
-                android:singleLine="true" />
-        </com.google.android.material.textfield.TextInputLayout>
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/date_calculator_date"
+                        style="@style/Widget.Material3.Button.OutlinedButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        tools:text="Friday, June 14, 2024" />
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/months_layout"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="2dp"
-            android:hint="@string/months"
-            app:layout_constraintEnd_toStartOf="@+id/years_layout"
-            app:layout_constraintHorizontal_chainStyle="spread"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/days_layout">
+                </FrameLayout>
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/months"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="numberDecimal"
-                android:singleLine="true" />
-        </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.divider.MaterialDivider
+                    android:id="@+id/divider1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:dividerColor="?attr/colorSurface"
+                    app:dividerThickness="2dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/date_picker_container" />
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/years_layout"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:hint="@string/years"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/months_layout"
-            app:layout_constraintTop_toBottomOf="@id/weeks_layout">
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/controls_container"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:padding="16dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/divider1">
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/years"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="numberDecimal"
-                android:singleLine="true" />
-        </com.google.android.material.textfield.TextInputLayout>
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/days_layout"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="2dp"
+                        android:hint="@string/days"
+                        app:layout_constraintEnd_toStartOf="@+id/weeks_layout"
+                        app:layout_constraintHorizontal_chainStyle="spread"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
 
-        <com.google.android.material.checkbox.MaterialCheckBox
-            android:id="@+id/date_calculator_count_business_days_only"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/count_business_days_only"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/months_layout" />
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/days"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="numberDecimal"
+                            android:singleLine="true" />
+                    </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.checkbox.MaterialCheckBox
-            android:id="@+id/date_calculator_reuse_result"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/reuse_result"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/date_calculator_count_business_days_only" />
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/weeks_layout"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/weeks"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/days_layout"
+                        app:layout_constraintTop_toTopOf="parent">
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/date_calculator_add"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:ems="4"
-            android:text="@string/add"
-            app:layout_constraintEnd_toStartOf="@+id/date_calculator_subtract"
-            app:layout_constraintHorizontal_chainStyle="packed"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/date_calculator_reuse_result" />
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/weeks"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="numberDecimal"
+                            android:singleLine="true" />
+                    </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/date_calculator_subtract"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
-            android:ems="4"
-            android:text="@string/subtract"
-            app:layout_constraintEnd_toStartOf="@+id/date_calculator_clear"
-            app:layout_constraintStart_toEndOf="@id/date_calculator_add"
-            app:layout_constraintTop_toBottomOf="@id/date_calculator_reuse_result" />
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/months_layout"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="2dp"
+                        android:hint="@string/months"
+                        app:layout_constraintEnd_toStartOf="@+id/years_layout"
+                        app:layout_constraintHorizontal_chainStyle="spread"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/days_layout">
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/date_calculator_clear"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
-            android:ems="7"
-            android:text="@string/clear"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/date_calculator_subtract"
-            app:layout_constraintTop_toBottomOf="@id/date_calculator_reuse_result" />
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/months"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="numberDecimal"
+                            android:singleLine="true" />
+                    </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/date_calculator_result"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:gravity="center_horizontal"
-            android:textAppearance="?attr/textAppearanceBodyMedium"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/date_calculator_add" />
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/years_layout"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/years"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/months_layout"
+                        app:layout_constraintTop_toBottomOf="@id/weeks_layout">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/years"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="numberDecimal"
+                            android:singleLine="true" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.checkbox.MaterialCheckBox
+                        android:id="@+id/date_calculator_count_business_days_only"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/count_business_days_only"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/months_layout" />
+
+                    <com.google.android.material.checkbox.MaterialCheckBox
+                        android:id="@+id/date_calculator_reuse_result"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/reuse_result"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/date_calculator_count_business_days_only" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/date_calculator_add"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:ems="4"
+                        android:text="@string/add"
+                        app:layout_constraintEnd_toStartOf="@+id/date_calculator_subtract"
+                        app:layout_constraintHorizontal_chainStyle="packed"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/date_calculator_reuse_result" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/date_calculator_subtract"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginEnd="8dp"
+                        android:ems="4"
+                        android:text="@string/subtract"
+                        app:layout_constraintEnd_toStartOf="@+id/date_calculator_clear"
+                        app:layout_constraintStart_toEndOf="@id/date_calculator_add"
+                        app:layout_constraintTop_toBottomOf="@id/date_calculator_reuse_result" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/date_calculator_clear"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="24dp"
+                        android:ems="7"
+                        android:text="@string/clear"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/date_calculator_subtract"
+                        app:layout_constraintTop_toBottomOf="@id/date_calculator_reuse_result" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <com.google.android.material.divider.MaterialDivider
+                    android:id="@+id/divider2"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:dividerColor="?attr/colorSurface"
+                    app:dividerThickness="2dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/controls_container" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/date_calculator_result"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:padding="16dp"
+                    android:textAppearance="?attr/textAppearanceBodyMedium"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/divider2"
+                    tools:text="Result" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </com.google.android.material.card.MaterialCardView>
 
         <com.thomaskuenneth.tkweek.util.BottomSpace
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/date_calculator_result" />
+            app:layout_constraintTop_toBottomOf="@id/main_card" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

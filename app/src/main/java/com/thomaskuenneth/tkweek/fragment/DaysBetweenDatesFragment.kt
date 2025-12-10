@@ -92,8 +92,8 @@ class DaysBetweenDatesFragment : TKWeekBaseFragment<DaysBetweenDatesActivityBind
     }
 
     private fun update() {
-        binding.firstDate.text = TKWeekActivity.FORMAT_DEFAULT.format(calFirstDate.time)
-        binding.secondDate.text = TKWeekActivity.FORMAT_DEFAULT.format(calSecondDate.time)
+        binding.firstDate.text = TKWeekActivity.FORMAT_FULL.format(calFirstDate.time)
+        binding.secondDate.text = TKWeekActivity.FORMAT_FULL.format(calSecondDate.time)
         var c1 = calFirstDate.clone() as Calendar
         var c2 = calSecondDate.clone() as Calendar
         if (c2.before(c1)) {
@@ -101,10 +101,10 @@ class DaysBetweenDatesFragment : TKWeekBaseFragment<DaysBetweenDatesActivityBind
             c1 = c2
             c2 = temp
         }
-        binding.firstDate.isEnabled = false
-        binding.secondDate.isEnabled = false
-        binding.firstDateToday.isEnabled = false
-        binding.secondDateToday.isEnabled = false
+        binding.firstDate.isEnabled = true
+        binding.secondDate.isEnabled = true
+        binding.firstDateToday.isEnabled = true
+        binding.secondDateToday.isEnabled = true
         CalendarAsyncTask(requireContext(), binding).execute(c1, c2)
     }
 

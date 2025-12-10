@@ -23,6 +23,7 @@
 package com.thomaskuenneth.tkweek.adapter
 
 import android.content.Context
+import android.graphics.Typeface
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -34,8 +35,9 @@ class MonthsAdapter(
     private val listener: (Int) -> Unit
 ) : RecyclerView.Adapter<MonthsAdapter.ViewHolder>() {
 
-    private val months = DateFormatSymbols.getInstance().months
+    private val months = DateFormatSymbols.getInstance().months.take(12)
     private val inflater = LayoutInflater.from(context)
+    var selectedPosition = -1
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding = GalleryItemBinding.inflate(inflater, parent, false)
@@ -44,6 +46,7 @@ class MonthsAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.binding.galleryItem.text = months[position]
+        holder.binding.galleryItem.setTypeface(null, if (position == selectedPosition) Typeface.BOLD else Typeface.NORMAL)
         holder.binding.root.setOnClickListener {
             listener(position)
         }
@@ -51,6 +54,13 @@ class MonthsAdapter(
 
     override fun getItemCount(): Int {
         return months.size
+    }
+
+    fun updateSelectedPosition(position: Int) {
+        val oldPosition = selectedPosition
+        selectedPosition = position
+        notifyItemChanged(oldPosition)
+        notifyItemChanged(selectedPosition)
     }
 
     class ViewHolder(val binding: GalleryItemBinding) : RecyclerView.ViewHolder(binding.root)

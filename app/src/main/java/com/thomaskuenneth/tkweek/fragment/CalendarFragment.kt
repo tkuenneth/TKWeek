@@ -39,6 +39,8 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
 import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.PagerSnapHelper
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.color.MaterialColors
 import com.thomaskuenneth.tkweek.R
 import com.thomaskuenneth.tkweek.activity.TKWeekActivity
@@ -60,6 +62,7 @@ class CalendarFragment : TKWeekBaseFragment<CalendarBinding>(), View.OnClickList
     private val binding get() = backing!!
 
     private lateinit var days: MutableList<TextView>
+    private lateinit var monthsAdapter: MonthsAdapter
 
     private val dayOffListener = OnLongClickListener { v: View ->
         (v.tag as? Date)?.let {
@@ -89,7 +92,7 @@ class CalendarFragment : TKWeekBaseFragment<CalendarBinding>(), View.OnClickList
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        binding.calendarYear.setOnEditorActionListener { _, _, _ ->
+        binding.calendarYear.setOnClickListener {
             var year = try {
                 binding.calendarYear.text.toString().toInt()
             } catch (_: NumberFormatException) {
@@ -104,16 +107,30 @@ class CalendarFragment : TKWeekBaseFragment<CalendarBinding>(), View.OnClickList
             cal.set(Calendar.YEAR, year)
             update()
             binding.dummy.requestFocus()
-            true
         }
         binding.calendarDown.setOnClickListener(this)
         binding.calendarUp.setOnClickListener(this)
-        binding.calendarGallery.adapter = MonthsAdapter(requireContext()) { position ->
-            cal[Calendar.MONTH] = position
-            updateCalendar()
+        monthsAdapter = MonthsAdapter(requireContext()) { position ->
+            binding.calendarGallery.smoothScrollToPosition(position)
         }
-        binding.calendarGallery.layoutManager =
+        binding.calendarGallery.adapter = monthsAdapter
+        val layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+        binding.calendarGallery.layoutManager = layoutManager
+        val snapHelper = PagerSnapHelper()
+        snapHelper.attachToRecyclerView(binding.calendarGallery)
+        binding.calendarGallery.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                super.onScrollStateChanged(recyclerView, newState)
+                if (newState == RecyclerView.SCROLL_STATE_IDLE) {
+                    snapHelper.findSnapView(layoutManager)?.let { centerView ->
+                        val pos = layoutManager.getPosition(centerView)
+                        cal[Calendar.MONTH] = pos
+                        updateCalendar()
+                    }
+                }
+            }
+        })
         days = mutableListOf()
         days.add(binding.calendar11)
         days.add(binding.calendar12)
@@ -236,6 +253,7 @@ class CalendarFragment : TKWeekBaseFragment<CalendarBinding>(), View.OnClickList
     }
 
     private fun updateCalendar() {
+        monthsAdapter.updateSelectedPosition(cal[Calendar.MONTH])
         val defaultColor = binding.calendarLayoutRecent.recent1.textColors
         val activeColor = MaterialColors.getColor(
             requireContext(), com.google.android.material.R.attr.colorOnBackground, Color.GREEN

@@ -9,233 +9,339 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="16dp">
+        android:paddingHorizontal="16dp">
 
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/about_a_year_year"
-            android:layout_width="wrap_content"
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/main_card"
+            style="?attr/materialCardViewFilledStyle"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:ems="3"
-            android:gravity="center"
-            android:paddingVertical="16dp"
-            android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
+            app:cardBackgroundColor="?attr/colorSurfaceContainer"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:text="1970" />
+            app:layout_constraintWidth_max="500dp">
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/about_a_year_down"
-            style="?attr/materialIconButtonFilledStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:contentDescription="@string/previous_year"
-            android:ems="4"
-            android:text="@string/minus"
-            app:layout_constraintBaseline_toBaselineOf="@id/about_a_year_year"
-            app:layout_constraintEnd_toStartOf="@+id/about_a_year_year" />
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/about_a_year_up"
-            style="?attr/materialIconButtonFilledStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:contentDescription="@string/next_year"
-            android:ems="4"
-            android:text="@string/plus"
-            app:layout_constraintBaseline_toBaselineOf="@id/about_a_year_year"
-            app:layout_constraintStart_toEndOf="@id/about_a_year_year" />
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/year_controls_container"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:padding="16dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
 
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/is_leap_year"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:text="@string/leap_year"
-            android:textAppearance="?attr/textAppearanceBodyMedium"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/about_a_year_down" />
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/about_a_year_year"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:ems="3"
+                        android:gravity="center"
+                        android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:text="1970" />
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/previous_leap_year"
-            style="@style/Widget.Material3.Button.TextButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/previous_leap_year"
-            app:layout_constraintEnd_toStartOf="@+id/next_leap_year"
-            app:layout_constraintHorizontal_chainStyle="packed"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/is_leap_year" />
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/about_a_year_down"
+                        style="?attr/materialIconButtonFilledStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:contentDescription="@string/previous_year"
+                        android:ems="4"
+                        android:text="@string/minus"
+                        app:layout_constraintBaseline_toBaselineOf="@id/about_a_year_year"
+                        app:layout_constraintEnd_toStartOf="@+id/about_a_year_year" />
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/next_leap_year"
-            style="@style/Widget.Material3.Button.TextButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/next_leap_year"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/previous_leap_year"
-            app:layout_constraintTop_toBottomOf="@id/is_leap_year" />
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/about_a_year_up"
+                        style="?attr/materialIconButtonFilledStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:contentDescription="@string/next_year"
+                        android:ems="4"
+                        android:text="@string/plus"
+                        app:layout_constraintBaseline_toBaselineOf="@id/about_a_year_year"
+                        app:layout_constraintStart_toEndOf="@id/about_a_year_year" />
 
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/about_a_year_label1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingBottom="8dp"
-            android:text="@string/about_a_year_label1"
-            android:textAppearance="?attr/textAppearanceTitleMedium"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/previous_leap_year" />
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/is_leap_year"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="@string/leap_year"
+                        android:textAppearance="?attr/textAppearanceBodyMedium"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/about_a_year_year" />
 
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/about_a_year_months"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
-            android:textAppearance="?attr/textAppearanceBodyMedium"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/about_a_year_label1" />
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/previous_leap_year"
+                        style="@style/Widget.Material3.Button.TextButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/previous_leap_year"
+                        app:layout_constraintEnd_toStartOf="@+id/next_leap_year"
+                        app:layout_constraintHorizontal_chainStyle="packed"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/is_leap_year" />
 
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/about_a_year_daylight_savings"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:paddingBottom="8dp"
-            android:text="@string/daylight_savings"
-            android:textAppearance="?attr/textAppearanceTitleMedium"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/about_a_year_months" />
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/next_leap_year"
+                        style="@style/Widget.Material3.Button.TextButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/next_leap_year"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/previous_leap_year"
+                        app:layout_constraintTop_toBottomOf="@id/is_leap_year" />
 
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/about_a_year_daylight_savings_from_to"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
-            android:textAppearance="?attr/textAppearanceBodyMedium"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/about_a_year_daylight_savings" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/about_a_year_seasons"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:paddingBottom="8dp"
-            android:text="@string/seasons"
-            android:textAppearance="?attr/textAppearanceTitleMedium"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/about_a_year_daylight_savings_from_to" />
+                <com.google.android.material.divider.MaterialDivider
+                    android:id="@+id/divider1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:dividerColor="?attr/colorSurface"
+                    app:dividerThickness="2dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/year_controls_container" />
 
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/about_a_year_label_spring"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:maxLines="1"
-            android:textAppearance="?attr/textAppearanceBodySmall"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/about_a_year_seasons" />
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/friday13_container"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:padding="16dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/divider1">
 
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/about_a_year_spring"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="6dip"
-            android:textAppearance="?attr/textAppearanceBodyMedium"
-            app:layout_constraintBaseline_toBaselineOf="@id/about_a_year_label_spring"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/about_a_year_label_spring" />
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/about_a_year_label1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingBottom="8dp"
+                        android:text="@string/about_a_year_label1"
+                        android:textAppearance="?attr/textAppearanceTitleMedium"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/about_a_year_label_summer"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:maxLines="1"
-            android:textAppearance="?attr/textAppearanceBodySmall"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/about_a_year_label_spring" />
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/about_a_year_months"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_horizontal"
+                        android:textAppearance="?attr/textAppearanceBodyMedium"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/about_a_year_label1" />
 
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/about_a_year_summer"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="6dip"
-            android:textAppearance="?attr/textAppearanceBodyMedium"
-            app:layout_constraintBaseline_toBaselineOf="@id/about_a_year_label_summer"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/about_a_year_label_summer" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/about_a_year_label_autumn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:maxLines="1"
-            android:textAppearance="?attr/textAppearanceBodySmall"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/about_a_year_label_summer" />
+                <com.google.android.material.divider.MaterialDivider
+                    android:id="@+id/divider2"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:dividerColor="?attr/colorSurface"
+                    app:dividerThickness="2dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/friday13_container" />
 
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/about_a_year_autumn"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="6dip"
-            android:textAppearance="?attr/textAppearanceBodyMedium"
-            app:layout_constraintBaseline_toBaselineOf="@id/about_a_year_label_autumn"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/about_a_year_label_autumn" />
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/daylight_savings_container"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:padding="16dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/divider2">
 
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/about_a_year_label_winter"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:maxLines="1"
-            android:textAppearance="?attr/textAppearanceBodySmall"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/about_a_year_label_autumn" />
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/about_a_year_daylight_savings"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingBottom="8dp"
+                        android:text="@string/daylight_savings"
+                        android:textAppearance="?attr/textAppearanceTitleMedium"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/about_a_year_winter"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="6dip"
-            android:textAppearance="?attr/textAppearanceBodyMedium"
-            app:layout_constraintBaseline_toBaselineOf="@id/about_a_year_label_winter"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/about_a_year_label_winter" />
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/about_a_year_daylight_savings_from_to"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_horizontal"
+                        android:textAppearance="?attr/textAppearanceBodyMedium"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/about_a_year_daylight_savings" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/about_a_year_weekday_distribution"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:paddingBottom="8dp"
-            android:text="@string/about_a_year_weekday_distribution"
-            android:textAppearance="?attr/textAppearanceTitleMedium"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/about_a_year_label_winter" />
+                <com.google.android.material.divider.MaterialDivider
+                    android:id="@+id/divider3"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:dividerColor="?attr/colorSurface"
+                    app:dividerThickness="2dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/daylight_savings_container" />
 
-        <include
-            android:id="@+id/about_a_year_layout_weekinfo"
-            layout="@layout/weekinfo"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/about_a_year_weekday_distribution" />
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/seasons_container"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:padding="16dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/divider3">
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/about_a_year_seasons"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingBottom="8dp"
+                        android:text="@string/seasons"
+                        android:textAppearance="?attr/textAppearanceTitleMedium"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/about_a_year_label_spring"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:maxLines="1"
+                        android:textAppearance="?attr/textAppearanceBodySmall"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/about_a_year_seasons" />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/about_a_year_spring"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="6dip"
+                        android:textAppearance="?attr/textAppearanceBodyMedium"
+                        app:layout_constraintBaseline_toBaselineOf="@id/about_a_year_label_spring"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/about_a_year_label_spring" />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/about_a_year_label_summer"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:maxLines="1"
+                        android:textAppearance="?attr/textAppearanceBodySmall"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/about_a_year_label_spring" />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/about_a_year_summer"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="6dip"
+                        android:textAppearance="?attr/textAppearanceBodyMedium"
+                        app:layout_constraintBaseline_toBaselineOf="@id/about_a_year_label_summer"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/about_a_year_label_summer" />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/about_a_year_label_autumn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:maxLines="1"
+                        android:textAppearance="?attr/textAppearanceBodySmall"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/about_a_year_label_summer" />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/about_a_year_autumn"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="6dip"
+                        android:textAppearance="?attr/textAppearanceBodyMedium"
+                        app:layout_constraintBaseline_toBaselineOf="@id/about_a_year_label_autumn"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/about_a_year_label_autumn" />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/about_a_year_label_winter"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:maxLines="1"
+                        android:textAppearance="?attr/textAppearanceBodySmall"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/about_a_year_label_autumn" />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/about_a_year_winter"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="6dip"
+                        android:textAppearance="?attr/textAppearanceBodyMedium"
+                        app:layout_constraintBaseline_toBaselineOf="@id/about_a_year_label_winter"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/about_a_year_label_winter" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <com.google.android.material.divider.MaterialDivider
+                    android:id="@+id/divider4"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:dividerColor="?attr/colorSurface"
+                    app:dividerThickness="2dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/seasons_container" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/weekday_distribution_container"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:padding="16dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/divider4">
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/about_a_year_weekday_distribution"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingBottom="8dp"
+                        android:text="@string/about_a_year_weekday_distribution"
+                        android:textAppearance="?attr/textAppearanceTitleMedium"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <include
+                        android:id="@+id/about_a_year_layout_weekinfo"
+                        layout="@layout/weekinfo"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/about_a_year_weekday_distribution" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </com.google.android.material.card.MaterialCardView>
 
         <com.thomaskuenneth.tkweek.util.BottomSpace
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/about_a_year_layout_weekinfo" />
+            app:layout_constraintTop_toBottomOf="@id/main_card" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
 </androidx.core.widget.NestedScrollView>

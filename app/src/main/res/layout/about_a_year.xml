@@ -35,18 +35,6 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent">
 
-                    <com.google.android.material.textview.MaterialTextView
-                        android:id="@+id/about_a_year_year"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:ems="3"
-                        android:gravity="center"
-                        android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        tools:text="1970" />
-
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/about_a_year_down"
                         style="?attr/materialIconButtonFilledStyle"
@@ -56,7 +44,21 @@
                         android:ems="4"
                         android:text="@string/minus"
                         app:layout_constraintBaseline_toBaselineOf="@id/about_a_year_year"
-                        app:layout_constraintEnd_toStartOf="@+id/about_a_year_year" />
+                        app:layout_constraintEnd_toStartOf="@+id/about_a_year_year"
+                        app:layout_constraintHorizontal_chainStyle="packed"
+                        app:layout_constraintStart_toStartOf="parent" />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/about_a_year_year"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:ems="3"
+                        android:gravity="center"
+                        android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
+                        app:layout_constraintBaseline_toBaselineOf="@id/about_a_year_down"
+                        app:layout_constraintEnd_toStartOf="@+id/about_a_year_up"
+                        app:layout_constraintStart_toEndOf="@+id/about_a_year_down"
+                        tools:text="1970" />
 
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/about_a_year_up"
@@ -67,6 +69,7 @@
                         android:ems="4"
                         android:text="@string/plus"
                         app:layout_constraintBaseline_toBaselineOf="@id/about_a_year_year"
+                        app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toEndOf="@id/about_a_year_year" />
 
                     <com.google.android.material.textview.MaterialTextView
@@ -78,7 +81,7 @@
                         android:textAppearance="?attr/textAppearanceBodyMedium"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/about_a_year_year" />
+                        app:layout_constraintTop_toBottomOf="@id/about_a_year_down" />
 
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/previous_leap_year"

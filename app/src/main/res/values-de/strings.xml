@@ -150,6 +150,8 @@
     <string name="less_than_a_week">weniger als eine Woche</string>
     <string name="hint_today_start">Startdatum auf heute setzen</string>
     <string name="hint_today_end">Enddatum auf heute setzen</string>
+    <string name="hint_start_date">Startdatum setzen</string>
+    <string name="hint_end_date">Enddatum setzen</string>
 
     <!-- DateCalculatorActivity -->
     <string name="days">Tage</string>

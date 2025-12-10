@@ -184,6 +184,8 @@ access your contacts data to display birthdays and anniversaries. You can deacti
     <string name="less_than_a_week">less than a week</string>
     <string name="hint_today_start">Set start date to today</string>
     <string name="hint_today_end">Set end date to today</string>
+    <string name="hint_start_date">Set start date</string>
+    <string name="hint_end_date">Set end date</string>
 
     <!-- DateCalculatorActivity -->
     <string name="days">days</string>

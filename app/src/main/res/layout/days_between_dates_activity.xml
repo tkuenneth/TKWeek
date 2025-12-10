@@ -38,13 +38,15 @@
 
                     <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/label_first_date"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:gravity="center"
                         android:paddingTop="0dp"
                         android:paddingBottom="8dp"
                         android:text="@string/first_date"
                         android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
                         android:textColor="?attr/colorOnSurfaceVariant"
+                        app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
@@ -52,8 +54,8 @@
                         android:id="@+id/first_date_today"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/today"
                         android:contentDescription="@string/hint_today_start"
+                        android:text="@string/today"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/label_first_date" />
 
@@ -108,6 +110,7 @@
                         android:text="@string/second_date"
                         android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
                         android:textColor="?attr/colorOnSurfaceVariant"
+                        app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
@@ -115,8 +118,8 @@
                         android:id="@+id/second_date_today"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/today"
                         android:contentDescription="@string/hint_today_end"
+                        android:text="@string/today"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/label_second_date" />
 

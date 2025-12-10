@@ -86,512 +86,624 @@
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/calendar_11"
-                style="@style/Calendar.Small"
-                android:layout_width="wrap_content"
+                style="@style/Calendar"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
                 app:layout_constraintEnd_toStartOf="@+id/calendar_12"
                 app:layout_constraintHorizontal_chainStyle="spread"
+                app:layout_constraintHorizontal_weight="1"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/calendar_12"
-                style="@style/Calendar.Small"
-                android:layout_width="wrap_content"
+                style="@style/Calendar"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
                 app:layout_constraintEnd_toStartOf="@+id/calendar_13"
+                app:layout_constraintHorizontal_weight="1"
                 app:layout_constraintStart_toEndOf="@+id/calendar_11"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/calendar_13"
-                style="@style/Calendar.Small"
-                android:layout_width="wrap_content"
+                style="@style/Calendar"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
                 app:layout_constraintEnd_toStartOf="@+id/calendar_14"
+                app:layout_constraintHorizontal_weight="1"
                 app:layout_constraintStart_toEndOf="@+id/calendar_12"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/calendar_14"
-                style="@style/Calendar.Small"
-                android:layout_width="wrap_content"
+                style="@style/Calendar"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
                 app:layout_constraintEnd_toStartOf="@+id/calendar_15"
+                app:layout_constraintHorizontal_weight="1"
                 app:layout_constraintStart_toEndOf="@+id/calendar_13"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/calendar_15"
-                style="@style/Calendar.Small"
-                android:layout_width="wrap_content"
+                style="@style/Calendar"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
                 app:layout_constraintEnd_toStartOf="@+id/calendar_16"
+                app:layout_constraintHorizontal_weight="1"
                 app:layout_constraintStart_toEndOf="@+id/calendar_14"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/calendar_16"
-                style="@style/Calendar.Small"
-                android:layout_width="wrap_content"
+                style="@style/Calendar"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
                 app:layout_constraintEnd_toStartOf="@+id/calendar_17"
+                app:layout_constraintHorizontal_weight="1"
                 app:layout_constraintStart_toEndOf="@+id/calendar_15"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/calendar_17"
-                style="@style/Calendar.Small"
-                android:layout_width="wrap_content"
+                style="@style/Calendar"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
                 app:layout_constraintEnd_toStartOf="@+id/calendar_18"
+                app:layout_constraintHorizontal_weight="1"
                 app:layout_constraintStart_toEndOf="@+id/calendar_16"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/calendar_18"
-                style="@style/Calendar.Small"
-                android:layout_width="wrap_content"
+                style="@style/Calendar"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_weight="1"
                 app:layout_constraintStart_toEndOf="@+id/calendar_17"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/calendar_21"
-                style="@style/Calendar.Small"
-                android:layout_width="wrap_content"
+                style="@style/Calendar"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
                 app:layout_constraintEnd_toStartOf="@+id/calendar_22"
                 app:layout_constraintHorizontal_chainStyle="spread"
+                app:layout_constraintHorizontal_weight="1"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/calendar_11" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/calendar_22"
                 style="@style/Calendar"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
                 app:layout_constraintEnd_toStartOf="@+id/calendar_23"
+                app:layout_constraintHorizontal_weight="1"
                 app:layout_constraintStart_toEndOf="@+id/calendar_21"
                 app:layout_constraintTop_toBottomOf="@id/calendar_12" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/calendar_23"
                 style="@style/Calendar"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
                 app:layout_constraintEnd_toStartOf="@+id/calendar_24"
+                app:layout_constraintHorizontal_weight="1"
                 app:layout_constraintStart_toEndOf="@+id/calendar_22"
                 app:layout_constraintTop_toBottomOf="@id/calendar_13" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/calendar_24"
                 style="@style/Calendar"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
                 app:layout_constraintEnd_toStartOf="@+id/calendar_25"
+                app:layout_constraintHorizontal_weight="1"
                 app:layout_constraintStart_toEndOf="@+id/calendar_23"
                 app:layout_constraintTop_toBottomOf="@id/calendar_14" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/calendar_25"
                 style="@style/Calendar"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
                 app:layout_constraintEnd_toStartOf="@+id/calendar_26"
+                app:layout_constraintHorizontal_weight="1"
                 app:layout_constraintStart_toEndOf="@+id/calendar_24"
                 app:layout_constraintTop_toBottomOf="@id/calendar_15" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/calendar_26"
                 style="@style/Calendar"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
                 app:layout_constraintEnd_toStartOf="@+id/calendar_27"
+                app:layout_constraintHorizontal_weight="1"
                 app:layout_constraintStart_toEndOf="@+id/calendar_25"
                 app:layout_constraintTop_toBottomOf="@id/calendar_16" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/calendar_27"
                 style="@style/Calendar"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
                 app:layout_constraintEnd_toStartOf="@+id/calendar_28"
+                app:layout_constraintHorizontal_weight="1"
                 app:layout_constraintStart_toEndOf="@+id/calendar_26"
                 app:layout_constraintTop_toBottomOf="@id/calendar_17" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/calendar_28"
                 style="@style/Calendar"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_weight="1"
                 app:layout_constraintStart_toEndOf="@+id/calendar_27"
                 app:layout_constraintTop_toBottomOf="@id/calendar_18" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/calendar_31"
-                style="@style/Calendar.Small"
-                android:layout_width="wrap_content"
+                style="@style/Calendar"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
                 app:layout_constraintEnd_toStartOf="@+id/calendar_32"
                 app:layout_constraintHorizontal_chainStyle="spread"
+                app:layout_constraintHorizontal_weight="1"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/calendar_21" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/calendar_32"
                 style="@style/Calendar"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
                 app:layout_constraintEnd_toStartOf="@+id/calendar_33"
+                app:layout_constraintHorizontal_weight="1"
                 app:layout_constraintStart_toEndOf="@+id/calendar_31"
                 app:layout_constraintTop_toBottomOf="@id/calendar_22" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/calendar_33"
                 style="@style/Calendar"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
                 app:layout_constraintEnd_toStartOf="@+id/calendar_34"
+                app:layout_constraintHorizontal_weight="1"
                 app:layout_constraintStart_toEndOf="@+id/calendar_32"
                 app:layout_constraintTop_toBottomOf="@id/calendar_23" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/calendar_34"
                 style="@style/Calendar"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
                 app:layout_constraintEnd_toStartOf="@+id/calendar_35"
+                app:layout_constraintHorizontal_weight="1"
                 app:layout_constraintStart_toEndOf="@+id/calendar_33"
                 app:layout_constraintTop_toBottomOf="@id/calendar_24" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/calendar_35"
                 style="@style/Calendar"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
                 app:layout_constraintEnd_toStartOf="@+id/calendar_36"
+                app:layout_constraintHorizontal_weight="1"
                 app:layout_constraintStart_toEndOf="@+id/calendar_34"
                 app:layout_constraintTop_toBottomOf="@id/calendar_25" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/calendar_36"
                 style="@style/Calendar"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
                 app:layout_constraintEnd_toStartOf="@+id/calendar_37"
+                app:layout_constraintHorizontal_weight="1"
                 app:layout_constraintStart_toEndOf="@+id/calendar_35"
                 app:layout_constraintTop_toBottomOf="@id/calendar_26" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/calendar_37"
                 style="@style/Calendar"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
                 app:layout_constraintEnd_toStartOf="@+id/calendar_38"
+                app:layout_constraintHorizontal_weight="1"
                 app:layout_constraintStart_toEndOf="@+id/calendar_36"
                 app:layout_constraintTop_toBottomOf="@id/calendar_27" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/calendar_38"
                 style="@style/Calendar"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_weight="1"
                 app:layout_constraintStart_toEndOf="@+id/calendar_37"
                 app:layout_constraintTop_toBottomOf="@id/calendar_28" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/calendar_41"
-                style="@style/Calendar.Small"
-                android:layout_width="wrap_content"
+                style="@style/Calendar"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
                 app:layout_constraintEnd_toStartOf="@+id/calendar_42"
                 app:layout_constraintHorizontal_chainStyle="spread"
+                app:layout_constraintHorizontal_weight="1"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/calendar_31" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/calendar_42"
                 style="@style/Calendar"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
                 app:layout_constraintEnd_toStartOf="@+id/calendar_43"
+                app:layout_constraintHorizontal_weight="1"
                 app:layout_constraintStart_toEndOf="@+id/calendar_41"
                 app:layout_constraintTop_toBottomOf="@id/calendar_32" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/calendar_43"
                 style="@style/Calendar"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
                 app:layout_constraintEnd_toStartOf="@+id/calendar_44"
+                app:layout_constraintHorizontal_weight="1"
                 app:layout_constraintStart_toEndOf="@+id/calendar_42"
                 app:layout_constraintTop_toBottomOf="@id/calendar_33" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/calendar_44"
                 style="@style/Calendar"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
                 app:layout_constraintEnd_toStartOf="@+id/calendar_45"
+                app:layout_constraintHorizontal_weight="1"
                 app:layout_constraintStart_toEndOf="@+id/calendar_43"
                 app:layout_constraintTop_toBottomOf="@id/calendar_34" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/calendar_45"
                 style="@style/Calendar"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
                 app:layout_constraintEnd_toStartOf="@+id/calendar_46"
+                app:layout_constraintHorizontal_weight="1"
                 app:layout_constraintStart_toEndOf="@+id/calendar_44"
                 app:layout_constraintTop_toBottomOf="@id/calendar_35" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/calendar_46"
                 style="@style/Calendar"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
                 app:layout_constraintEnd_toStartOf="@+id/calendar_47"
+                app:layout_constraintHorizontal_weight="1"
                 app:layout_constraintStart_toEndOf="@+id/calendar_45"
                 app:layout_constraintTop_toBottomOf="@id/calendar_36" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/calendar_47"
                 style="@style/Calendar"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
                 app:layout_constraintEnd_toStartOf="@+id/calendar_48"
+                app:layout_constraintHorizontal_weight="1"
                 app:layout_constraintStart_toEndOf="@+id/calendar_46"
                 app:layout_constraintTop_toBottomOf="@id/calendar_37" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/calendar_48"
                 style="@style/Calendar"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_weight="1"
                 app:layout_constraintStart_toEndOf="@+id/calendar_47"
                 app:layout_constraintTop_toBottomOf="@id/calendar_38" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/calendar_51"
-                style="@style/Calendar.Small"
-                android:layout_width="wrap_content"
+                style="@style/Calendar"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
                 app:layout_constraintEnd_toStartOf="@+id/calendar_52"
                 app:layout_constraintHorizontal_chainStyle="spread"
+                app:layout_constraintHorizontal_weight="1"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/calendar_41" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/calendar_52"
                 style="@style/Calendar"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
                 app:layout_constraintEnd_toStartOf="@+id/calendar_53"
+                app:layout_constraintHorizontal_weight="1"
                 app:layout_constraintStart_toEndOf="@+id/calendar_51"
                 app:layout_constraintTop_toBottomOf="@id/calendar_42" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/calendar_53"
                 style="@style/Calendar"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
                 app:layout_constraintEnd_toStartOf="@+id/calendar_54"
+                app:layout_constraintHorizontal_weight="1"
                 app:layout_constraintStart_toEndOf="@+id/calendar_52"
                 app:layout_constraintTop_toBottomOf="@id/calendar_43" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/calendar_54"
                 style="@style/Calendar"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
                 app:layout_constraintEnd_toStartOf="@+id/calendar_55"
+                app:layout_constraintHorizontal_weight="1"
                 app:layout_constraintStart_toEndOf="@+id/calendar_53"
                 app:layout_constraintTop_toBottomOf="@id/calendar_44" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/calendar_55"
                 style="@style/Calendar"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
                 app:layout_constraintEnd_toStartOf="@+id/calendar_56"
+                app:layout_constraintHorizontal_weight="1"
                 app:layout_constraintStart_toEndOf="@+id/calendar_54"
                 app:layout_constraintTop_toBottomOf="@id/calendar_45" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/calendar_56"
                 style="@style/Calendar"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
                 app:layout_constraintEnd_toStartOf="@+id/calendar_57"
+                app:layout_constraintHorizontal_weight="1"
                 app:layout_constraintStart_toEndOf="@+id/calendar_55"
                 app:layout_constraintTop_toBottomOf="@id/calendar_46" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/calendar_57"
                 style="@style/Calendar"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
                 app:layout_constraintEnd_toStartOf="@+id/calendar_58"
+                app:layout_constraintHorizontal_weight="1"
                 app:layout_constraintStart_toEndOf="@+id/calendar_56"
                 app:layout_constraintTop_toBottomOf="@id/calendar_47" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/calendar_58"
                 style="@style/Calendar"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_weight="1"
                 app:layout_constraintStart_toEndOf="@+id/calendar_57"
                 app:layout_constraintTop_toBottomOf="@id/calendar_48" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/calendar_61"
-                style="@style/Calendar.Small"
-                android:layout_width="wrap_content"
+                style="@style/Calendar"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
                 app:layout_constraintEnd_toStartOf="@+id/calendar_62"
                 app:layout_constraintHorizontal_chainStyle="spread"
+                app:layout_constraintHorizontal_weight="1"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/calendar_51" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/calendar_62"
                 style="@style/Calendar"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
                 app:layout_constraintEnd_toStartOf="@+id/calendar_63"
+                app:layout_constraintHorizontal_weight="1"
                 app:layout_constraintStart_toEndOf="@+id/calendar_61"
                 app:layout_constraintTop_toBottomOf="@id/calendar_52" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/calendar_63"
                 style="@style/Calendar"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
                 app:layout_constraintEnd_toStartOf="@+id/calendar_64"
+                app:layout_constraintHorizontal_weight="1"
                 app:layout_constraintStart_toEndOf="@+id/calendar_62"
                 app:layout_constraintTop_toBottomOf="@id/calendar_53" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/calendar_64"
                 style="@style/Calendar"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
                 app:layout_constraintEnd_toStartOf="@+id/calendar_65"
+                app:layout_constraintHorizontal_weight="1"
                 app:layout_constraintStart_toEndOf="@+id/calendar_63"
                 app:layout_constraintTop_toBottomOf="@id/calendar_54" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/calendar_65"
                 style="@style/Calendar"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
                 app:layout_constraintEnd_toStartOf="@+id/calendar_66"
+                app:layout_constraintHorizontal_weight="1"
                 app:layout_constraintStart_toEndOf="@+id/calendar_64"
                 app:layout_constraintTop_toBottomOf="@id/calendar_55" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/calendar_66"
                 style="@style/Calendar"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
                 app:layout_constraintEnd_toStartOf="@+id/calendar_67"
+                app:layout_constraintHorizontal_weight="1"
                 app:layout_constraintStart_toEndOf="@+id/calendar_65"
                 app:layout_constraintTop_toBottomOf="@id/calendar_56" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/calendar_67"
                 style="@style/Calendar"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
                 app:layout_constraintEnd_toStartOf="@+id/calendar_68"
+                app:layout_constraintHorizontal_weight="1"
                 app:layout_constraintStart_toEndOf="@+id/calendar_66"
                 app:layout_constraintTop_toBottomOf="@id/calendar_57" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/calendar_68"
                 style="@style/Calendar"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_weight="1"
                 app:layout_constraintStart_toEndOf="@+id/calendar_67"
                 app:layout_constraintTop_toBottomOf="@id/calendar_58" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/calendar_71"
-                style="@style/Calendar.Small"
-                android:layout_width="wrap_content"
+                style="@style/Calendar"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
                 app:layout_constraintEnd_toStartOf="@+id/calendar_72"
                 app:layout_constraintHorizontal_chainStyle="spread"
+                app:layout_constraintHorizontal_weight="1"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/calendar_61" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/calendar_72"
                 style="@style/Calendar"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
                 app:layout_constraintEnd_toStartOf="@+id/calendar_73"
+                app:layout_constraintHorizontal_weight="1"
                 app:layout_constraintStart_toEndOf="@+id/calendar_71"
                 app:layout_constraintTop_toBottomOf="@id/calendar_62" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/calendar_73"
                 style="@style/Calendar"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
                 app:layout_constraintEnd_toStartOf="@+id/calendar_74"
+                app:layout_constraintHorizontal_weight="1"
                 app:layout_constraintStart_toEndOf="@+id/calendar_72"
                 app:layout_constraintTop_toBottomOf="@id/calendar_63" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/calendar_74"
                 style="@style/Calendar"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
                 app:layout_constraintEnd_toStartOf="@+id/calendar_75"
+                app:layout_constraintHorizontal_weight="1"
                 app:layout_constraintStart_toEndOf="@+id/calendar_73"
                 app:layout_constraintTop_toBottomOf="@id/calendar_64" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/calendar_75"
                 style="@style/Calendar"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
                 app:layout_constraintEnd_toStartOf="@+id/calendar_76"
+                app:layout_constraintHorizontal_weight="1"
                 app:layout_constraintStart_toEndOf="@+id/calendar_74"
                 app:layout_constraintTop_toBottomOf="@id/calendar_65" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/calendar_76"
                 style="@style/Calendar"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
                 app:layout_constraintEnd_toStartOf="@+id/calendar_77"
+                app:layout_constraintHorizontal_weight="1"
                 app:layout_constraintStart_toEndOf="@+id/calendar_75"
                 app:layout_constraintTop_toBottomOf="@id/calendar_66" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/calendar_77"
                 style="@style/Calendar"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
                 app:layout_constraintEnd_toStartOf="@+id/calendar_78"
+                app:layout_constraintHorizontal_weight="1"
                 app:layout_constraintStart_toEndOf="@+id/calendar_76"
                 app:layout_constraintTop_toBottomOf="@id/calendar_67" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/calendar_78"
                 style="@style/Calendar"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_weight="1"
                 app:layout_constraintStart_toEndOf="@+id/calendar_77"
                 app:layout_constraintTop_toBottomOf="@id/calendar_68" />
 

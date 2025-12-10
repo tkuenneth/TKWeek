@@ -182,6 +182,8 @@ access your contacts data to display birthdays and anniversaries. You can deacti
     <string name="days_between_dates_days">%1$d day(s)</string>
     <string name="days_between_dates_business_days">%1$d business day(s)</string>
     <string name="less_than_a_week">less than a week</string>
+    <string name="hint_today_start">Set start date to today</string>
+    <string name="hint_today_end">Set end date to today</string>
 
     <!-- DateCalculatorActivity -->
     <string name="days">days</string>

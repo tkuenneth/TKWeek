@@ -148,6 +148,8 @@
     <string name="days_between_dates_days">%1$d Tag(e)</string>
     <string name="days_between_dates_business_days">%1$d Werktag(e)</string>
     <string name="less_than_a_week">weniger als eine Woche</string>
+    <string name="hint_today_start">Startdatum auf heute setzen</string>
+    <string name="hint_today_end">Enddatum auf heute setzen</string>
 
     <!-- DateCalculatorActivity -->
     <string name="days">Tage</string>

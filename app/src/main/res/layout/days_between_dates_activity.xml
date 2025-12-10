@@ -53,6 +53,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/today"
+                        android:contentDescription="@string/hint_today_start"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/label_first_date" />
 
@@ -114,6 +115,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/today"
+                        android:contentDescription="@string/hint_today_end"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/label_second_date" />
 
@@ -156,41 +158,47 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:paddingBottom="8dp"
-                        android:textAppearance="?attr/textAppearanceBodyMedium" />
+                        android:textAppearance="?attr/textAppearanceBodyLarge"
+                        tools:text="0 days" />
 
                     <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/days_between_dates_total2"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:paddingBottom="8dp"
-                        android:textAppearance="?attr/textAppearanceBodyMedium" />
+                        android:textAppearance="?attr/textAppearanceBodyLarge"
+                        tools:text="0 business days" />
 
                     <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/days_between_dates_weekends"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:paddingBottom="8dp"
-                        android:textAppearance="?attr/textAppearanceBodyMedium" />
+                        android:textAppearance="?attr/textAppearanceBodyLarge"
+                        tools:text="0 weekends" />
 
                     <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/days_between_dates_weeks"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:paddingBottom="8dp"
-                        android:textAppearance="?attr/textAppearanceBodyMedium" />
+                        android:textAppearance="?attr/textAppearanceBodyLarge"
+                        tools:text="less than a week" />
 
                     <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/days_between_dates_month_turns"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:paddingBottom="8dp"
-                        android:textAppearance="?attr/textAppearanceBodyMedium" />
+                        android:textAppearance="?attr/textAppearanceBodyLarge"
+                        tools:text="0 month turns" />
 
                     <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/days_between_dates_year_turns"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textAppearance="?attr/textAppearanceBodyMedium" />
+                        android:textAppearance="?attr/textAppearanceBodyLarge"
+                        tools:text="0 year turns" />
 
                 </LinearLayout>
 

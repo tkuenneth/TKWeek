@@ -28,17 +28,15 @@ import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import android.view.*
-import android.widget.DatePicker
-import android.widget.DatePicker.OnDateChangedListener
 import android.widget.EditText
+import com.google.android.material.datepicker.MaterialDatePicker
 import com.thomaskuenneth.tkweek.R
 import com.thomaskuenneth.tkweek.activity.TKWeekActivity
 import com.thomaskuenneth.tkweek.databinding.DateCalculatorBinding
 import com.thomaskuenneth.tkweek.preference.PickBusinessDaysPreference
-import com.thomaskuenneth.tkweek.util.DateUtilities.setMinDate
 import java.util.*
 
-class DateCalculatorFragment : TKWeekBaseFragment<DateCalculatorBinding>(), OnDateChangedListener {
+class DateCalculatorFragment : TKWeekBaseFragment<DateCalculatorBinding>() {
 
     private val binding get() = backing!!
 
@@ -50,7 +48,17 @@ class DateCalculatorFragment : TKWeekBaseFragment<DateCalculatorBinding>(), OnDa
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        updateDatePicker()
+        updateDateButton()
+        binding.dateCalculatorDate.setOnClickListener {
+            val picker = MaterialDatePicker.Builder.datePicker()
+                .setSelection(cal.timeInMillis)
+                .build()
+            picker.addOnPositiveButtonClickListener { selection ->
+                cal.timeInMillis = selection
+                updateDateButton()
+            }
+            picker.show(childFragmentManager, DateCalculatorFragment::class.java.simpleName)
+        }
         binding.dateCalculatorResult.setText(R.string.date_calculator_info)
         binding.dateCalculatorAdd.setOnClickListener { update(false) }
         binding.dateCalculatorSubtract.setOnClickListener { update(true) }
@@ -60,7 +68,6 @@ class DateCalculatorFragment : TKWeekBaseFragment<DateCalculatorBinding>(), OnDa
             binding.months.text = null
             binding.years.text = null
         }
-        setMinDate(binding.dateCalculatorDatepicker)
     }
 
     @Deprecated("Deprecated in Java")
@@ -74,20 +81,12 @@ class DateCalculatorFragment : TKWeekBaseFragment<DateCalculatorBinding>(), OnDa
         return when (item.itemId) {
             R.id.today -> {
                 cal.time = Date()
-                updateDatePicker()
+                updateDateButton()
                 true
             }
 
             else -> super.onOptionsItemSelected(item)
         }
-    }
-
-    override fun onDateChanged(
-        view: DatePicker?, year: Int, monthOfYear: Int, dayOfMonth: Int
-    ) {
-        cal[Calendar.YEAR] = year
-        cal[Calendar.MONTH] = monthOfYear
-        cal[Calendar.DAY_OF_MONTH] = dayOfMonth
     }
 
     private fun update(subtract: Boolean) {
@@ -102,7 +101,7 @@ class DateCalculatorFragment : TKWeekBaseFragment<DateCalculatorBinding>(), OnDa
             val numberOfDays = getInt(binding.days, false)
             val offset = if (subtract) -1 else 1
             var weekday: Int
-            (0 until numberOfDays).forEach { i ->
+            (0 until numberOfDays).forEach { _ ->
                 do {
                     temp.add(Calendar.DAY_OF_MONTH, offset)
                     weekday = temp[Calendar.DAY_OF_WEEK]
@@ -117,14 +116,12 @@ class DateCalculatorFragment : TKWeekBaseFragment<DateCalculatorBinding>(), OnDa
         binding.dateCalculatorResult.text = TKWeekActivity.FORMAT_FULL.format(temp.time)
         if (binding.dateCalculatorReuseResult.isChecked) {
             cal.time = temp.time
-            updateDatePicker()
+            updateDateButton()
         }
     }
 
-    private fun updateDatePicker() {
-        binding.dateCalculatorDatepicker.init(
-            cal[Calendar.YEAR], cal[Calendar.MONTH], cal[Calendar.DAY_OF_MONTH], this
-        )
+    private fun updateDateButton() {
+        binding.dateCalculatorDate.text = TKWeekActivity.FORMAT_FULL.format(cal.time)
     }
 
     private fun getInt(view: EditText, subtract: Boolean): Int {

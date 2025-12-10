@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:fillViewport="true">
@@ -10,15 +11,24 @@
         android:layout_height="wrap_content"
         android:padding="16dp">
 
-        <DatePicker
-            android:id="@+id/date_calculator_datepicker"
-            android:layout_width="wrap_content"
+        <FrameLayout
+            android:id="@+id/date_picker_container"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:calendarViewShown="false"
-            android:datePickerMode="spinner"
+            android:padding="16dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/date_calculator_date"
+                style="@style/Widget.Material3.Button.OutlinedButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                tools:text="Friday, June 14, 2024" />
+
+        </FrameLayout>
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/days_layout"
@@ -29,7 +39,7 @@
             app:layout_constraintEnd_toStartOf="@+id/weeks_layout"
             app:layout_constraintHorizontal_chainStyle="spread"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/date_calculator_datepicker">
+            app:layout_constraintTop_toBottomOf="@id/date_picker_container">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/days"
@@ -46,7 +56,7 @@
             android:hint="@string/weeks"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/days_layout"
-            app:layout_constraintTop_toBottomOf="@id/date_calculator_datepicker">
+            app:layout_constraintTop_toBottomOf="@id/date_picker_container">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/weeks"

@@ -106,7 +106,6 @@ class CalendarFragment : TKWeekBaseFragment<CalendarBinding>(), View.OnClickList
             }
             cal.set(Calendar.YEAR, year)
             update()
-            binding.dummy.requestFocus()
         }
         binding.calendarDown.setOnClickListener(this)
         binding.calendarUp.setOnClickListener(this)

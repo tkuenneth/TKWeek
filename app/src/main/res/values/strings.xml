@@ -378,8 +378,8 @@ TKWeek needs to access your contacts.</string>
     <string name="charles_babbage" translatable="false">Charles Babbage</string>
 
     <string name="welcome_text" translatable="false">Thank you very much for downloading this app.
-If you have any questions or suggestions, please feel free to contact me at mail@tkuenneth.dev.
-\n\n<b>Your privacy</b>\n
+If you have any questions or suggestions, please feel free to contact me at mail@tkuenneth.dev.</string>
+    <string name="privacy" translatable="false"><b>Your privacy</b>\n
 \nWe do not process your data.
 \nWe do not collect your data.
 \nWe do not track you.
@@ -387,7 +387,8 @@ If you have any questions or suggestions, please feel free to contact me at mail
 \nYou can find our privacy policy at https://www.tkuenneth.dev/TKWeek/privacy.html
 \n\nTKWeek links to sites maintained by the Wikimedia Foundation.
 You can find their privacy policy at https://wikimediafoundation.org/wiki/Privacy_policy
-\n\n<b>Terms of use</b>\n\nCopyright 2009 - 2020 Thomas Künneth
+</string>
+    <string name="terms" translatable="false"><b>Terms of use</b>\n\nCopyright 2009 - 2020 Thomas Künneth
 \nCopyright 2021 MATHEMA GmbH
 \nCopyright 2022 - 2025 Thomas Künneth\n
 \nPermission is hereby granted, free of charge, to any person obtaining a copy

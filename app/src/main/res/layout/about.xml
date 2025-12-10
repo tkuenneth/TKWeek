@@ -9,214 +9,300 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="16dp">
-
-        <com.google.android.material.imageview.ShapeableImageView
-            android:id="@+id/about_icon"
-            android:layout_width="64dp"
-            android:layout_height="64dp"
-            android:src="@drawable/ic_tkweek_no_gradients"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/about_version_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/about_icon"
-            tools:text="1.0.0" />
-
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/about_made_with_love"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/made_with_love"
-            android:textAppearance="@style/TextAppearance.Material3.BodySmall"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/about_version_name" />
+        android:paddingHorizontal="16dp">
 
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/about_card"
             style="?attr/materialCardViewFilledStyle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
             app:cardBackgroundColor="?attr/colorSurfaceContainer"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/about_made_with_love"
+            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintWidth_max="500dp">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="16dp">
+                android:layout_height="wrap_content">
 
-                <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/about_label_language"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/about_language"
-                    android:textAppearance="@style/TextAppearance.Material3.BodySmall"
-                    android:textColor="?attr/colorOnSurfaceVariant"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/about_language"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
-                    app:layout_constraintBaseline_toBaselineOf="@id/about_label_language"
-                    app:layout_constraintStart_toEndOf="@id/about_label_language"
-                    tools:text="en" />
-
-                <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/about_label_country"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/about_country"
-                    android:textAppearance="@style/TextAppearance.Material3.BodySmall"
-                    android:textColor="?attr/colorOnSurfaceVariant"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/about_label_language" />
-
-                <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/about_country"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
-                    app:layout_constraintBaseline_toBaselineOf="@id/about_label_country"
-                    app:layout_constraintStart_toEndOf="@id/about_label_country"
-                    tools:text="uk" />
-
-                <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/about_label_timezone"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/about_timezone"
-                    android:textAppearance="@style/TextAppearance.Material3.BodySmall"
-                    android:textColor="?attr/colorOnSurfaceVariant"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/about_label_country" />
-
-                <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/about_timezone"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
-                    app:layout_constraintBaseline_toBaselineOf="@id/about_label_timezone"
-                    app:layout_constraintStart_toEndOf="@id/about_label_timezone"
-                    tools:text="UTC" />
-
-                <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/about_label_calendar_class"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/about_calendar_class"
-                    android:textAppearance="@style/TextAppearance.Material3.BodySmall"
-                    android:textColor="?attr/colorOnSurfaceVariant"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/about_label_timezone" />
-
-                <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/about_calendar_class"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
-                    app:layout_constraintBaseline_toBaselineOf="@id/about_label_calendar_class"
-                    app:layout_constraintStart_toEndOf="@id/about_label_calendar_class"
-                    tools:text="Gregorian" />
-
-                <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/about_label_density"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/about_density"
-                    android:textAppearance="@style/TextAppearance.Material3.BodySmall"
-                    android:textColor="?attr/colorOnSurfaceVariant"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/about_label_calendar_class" />
-
-                <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/about_density"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
-                    app:layout_constraintBaseline_toBaselineOf="@id/about_label_density"
-                    app:layout_constraintStart_toEndOf="@id/about_label_density"
-                    tools:text="320 dpi" />
-
-                <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/about_label_size_in_pixel"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/about_size_in_pixel"
-                    android:textAppearance="@style/TextAppearance.Material3.BodySmall"
-                    android:textColor="?attr/colorOnSurfaceVariant"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/about_label_density" />
-
-                <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/about_size_in_pixel"
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/about_header_container"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
-                    app:layout_constraintBaseline_toBaselineOf="@id/about_label_size_in_pixel"
+                    android:padding="16dp"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/about_label_size_in_pixel"
-                    tools:text="line 1\nline 2" />
-
-                <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/about_label_android_version"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/about_android_version"
-                    android:textAppearance="@style/TextAppearance.Material3.BodySmall"
-                    android:textColor="?attr/colorOnSurfaceVariant"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/about_size_in_pixel" />
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <com.google.android.material.imageview.ShapeableImageView
+                        android:id="@+id/about_icon"
+                        android:layout_width="64dp"
+                        android:layout_height="64dp"
+                        android:src="@drawable/ic_tkweek_no_gradients"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/about_version_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/about_icon"
+                        tools:text="1.0.0" />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/about_made_with_love"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/made_with_love"
+                        android:textAppearance="@style/TextAppearance.Material3.BodySmall"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/about_version_name" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <com.google.android.material.divider.MaterialDivider
+                    android:id="@+id/divider"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:dividerColor="?attr/colorSurface"
+                    app:dividerThickness="2dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/about_header_container" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/about_details_container"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:padding="16dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/divider">
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/about_label_language"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/about_language"
+                        android:textAppearance="@style/TextAppearance.Material3.BodySmall"
+                        android:textColor="?attr/colorOnSurfaceVariant"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/about_language"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
+                        app:layout_constraintBaseline_toBaselineOf="@id/about_label_language"
+                        app:layout_constraintStart_toEndOf="@id/about_label_language"
+                        tools:text="en" />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/about_label_country"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/about_country"
+                        android:textAppearance="@style/TextAppearance.Material3.BodySmall"
+                        android:textColor="?attr/colorOnSurfaceVariant"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/about_label_language" />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/about_country"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
+                        app:layout_constraintBaseline_toBaselineOf="@id/about_label_country"
+                        app:layout_constraintStart_toEndOf="@id/about_label_country"
+                        tools:text="uk" />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/about_label_timezone"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/about_timezone"
+                        android:textAppearance="@style/TextAppearance.Material3.BodySmall"
+                        android:textColor="?attr/colorOnSurfaceVariant"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/about_label_country" />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/about_timezone"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
+                        app:layout_constraintBaseline_toBaselineOf="@id/about_label_timezone"
+                        app:layout_constraintStart_toEndOf="@id/about_label_timezone"
+                        tools:text="UTC" />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/about_label_calendar_class"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/about_calendar_class"
+                        android:textAppearance="@style/TextAppearance.Material3.BodySmall"
+                        android:textColor="?attr/colorOnSurfaceVariant"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/about_label_timezone" />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/about_calendar_class"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
+                        app:layout_constraintBaseline_toBaselineOf="@id/about_label_calendar_class"
+                        app:layout_constraintStart_toEndOf="@id/about_label_calendar_class"
+                        tools:text="Gregorian" />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/about_label_density"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/about_density"
+                        android:textAppearance="@style/TextAppearance.Material3.BodySmall"
+                        android:textColor="?attr/colorOnSurfaceVariant"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/about_label_calendar_class" />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/about_density"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
+                        app:layout_constraintBaseline_toBaselineOf="@id/about_label_density"
+                        app:layout_constraintStart_toEndOf="@id/about_label_density"
+                        tools:text="320 dpi" />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/about_label_size_in_pixel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/about_size_in_pixel"
+                        android:textAppearance="@style/TextAppearance.Material3.BodySmall"
+                        android:textColor="?attr/colorOnSurfaceVariant"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/about_label_density" />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/about_size_in_pixel"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
+                        app:layout_constraintBaseline_toBaselineOf="@id/about_label_size_in_pixel"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/about_label_size_in_pixel"
+                        tools:text="line 1\nline 2" />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/about_label_android_version"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/about_android_version"
+                        android:textAppearance="@style/TextAppearance.Material3.BodySmall"
+                        android:textColor="?attr/colorOnSurfaceVariant"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/about_size_in_pixel" />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/about_android_version"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
+                        app:layout_constraintBaseline_toBaselineOf="@id/about_label_android_version"
+                        app:layout_constraintStart_toEndOf="@id/about_label_android_version"
+                        tools:text="16" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <com.google.android.material.divider.MaterialDivider
+                    android:id="@+id/divider2"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:dividerColor="?attr/colorSurface"
+                    app:dividerThickness="2dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/about_details_container" />
 
                 <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/about_android_version"
-                    android:layout_width="wrap_content"
+                    android:id="@+id/about_welcome_text"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
-                    app:layout_constraintBaseline_toBaselineOf="@id/about_label_android_version"
-                    app:layout_constraintStart_toEndOf="@id/about_label_android_version"
-                    tools:text="16" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
-        </com.google.android.material.card.MaterialCardView>
+                    android:autoLink="email|web"
+                    android:linksClickable="true"
+                    android:padding="16dp"
+                    android:text="@string/welcome_text"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/divider2" />
 
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/about_welcome_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:autoLink="email|web"
-            android:linksClickable="true"
-            android:maxWidth="600dp"
-            android:paddingTop="8dp"
-            android:text="@string/welcome_text"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/about_card" />
+                <com.google.android.material.divider.MaterialDivider
+                    android:id="@+id/divider3"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:dividerColor="?attr/colorSurface"
+                    app:dividerThickness="2dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/about_welcome_text" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/about_privacy"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:autoLink="web"
+                    android:linksClickable="true"
+                    android:padding="16dp"
+                    android:text="@string/privacy"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/divider3" />
+
+                <com.google.android.material.divider.MaterialDivider
+                    android:id="@+id/divider4"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:dividerColor="?attr/colorSurface"
+                    app:dividerThickness="2dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/about_privacy" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/about_terms"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:autoLink="web"
+                    android:linksClickable="true"
+                    android:padding="16dp"
+                    android:text="@string/terms"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/divider4" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </com.google.android.material.card.MaterialCardView>
 
         <com.thomaskuenneth.tkweek.util.BottomSpace
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/about_welcome_text" />
+            app:layout_constraintTop_toBottomOf="@id/about_card" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

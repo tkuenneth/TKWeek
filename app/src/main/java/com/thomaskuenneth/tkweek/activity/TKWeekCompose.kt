@@ -1,10 +1,8 @@
 package com.thomaskuenneth.tkweek.activity
 
 import android.os.Bundle
-import android.os.Parcelable
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.fillMaxSize
@@ -26,7 +24,6 @@ import androidx.compose.material3.adaptive.layout.ListDetailPaneScaffoldRole
 import androidx.compose.material3.adaptive.navigation.rememberListDetailPaneScaffoldNavigator
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.key
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -37,16 +34,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.fragment.app.FragmentContainerView
 import com.thomaskuenneth.tkweek.R
-import com.thomaskuenneth.tkweek.fragment.AboutFragment
-import com.thomaskuenneth.tkweek.fragment.AboutYearFragment
-import com.thomaskuenneth.tkweek.fragment.AnnualEventsFragment
-import com.thomaskuenneth.tkweek.fragment.CalendarFragment
-import com.thomaskuenneth.tkweek.fragment.DateCalculatorFragment
-import com.thomaskuenneth.tkweek.fragment.DaysBetweenDatesFragment
-import com.thomaskuenneth.tkweek.fragment.MyDayFragment
-import com.thomaskuenneth.tkweek.fragment.WeekFragment
 import kotlinx.coroutines.launch
-import kotlinx.parcelize.Parcelize
 
 class TKWeekCompose : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -58,63 +46,13 @@ class TKWeekCompose : AppCompatActivity() {
     }
 }
 
-@Parcelize
-data class Module(
-    @get:StringRes val titleRes: Int,
-    @get:StringRes val descriptionRes: Int,
-    val clazz: Class<*>
-) : Parcelable
-
-private val modules = listOf(
-    Module(
-        R.string.week_activity_text1,
-        R.string.week_activity_text2,
-        WeekFragment::class.java
-    ),
-    Module(
-        R.string.myday_activity_text1,
-        R.string.myday_activity_text2,
-        MyDayFragment::class.java
-    ),
-    Module(
-        R.string.days_between_dates_activity_text1,
-        R.string.days_between_dates_activity_text2,
-        DaysBetweenDatesFragment::class.java
-    ),
-    Module(
-        R.string.date_calculator_activity_text1,
-        R.string.date_calculator_activity_text2,
-        DateCalculatorFragment::class.java
-    ),
-    Module(
-        R.string.annual_events_activity_text1,
-        R.string.annual_events_activity_text2,
-        AnnualEventsFragment::class.java
-    ),
-    Module(
-        R.string.about_a_year_activity_text1,
-        R.string.about_a_year_activity_text2,
-        AboutYearFragment::class.java
-    ),
-    Module(
-        R.string.calendar_activity_text1,
-        R.string.calendar_activity_text2,
-        CalendarFragment::class.java
-    ),
-    Module(
-        R.string.about_activity_text1,
-        R.string.about_activity_text2,
-        AboutFragment::class.java
-    )
-)
-
 @OptIn(
     ExperimentalMaterial3Api::class,
     ExperimentalMaterial3AdaptiveApi::class
 )
 @Composable
 fun TKWeekApp() {
-    val navigator = rememberListDetailPaneScaffoldNavigator<Module>()
+    val navigator = rememberListDetailPaneScaffoldNavigator<TKWeekModule>()
     val scope = rememberCoroutineScope()
     Scaffold(
         topBar = {
@@ -137,7 +75,7 @@ fun TKWeekApp() {
             )
         }
     ) { paddingValues ->
-        var selectedModule by rememberSaveable { mutableStateOf<Module?>(null) }
+        var selectedModule by rememberSaveable { mutableStateOf(TKWeekModule.Week) }
         ListDetailPaneScaffold(
             modifier = Modifier
                 .fillMaxSize()
@@ -146,7 +84,7 @@ fun TKWeekApp() {
             value = navigator.scaffoldValue,
             listPane = {
                 LazyColumn {
-                    items(modules) { module ->
+                    items(TKWeekModule.entries) { module ->
                         ListItem(
                             headlineContent = { Text(text = stringResource(id = module.titleRes)) },
                             supportingContent = { Text(text = stringResource(id = module.descriptionRes)) },
@@ -164,14 +102,9 @@ fun TKWeekApp() {
                 }
             },
             detailPane = {
-                key(selectedModule) {
-                    selectedModule?.let { module ->
-                        FragmentContainer(
-                            modifier = Modifier.fillMaxSize(),
-                            fragmentClass = module.clazz
-                        )
-                    }
-                }
+                FragmentContainer(
+                    module = selectedModule
+                )
             }
         )
     }
@@ -179,11 +112,10 @@ fun TKWeekApp() {
 
 @Composable
 fun FragmentContainer(
-    modifier: Modifier = Modifier,
-    fragmentClass: Class<*>
+    module: TKWeekModule
 ) {
     AndroidView(
-        modifier = modifier,
+        modifier = Modifier.fillMaxSize(),
         factory = { context ->
             FragmentContainerView(context).apply {
                 id = R.id.fragment_container_view
@@ -192,7 +124,8 @@ fun FragmentContainer(
         update = { view ->
             val fragmentManager = (view.context as AppCompatActivity).supportFragmentManager
             val fragment =
-                fragmentClass.getConstructor().newInstance() as androidx.fragment.app.Fragment
+                module.clazz.getConstructor()
+                    .newInstance() as androidx.fragment.app.Fragment
             fragmentManager.beginTransaction()
                 .replace(view.id, fragment)
                 .commit()

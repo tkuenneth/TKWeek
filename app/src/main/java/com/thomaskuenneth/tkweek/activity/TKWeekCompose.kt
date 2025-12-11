@@ -113,7 +113,7 @@ private val modules = listOf(
     ExperimentalMaterial3AdaptiveApi::class
 )
 @Composable
-fun TKWeekApp(modifier: Modifier = Modifier) {
+fun TKWeekApp() {
     val navigator = rememberListDetailPaneScaffoldNavigator<Module>()
     val scope = rememberCoroutineScope()
     Scaffold(

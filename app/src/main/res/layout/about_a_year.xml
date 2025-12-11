@@ -201,7 +201,7 @@
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/seasons_container"
-                    android:layout_width="0dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="16dp"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -231,12 +231,11 @@
 
                     <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/about_a_year_spring"
-                        android:layout_width="0dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
                         android:textAppearance="?attr/textAppearanceBodyMedium"
                         app:layout_constraintBaseline_toBaselineOf="@id/about_a_year_label_spring"
-                        app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toEndOf="@id/about_a_year_label_spring" />
 
                     <com.google.android.material.textview.MaterialTextView
@@ -251,12 +250,11 @@
 
                     <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/about_a_year_summer"
-                        android:layout_width="0dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
                         android:textAppearance="?attr/textAppearanceBodyMedium"
                         app:layout_constraintBaseline_toBaselineOf="@id/about_a_year_label_summer"
-                        app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toEndOf="@id/about_a_year_label_summer" />
 
                     <com.google.android.material.textview.MaterialTextView
@@ -271,12 +269,11 @@
 
                     <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/about_a_year_autumn"
-                        android:layout_width="0dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
                         android:textAppearance="?attr/textAppearanceBodyMedium"
                         app:layout_constraintBaseline_toBaselineOf="@id/about_a_year_label_autumn"
-                        app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toEndOf="@id/about_a_year_label_autumn" />
 
                     <com.google.android.material.textview.MaterialTextView
@@ -291,12 +288,11 @@
 
                     <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/about_a_year_winter"
-                        android:layout_width="0dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
                         android:textAppearance="?attr/textAppearanceBodyMedium"
                         app:layout_constraintBaseline_toBaselineOf="@id/about_a_year_label_winter"
-                        app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toEndOf="@id/about_a_year_label_winter" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
 

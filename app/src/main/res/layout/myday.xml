@@ -30,31 +30,23 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:padding="16dp"
+                    android:paddingTop="16dp"
+                    android:paddingBottom="8dp"
                     android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <com.google.android.material.divider.MaterialDivider
-                    android:id="@+id/divider0"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    app:dividerColor="?attr/colorSurface"
-                    app:dividerThickness="2dp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/my_day_date" />
-
                 <!-- Key-Value Section -->
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/key_value_container"
-                    android:layout_width="0dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:padding="16dp"
+                    android:paddingTop="0dp"
+                    android:paddingBottom="16dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/divider0">
+                    app:layout_constraintTop_toBottomOf="@id/my_day_date">
 
                     <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/my_day_label_week_number"
@@ -69,12 +61,11 @@
 
                     <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/my_day_week_number"
-                        android:layout_width="0dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="6dip"
                         android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
                         app:layout_constraintBaseline_toBaselineOf="@id/my_day_label_week_number"
-                        app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toEndOf="@id/my_day_label_week_number" />
 
                     <com.google.android.material.textview.MaterialTextView
@@ -89,12 +80,11 @@
 
                     <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/my_day_day_in_year"
-                        android:layout_width="0dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="6dip"
                         android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
                         app:layout_constraintBaseline_toBaselineOf="@id/my_day_label_day_in_year"
-                        app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toEndOf="@id/my_day_label_day_in_year" />
 
                     <com.google.android.material.textview.MaterialTextView
@@ -109,12 +99,11 @@
 
                     <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/my_day_is_leap_year"
-                        android:layout_width="0dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="6dip"
                         android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
                         app:layout_constraintBaseline_toBaselineOf="@id/my_day_label_is_leap_year"
-                        app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toEndOf="@id/my_day_label_is_leap_year" />
 
                     <com.google.android.material.textview.MaterialTextView
@@ -129,12 +118,11 @@
 
                     <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/my_day_astrological_sign"
-                        android:layout_width="0dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="6dip"
                         android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
                         app:layout_constraintBaseline_toBaselineOf="@id/my_day_label_astrological_sign"
-                        app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toEndOf="@id/my_day_label_astrological_sign" />
 
                     <com.google.android.material.textview.MaterialTextView
@@ -149,12 +137,11 @@
 
                     <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/my_day_name_day"
-                        android:layout_width="0dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="6dip"
                         android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
                         app:layout_constraintBaseline_toBaselineOf="@id/my_day_label_name_day"
-                        app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toEndOf="@id/my_day_label_name_day" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>

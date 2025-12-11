@@ -19,6 +19,7 @@
         android:id="@+id/string_one_line2_text"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
         android:ellipsize="end"
         android:maxLines="4"
         android:textAppearance="?attr/textAppearanceBodyMedium"

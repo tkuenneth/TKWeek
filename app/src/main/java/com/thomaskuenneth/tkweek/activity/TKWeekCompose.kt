@@ -17,9 +17,9 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.adaptive.ExperimentalMaterial3AdaptiveApi
-import androidx.compose.material3.adaptive.layout.ListDetailPaneScaffold
 import androidx.compose.material3.adaptive.layout.ListDetailPaneScaffoldRole
 import androidx.compose.material3.adaptive.layout.PaneAdaptedValue
+import androidx.compose.material3.adaptive.navigation.NavigableListDetailPaneScaffold
 import androidx.compose.material3.adaptive.navigation.rememberListDetailPaneScaffoldNavigator
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -88,12 +88,11 @@ fun TKWeekApp() {
         var selectedModule by rememberSaveable { mutableStateOf(TKWeekModule.Week) }
         val detailVisible =
             navigator.scaffoldValue[ListDetailPaneScaffoldRole.Detail] == PaneAdaptedValue.Expanded
-        ListDetailPaneScaffold(
+        NavigableListDetailPaneScaffold(
+            navigator = navigator,
             modifier = Modifier
                 .padding(paddingValues)
                 .padding(horizontal = horizontalPadding),
-            directive = navigator.scaffoldDirective,
-            value = navigator.scaffoldValue,
             listPane = {
                 TKWeekModuleSelector(
                     selectedModule = selectedModule,

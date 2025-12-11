@@ -188,8 +188,8 @@ class CalendarFragment : TKWeekBaseFragment<CalendarBinding>(), View.OnClickList
         days.add(binding.calendar77)
         days.add(binding.calendar78)
         binding.calendarLayoutRecent.recent1.setOnClickListener(dayClickedListener)
-        binding.calendarLayoutRecent.recent1.setOnClickListener(dayClickedListener)
-        binding.calendarLayoutRecent.recent1.setOnClickListener(dayClickedListener)
+        binding.calendarLayoutRecent.recent2.setOnClickListener(dayClickedListener)
+        binding.calendarLayoutRecent.recent3.setOnClickListener(dayClickedListener)
 
         for (day in days) {
             with(day) {

@@ -4,20 +4,16 @@ import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.displayCutout
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.ListItem
-import androidx.compose.material3.ListItemDefaults
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.adaptive.ExperimentalMaterial3AdaptiveApi
@@ -32,8 +28,8 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -41,6 +37,7 @@ import androidx.compose.ui.viewinterop.AndroidView
 import androidx.fragment.app.FragmentContainerView
 import com.thomaskuenneth.tkweek.R
 import kotlinx.coroutines.launch
+import kotlin.math.max
 
 class TKWeekCompose : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -61,6 +58,7 @@ fun TKWeekApp() {
     val navigator = rememberListDetailPaneScaffoldNavigator<TKWeekModule>()
     val scope = rememberCoroutineScope()
     Scaffold(
+        contentWindowInsets = WindowInsets(),
         topBar = {
             CenterAlignedTopAppBar(
                 title = { Text(text = stringResource(id = R.string.app_name)) },
@@ -81,42 +79,35 @@ fun TKWeekApp() {
             )
         }
     ) { paddingValues ->
+        val displayCutoutInsets = WindowInsets.displayCutout
+        val density = LocalDensity.current
+        val layoutDirection = LocalLayoutDirection.current
+        val left = displayCutoutInsets.getLeft(density, layoutDirection)
+        val right = displayCutoutInsets.getRight(density, layoutDirection)
+        val horizontalPadding = with(density) { max(left, right).toDp() }.coerceAtLeast(16.dp)
         var selectedModule by rememberSaveable { mutableStateOf(TKWeekModule.Week) }
         val detailVisible =
             navigator.scaffoldValue[ListDetailPaneScaffoldRole.Detail] == PaneAdaptedValue.Expanded
         ListDetailPaneScaffold(
             modifier = Modifier
-                .fillMaxSize()
-                .padding(paddingValues = paddingValues),
+                .padding(paddingValues)
+                .padding(horizontal = horizontalPadding),
             directive = navigator.scaffoldDirective,
             value = navigator.scaffoldValue,
             listPane = {
-                LazyColumn {
-                    items(TKWeekModule.entries) { module ->
-                        val selected = detailVisible && module == selectedModule
-                        ListItem(
-                            headlineContent = { Text(text = stringResource(id = module.titleRes)) },
-                            supportingContent = { Text(text = stringResource(id = module.descriptionRes)) },
-                            modifier = Modifier
-                                .padding(horizontal = 16.dp)
-                                .clip(MaterialTheme.shapes.large)
-                                .clickable {
-                                    selectedModule = module
-                                    scope.launch {
-                                        navigator.navigateTo(
-                                            pane = ListDetailPaneScaffoldRole.Detail,
-                                            contentKey = selectedModule
-                                        )
-                                    }
-                                },
-                            colors = ListItemDefaults.colors(
-                                containerColor = if (selected) MaterialTheme.colorScheme.secondaryContainer else Color.Transparent,
-                                headlineColor = if (selected) MaterialTheme.colorScheme.onSecondaryContainer else MaterialTheme.colorScheme.onSurface,
-                                supportingColor = if (selected) MaterialTheme.colorScheme.onSecondaryContainer else MaterialTheme.colorScheme.onSurfaceVariant
+                TKWeekModuleSelector(
+                    selectedModule = selectedModule,
+                    onModuleSelected = { module ->
+                        selectedModule = module
+                        scope.launch {
+                            navigator.navigateTo(
+                                pane = ListDetailPaneScaffoldRole.Detail,
+                                contentKey = selectedModule
                             )
-                        )
-                    }
-                }
+                        }
+                    },
+                    detailVisible = detailVisible
+                )
             },
             detailPane = {
                 FragmentContainer(

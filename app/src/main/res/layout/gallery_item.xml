@@ -8,7 +8,6 @@
     
 <com.google.android.material.textview.MaterialTextView xmlns:android="http://schemas.android.com/apk/res/android"
 	android:id="@+id/gallery_item"
-	android:minEms="4"
 	android:layout_width="wrap_content"
 	android:layout_height="wrap_content"
 	android:textAppearance="?attr/textAppearanceBodyMedium"

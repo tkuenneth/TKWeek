@@ -35,7 +35,7 @@ class MonthsAdapter(
     private val listener: (Int) -> Unit
 ) : RecyclerView.Adapter<MonthsAdapter.ViewHolder>() {
 
-    private val months = DateFormatSymbols.getInstance().months.take(12)
+    private val months = DateFormatSymbols.getInstance().shortMonths.take(12)
     private val inflater = LayoutInflater.from(context)
     var selectedPosition = -1
 

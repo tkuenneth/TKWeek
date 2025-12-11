@@ -9,8 +9,7 @@
         android:id="@+id/listViewContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:paddingHorizontal="16dp">
+        android:orientation="vertical">
 
         <com.thomaskuenneth.tkweek.util.FixedHeightGridView
             android:id="@+id/listView"

@@ -32,8 +32,11 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.fragment.app.FragmentContainerView
 import com.thomaskuenneth.tkweek.R
@@ -79,6 +82,8 @@ fun TKWeekApp() {
         }
     ) { paddingValues ->
         var selectedModule by rememberSaveable { mutableStateOf(TKWeekModule.Week) }
+        val detailVisible =
+            navigator.scaffoldValue[ListDetailPaneScaffoldRole.Detail] == PaneAdaptedValue.Expanded
         ListDetailPaneScaffold(
             modifier = Modifier
                 .fillMaxSize()
@@ -87,33 +92,28 @@ fun TKWeekApp() {
             value = navigator.scaffoldValue,
             listPane = {
                 LazyColumn {
-                    val detailVisible =
-                        navigator.scaffoldValue[ListDetailPaneScaffoldRole.Detail] == PaneAdaptedValue.Expanded
                     items(TKWeekModule.entries) { module ->
+                        val selected = detailVisible && module == selectedModule
                         ListItem(
                             headlineContent = { Text(text = stringResource(id = module.titleRes)) },
                             supportingContent = { Text(text = stringResource(id = module.descriptionRes)) },
-                            modifier = Modifier.clickable {
-                                selectedModule = module
-                                scope.launch {
-                                    navigator.navigateTo(
-                                        pane = ListDetailPaneScaffoldRole.Detail,
-                                        contentKey = selectedModule
-                                    )
-                                }
-                            },
-                            colors = when (detailVisible) {
-                                false -> ListItemDefaults.colors()
-                                true -> if (module == selectedModule) {
-                                    ListItemDefaults.colors(
-                                        containerColor = MaterialTheme.colorScheme.primaryContainer,
-                                        headlineColor = MaterialTheme.colorScheme.onPrimaryContainer
-                                    )
-                                } else {
-                                    ListItemDefaults.colors()
-                                }
-                            }
-
+                            modifier = Modifier
+                                .padding(horizontal = 16.dp)
+                                .clip(MaterialTheme.shapes.large)
+                                .clickable {
+                                    selectedModule = module
+                                    scope.launch {
+                                        navigator.navigateTo(
+                                            pane = ListDetailPaneScaffoldRole.Detail,
+                                            contentKey = selectedModule
+                                        )
+                                    }
+                                },
+                            colors = ListItemDefaults.colors(
+                                containerColor = if (selected) MaterialTheme.colorScheme.secondaryContainer else Color.Transparent,
+                                headlineColor = if (selected) MaterialTheme.colorScheme.onSecondaryContainer else MaterialTheme.colorScheme.onSurface,
+                                supportingColor = if (selected) MaterialTheme.colorScheme.onSecondaryContainer else MaterialTheme.colorScheme.onSurfaceVariant
+                            )
                         )
                     }
                 }

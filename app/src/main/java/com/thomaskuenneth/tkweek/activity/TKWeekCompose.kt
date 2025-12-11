@@ -16,11 +16,14 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.ListItem
+import androidx.compose.material3.ListItemDefaults
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.adaptive.ExperimentalMaterial3AdaptiveApi
 import androidx.compose.material3.adaptive.layout.ListDetailPaneScaffold
 import androidx.compose.material3.adaptive.layout.ListDetailPaneScaffoldRole
+import androidx.compose.material3.adaptive.layout.PaneAdaptedValue
 import androidx.compose.material3.adaptive.navigation.rememberListDetailPaneScaffoldNavigator
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -84,6 +87,8 @@ fun TKWeekApp() {
             value = navigator.scaffoldValue,
             listPane = {
                 LazyColumn {
+                    val detailVisible =
+                        navigator.scaffoldValue[ListDetailPaneScaffoldRole.Detail] == PaneAdaptedValue.Expanded
                     items(TKWeekModule.entries) { module ->
                         ListItem(
                             headlineContent = { Text(text = stringResource(id = module.titleRes)) },
@@ -96,7 +101,19 @@ fun TKWeekApp() {
                                         contentKey = selectedModule
                                     )
                                 }
+                            },
+                            colors = when (detailVisible) {
+                                false -> ListItemDefaults.colors()
+                                true -> if (module == selectedModule) {
+                                    ListItemDefaults.colors(
+                                        containerColor = MaterialTheme.colorScheme.primaryContainer,
+                                        headlineColor = MaterialTheme.colorScheme.onPrimaryContainer
+                                    )
+                                } else {
+                                    ListItemDefaults.colors()
+                                }
                             }
+
                         )
                     }
                 }

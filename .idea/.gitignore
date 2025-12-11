@@ -33,3 +33,5 @@ AndroidProjectSystem.xml
 
 codeStyles/Project.xml
 codeStyles/codeStyleConfig.xml
+
+inspectionProfiles/*

@@ -14,6 +14,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.thomaskuenneth.tkweek.util.BottomSpace
 
 @Composable
 fun TKWeekModuleSelector(
@@ -37,6 +38,9 @@ fun TKWeekModuleSelector(
                     supportingColor = if (selected) MaterialTheme.colorScheme.onSecondaryContainer else MaterialTheme.colorScheme.onSurfaceVariant
                 )
             )
+        }
+        item {
+            BottomSpace()
         }
     }
 }

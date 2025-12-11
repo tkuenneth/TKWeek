@@ -14,7 +14,7 @@
 
     <application
         android:name=".TKWeekApplication"
-        android.allowBackup="true"
+        android:allowBackup="true"
         android:enableOnBackInvokedCallback="true"
         android:fullBackupOnly="true"
         android:icon="@mipmap/ic_launcher"
@@ -26,7 +26,7 @@
         <activity
             android:name=".activity.TKWeekCompose"
             android:exported="true"
-            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar">
+            android:theme="@style/Theme.Material3.DayNight.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />

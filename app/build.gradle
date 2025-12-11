@@ -1,11 +1,13 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
+apply plugin: 'org.jetbrains.kotlin.plugin.compose'
 
 android {
     compileSdk 36
 
     buildFeatures {
         viewBinding true
+        compose true
     }
 
     defaultConfig {
@@ -24,8 +26,8 @@ android {
     }
 
     compileOptions {
-        targetCompatibility = JavaVersion.VERSION_17
         sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
 
     kotlinOptions {
@@ -41,6 +43,21 @@ android {
 }
 
 dependencies {
+    implementation(platform("androidx.compose:compose-bom:2024.06.00"))
+    implementation("androidx.compose.ui:ui")
+    implementation("androidx.compose.ui:ui-graphics")
+    implementation("androidx.compose.ui:ui-tooling-preview")
+
+    implementation(libs.androidx.material3.adaptive.navigation.suite)
+    implementation(libs.androidx.material3.adaptive.layout)
+    implementation(libs.androidx.material3.adaptive.navigation)
+
+    implementation(libs.androidx.compose.material.icons.extended)
+
+    implementation("androidx.compose.material3:material3")
+    implementation("androidx.compose.material3:material3-adaptive-navigation-suite:1.4.0")
+    implementation "androidx.activity:activity-compose:1.10.0"
+
     implementation 'androidx.annotation:annotation:1.9.1'
     implementation 'androidx.appcompat:appcompat:1.7.1'
     implementation "androidx.activity:activity-ktx:1.11.0"
@@ -55,4 +72,5 @@ dependencies {
 
 repositories {
     mavenCentral()
+    google()
 }

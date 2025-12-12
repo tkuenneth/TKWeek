@@ -334,8 +334,8 @@ class TKWeekActivity : TKWeekBaseActivity() {
             requestCode: Int,
             clazz: Class<*>
         ): PendingIntent {
-            val intent = Intent(context, TKWeekActivity::class.java)
-            intent.putExtra(CLAZZ, clazz)
+            val intent = Intent(context, TKWeekCompose::class.java)
+            intent.putExtra(CLAZZ, clazz.name)
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
                 intent.identifier = UUID.randomUUID().toString()
             }

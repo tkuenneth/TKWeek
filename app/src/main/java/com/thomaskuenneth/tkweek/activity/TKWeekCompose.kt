@@ -36,6 +36,7 @@ import androidx.compose.ui.viewinterop.AndroidView
 import androidx.fragment.app.FragmentContainerView
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.thomaskuenneth.tkweek.R
+import com.thomaskuenneth.tkweek.fragment.CLAZZ
 import com.thomaskuenneth.tkweek.viewmodel.TKWeekViewModel
 import com.thomaskuenneth.tkweek.viewmodel.UiState
 import dagger.hilt.android.AndroidEntryPoint
@@ -49,6 +50,11 @@ class TKWeekCompose : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        intent?.getStringExtra(CLAZZ)?.let { clazzName ->
+            TKWeekModule.entries.firstOrNull { it.clazz.name == clazzName }?.let {
+                viewModel.setModule(it)
+            }
+        }
         enableEdgeToEdge()
         setContent {
             TKWeekApp(viewModel)

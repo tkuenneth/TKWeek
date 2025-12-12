@@ -8,6 +8,7 @@ import androidx.compose.material3.ListItemDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.key
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
@@ -25,18 +26,20 @@ fun TKWeekModuleSelector(
     LazyColumn(modifier = modifier) {
         items(TKWeekModule.entries) { module ->
             val selected = detailVisible && module == uiState.selectedModule.module
-            ListItem(
-                headlineContent = { Text(text = stringResource(id = module.titleRes)) },
-                supportingContent = { Text(text = stringResource(id = module.descriptionRes)) },
-                modifier = Modifier
-                    .clip(MaterialTheme.shapes.large)
-                    .clickable { onModuleSelected(module) },
-                colors = ListItemDefaults.colors(
-                    containerColor = if (selected) MaterialTheme.colorScheme.secondaryContainer else Color.Transparent,
-                    headlineColor = if (selected) MaterialTheme.colorScheme.onSecondaryContainer else MaterialTheme.colorScheme.onSurface,
-                    supportingColor = if (selected) MaterialTheme.colorScheme.onSecondaryContainer else MaterialTheme.colorScheme.onSurfaceVariant
+            key(uiState.selectedModule.module) {
+                ListItem(
+                    headlineContent = { Text(text = stringResource(id = module.titleRes)) },
+                    supportingContent = { Text(text = stringResource(id = module.descriptionRes)) },
+                    modifier = Modifier
+                        .clip(MaterialTheme.shapes.large)
+                        .clickable { onModuleSelected(module) },
+                    colors = ListItemDefaults.colors(
+                        containerColor = if (selected) MaterialTheme.colorScheme.secondaryContainer else Color.Transparent,
+                        headlineColor = if (selected) MaterialTheme.colorScheme.onSecondaryContainer else MaterialTheme.colorScheme.onSurface,
+                        supportingColor = if (selected) MaterialTheme.colorScheme.onSecondaryContainer else MaterialTheme.colorScheme.onSurfaceVariant
+                    )
                 )
-            )
+            }
         }
         item {
             BottomSpace()

@@ -82,7 +82,7 @@ abstract class TKWeekBaseFragment<T> : TKWeekHiltBaseFragment() {
             intent.putExtra(TITLE, getString(module.titleRes))
             intent.putExtra(PAYLOAD, payload)
             intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
-//        viewModel.setModule(module = module, null)
+        viewModel.setModule(module = module, intent.extras)
     }
 
     fun showDialog(fragment: DialogFragment) {

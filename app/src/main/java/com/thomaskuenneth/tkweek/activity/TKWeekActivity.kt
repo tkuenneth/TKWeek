@@ -44,7 +44,6 @@ import androidx.window.layout.FoldingFeature
 import androidx.window.layout.FoldingFeature.Orientation.Companion.VERTICAL
 import androidx.window.layout.WindowInfoTracker
 import androidx.window.layout.WindowMetricsCalculator
-import com.thomaskuenneth.tkweek.BootCompleteReceiver
 import com.thomaskuenneth.tkweek.R
 import com.thomaskuenneth.tkweek.databinding.TkweekBinding
 import com.thomaskuenneth.tkweek.fragment.CLAZZ
@@ -72,7 +71,6 @@ class TKWeekActivity : TKWeekBaseActivity() {
         backing = TkweekBinding.inflate(layoutInflater, null, false)
         setContentView(binding.root)
         configureActionBar()
-        BootCompleteReceiver.startAlarm(this, true)
         // Clean up some settings from older versions
         val prefs =
             getSharedPreferences("PickCountriesPreference", MODE_PRIVATE)

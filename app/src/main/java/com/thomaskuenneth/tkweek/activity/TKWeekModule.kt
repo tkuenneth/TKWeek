@@ -9,6 +9,7 @@ import com.thomaskuenneth.tkweek.fragment.CalendarFragment
 import com.thomaskuenneth.tkweek.fragment.DateCalculatorFragment
 import com.thomaskuenneth.tkweek.fragment.DaysBetweenDatesFragment
 import com.thomaskuenneth.tkweek.fragment.MyDayFragment
+import com.thomaskuenneth.tkweek.fragment.PreferencesFragment
 import com.thomaskuenneth.tkweek.fragment.WeekFragment
 
 enum class TKWeekModule(
@@ -50,6 +51,11 @@ enum class TKWeekModule(
         R.string.calendar_activity_text1,
         R.string.calendar_activity_text2,
         CalendarFragment::class.java
+    ),
+    Prefs(
+        R.string.settings,
+        R.string.set_alarm_description,
+        PreferencesFragment::class.java
     ),
     About(
         R.string.about_activity_text1,

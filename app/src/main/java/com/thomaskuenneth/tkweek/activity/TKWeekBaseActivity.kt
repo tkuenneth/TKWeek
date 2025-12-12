@@ -37,7 +37,6 @@ import androidx.window.layout.WindowMetricsCalculator
 import com.google.android.material.appbar.AppBarLayout
 import com.thomaskuenneth.tkweek.R
 import com.thomaskuenneth.tkweek.fragment.TKWeekBaseFragment
-import com.thomaskuenneth.tkweek.util.TKWeekUtils.RQ_TKWEEK_PREFS
 
 abstract class TKWeekBaseActivity : AppCompatActivity() {
 
@@ -70,9 +69,7 @@ abstract class TKWeekBaseActivity : AppCompatActivity() {
     @Deprecated("Deprecated in Java")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == RQ_TKWEEK_PREFS) {
-            preferencesFinished(resultCode, data)
-        }
+        preferencesFinished(resultCode, data)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -90,8 +87,10 @@ abstract class TKWeekBaseActivity : AppCompatActivity() {
             }
 
             R.id.annual_event_prefs -> {
-                val i = Intent(this, TKWeekPrefsActivity::class.java)
-                startActivityForResult(i, RQ_TKWEEK_PREFS)
+                val intent = Intent(this, TKWeekActivity::class.java).apply {
+                    putExtra(TKWeekActivity.EXTRA_MODULE, TKWeekModule.Prefs.name)
+                }
+                startActivity(intent)
                 true
             }
 

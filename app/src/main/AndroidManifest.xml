@@ -32,9 +32,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".activity.TKWeekPrefsActivity"
-            android:label="@string/settings" />
 
         <receiver
             android:name=".appwidget.EventsListWidget"

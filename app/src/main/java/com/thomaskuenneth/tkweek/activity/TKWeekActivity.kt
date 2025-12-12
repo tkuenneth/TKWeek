@@ -184,6 +184,8 @@ class TKWeekActivity : TKWeekBaseActivity() {
 
     companion object {
 
+        const val EXTRA_MODULE = "module"
+
         const val DASHES = "---"
 
         const val MINUTES_PER_DAY = 24 * 60

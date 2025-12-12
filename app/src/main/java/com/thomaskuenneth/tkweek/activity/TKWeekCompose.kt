@@ -7,7 +7,6 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.displayCutout
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
@@ -15,6 +14,7 @@ import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.adaptive.ExperimentalMaterial3AdaptiveApi
@@ -33,9 +33,6 @@ import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.viewinterop.AndroidView
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentContainerView
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.thomaskuenneth.tkweek.R
 import com.thomaskuenneth.tkweek.TKWeekModule
@@ -43,8 +40,8 @@ import com.thomaskuenneth.tkweek.fragment.CLAZZ
 import com.thomaskuenneth.tkweek.fragment.PAYLOAD
 import com.thomaskuenneth.tkweek.ui.TKWeekModuleContainer
 import com.thomaskuenneth.tkweek.ui.TKWeekModuleSelector
+import com.thomaskuenneth.tkweek.ui.colorScheme
 import com.thomaskuenneth.tkweek.viewmodel.TKWeekViewModel
-import com.thomaskuenneth.tkweek.viewmodel.UiState
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import kotlin.math.max
@@ -81,71 +78,82 @@ fun TKWeekApp(viewModel: TKWeekViewModel = viewModel()) {
     val navigator = rememberListDetailPaneScaffoldNavigator<TKWeekModule>()
     val scope = rememberCoroutineScope()
     val uiState by viewModel.uiState.collectAsState()
-    LaunchedEffect(Unit) {
-        viewModel.navigationTrigger.collect {
-            uiState.modules.lastOrNull()?.let {
-                navigator.navigateTo(
-                    pane = ListDetailPaneScaffoldRole.Detail,
-                    contentKey = it.module
-                )
+    val listVisible =
+        navigator.scaffoldValue[ListDetailPaneScaffoldRole.List] == PaneAdaptedValue.Expanded
+    val detailVisible =
+        navigator.scaffoldValue[ListDetailPaneScaffoldRole.Detail] == PaneAdaptedValue.Expanded
+    MaterialTheme(
+        colorScheme = colorScheme()
+    ) {
+        LaunchedEffect(Unit) {
+            viewModel.navigationTrigger.collect {
+                uiState.modules.lastOrNull()?.let {
+                    navigator.navigateTo(
+                        pane = ListDetailPaneScaffoldRole.Detail,
+                        contentKey = it.module
+                    )
+                }
             }
         }
-    }
-    Scaffold(
-        contentWindowInsets = WindowInsets(),
-        topBar = {
-            CenterAlignedTopAppBar(
-                title = { Text(text = stringResource(id = R.string.app_name)) },
-                navigationIcon = {
-                    val hasStackedModules = uiState.modules.size > 1
-                    if (navigator.canNavigateBack() || hasStackedModules) {
-                        IconButton(onClick = {
-                            if (hasStackedModules) {
-                                viewModel.popModule()
-                            } else {
-                                scope.launch {
-                                    navigator.navigateBack()
+        val module = uiState.modules.last()
+        Scaffold(
+            contentWindowInsets = WindowInsets(),
+            topBar = {
+                CenterAlignedTopAppBar(
+                    title = { Text(text = stringResource(if (listVisible) R.string.app_name else module.module.titleRes)) },
+                    navigationIcon = {
+                        val hasStackedModules = uiState.modules.size > 1
+                        if (navigator.canNavigateBack() || hasStackedModules) {
+                            IconButton(onClick = {
+                                if (hasStackedModules) {
+                                    viewModel.popModule()
+                                } else {
+                                    scope.launch {
+                                        navigator.navigateBack()
+                                    }
                                 }
+                            }) {
+                                Icon(
+                                    imageVector = Icons.AutoMirrored.Default.ArrowBack,
+                                    contentDescription = null
+                                )
                             }
-                        }) {
-                            Icon(
-                                imageVector = Icons.AutoMirrored.Default.ArrowBack,
-                                contentDescription = null
-                            )
                         }
                     }
+                )
+            }
+        ) { paddingValues ->
+            val displayCutoutInsets = WindowInsets.displayCutout
+            val density = LocalDensity.current
+            val layoutDirection = LocalLayoutDirection.current
+            val left = displayCutoutInsets.getLeft(density, layoutDirection)
+            val right = displayCutoutInsets.getRight(density, layoutDirection)
+            val horizontalPadding = with(density) { max(left, right).toDp() }.coerceAtLeast(16.dp)
+            NavigableListDetailPaneScaffold(
+                navigator = navigator,
+                modifier = Modifier
+                    .padding(paddingValues)
+                    .padding(horizontal = horizontalPadding),
+                listPane = {
+                    TKWeekModuleSelector(
+                        uiState = uiState,
+                        onModuleSelected = { module ->
+                            viewModel.selectModule(
+                                module = module,
+                                arguments = null,
+                                replace = true
+                            )
+                        },
+                        detailVisible = detailVisible
+                    )
+                },
+                detailPane = {
+                    TKWeekModuleContainer(
+                        uiState = uiState
+                    )
                 }
             )
         }
-    ) { paddingValues ->
-        val displayCutoutInsets = WindowInsets.displayCutout
-        val density = LocalDensity.current
-        val layoutDirection = LocalLayoutDirection.current
-        val left = displayCutoutInsets.getLeft(density, layoutDirection)
-        val right = displayCutoutInsets.getRight(density, layoutDirection)
-        val horizontalPadding = with(density) { max(left, right).toDp() }.coerceAtLeast(16.dp)
-        val detailVisible =
-            navigator.scaffoldValue[ListDetailPaneScaffoldRole.Detail] == PaneAdaptedValue.Expanded
-        NavigableListDetailPaneScaffold(
-            navigator = navigator,
-            modifier = Modifier
-                .padding(paddingValues)
-                .padding(horizontal = horizontalPadding),
-            listPane = {
-                TKWeekModuleSelector(
-                    uiState = uiState,
-                    onModuleSelected = { module ->
-                        viewModel.selectModule(module = module, arguments = null, replace = true)
-                    },
-                    detailVisible = detailVisible
-                )
-            },
-            detailPane = {
-                TKWeekModuleContainer(
-                    uiState = uiState
-                )
-            }
-        )
     }
 }
 

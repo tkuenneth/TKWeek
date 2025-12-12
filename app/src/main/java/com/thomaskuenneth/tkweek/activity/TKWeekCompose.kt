@@ -27,7 +27,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalDensity
@@ -85,6 +88,7 @@ fun TKWeekApp(viewModel: TKWeekViewModel = viewModel()) {
     val detailVisible =
         navigator.scaffoldValue[ListDetailPaneScaffoldRole.Detail] == PaneAdaptedValue.Expanded
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
+    var isListAtTop by remember { mutableStateOf(true) }
     MaterialTheme(
         colorScheme = colorScheme()
     ) {
@@ -102,6 +106,13 @@ fun TKWeekApp(viewModel: TKWeekViewModel = viewModel()) {
         LaunchedEffect(Unit) {
             viewModel.fragmentScrollDelta.collect {
                 topAppBarState.contentOffset -= it
+            }
+        }
+        LaunchedEffect(Unit) {
+            viewModel.resetScrollTrigger.collect {
+                if (isListAtTop) {
+                    topAppBarState.contentOffset = 0f
+                }
             }
         }
         val module = uiState.modules.last()
@@ -158,12 +169,14 @@ fun TKWeekApp(viewModel: TKWeekViewModel = viewModel()) {
                                 replace = true
                             )
                         },
-                        detailVisible = detailVisible
+                        detailVisible = detailVisible,
+                        onListStateChanged = { isListAtTop = it }
                     )
                 },
                 detailPane = {
                     TKWeekModuleContainer(
-                        uiState = uiState
+                        uiState = uiState,
+                        onResetScroll = { viewModel.resetScroll() }
                     )
                 }
             )

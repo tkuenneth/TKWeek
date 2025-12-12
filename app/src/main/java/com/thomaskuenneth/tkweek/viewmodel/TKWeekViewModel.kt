@@ -43,8 +43,15 @@ class TKWeekViewModel @Inject constructor() : ViewModel() {
     )
     val fragmentScrollDelta = _fragmentScrollDelta.asSharedFlow()
 
+    private val _resetScrollTrigger = Channel<Unit>(Channel.CONFLATED)
+    val resetScrollTrigger = _resetScrollTrigger.receiveAsFlow()
+
     fun onFragmentScrolled(deltaY: Float) {
         _fragmentScrollDelta.tryEmit(deltaY)
+    }
+
+    fun resetScroll() {
+        _resetScrollTrigger.trySend(Unit)
     }
 
     fun selectModule(module: TKWeekModule, arguments: Bundle?, replace: Boolean) {

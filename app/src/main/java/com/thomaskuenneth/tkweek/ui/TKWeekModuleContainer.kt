@@ -19,7 +19,8 @@ import com.thomaskuenneth.tkweek.viewmodel.UiState
 @OptIn(ExperimentalMaterial3AdaptiveApi::class)
 @Composable
 fun ThreePaneScaffoldPaneScope.TKWeekModuleContainer(
-    uiState: UiState
+    uiState: UiState,
+    onResetScroll: () -> Unit
 ) {
     AnimatedPane {
         val context = LocalContext.current
@@ -42,6 +43,7 @@ fun ThreePaneScaffoldPaneScope.TKWeekModuleContainer(
                 .commit()
 
             onDispose {
+                onResetScroll()
                 fragmentManager.findFragmentByTag(moduleName)?.let {
                     // Safe to use allowingStateLoss here because if the state is lost,
                     // the fragment will be restored and then cleaned up by the block above

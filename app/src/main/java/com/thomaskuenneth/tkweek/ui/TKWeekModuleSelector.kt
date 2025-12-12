@@ -3,6 +3,7 @@ package com.thomaskuenneth.tkweek.ui
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.ListItemDefaults
 import androidx.compose.material3.MaterialTheme
@@ -11,6 +12,7 @@ import androidx.compose.material3.adaptive.ExperimentalMaterial3AdaptiveApi
 import androidx.compose.material3.adaptive.layout.AnimatedPane
 import androidx.compose.material3.adaptive.layout.ThreePaneScaffoldPaneScope
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.key
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -26,10 +28,18 @@ fun ThreePaneScaffoldPaneScope.TKWeekModuleSelector(
     uiState: UiState,
     onModuleSelected: (TKWeekModule) -> Unit,
     detailVisible: Boolean,
+    onListStateChanged: (Boolean) -> Unit,
     modifier: Modifier = Modifier
 ) {
     AnimatedPane {
-        LazyColumn(modifier = modifier) {
+        val lazyListState = rememberLazyListState()
+        LaunchedEffect(lazyListState.firstVisibleItemIndex, lazyListState.firstVisibleItemScrollOffset) {
+            onListStateChanged(lazyListState.firstVisibleItemIndex == 0 && lazyListState.firstVisibleItemScrollOffset == 0)
+        }
+        LazyColumn(
+            state = lazyListState,
+            modifier = modifier
+        ) {
             items(TKWeekModule.entries) { entry ->
                 with(uiState.modules.last()) {
                     val selected = detailVisible && module == entry

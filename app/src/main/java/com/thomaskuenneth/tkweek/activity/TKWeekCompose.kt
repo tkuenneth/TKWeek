@@ -82,7 +82,7 @@ fun TKWeekApp(viewModel: TKWeekViewModel = viewModel()) {
         viewModel.navigationTrigger.consumeAsFlow().collect {
             navigator.navigateTo(
                 pane = ListDetailPaneScaffoldRole.Detail,
-                contentKey = uiState.modules.first().module
+                contentKey = uiState.modules.last().module
             )
         }
     }
@@ -92,10 +92,15 @@ fun TKWeekApp(viewModel: TKWeekViewModel = viewModel()) {
             CenterAlignedTopAppBar(
                 title = { Text(text = stringResource(id = R.string.app_name)) },
                 navigationIcon = {
-                    if (navigator.canNavigateBack()) {
+                    val hasStackedModules = uiState.modules.size > 1
+                    if (navigator.canNavigateBack() || hasStackedModules) {
                         IconButton(onClick = {
-                            scope.launch {
-                                navigator.navigateBack()
+                            if (hasStackedModules) {
+                                viewModel.popModule()
+                            } else {
+                                scope.launch {
+                                    navigator.navigateBack()
+                                }
                             }
                         }) {
                             Icon(
@@ -151,7 +156,7 @@ fun FragmentContainer(
             }
         },
         update = { view ->
-            with(uiState.modules.first()) {
+            with(uiState.modules.last()) {
                 val fragmentManager = (view.context as AppCompatActivity).supportFragmentManager
                 val fragment =
                     module.clazz.getConstructor()

@@ -43,4 +43,12 @@ class TKWeekViewModel @Inject constructor() : ViewModel() {
         }
         navigationTrigger.trySend(Unit)
     }
+
+    fun popModule() {
+        _uiState.update {
+            it.copy(
+                modules = it.modules.subList(0, it.modules.size - 1)
+            )
+        }
+    }
 }

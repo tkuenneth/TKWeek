@@ -25,7 +25,7 @@ fun TKWeekModuleSelector(
 ) {
     LazyColumn(modifier = modifier) {
         items(TKWeekModule.entries) { entry ->
-            with(uiState.modules.first()) {
+            with(uiState.modules.last()) {
                 val selected = detailVisible && module == entry
                 key(entry) {
                     ListItem(

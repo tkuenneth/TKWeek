@@ -17,6 +17,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.adaptive.ExperimentalMaterial3AdaptiveApi
 import androidx.compose.material3.adaptive.layout.ListDetailPaneScaffoldRole
 import androidx.compose.material3.adaptive.layout.PaneAdaptedValue
@@ -28,6 +29,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.stringResource
@@ -82,6 +84,7 @@ fun TKWeekApp(viewModel: TKWeekViewModel = viewModel()) {
         navigator.scaffoldValue[ListDetailPaneScaffoldRole.List] == PaneAdaptedValue.Expanded
     val detailVisible =
         navigator.scaffoldValue[ListDetailPaneScaffoldRole.Detail] == PaneAdaptedValue.Expanded
+    val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
     MaterialTheme(
         colorScheme = colorScheme()
     ) {
@@ -97,6 +100,7 @@ fun TKWeekApp(viewModel: TKWeekViewModel = viewModel()) {
         }
         val module = uiState.modules.last()
         Scaffold(
+            modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
             contentWindowInsets = WindowInsets(),
             topBar = {
                 CenterAlignedTopAppBar(
@@ -119,7 +123,11 @@ fun TKWeekApp(viewModel: TKWeekViewModel = viewModel()) {
                                 )
                             }
                         }
-                    }
+                    },
+                    scrollBehavior = scrollBehavior,
+                    colors = TopAppBarDefaults.topAppBarColors(
+                        scrolledContainerColor = MaterialTheme.colorScheme.surfaceContainer
+                    )
                 )
             }
         ) { paddingValues ->

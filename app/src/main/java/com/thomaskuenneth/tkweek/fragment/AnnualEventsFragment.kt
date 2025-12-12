@@ -320,7 +320,7 @@ class AnnualEventsFragment : TKWeekBaseFragment<EventsBinding>(), AdapterView.On
             MENU_DAYS_BETWEEN_DATES -> {
                 val payload = Bundle()
                 payload.putLong(DATE, date.time)
-                launchModule(DaysBetweenDatesFragment::class.java, payload)
+                selectModule(DaysBetweenDatesFragment::class.java, payload)
                 true
             }
 
@@ -352,7 +352,7 @@ class AnnualEventsFragment : TKWeekBaseFragment<EventsBinding>(), AdapterView.On
         } else if (o as? Event? != null) {
             val payload = Bundle()
             payload.putLong(DATE, DateUtilities.getCalendar(o).time.time)
-            launchModule(MyDayFragment::class.java, payload)
+            selectModule(MyDayFragment::class.java, payload)
         }
     }
 

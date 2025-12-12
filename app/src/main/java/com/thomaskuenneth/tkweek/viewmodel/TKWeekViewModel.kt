@@ -30,7 +30,7 @@ class TKWeekViewModel @Inject constructor() : ViewModel() {
 
     val navigationTrigger: Channel<Unit> = Channel(Channel.CONFLATED)
 
-    fun setModule(module: TKWeekModule, arguments: Bundle? = null) {
+    fun selectModule(module: TKWeekModule, arguments: Bundle? = null) {
         _uiState.update {
             it.copy(
                 selectedModule = FragmentInfo(

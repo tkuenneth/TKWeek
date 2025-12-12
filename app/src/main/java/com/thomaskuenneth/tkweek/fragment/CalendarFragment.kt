@@ -78,7 +78,7 @@ class CalendarFragment : TKWeekBaseFragment<CalendarBinding>(), View.OnClickList
             updateRecentDates()
             val payload = Bundle()
             payload.putLong(DATE, it.time)
-            launchModule(MyDayFragment::class.java, payload)
+            selectModule(MyDayFragment::class.java, payload)
         }
     }
 

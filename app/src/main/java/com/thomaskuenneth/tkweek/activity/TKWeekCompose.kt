@@ -54,7 +54,7 @@ class TKWeekCompose : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         intent?.getStringExtra(CLAZZ)?.let { clazzName ->
             TKWeekModule.entries.firstOrNull { it.clazz.name == clazzName }?.let {
-                viewModel.setModule(it)
+                viewModel.selectModule(it)
             }
         }
         enableEdgeToEdge()
@@ -120,7 +120,7 @@ fun TKWeekApp(viewModel: TKWeekViewModel = viewModel()) {
                 TKWeekModuleSelector(
                     uiState = uiState,
                     onModuleSelected = { module ->
-                        viewModel.setModule(module)
+                        viewModel.selectModule(module)
                     },
                     detailVisible = detailVisible
                 )

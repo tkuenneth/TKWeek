@@ -31,12 +31,10 @@ import android.os.Bundle
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentTransaction
 import androidx.fragment.app.activityViewModels
 import androidx.preference.PreferenceManager
 import com.thomaskuenneth.tkweek.R
 import com.thomaskuenneth.tkweek.activity.ModuleContainerActivity
-import com.thomaskuenneth.tkweek.activity.TKWeekModule
 import com.thomaskuenneth.tkweek.adapter.TKWeekFragmentListAdapter
 import com.thomaskuenneth.tkweek.util.TKWeekUtils
 import com.thomaskuenneth.tkweek.viewmodel.TKWeekViewModel
@@ -70,19 +68,15 @@ abstract class TKWeekBaseFragment<T> : TKWeekHiltBaseFragment() {
         // intentionally does nothing
     }
 
-    fun launchModule(module: Class<*>, payload: Bundle?) {
+    fun selectModule(module: Class<*>, payload: Bundle?) {
         TKWeekFragmentListAdapter.find(module)?.let {
-            launchModule(it, payload)
-        }
-    }
-
-    fun launchModule(module: TKWeekModule, payload: Bundle?) {
             val intent = Intent(context, ModuleContainerActivity::class.java)
-            intent.putExtra(CLAZZ, module.clazz)
-            intent.putExtra(TITLE, getString(module.titleRes))
+            intent.putExtra(CLAZZ, it.clazz)
+            intent.putExtra(TITLE, getString(it.titleRes))
             intent.putExtra(PAYLOAD, payload)
             intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
-        viewModel.setModule(module = module, intent.extras)
+            viewModel.selectModule(module = it, intent.extras)
+        }
     }
 
     fun showDialog(fragment: DialogFragment) {

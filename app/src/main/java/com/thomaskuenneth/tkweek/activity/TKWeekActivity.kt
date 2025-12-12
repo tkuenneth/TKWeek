@@ -94,7 +94,7 @@ class TKWeekActivity : TKWeekBaseActivity() {
             it.getSerializableExtra(CLAZZ)?.let { module ->
                 it.removeExtra(CLAZZ)
                 (supportFragmentManager.findFragmentByTag(getString(R.string.tag_module_selection)) as? TKWeekFragment)?.run {
-                    launchModule(module as Class<*>, Bundle())
+                    selectModule(module as Class<*>, Bundle())
                 }
             }
         }

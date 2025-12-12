@@ -55,7 +55,7 @@ class TKWeekFragment : TKWeekBaseFragment<TkweekfragmentBinding>() {
         binding.listView.setOnItemClickListener { _, _, position, _ ->
             PreferenceManager.getDefaultSharedPreferences(requireContext()).edit()
                 .putInt(KEY_LAST_SELECTED, position).apply()
-            launchModule(TKWeekFragmentListAdapter.get(position) as TKWeekModule, null)
+            selectModule((TKWeekFragmentListAdapter.get(position) as TKWeekModule).clazz, null)
         }
         return binding.root
     }

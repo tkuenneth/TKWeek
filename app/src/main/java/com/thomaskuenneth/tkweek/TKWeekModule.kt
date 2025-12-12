@@ -1,7 +1,6 @@
-package com.thomaskuenneth.tkweek.activity
+package com.thomaskuenneth.tkweek
 
 import androidx.annotation.StringRes
-import com.thomaskuenneth.tkweek.R
 import com.thomaskuenneth.tkweek.fragment.AboutFragment
 import com.thomaskuenneth.tkweek.fragment.AboutYearFragment
 import com.thomaskuenneth.tkweek.fragment.AnnualEventsFragment

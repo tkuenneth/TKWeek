@@ -31,7 +31,7 @@ import android.widget.ListView
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.preference.PreferenceManager
-import com.thomaskuenneth.tkweek.activity.TKWeekModule
+import com.thomaskuenneth.tkweek.TKWeekModule
 import com.thomaskuenneth.tkweek.adapter.TKWeekFragmentListAdapter
 import com.thomaskuenneth.tkweek.databinding.TkweekfragmentBinding
 import kotlin.math.max

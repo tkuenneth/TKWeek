@@ -25,9 +25,11 @@ package com.thomaskuenneth.tkweek
 
 import android.content.Context
 import android.widget.TextView
+import androidx.core.content.edit
 import com.thomaskuenneth.tkweek.util.Helper
 import java.text.ParseException
-import java.util.*
+import java.util.Arrays
+import java.util.Date
 
 private const val numRecents = 3
 private val recents = arrayOfNulls<String>(numRecents)
@@ -68,14 +70,14 @@ fun addDate(context: Context, key: String, date: Date) {
             key,
             Context.MODE_PRIVATE
         )
-        val e = prefs.edit()
-        var pos = prefs.getInt("recent_next", 0)
-        e.putString(getRecentKey(pos), string)
-        if (++pos >= 3) {
-            pos = 0
+        prefs.edit {
+            var pos = prefs.getInt("recent_next", 0)
+            putString(getRecentKey(pos), string)
+            if (++pos >= 3) {
+                pos = 0
+            }
+            putInt("recent_next", pos)
         }
-        e.putInt("recent_next", pos)
-        e.apply()
     }
 }
 

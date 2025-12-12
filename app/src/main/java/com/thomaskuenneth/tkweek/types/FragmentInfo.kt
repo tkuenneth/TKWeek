@@ -2,7 +2,7 @@ package com.thomaskuenneth.tkweek.types
 
 import android.os.Bundle
 import androidx.compose.runtime.saveable.listSaver
-import com.thomaskuenneth.tkweek.activity.TKWeekModule
+import com.thomaskuenneth.tkweek.TKWeekModule
 
 data class FragmentInfo(val module: TKWeekModule, val arguments: Bundle?)
 

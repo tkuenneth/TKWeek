@@ -33,7 +33,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.thomaskuenneth.tkweek.R;
-import com.thomaskuenneth.tkweek.activity.TKWeekModule;
+import com.thomaskuenneth.tkweek.TKWeekModule;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;

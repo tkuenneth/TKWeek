@@ -36,6 +36,7 @@ import androidx.window.layout.WindowMetrics
 import androidx.window.layout.WindowMetricsCalculator
 import com.google.android.material.appbar.AppBarLayout
 import com.thomaskuenneth.tkweek.R
+import com.thomaskuenneth.tkweek.TKWeekModule
 import com.thomaskuenneth.tkweek.fragment.TKWeekBaseFragment
 import com.thomaskuenneth.tkweek.util.Helper
 

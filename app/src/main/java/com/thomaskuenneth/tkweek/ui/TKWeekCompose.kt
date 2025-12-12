@@ -1,4 +1,4 @@
-package com.thomaskuenneth.tkweek.activity
+package com.thomaskuenneth.tkweek.ui
 
 import android.os.Bundle
 import androidx.activity.compose.setContent
@@ -34,9 +34,11 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentContainerView
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.thomaskuenneth.tkweek.R
+import com.thomaskuenneth.tkweek.TKWeekModule
 import com.thomaskuenneth.tkweek.fragment.CLAZZ
 import com.thomaskuenneth.tkweek.fragment.PAYLOAD
 import com.thomaskuenneth.tkweek.viewmodel.TKWeekViewModel
@@ -161,7 +163,7 @@ fun FragmentContainer(
                 val fragmentManager = (view.context as AppCompatActivity).supportFragmentManager
                 val fragment =
                     module.clazz.getConstructor()
-                        .newInstance() as androidx.fragment.app.Fragment
+                        .newInstance() as Fragment
                 fragment.arguments = arguments
                 fragmentManager.beginTransaction()
                     .replace(view.id, fragment)

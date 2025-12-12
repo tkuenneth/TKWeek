@@ -44,7 +44,7 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.thomaskuenneth.tkweek.R;
-import com.thomaskuenneth.tkweek.activity.TKWeekModule;
+import com.thomaskuenneth.tkweek.TKWeekModule;
 import com.thomaskuenneth.tkweek.adapter.TKWeekFragmentListAdapter;
 import com.thomaskuenneth.tkweek.viewmodel.TKWeekViewModel;
 

@@ -2,7 +2,7 @@ package com.thomaskuenneth.tkweek.viewmodel
 
 import android.os.Bundle
 import androidx.lifecycle.ViewModel
-import com.thomaskuenneth.tkweek.activity.TKWeekModule
+import com.thomaskuenneth.tkweek.TKWeekModule
 import com.thomaskuenneth.tkweek.types.FragmentInfo
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel

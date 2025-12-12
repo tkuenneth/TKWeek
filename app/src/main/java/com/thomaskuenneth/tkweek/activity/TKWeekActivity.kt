@@ -27,6 +27,7 @@ import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.widget.LinearLayout
+import androidx.core.content.edit
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -40,9 +41,6 @@ import com.thomaskuenneth.tkweek.databinding.TkweekBinding
 import com.thomaskuenneth.tkweek.fragment.CLAZZ
 import com.thomaskuenneth.tkweek.fragment.TKWeekFragment
 import kotlinx.coroutines.launch
-
-
-private const val TAG = "TKWeekActivity"
 
 class TKWeekActivity : TKWeekBaseActivity() {
 
@@ -59,9 +57,8 @@ class TKWeekActivity : TKWeekBaseActivity() {
         // Clean up some settings from older versions
         val prefs =
             getSharedPreferences("PickCountriesPreference", MODE_PRIVATE)
-        prefs.edit().run {
+        prefs.edit {
             prefs.all.forEach { (key: String?, _: Any?) -> remove(key) }
-            apply()
         }
         tracker = WindowInfoTracker.getOrCreate(this)
         lifecycleScope.launch {

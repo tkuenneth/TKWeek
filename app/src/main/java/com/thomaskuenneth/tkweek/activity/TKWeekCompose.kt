@@ -42,7 +42,6 @@ import com.thomaskuenneth.tkweek.fragment.PAYLOAD
 import com.thomaskuenneth.tkweek.viewmodel.TKWeekViewModel
 import com.thomaskuenneth.tkweek.viewmodel.UiState
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.consumeAsFlow
 import kotlinx.coroutines.launch
 import kotlin.math.max
 
@@ -78,8 +77,8 @@ fun TKWeekApp(viewModel: TKWeekViewModel = viewModel()) {
     val navigator = rememberListDetailPaneScaffoldNavigator<TKWeekModule>()
     val scope = rememberCoroutineScope()
     val uiState by viewModel.uiState.collectAsState()
-    LaunchedEffect(Unit) {
-        viewModel.navigationTrigger.consumeAsFlow().collect {
+    LaunchedEffect(uiState.modules.last()) {
+        viewModel.navigationTrigger.collect {
             navigator.navigateTo(
                 pane = ListDetailPaneScaffoldRole.Detail,
                 contentKey = uiState.modules.last().module

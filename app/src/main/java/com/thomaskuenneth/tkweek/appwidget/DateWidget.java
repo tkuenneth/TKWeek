@@ -29,7 +29,7 @@ import android.content.Context;
 import android.widget.RemoteViews;
 
 import com.thomaskuenneth.tkweek.R;
-import com.thomaskuenneth.tkweek.activity.TKWeekActivity;
+import com.thomaskuenneth.tkweek.util.Helper;
 import com.thomaskuenneth.tkweek.fragment.MyDayFragment;
 
 import java.util.Calendar;
@@ -52,12 +52,12 @@ public class DateWidget extends AppWidgetProvider {
         Calendar cal = Calendar.getInstance();
         String day = Integer.toString(cal.get(Calendar.DAY_OF_MONTH));
         Date date = cal.getTime();
-        String weekday = TKWeekActivity.FORMAT_DAY_OF_WEEK_SHORT.format(date);
-        String month = TKWeekActivity.FORMAT_MONTH_SHORT.format(date);
+        String weekday = Helper.FORMAT_DAY_OF_WEEK_SHORT.format(date);
+        String month = Helper.FORMAT_MONTH_SHORT.format(date);
         updateViews.setTextViewText(R.id.text_month, month);
         updateViews.setTextViewText(R.id.text_day, day);
         updateViews.setTextViewText(R.id.text_weekday, weekday);
-        updateViews.setOnClickPendingIntent(R.id.date_widget_id, TKWeekActivity.createPendingIntentToLaunchTKWeek(context, REQUEST_CODE_DATE_WIDGET, MyDayFragment.class));
+        updateViews.setOnClickPendingIntent(R.id.date_widget_id, Helper.createPendingIntentToLaunchTKWeek(context, REQUEST_CODE_DATE_WIDGET, MyDayFragment.class));
         appWidgetManager.updateAppWidget(appWidgetIds, updateViews);
     }
 }

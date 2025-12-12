@@ -50,7 +50,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import com.thomaskuenneth.tkweek.AlarmReceiver
 import com.thomaskuenneth.tkweek.R
-import com.thomaskuenneth.tkweek.activity.TKWeekActivity
+import com.thomaskuenneth.tkweek.util.Helper
 import com.thomaskuenneth.tkweek.adapter.AnnualEventsListAdapter
 import com.thomaskuenneth.tkweek.adapter.AnnualEventsListAdapter.getUserEventsFile
 import com.thomaskuenneth.tkweek.databinding.EventsBinding
@@ -386,8 +386,8 @@ class AnnualEventsFragment : TKWeekBaseFragment<EventsBinding>(), AdapterView.On
                 listAdapter?.updateEventsListWidgets(requireContext())
                 binding.header.text = getString(
                     R.string.string1_dash_string2,
-                    TKWeekActivity.FORMAT_DEFAULT.format(listAdapter?.from?.time ?: Date()),
-                    TKWeekActivity.FORMAT_DEFAULT.format(listAdapter?.to?.time ?: Date())
+                    Helper.FORMAT_DEFAULT.format(listAdapter?.from?.time ?: Date()),
+                    Helper.FORMAT_DEFAULT.format(listAdapter?.to?.time ?: Date())
                 )
                 binding.indicator.visibility = View.GONE
             }
@@ -426,7 +426,7 @@ class AnnualEventsFragment : TKWeekBaseFragment<EventsBinding>(), AdapterView.On
             type = "text/plain"
             putExtra(
                 Intent.EXTRA_TITLE,
-                "AnnualEvents_${TKWeekActivity.FORMAT_YYYYMMDD.format(Date())}.txt"
+                "AnnualEvents_${Helper.FORMAT_YYYYMMDD.format(Date())}.txt"
             )
         }
         startActivityForResult(intent, BACKUP)

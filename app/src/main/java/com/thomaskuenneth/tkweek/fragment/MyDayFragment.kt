@@ -46,7 +46,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.setFragmentResultListener
 import androidx.preference.PreferenceManager
 import com.thomaskuenneth.tkweek.R
-import com.thomaskuenneth.tkweek.activity.TKWeekActivity
+import com.thomaskuenneth.tkweek.util.Helper
 import com.thomaskuenneth.tkweek.adapter.AnnualEventsListAdapter
 import com.thomaskuenneth.tkweek.databinding.MydayBinding
 import com.thomaskuenneth.tkweek.fragment.CalendarFragment.Companion.isDayOff
@@ -288,11 +288,11 @@ class MyDayFragment : TKWeekBaseFragment<MydayBinding>() {
         val strDate = if (DateUtilities.isToday(cal)) {
             getString(
                 R.string.string1_string2,
-                TKWeekActivity.FORMAT_FULL.format(cal.time),
+                Helper.FORMAT_FULL.format(cal.time),
                 getString(R.string.today)
             )
         } else {
-            TKWeekActivity.FORMAT_FULL.format(cal.time)
+            Helper.FORMAT_FULL.format(cal.time)
         }
         if (isDayOff(requireContext(), cal.time)) {
             binding.myDayDate.text = getString(
@@ -419,9 +419,9 @@ class MyDayFragment : TKWeekBaseFragment<MydayBinding>() {
                 val calFrom = DateUtilities.getCalendar(from)
                 val calTo = DateUtilities.getCalendar(to)
                 dateformat = if (DateUtilities.diffDayPeriods(calFrom, calTo) != 0L) {
-                    TKWeekActivity.FORMAT_DATE_TIME_SHORT
+                    Helper.FORMAT_DATE_TIME_SHORT
                 } else {
-                    TKWeekActivity.FORMAT_TIME_SHORT
+                    Helper.FORMAT_TIME_SHORT
                 }
                 val sb = StringBuilder()
                 var duration = ((appointment.dtend - appointment.dtstart) / 60000).toInt()
@@ -457,12 +457,12 @@ class MyDayFragment : TKWeekBaseFragment<MydayBinding>() {
             sb.append("\n")
         }
         when {
-            mins >= TKWeekActivity.MINUTES_PER_DAY -> {
-                val days = mins / TKWeekActivity.MINUTES_PER_DAY
+            mins >= Helper.MINUTES_PER_DAY -> {
+                val days = mins / Helper.MINUTES_PER_DAY
                 sb.append(days)
                 sb.append(" ")
                 sb.append(this.getString(if (days == 1) R.string.day else R.string.days))
-                mins %= TKWeekActivity.MINUTES_PER_DAY
+                mins %= Helper.MINUTES_PER_DAY
             }
 
             mins >= 60 -> {
@@ -532,7 +532,7 @@ class MyDayFragment : TKWeekBaseFragment<MydayBinding>() {
     }
 
     private fun getNameForNotes(): String {
-        return "Note_" + TKWeekActivity.FORMAT_YYYYMMDD.format(cal.time)
+        return "Note_" + Helper.FORMAT_YYYYMMDD.format(cal.time)
     }
 
     private fun saveNoteAndUpdateUI(note: String) {

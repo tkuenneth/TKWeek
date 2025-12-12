@@ -34,7 +34,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.thomaskuenneth.tkweek.R
-import com.thomaskuenneth.tkweek.activity.TKWeekActivity
+import com.thomaskuenneth.tkweek.util.Helper
 import com.thomaskuenneth.tkweek.databinding.AboutAYearBinding
 import com.thomaskuenneth.tkweek.types.Seasons
 import com.thomaskuenneth.tkweek.types.Seasons.SEASON
@@ -115,15 +115,15 @@ class AboutYearFragment : TKWeekBaseFragment<AboutAYearBinding>(), View.OnClickL
         // Beginn und Ende der Sommerzeit
         val dst = DaylightSavingTime(year)
         val strFrom = dst.begin.let {
-            if (it != null) TKWeekActivity.FORMAT_FULL.format(it)
-            else TKWeekActivity.DASHES
+            if (it != null) Helper.FORMAT_FULL.format(it)
+            else Helper.DASHES
         }
         val strTo = dst.end.let {
-            if (it != null) TKWeekActivity.FORMAT_FULL.format(it)
-            else TKWeekActivity.DASHES
+            if (it != null) Helper.FORMAT_FULL.format(it)
+            else Helper.DASHES
         }
         binding.aboutAYearDaylightSavingsFromTo.text =
-            if (strFrom == TKWeekActivity.DASHES || strTo == TKWeekActivity.DASHES) getString(R.string.no_daylight_savings)
+            if (strFrom == Helper.DASHES || strTo == Helper.DASHES) getString(R.string.no_daylight_savings)
             else getString(
                 R.string.string1_dash_string2, strFrom, strTo
             )
@@ -139,7 +139,7 @@ class AboutYearFragment : TKWeekBaseFragment<AboutAYearBinding>(), View.OnClickL
                     if (sb.isNotEmpty()) {
                         sb.append("\n")
                     }
-                    sb.append(TKWeekActivity.FORMAT_MONTH.format(temp.time))
+                    sb.append(Helper.FORMAT_MONTH.format(temp.time))
                 }
             } catch (e: RequiredCalendarConditionException) {
                 Log.e(TAG, "update()", e)
@@ -184,7 +184,7 @@ class AboutYearFragment : TKWeekBaseFragment<AboutAYearBinding>(), View.OnClickL
         }
         label.append(":")
         val cal = seasons.getCalendar(season, year)
-        value.text = if (cal != null) TKWeekActivity.FORMAT_FULL.format(cal.time) else "???"
+        value.text = if (cal != null) Helper.FORMAT_FULL.format(cal.time) else "???"
     }
 
     private fun getTextViews(index: Int): List<TextView> {
@@ -217,7 +217,7 @@ class AboutYearFragment : TKWeekBaseFragment<AboutAYearBinding>(), View.OnClickL
         val dayOfWeekToPos = IntArray(8) // Index 0 bleibt leer
         var info = getTextViews(0)
         for (pos in 1..7) {
-            info[pos].text = TKWeekActivity.FORMAT_DAY_OF_WEEK_SHORT.format(
+            info[pos].text = Helper.FORMAT_DAY_OF_WEEK_SHORT.format(
                 temp.time
             ).substring(0, 1)
             val dayOfWeek = temp[Calendar.DAY_OF_WEEK]
@@ -235,7 +235,7 @@ class AboutYearFragment : TKWeekBaseFragment<AboutAYearBinding>(), View.OnClickL
             info = getTextViews(month + 1)
             temp[Calendar.DAY_OF_MONTH] = 1
             temp[Calendar.MONTH] = month
-            info[0].text = TKWeekActivity.FORMAT_MONTH_SHORT.format(temp.time)
+            info[0].text = Helper.FORMAT_MONTH_SHORT.format(temp.time)
             for (day in 1..temp.getActualMaximum(Calendar.DAY_OF_MONTH)) {
                 temp[Calendar.DAY_OF_MONTH] = day
                 val weekDay = temp[Calendar.DAY_OF_WEEK]

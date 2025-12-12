@@ -41,7 +41,7 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.color.MaterialColors
 import com.thomaskuenneth.tkweek.R
-import com.thomaskuenneth.tkweek.activity.TKWeekActivity
+import com.thomaskuenneth.tkweek.util.Helper
 import com.thomaskuenneth.tkweek.adapter.MonthsAdapter
 import com.thomaskuenneth.tkweek.addDate
 import com.thomaskuenneth.tkweek.databinding.CalendarBinding
@@ -214,7 +214,7 @@ class CalendarFragment : TKWeekBaseFragment<CalendarBinding>(), View.OnClickList
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         outState.putString(
-            TAG, TKWeekActivity.FORMAT_DEFAULT.format(cal.time)
+            TAG, Helper.FORMAT_DEFAULT.format(cal.time)
         )
     }
 
@@ -267,7 +267,7 @@ class CalendarFragment : TKWeekBaseFragment<CalendarBinding>(), View.OnClickList
         temp.add(Calendar.DAY_OF_MONTH, -7)
         for (i in 1..7) {
             days[i].tag = null
-            days[i].text = TKWeekActivity.FORMAT_DAY_OF_WEEK_SHORT.format(
+            days[i].text = Helper.FORMAT_DAY_OF_WEEK_SHORT.format(
                 temp.time
             ).substring(0, 1)
             val dayOfWeek = temp[Calendar.DAY_OF_WEEK]
@@ -346,7 +346,7 @@ class CalendarFragment : TKWeekBaseFragment<CalendarBinding>(), View.OnClickList
                 TAG, Context.MODE_PRIVATE
             )
             val e = prefs.edit()
-            e.putBoolean(TKWeekActivity.FORMAT_YYYYMMDD.format(date), dayOff)
+            e.putBoolean(Helper.FORMAT_YYYYMMDD.format(date), dayOff)
             e.apply()
         }
 
@@ -362,7 +362,7 @@ class CalendarFragment : TKWeekBaseFragment<CalendarBinding>(), View.OnClickList
             val prefs = context.getSharedPreferences(
                 TAG, Context.MODE_PRIVATE
             )
-            return prefs.getBoolean(TKWeekActivity.FORMAT_YYYYMMDD.format(date), false)
+            return prefs.getBoolean(Helper.FORMAT_YYYYMMDD.format(date), false)
         }
     }
 

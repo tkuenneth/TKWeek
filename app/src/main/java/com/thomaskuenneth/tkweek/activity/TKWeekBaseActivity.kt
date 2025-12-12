@@ -37,6 +37,7 @@ import androidx.window.layout.WindowMetricsCalculator
 import com.google.android.material.appbar.AppBarLayout
 import com.thomaskuenneth.tkweek.R
 import com.thomaskuenneth.tkweek.fragment.TKWeekBaseFragment
+import com.thomaskuenneth.tkweek.util.Helper
 
 abstract class TKWeekBaseActivity : AppCompatActivity() {
 
@@ -88,7 +89,7 @@ abstract class TKWeekBaseActivity : AppCompatActivity() {
 
             R.id.annual_event_prefs -> {
                 val intent = Intent(this, TKWeekActivity::class.java).apply {
-                    putExtra(TKWeekActivity.EXTRA_MODULE, TKWeekModule.Prefs.name)
+                    putExtra(Helper.EXTRA_MODULE, TKWeekModule.Prefs.name)
                 }
                 startActivity(intent)
                 true

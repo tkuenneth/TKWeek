@@ -34,7 +34,7 @@ import android.widget.TextView;
 
 import com.thomaskuenneth.tkweek.R;
 import com.thomaskuenneth.tkweek.R.layout;
-import com.thomaskuenneth.tkweek.activity.TKWeekActivity;
+import com.thomaskuenneth.tkweek.util.Helper;
 
 import java.util.Calendar;
 
@@ -50,7 +50,7 @@ public class MonthsAsTextAdapter extends BaseAdapter {
         cal.set(Calendar.DAY_OF_MONTH, 1);
         for (int m = 0; m < 12; m++) {
             cal.set(Calendar.MONTH, m);
-            months[m] = TKWeekActivity.FORMAT_MONTH_SHORT.format(cal.getTime());
+            months[m] = Helper.FORMAT_MONTH_SHORT.format(cal.getTime());
         }
     }
 

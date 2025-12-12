@@ -29,7 +29,7 @@ import android.content.Context;
 import android.widget.RemoteViews;
 
 import com.thomaskuenneth.tkweek.R;
-import com.thomaskuenneth.tkweek.activity.TKWeekActivity;
+import com.thomaskuenneth.tkweek.util.Helper;
 import com.thomaskuenneth.tkweek.fragment.MyDayFragment;
 import com.thomaskuenneth.tkweek.util.DateUtilities;
 
@@ -57,7 +57,7 @@ public class DayOfYearWidget extends AppWidgetProvider {
         updateViews.setTextViewText(R.id.text_day, dayOfYear);
         updateViews.setTextViewText(R.id.text_weekday, year);
         updateViews.setOnClickPendingIntent(R.id.date_widget_id,
-                TKWeekActivity.createPendingIntentToLaunchTKWeek(context,
+                Helper.createPendingIntentToLaunchTKWeek(context,
                         REQUEST_CODE_DAY_OF_YEAR_WIDGET, MyDayFragment.class));
         appWidgetManager.updateAppWidget(appWidgetIds, updateViews);
     }

@@ -40,7 +40,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.thomaskuenneth.tkweek.R;
-import com.thomaskuenneth.tkweek.activity.TKWeekActivity;
+import com.thomaskuenneth.tkweek.util.Helper;
 import com.thomaskuenneth.tkweek.appwidget.EventsListWidget;
 import com.thomaskuenneth.tkweek.fragment.CalendarFragment;
 import com.thomaskuenneth.tkweek.preference.PickCountriesPreference;
@@ -362,13 +362,13 @@ public class AnnualEventsListAdapter extends BaseAdapter implements Comparator<E
     public String getDateAsString(Event event, Context context) {
         Calendar cal = DateUtilities.getCalendar(event);
         Date calTime = cal.getTime();
-        String dateAsString = TKWeekActivity.FORMAT_FULL.format(calTime);
+        String dateAsString = Helper.FORMAT_FULL.format(calTime);
         if (event.occurrences > 0) {
             if (event instanceof Birthday) {
                 long diffDays = DateUtilities.diffDayPeriods(today_cal, cal);
-                return context.getString(diffDays < 0 ? R.string.birthday_past : R.string.birthday_future, event.occurrences, TKWeekActivity.FORMAT_DAY_OF_WEEK.format(calTime), TKWeekActivity.FORMAT_MONTH.format(calTime), event.getDay(), event.getYear() - event.occurrences);
+                return context.getString(diffDays < 0 ? R.string.birthday_past : R.string.birthday_future, event.occurrences, Helper.FORMAT_DAY_OF_WEEK.format(calTime), Helper.FORMAT_MONTH.format(calTime), event.getDay(), event.getYear() - event.occurrences);
             } else if (event instanceof Anniversary) {
-                return context.getString(R.string.template_anniversary, event.occurrences, TKWeekActivity.FORMAT_DAY_OF_WEEK.format(calTime), TKWeekActivity.FORMAT_MONTH.format(calTime), event.getDay(), event.getYear() - event.occurrences);
+                return context.getString(R.string.template_anniversary, event.occurrences, Helper.FORMAT_DAY_OF_WEEK.format(calTime), Helper.FORMAT_MONTH.format(calTime), event.getDay(), event.getYear() - event.occurrences);
             }
         }
         return dateAsString;
@@ -381,7 +381,7 @@ public class AnnualEventsListAdapter extends BaseAdapter implements Comparator<E
             return context.getString(R.string.event, ((Anniversary) event).getText(), event.descr);
         }
         if (event.annuallyRepeating) {
-            return context.getString(R.string.string1_string2, event.descr, TKWeekActivity.getInfinitySymbol(context));
+            return context.getString(R.string.string1_string2, event.descr, Helper.getInfinitySymbol(context));
         }
         return event.descr;
     }
@@ -544,7 +544,7 @@ public class AnnualEventsListAdapter extends BaseAdapter implements Comparator<E
                 add(new FixedEvent(DateUtilities.getCalendar(dst_end), context.getString(R.string.dst_end), true), false);
             }
             add(new FixedEvent(DateUtilities.getMothersDay(year), context.getString(R.string.muttertag), true), false);
-            int mode = TKWeekActivity.getIntFromSharedPreferences(prefs, "fathersday", 0);
+            int mode = Helper.getIntFromSharedPreferences(prefs, "fathersday", 0);
             if (mode == 1) {
                 Calendar cal = CalendarIterator.iterateUntil(DateUtilities.getCalendar(year, Calendar.JUNE, 1), CalendarCondition.createCalendarCondition(CONDITION.EQUAL, Calendar.DAY_OF_WEEK, Calendar.SUNDAY, true), Calendar.DAY_OF_MONTH, 1);
                 cal.add(Calendar.WEEK_OF_MONTH, 2);
@@ -673,7 +673,7 @@ public class AnnualEventsListAdapter extends BaseAdapter implements Comparator<E
                     if (descr.startsWith("$$$INFINITY$$$=")) {
                         String value = descr.substring(15);
                         if (TKWeekUtils.length(value) > 0) {
-                            TKWeekActivity.setInfinitySymbol(context, value);
+                            Helper.setInfinitySymbol(context, value);
                         }
                         continue;
                     } else if (descr.startsWith("$$$TKWEEK_PREFS_")) {
@@ -683,7 +683,7 @@ public class AnnualEventsListAdapter extends BaseAdapter implements Comparator<E
                             if (pos < descr.length()) {
                                 try {
                                     int value = Integer.parseInt(descr.substring(pos));
-                                    TKWeekActivity.putInt(context, key, value);
+                                    Helper.putInt(context, key, value);
                                 } catch (NumberFormatException e) {
                                     Log.e(TAG, "could not convert to int", e);
                                 }

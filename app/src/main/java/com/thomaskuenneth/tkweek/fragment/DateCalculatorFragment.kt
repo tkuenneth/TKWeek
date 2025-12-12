@@ -31,7 +31,7 @@ import android.view.*
 import android.widget.EditText
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.thomaskuenneth.tkweek.R
-import com.thomaskuenneth.tkweek.activity.TKWeekActivity
+import com.thomaskuenneth.tkweek.util.Helper
 import com.thomaskuenneth.tkweek.databinding.DateCalculatorBinding
 import com.thomaskuenneth.tkweek.preference.PickBusinessDaysPreference
 import java.util.*
@@ -113,7 +113,7 @@ class DateCalculatorFragment : TKWeekBaseFragment<DateCalculatorBinding>() {
         } else {
             temp.add(Calendar.DAY_OF_MONTH, getInt(binding.days, subtract))
         }
-        binding.dateCalculatorResult.text = TKWeekActivity.FORMAT_FULL.format(temp.time)
+        binding.dateCalculatorResult.text = Helper.FORMAT_FULL.format(temp.time)
         if (binding.dateCalculatorReuseResult.isChecked) {
             cal.time = temp.time
             updateDateButton()
@@ -121,7 +121,7 @@ class DateCalculatorFragment : TKWeekBaseFragment<DateCalculatorBinding>() {
     }
 
     private fun updateDateButton() {
-        binding.dateCalculatorDate.text = TKWeekActivity.FORMAT_FULL.format(cal.time)
+        binding.dateCalculatorDate.text = Helper.FORMAT_FULL.format(cal.time)
     }
 
     private fun getInt(view: EditText, subtract: Boolean): Int {

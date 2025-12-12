@@ -34,7 +34,7 @@ import androidx.preference.PreferenceManager
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.slider.Slider
 import com.thomaskuenneth.tkweek.R
-import com.thomaskuenneth.tkweek.activity.TKWeekActivity
+import com.thomaskuenneth.tkweek.util.Helper
 import com.thomaskuenneth.tkweek.appwidget.WeekInfoWidget
 import com.thomaskuenneth.tkweek.databinding.WeekBinding
 import com.thomaskuenneth.tkweek.util.TKWeekUtils
@@ -148,7 +148,7 @@ class WeekFragment : TKWeekBaseFragment<WeekBinding>(),
     }
 
     private fun updateViews(updateWeekSelection: Boolean = true) {
-        binding.dateWithinWeek.text = TKWeekActivity.FORMAT_FULL.format(cal.time)
+        binding.dateWithinWeek.text = Helper.FORMAT_FULL.format(cal.time)
         val weekOfYear = cal[Calendar.WEEK_OF_YEAR]
         binding.weekNumber.text = TKWeekUtils.integerToString(weekOfYear)
         val temp = cal.clone() as Calendar
@@ -165,10 +165,10 @@ class WeekFragment : TKWeekBaseFragment<WeekBinding>(),
         val end = temp.time
         val text = getString(
             R.string.first_and_last_day_of_week,
-            TKWeekActivity.FORMAT_DAY_OF_WEEK_SHORT.format(start),
-            TKWeekActivity.FORMAT_DEFAULT.format(start),
-            TKWeekActivity.FORMAT_DAY_OF_WEEK_SHORT.format(end),
-            TKWeekActivity.FORMAT_DEFAULT.format(end)
+            Helper.FORMAT_DAY_OF_WEEK_SHORT.format(start),
+            Helper.FORMAT_DEFAULT.format(start),
+            Helper.FORMAT_DAY_OF_WEEK_SHORT.format(end),
+            Helper.FORMAT_DEFAULT.format(end)
         )
         binding.firstAndLastDayOfWeek.text = text
     }

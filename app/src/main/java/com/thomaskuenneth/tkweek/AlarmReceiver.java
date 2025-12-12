@@ -41,6 +41,7 @@ import android.text.style.StyleSpan;
 
 import androidx.core.app.NotificationCompat;
 
+import com.thomaskuenneth.tkweek.util.Helper;
 import com.thomaskuenneth.tkweek.activity.TKWeekActivity;
 import com.thomaskuenneth.tkweek.adapter.AnnualEventsListAdapter;
 import com.thomaskuenneth.tkweek.types.Event;
@@ -122,8 +123,8 @@ public class AlarmReceiver extends BroadcastReceiver {
                 }
                 style.setBigContentTitle(mContentTitle);
                 style.setSummaryText(context.getString(R.string.string1_dash_string2,
-                        TKWeekActivity.FORMAT_DATE_SHORT.format(calFrom.getTime()),
-                        TKWeekActivity.FORMAT_DATE_SHORT.format(calTo.getTime())));
+                        Helper.FORMAT_DATE_SHORT.format(calFrom.getTime()),
+                        Helper.FORMAT_DATE_SHORT.format(calTo.getTime())));
                 summary.setStyle(style);
                 builders.add(summary);
             }

@@ -28,7 +28,7 @@ import android.content.Context;
 import android.content.res.AssetManager;
 import android.util.Log;
 
-import com.thomaskuenneth.tkweek.activity.TKWeekActivity;
+import com.thomaskuenneth.tkweek.util.Helper;
 import com.thomaskuenneth.tkweek.util.TKWeekUtils;
 
 import java.io.BufferedReader;
@@ -67,6 +67,6 @@ public final class Namenstage {
                 Log.e(TAG, "error while reading namenstage.txt", e);
             }
         }
-        return TKWeekUtils.getStringNotNull(INSTANCE.ht.get(TKWeekActivity.FORMAT_YYMM.format(date)));
+        return TKWeekUtils.getStringNotNull(INSTANCE.ht.get(Helper.FORMAT_YYMM.format(date)));
     }
 }

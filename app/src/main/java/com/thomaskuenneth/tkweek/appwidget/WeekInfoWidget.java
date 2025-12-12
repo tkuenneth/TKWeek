@@ -32,7 +32,7 @@ import android.util.Log;
 import android.widget.RemoteViews;
 
 import com.thomaskuenneth.tkweek.R;
-import com.thomaskuenneth.tkweek.activity.TKWeekActivity;
+import com.thomaskuenneth.tkweek.util.Helper;
 import com.thomaskuenneth.tkweek.fragment.WeekFragment;
 
 import java.io.IOException;
@@ -60,7 +60,7 @@ public class WeekInfoWidget extends AppWidgetProvider {
             Log.e(TAG, "updateWidgets", e);
         }
         updateViews.setOnClickPendingIntent(R.id.week_info_widget_id,
-                TKWeekActivity.createPendingIntentToLaunchTKWeek(context,
+                Helper.createPendingIntentToLaunchTKWeek(context,
                         REQUEST_CODE_WEEK_INFO_WIDGET,
                         WeekFragment.class));
         appWidgetManager.updateAppWidget(appWidgetIds, updateViews);
@@ -82,7 +82,7 @@ public class WeekInfoWidget extends AppWidgetProvider {
             text1 = context.getString(R.string.week_number);
         }
         int maxWeeks = cal.getActualMaximum(Calendar.WEEK_OF_YEAR);
-        String text3 = TKWeekActivity.FORMAT_FULL.format(cal.getTime());
+        String text3 = Helper.FORMAT_FULL.format(cal.getTime());
         // Wochennummer
         updateViews.setTextViewText(R.id.text1, context.getString(
                 R.string.week_info_widget_template, text1, cal
@@ -95,8 +95,8 @@ public class WeekInfoWidget extends AppWidgetProvider {
         temp.add(Calendar.DAY_OF_MONTH, 6);
         Date end = temp.getTime();
         String text2 = context.getString(R.string.week_info_widget_from_to,
-                TKWeekActivity.FORMAT_DEFAULT.format(start),
-                TKWeekActivity.FORMAT_DEFAULT.format(end));
+                Helper.FORMAT_DEFAULT.format(start),
+                Helper.FORMAT_DEFAULT.format(end));
         updateViews.setTextViewText(R.id.text2, text2);
         updateViews.setTextViewText(R.id.text3, text3);
     }

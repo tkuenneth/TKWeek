@@ -89,7 +89,7 @@ fun TKWeekApp() {
         val horizontalPadding = with(density) { max(left, right).toDp() }.coerceAtLeast(16.dp)
         var selectedModule by rememberSaveable(stateSaver = FragmentInfoSaver) {
             mutableStateOf(
-                FragmentInfo(TKWeekModule.Week)
+                FragmentInfo(module = TKWeekModule.Week, arguments = null)
             )
         }
         val detailVisible =
@@ -103,7 +103,7 @@ fun TKWeekApp() {
                 TKWeekModuleSelector(
                     selectedModule = selectedModule.module,
                     onModuleSelected = { module ->
-                        selectedModule = FragmentInfo(module)
+                        selectedModule = FragmentInfo(module = module, arguments = null)
                         scope.launch {
                             navigator.navigateTo(
                                 pane = ListDetailPaneScaffoldRole.Detail,
@@ -139,7 +139,7 @@ fun FragmentContainer(
             val fragment =
                 fragmentInfo.module.clazz.getConstructor()
                     .newInstance() as androidx.fragment.app.Fragment
-            fragment.arguments = fragmentInfo.bundle
+            fragment.arguments = fragmentInfo.arguments
             fragmentManager.beginTransaction()
                 .replace(view.id, fragment)
                 .commit()

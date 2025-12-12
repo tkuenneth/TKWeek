@@ -34,7 +34,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.preference.PreferenceManager
 import com.thomaskuenneth.tkweek.R
-import com.thomaskuenneth.tkweek.activity.ModuleContainerActivity
 import com.thomaskuenneth.tkweek.adapter.TKWeekFragmentListAdapter
 import com.thomaskuenneth.tkweek.util.TKWeekUtils
 import com.thomaskuenneth.tkweek.viewmodel.TKWeekViewModel
@@ -70,12 +69,7 @@ abstract class TKWeekBaseFragment<T> : TKWeekHiltBaseFragment() {
 
     fun selectModule(module: Class<*>, payload: Bundle?) {
         TKWeekFragmentListAdapter.find(module)?.let {
-            val intent = Intent(context, ModuleContainerActivity::class.java)
-            intent.putExtra(CLAZZ, it.clazz)
-            intent.putExtra(TITLE, getString(it.titleRes))
-            intent.putExtra(PAYLOAD, payload)
-            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
-            viewModel.selectModule(module = it, arguments = intent.extras, replace = false)
+            viewModel.selectModule(module = it, arguments = payload, replace = false)
         }
     }
 

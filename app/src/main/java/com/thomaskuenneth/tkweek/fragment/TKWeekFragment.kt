@@ -31,6 +31,7 @@ import android.widget.ListView
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.preference.PreferenceManager
+import com.thomaskuenneth.tkweek.activity.TKWeekModule
 import com.thomaskuenneth.tkweek.adapter.TKWeekFragmentListAdapter
 import com.thomaskuenneth.tkweek.databinding.TkweekfragmentBinding
 import kotlin.math.max
@@ -54,7 +55,7 @@ class TKWeekFragment : TKWeekBaseFragment<TkweekfragmentBinding>() {
         binding.listView.setOnItemClickListener { _, _, position, _ ->
             PreferenceManager.getDefaultSharedPreferences(requireContext()).edit()
                 .putInt(KEY_LAST_SELECTED, position).apply()
-            launchModule(TKWeekFragmentListAdapter.get(position), null)
+            launchModule(TKWeekFragmentListAdapter.get(position) as TKWeekModule, null)
         }
         return binding.root
     }

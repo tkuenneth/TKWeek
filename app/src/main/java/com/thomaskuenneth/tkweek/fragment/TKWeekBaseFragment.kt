@@ -32,18 +32,26 @@ import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
+import androidx.fragment.app.activityViewModels
 import androidx.preference.PreferenceManager
-import com.thomaskuenneth.tkweek.ActivityDescription
 import com.thomaskuenneth.tkweek.R
 import com.thomaskuenneth.tkweek.activity.ModuleContainerActivity
+import com.thomaskuenneth.tkweek.activity.TKWeekModule
 import com.thomaskuenneth.tkweek.adapter.TKWeekFragmentListAdapter
 import com.thomaskuenneth.tkweek.util.TKWeekUtils
+import com.thomaskuenneth.tkweek.viewmodel.TKWeekViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
 const val RQ_READ_CONTACTS = 0
 const val RQ_READ_CALENDAR = 1
 const val RQ_POST_NOTIFICATIONS = 2
 
-abstract class TKWeekBaseFragment<T> : Fragment() {
+@AndroidEntryPoint
+abstract class TKWeekHiltBaseFragment : Fragment() {
+    protected val viewModel: TKWeekViewModel by activityViewModels()
+}
+
+abstract class TKWeekBaseFragment<T> : TKWeekHiltBaseFragment() {
 
     protected var backing: T? = null
 
@@ -68,32 +76,13 @@ abstract class TKWeekBaseFragment<T> : Fragment() {
         }
     }
 
-    fun launchModule(module: ActivityDescription, payload: Bundle?) {
-        if (isTwoColumnMode(requireActivity())) {
-            (parentFragmentManager.findFragmentByTag(getString(R.string.tag_module_selection)) as? TKWeekFragment)?.run {
-                val fragment = module.fragment().newInstance()
-                fragment.arguments = payload
-                parentFragmentManager.run {
-                    beginTransaction()
-                        .replace(
-                            R.id.module_container,
-                            fragment,
-                            getString(R.string.tag_module_fragment)
-                        )
-                        .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-                        .disallowAddToBackStack()
-                        .commit()
-                }
-                updateSelection(TKWeekFragmentListAdapter.getPosition(module.fragment()))
-            }
-        } else {
+    fun launchModule(module: TKWeekModule, payload: Bundle?) {
             val intent = Intent(context, ModuleContainerActivity::class.java)
-            intent.putExtra(CLAZZ, module.fragment())
-            intent.putExtra(TITLE, module.text1())
+            intent.putExtra(CLAZZ, module.clazz)
+            intent.putExtra(TITLE, getString(module.titleRes))
             intent.putExtra(PAYLOAD, payload)
             intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
-            requireContext().startActivity(intent)
-        }
+//        viewModel.setModule(module = module, null)
     }
 
     fun showDialog(fragment: DialogFragment) {

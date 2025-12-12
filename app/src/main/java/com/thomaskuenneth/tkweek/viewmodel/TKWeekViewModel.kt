@@ -11,16 +11,20 @@ import kotlinx.coroutines.flow.update
 import javax.inject.Inject
 
 data class UiState(
-    val selectedModule: FragmentInfo = FragmentInfo(
-        module = TKWeekModule.Week,
-        arguments = null
-    )
+    val selectedModule: FragmentInfo
 )
 
 @HiltViewModel
 class TKWeekViewModel @Inject constructor() : ViewModel() {
 
-    private val _uiState = MutableStateFlow(UiState())
+    private val _uiState = MutableStateFlow(
+        UiState(
+            selectedModule = FragmentInfo(
+                module = TKWeekModule.Week,
+                arguments = null
+            )
+        )
+    )
     val uiState = _uiState.asStateFlow()
 
     fun setModule(module: TKWeekModule, arguments: Bundle? = null) {

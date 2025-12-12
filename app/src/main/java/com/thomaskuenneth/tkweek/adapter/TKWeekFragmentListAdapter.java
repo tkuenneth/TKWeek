@@ -32,44 +32,30 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import com.thomaskuenneth.tkweek.ActivityDescription;
 import com.thomaskuenneth.tkweek.R;
-import com.thomaskuenneth.tkweek.fragment.AboutFragment;
-import com.thomaskuenneth.tkweek.fragment.AboutYearFragment;
-import com.thomaskuenneth.tkweek.fragment.AnnualEventsFragment;
-import com.thomaskuenneth.tkweek.fragment.CalendarFragment;
-import com.thomaskuenneth.tkweek.fragment.DateCalculatorFragment;
-import com.thomaskuenneth.tkweek.fragment.DaysBetweenDatesFragment;
-import com.thomaskuenneth.tkweek.fragment.MyDayFragment;
-import com.thomaskuenneth.tkweek.fragment.WeekFragment;
+import com.thomaskuenneth.tkweek.activity.TKWeekModule;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class TKWeekFragmentListAdapter extends BaseAdapter {
 
-    private static List<ActivityDescription> items = null;
+    private static final TKWeekModule[] items = TKWeekModule.values();
 
     private final LayoutInflater mInflater;
 
     public TKWeekFragmentListAdapter(Context context) {
         mInflater = LayoutInflater.from(context);
-        if (items == null) {
-            items = createList(context);
-        }
     }
 
     @Override
     public int getCount() {
-        return items.size();
+        return items.length;
     }
 
     @Override
     public Object getItem(int position) {
-        return items.get(position);
+        return items[position];
     }
 
     @Override
@@ -93,69 +79,34 @@ public class TKWeekFragmentListAdapter extends BaseAdapter {
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
-        ActivityDescription item = (ActivityDescription) getItem(position);
-        holder.text1.setText(item.text1());
-        holder.text2.setText(item.text2());
+        TKWeekModule item = (TKWeekModule) getItem(position);
+        holder.text1.setText(item.getTitleRes());
+        holder.text2.setText(item.getDescriptionRes());
         return convertView;
     }
 
     @Nullable
-    public static ActivityDescription find(@NotNull Class<?> clazz) {
-        for (int i = 0; i < items.size(); i++) {
-            ActivityDescription current = items.get(i);
-            if (current.fragment().equals(clazz)) {
+    public static TKWeekModule find(@NotNull Class<?> clazz) {
+        for (TKWeekModule current : items) {
+            if (current.getClazz().equals(clazz)) {
                 return current;
             }
         }
         return null;
     }
 
-    public static ActivityDescription get(int index) {
-        return items.get(index);
+    public static TKWeekModule get(int index) {
+        return items[index];
     }
 
     public static int getPosition(@NotNull Class<?> clazz) {
-        for (int i = 0; i < items.size(); i++) {
-            ActivityDescription current = items.get(i);
-            if (current.fragment().equals(clazz)) {
+        for (int i = 0; i < items.length; i++) {
+            TKWeekModule current = items[i];
+            if (current.getClazz().equals(clazz)) {
                 return i;
             }
         }
         return -1;
-    }
-
-    private List<ActivityDescription> createList(Context context) {
-        List<ActivityDescription> items = new ArrayList<>();
-        items.add(new ActivityDescription(context
-                .getString(R.string.week_activity_text1), context
-                .getString(R.string.week_activity_text2), WeekFragment.class));
-        items.add(new ActivityDescription(context
-                .getString(R.string.myday_activity_text1), context
-                .getString(R.string.myday_activity_text2), MyDayFragment.class));
-        items.add(new ActivityDescription(context
-                .getString(R.string.days_between_dates_activity_text1), context
-                .getString(R.string.days_between_dates_activity_text2),
-                DaysBetweenDatesFragment.class));
-        items.add(new ActivityDescription(context
-                .getString(R.string.date_calculator_activity_text1), context
-                .getString(R.string.date_calculator_activity_text2),
-                DateCalculatorFragment.class));
-        items.add(new ActivityDescription(context
-                .getString(R.string.annual_events_activity_text1), context
-                .getString(R.string.annual_events_activity_text2),
-                AnnualEventsFragment.class));
-        items.add(new ActivityDescription(context
-                .getString(R.string.about_a_year_activity_text1), context
-                .getString(R.string.about_a_year_activity_text2),
-                AboutYearFragment.class));
-        items.add(new ActivityDescription(context
-                .getString(R.string.calendar_activity_text1), context
-                .getString(R.string.calendar_activity_text2),
-                CalendarFragment.class));
-        items.add(new ActivityDescription(context
-                .getString(R.string.about_activity_text1), context
-                .getString(R.string.about_activity_text2), AboutFragment.class));
-        return items;
     }
 
     private static class ViewHolder {

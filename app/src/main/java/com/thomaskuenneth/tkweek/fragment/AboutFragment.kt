@@ -55,6 +55,7 @@ class AboutFragment : TKWeekBaseFragment<AboutBinding>() {
 
     @Suppress("DEPRECATION")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         val pm = activity?.application?.packageManager
         var vn = getString(R.string.unknown)
         try {

@@ -67,6 +67,7 @@ class AboutYearFragment : TKWeekBaseFragment<AboutAYearBinding>(), View.OnClickL
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         cal = Calendar.getInstance()
         WeekFragment.prepareCalendar(cal, requireContext())
         seasons = Seasons(context)
@@ -107,7 +108,7 @@ class AboutYearFragment : TKWeekBaseFragment<AboutAYearBinding>(), View.OnClickL
     }
 
     private fun update() {
-        val year = cal[Calendar.YEAR]
+        val year = cal.get(Calendar.YEAR)
         season(year, SEASON.SPRING)
         season(year, SEASON.SUMMER)
         season(year, SEASON.AUTUMN)

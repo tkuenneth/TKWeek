@@ -28,11 +28,14 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.view.View
 import android.view.ViewGroup
+import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.preference.PreferenceManager
+import androidx.recyclerview.widget.RecyclerView
 import com.thomaskuenneth.tkweek.R
 import com.thomaskuenneth.tkweek.adapter.TKWeekFragmentListAdapter
 import com.thomaskuenneth.tkweek.util.TKWeekUtils
@@ -51,11 +54,39 @@ abstract class TKWeekHiltBaseFragment : Fragment() {
 abstract class TKWeekBaseFragment<T> : TKWeekHiltBaseFragment() {
 
     protected var backing: T? = null
+    private var lastScrollY = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (savedInstanceState == null)
             setHasOptionsMenu(true)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        findScrollableContent(view)?.let { scrollable ->
+            when (scrollable) {
+                is RecyclerView -> {
+                    if (scrollable.adapter?.itemCount ?: 0 > 0) {
+                        scrollable.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+                            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                                super.onScrolled(recyclerView, dx, dy)
+                                viewModel.onFragmentScrolled(dy.toFloat())
+                            }
+                        })
+                    }
+                }
+
+                is NestedScrollView -> {
+                    scrollable.setOnScrollChangeListener(
+                        NestedScrollView.OnScrollChangeListener { _, _, scrollY, _, _ ->
+                            val dy = scrollY - lastScrollY
+                            viewModel.onFragmentScrolled(dy.toFloat())
+                            lastScrollY = scrollY
+                        })
+                }
+            }
+        }
     }
 
     override fun onDestroyView() {
@@ -144,4 +175,19 @@ abstract class TKWeekBaseFragment<T> : TKWeekHiltBaseFragment() {
 
     fun isTwoColumnMode(activity: Activity) =
         activity.findViewById<ViewGroup>(R.id.module_container) != null
+
+    private fun findScrollableContent(view: View): View? {
+        if (view is RecyclerView || view is NestedScrollView) {
+            return view
+        }
+        if (view is ViewGroup) {
+            for (i in 0 until view.childCount) {
+                val result = findScrollableContent(view.getChildAt(i))
+                if (result != null) {
+                    return result
+                }
+            }
+        }
+        return null
+    }
 }

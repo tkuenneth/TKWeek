@@ -48,6 +48,7 @@ class DateCalculatorFragment : TKWeekBaseFragment<DateCalculatorBinding>() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         updateDateButton()
         binding.dateCalculatorDate.setOnClickListener {
             val picker = MaterialDatePicker.Builder.datePicker()

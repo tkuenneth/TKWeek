@@ -102,6 +102,7 @@ class MyDayFragment : TKWeekBaseFragment<MydayBinding>() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         eventsLoader = null
         binding.myDaySymbolNotes.setOnClickListener {
             val fragment = EditNotesFragment().also {

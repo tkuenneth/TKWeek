@@ -28,13 +28,18 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.fragment.app.activityViewModels
 import androidx.preference.PreferenceFragmentCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.thomaskuenneth.tkweek.R
+import com.thomaskuenneth.tkweek.viewmodel.TKWeekViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class PreferencesFragment : PreferenceFragmentCompat() {
 
     private var lastRecyclerView: RecyclerView? = null
+    private val viewModel: TKWeekViewModel by activityViewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,6 +55,12 @@ class PreferencesFragment : PreferenceFragmentCompat() {
         savedInstanceState: Bundle?
     ): RecyclerView {
         val recyclerView = super.onCreateRecyclerView(inflater, parent, savedInstanceState)
+        recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+                viewModel.onFragmentScrolled(dy.toFloat())
+            }
+        })
         ViewCompat.setOnApplyWindowInsetsListener(recyclerView) { view, insets ->
             val offset = if (lastRecyclerView != recyclerView) {
                 lastRecyclerView = recyclerView

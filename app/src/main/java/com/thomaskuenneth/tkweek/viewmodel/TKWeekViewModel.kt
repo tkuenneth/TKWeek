@@ -5,8 +5,11 @@ import androidx.lifecycle.ViewModel
 import com.thomaskuenneth.tkweek.TKWeekModule
 import com.thomaskuenneth.tkweek.types.FragmentInfo
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
@@ -33,6 +36,16 @@ class TKWeekViewModel @Inject constructor() : ViewModel() {
 
     private val _navigationTrigger = Channel<Unit>(Channel.CONFLATED)
     val navigationTrigger = _navigationTrigger.receiveAsFlow()
+
+    private val _fragmentScrollDelta = MutableSharedFlow<Float>(
+        extraBufferCapacity = 64,
+        onBufferOverflow = BufferOverflow.DROP_OLDEST
+    )
+    val fragmentScrollDelta = _fragmentScrollDelta.asSharedFlow()
+
+    fun onFragmentScrolled(deltaY: Float) {
+        _fragmentScrollDelta.tryEmit(deltaY)
+    }
 
     fun selectModule(module: TKWeekModule, arguments: Bundle?, replace: Boolean) {
         _uiState.update {

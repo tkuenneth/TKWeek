@@ -113,6 +113,7 @@ class AnnualEventsFragment : TKWeekBaseFragment<EventsBinding>(), AdapterView.On
 
     @SuppressLint("InflateParams")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         eventsLoader = null
         binding.listView.onItemClickListener = this
         binding.listView.setOnCreateContextMenuListener(this)
@@ -296,8 +297,7 @@ class AnnualEventsFragment : TKWeekBaseFragment<EventsBinding>(), AdapterView.On
             }
 
             R.id.new_event -> {
-                val f = NewEventFragment()
-                showDialog(f)
+                showDialog(NewEventFragment())
                 true
             }
 

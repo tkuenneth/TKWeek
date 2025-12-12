@@ -31,7 +31,7 @@ class FixedHeightGridView @JvmOverloads constructor(
 ) : ListView(context, attrs, defStyleAttr) {
 
     init {
-        isNestedScrollingEnabled = false
+        isNestedScrollingEnabled = true
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {

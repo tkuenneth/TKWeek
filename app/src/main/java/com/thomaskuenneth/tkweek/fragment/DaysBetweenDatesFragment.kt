@@ -49,6 +49,7 @@ class DaysBetweenDatesFragment : TKWeekBaseFragment<DaysBetweenDatesActivityBind
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         binding.checkboxIncludeFirstDate
             .setOnCheckedChangeListener { _, _ -> update() }
         arguments?.run {

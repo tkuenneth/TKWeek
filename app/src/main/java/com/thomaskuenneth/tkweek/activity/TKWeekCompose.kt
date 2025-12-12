@@ -88,6 +88,7 @@ fun TKWeekApp(viewModel: TKWeekViewModel = viewModel()) {
     MaterialTheme(
         colorScheme = colorScheme()
     ) {
+        val topAppBarState = scrollBehavior.state
         LaunchedEffect(Unit) {
             viewModel.navigationTrigger.collect {
                 uiState.modules.lastOrNull()?.let {
@@ -96,6 +97,11 @@ fun TKWeekApp(viewModel: TKWeekViewModel = viewModel()) {
                         contentKey = it.module
                     )
                 }
+            }
+        }
+        LaunchedEffect(Unit) {
+            viewModel.fragmentScrollDelta.collect {
+                topAppBarState.contentOffset -= it
             }
         }
         val module = uiState.modules.last()

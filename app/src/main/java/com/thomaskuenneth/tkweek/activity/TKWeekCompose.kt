@@ -36,6 +36,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.fragment.app.FragmentContainerView
 import com.thomaskuenneth.tkweek.R
+import com.thomaskuenneth.tkweek.types.FragmentInfo
+import com.thomaskuenneth.tkweek.types.FragmentInfoSaver
 import kotlinx.coroutines.launch
 import kotlin.math.max
 
@@ -85,7 +87,11 @@ fun TKWeekApp() {
         val left = displayCutoutInsets.getLeft(density, layoutDirection)
         val right = displayCutoutInsets.getRight(density, layoutDirection)
         val horizontalPadding = with(density) { max(left, right).toDp() }.coerceAtLeast(16.dp)
-        var selectedModule by rememberSaveable { mutableStateOf(TKWeekModule.Week) }
+        var selectedModule by rememberSaveable(stateSaver = FragmentInfoSaver) {
+            mutableStateOf(
+                FragmentInfo(TKWeekModule.Week)
+            )
+        }
         val detailVisible =
             navigator.scaffoldValue[ListDetailPaneScaffoldRole.Detail] == PaneAdaptedValue.Expanded
         NavigableListDetailPaneScaffold(
@@ -95,13 +101,13 @@ fun TKWeekApp() {
                 .padding(horizontal = horizontalPadding),
             listPane = {
                 TKWeekModuleSelector(
-                    selectedModule = selectedModule,
+                    selectedModule = selectedModule.module,
                     onModuleSelected = { module ->
-                        selectedModule = module
+                        selectedModule = FragmentInfo(module)
                         scope.launch {
                             navigator.navigateTo(
                                 pane = ListDetailPaneScaffoldRole.Detail,
-                                contentKey = selectedModule
+                                contentKey = selectedModule.module
                             )
                         }
                     },
@@ -110,7 +116,7 @@ fun TKWeekApp() {
             },
             detailPane = {
                 FragmentContainer(
-                    module = selectedModule
+                    fragmentInfo = selectedModule
                 )
             }
         )
@@ -119,7 +125,7 @@ fun TKWeekApp() {
 
 @Composable
 fun FragmentContainer(
-    module: TKWeekModule
+    fragmentInfo: FragmentInfo
 ) {
     AndroidView(
         modifier = Modifier.fillMaxSize(),
@@ -131,8 +137,9 @@ fun FragmentContainer(
         update = { view ->
             val fragmentManager = (view.context as AppCompatActivity).supportFragmentManager
             val fragment =
-                module.clazz.getConstructor()
+                fragmentInfo.module.clazz.getConstructor()
                     .newInstance() as androidx.fragment.app.Fragment
+            fragment.arguments = fragmentInfo.bundle
             fragmentManager.beginTransaction()
                 .replace(view.id, fragment)
                 .commit()

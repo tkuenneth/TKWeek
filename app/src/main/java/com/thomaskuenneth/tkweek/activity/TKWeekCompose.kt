@@ -23,6 +23,7 @@ import androidx.compose.material3.adaptive.layout.PaneAdaptedValue
 import androidx.compose.material3.adaptive.navigation.NavigableListDetailPaneScaffold
 import androidx.compose.material3.adaptive.navigation.rememberListDetailPaneScaffoldNavigator
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
@@ -40,6 +41,7 @@ import com.thomaskuenneth.tkweek.fragment.CLAZZ
 import com.thomaskuenneth.tkweek.viewmodel.TKWeekViewModel
 import com.thomaskuenneth.tkweek.viewmodel.UiState
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.consumeAsFlow
 import kotlinx.coroutines.launch
 import kotlin.math.max
 
@@ -71,6 +73,14 @@ fun TKWeekApp(viewModel: TKWeekViewModel = viewModel()) {
     val navigator = rememberListDetailPaneScaffoldNavigator<TKWeekModule>()
     val scope = rememberCoroutineScope()
     val uiState by viewModel.uiState.collectAsState()
+    LaunchedEffect(Unit) {
+        viewModel.navigationTrigger.consumeAsFlow().collect {
+            navigator.navigateTo(
+                pane = ListDetailPaneScaffoldRole.Detail,
+                contentKey = uiState.selectedModule.module
+            )
+        }
+    }
     Scaffold(
         contentWindowInsets = WindowInsets(),
         topBar = {
@@ -111,12 +121,6 @@ fun TKWeekApp(viewModel: TKWeekViewModel = viewModel()) {
                     uiState = uiState,
                     onModuleSelected = { module ->
                         viewModel.setModule(module)
-                        scope.launch {
-                            navigator.navigateTo(
-                                pane = ListDetailPaneScaffoldRole.Detail,
-                                contentKey = uiState.selectedModule.module
-                            )
-                        }
                     },
                     detailVisible = detailVisible
                 )

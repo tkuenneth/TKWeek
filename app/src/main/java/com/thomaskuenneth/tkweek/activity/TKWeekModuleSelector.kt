@@ -12,21 +12,19 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
-import androidx.hilt.navigation.compose.hiltViewModel
 import com.thomaskuenneth.tkweek.util.BottomSpace
-import com.thomaskuenneth.tkweek.viewmodel.TKWeekViewModel
+import com.thomaskuenneth.tkweek.viewmodel.UiState
 
 @Composable
 fun TKWeekModuleSelector(
-    selectedModule: TKWeekModule,
+    uiState: UiState,
     onModuleSelected: (TKWeekModule) -> Unit,
     detailVisible: Boolean,
-    modifier: Modifier = Modifier,
-    viewModel: TKWeekViewModel = hiltViewModel()
+    modifier: Modifier = Modifier
 ) {
     LazyColumn(modifier = modifier) {
         items(TKWeekModule.entries) { module ->
-            val selected = detailVisible && module == selectedModule
+            val selected = detailVisible && module == uiState.selectedModule.module
             ListItem(
                 headlineContent = { Text(text = stringResource(id = module.titleRes)) },
                 supportingContent = { Text(text = stringResource(id = module.descriptionRes)) },

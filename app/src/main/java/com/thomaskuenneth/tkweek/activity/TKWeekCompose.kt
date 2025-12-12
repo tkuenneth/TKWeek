@@ -3,6 +3,7 @@ package com.thomaskuenneth.tkweek.activity
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.displayCutout
@@ -22,11 +23,9 @@ import androidx.compose.material3.adaptive.layout.PaneAdaptedValue
 import androidx.compose.material3.adaptive.navigation.NavigableListDetailPaneScaffold
 import androidx.compose.material3.adaptive.navigation.rememberListDetailPaneScaffoldNavigator
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalLayoutDirection
@@ -35,20 +34,24 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.fragment.app.FragmentContainerView
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.thomaskuenneth.tkweek.R
-import com.thomaskuenneth.tkweek.types.FragmentInfo
-import com.thomaskuenneth.tkweek.types.FragmentInfoSaver
+import com.thomaskuenneth.tkweek.viewmodel.TKWeekViewModel
+import com.thomaskuenneth.tkweek.viewmodel.UiState
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import kotlin.math.max
 
 @AndroidEntryPoint
 class TKWeekCompose : AppCompatActivity() {
+
+    private val viewModel: TKWeekViewModel by viewModels()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            TKWeekApp()
+            TKWeekApp(viewModel)
         }
     }
 }
@@ -58,9 +61,10 @@ class TKWeekCompose : AppCompatActivity() {
     ExperimentalMaterial3AdaptiveApi::class
 )
 @Composable
-fun TKWeekApp() {
+fun TKWeekApp(viewModel: TKWeekViewModel = viewModel()) {
     val navigator = rememberListDetailPaneScaffoldNavigator<TKWeekModule>()
     val scope = rememberCoroutineScope()
+    val uiState by viewModel.uiState.collectAsState()
     Scaffold(
         contentWindowInsets = WindowInsets(),
         topBar = {
@@ -89,11 +93,6 @@ fun TKWeekApp() {
         val left = displayCutoutInsets.getLeft(density, layoutDirection)
         val right = displayCutoutInsets.getRight(density, layoutDirection)
         val horizontalPadding = with(density) { max(left, right).toDp() }.coerceAtLeast(16.dp)
-        var selectedModule by rememberSaveable(stateSaver = FragmentInfoSaver) {
-            mutableStateOf(
-                FragmentInfo(module = TKWeekModule.Week, arguments = null)
-            )
-        }
         val detailVisible =
             navigator.scaffoldValue[ListDetailPaneScaffoldRole.Detail] == PaneAdaptedValue.Expanded
         NavigableListDetailPaneScaffold(
@@ -103,13 +102,13 @@ fun TKWeekApp() {
                 .padding(horizontal = horizontalPadding),
             listPane = {
                 TKWeekModuleSelector(
-                    selectedModule = selectedModule.module,
+                    uiState = uiState,
                     onModuleSelected = { module ->
-                        selectedModule = FragmentInfo(module = module, arguments = null)
+                        viewModel.setModule(module)
                         scope.launch {
                             navigator.navigateTo(
                                 pane = ListDetailPaneScaffoldRole.Detail,
-                                contentKey = selectedModule.module
+                                contentKey = uiState.selectedModule.module
                             )
                         }
                     },
@@ -118,7 +117,7 @@ fun TKWeekApp() {
             },
             detailPane = {
                 FragmentContainer(
-                    fragmentInfo = selectedModule
+                    uiState = uiState
                 )
             }
         )
@@ -127,7 +126,7 @@ fun TKWeekApp() {
 
 @Composable
 fun FragmentContainer(
-    fragmentInfo: FragmentInfo
+    uiState: UiState
 ) {
     AndroidView(
         modifier = Modifier.fillMaxSize(),
@@ -139,9 +138,9 @@ fun FragmentContainer(
         update = { view ->
             val fragmentManager = (view.context as AppCompatActivity).supportFragmentManager
             val fragment =
-                fragmentInfo.module.clazz.getConstructor()
+                uiState.selectedModule.module.clazz.getConstructor()
                     .newInstance() as androidx.fragment.app.Fragment
-            fragment.arguments = fragmentInfo.arguments
+            fragment.arguments = uiState.selectedModule.arguments
             fragmentManager.beginTransaction()
                 .replace(view.id, fragment)
                 .commit()

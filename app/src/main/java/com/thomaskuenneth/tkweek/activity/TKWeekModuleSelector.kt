@@ -12,14 +12,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.thomaskuenneth.tkweek.util.BottomSpace
+import com.thomaskuenneth.tkweek.viewmodel.TKWeekViewModel
 
 @Composable
 fun TKWeekModuleSelector(
     selectedModule: TKWeekModule,
     onModuleSelected: (TKWeekModule) -> Unit,
     detailVisible: Boolean,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    viewModel: TKWeekViewModel = hiltViewModel()
 ) {
     LazyColumn(modifier = modifier) {
         items(TKWeekModule.entries) { module ->

@@ -38,9 +38,11 @@ import androidx.fragment.app.FragmentContainerView
 import com.thomaskuenneth.tkweek.R
 import com.thomaskuenneth.tkweek.types.FragmentInfo
 import com.thomaskuenneth.tkweek.types.FragmentInfoSaver
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import kotlin.math.max
 
+@AndroidEntryPoint
 class TKWeekCompose : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

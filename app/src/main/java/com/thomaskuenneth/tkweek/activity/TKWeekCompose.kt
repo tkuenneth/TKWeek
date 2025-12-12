@@ -38,6 +38,7 @@ import androidx.fragment.app.FragmentContainerView
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.thomaskuenneth.tkweek.R
 import com.thomaskuenneth.tkweek.fragment.CLAZZ
+import com.thomaskuenneth.tkweek.fragment.PAYLOAD
 import com.thomaskuenneth.tkweek.viewmodel.TKWeekViewModel
 import com.thomaskuenneth.tkweek.viewmodel.UiState
 import dagger.hilt.android.AndroidEntryPoint
@@ -54,7 +55,11 @@ class TKWeekCompose : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         intent?.getStringExtra(CLAZZ)?.let { clazzName ->
             TKWeekModule.entries.firstOrNull { it.clazz.name == clazzName }?.let {
-                viewModel.selectModule(it)
+                viewModel.selectModule(
+                    module = it,
+                    arguments = intent?.getBundleExtra(PAYLOAD),
+                    replace = true
+                )
             }
         }
         enableEdgeToEdge()
@@ -77,7 +82,7 @@ fun TKWeekApp(viewModel: TKWeekViewModel = viewModel()) {
         viewModel.navigationTrigger.consumeAsFlow().collect {
             navigator.navigateTo(
                 pane = ListDetailPaneScaffoldRole.Detail,
-                contentKey = uiState.selectedModule.module
+                contentKey = uiState.modules.first().module
             )
         }
     }
@@ -120,7 +125,7 @@ fun TKWeekApp(viewModel: TKWeekViewModel = viewModel()) {
                 TKWeekModuleSelector(
                     uiState = uiState,
                     onModuleSelected = { module ->
-                        viewModel.selectModule(module)
+                        viewModel.selectModule(module = module, arguments = null, replace = true)
                     },
                     detailVisible = detailVisible
                 )
@@ -146,14 +151,16 @@ fun FragmentContainer(
             }
         },
         update = { view ->
-            val fragmentManager = (view.context as AppCompatActivity).supportFragmentManager
-            val fragment =
-                uiState.selectedModule.module.clazz.getConstructor()
-                    .newInstance() as androidx.fragment.app.Fragment
-            fragment.arguments = uiState.selectedModule.arguments
-            fragmentManager.beginTransaction()
-                .replace(view.id, fragment)
-                .commit()
+            with(uiState.modules.first()) {
+                val fragmentManager = (view.context as AppCompatActivity).supportFragmentManager
+                val fragment =
+                    module.clazz.getConstructor()
+                        .newInstance() as androidx.fragment.app.Fragment
+                fragment.arguments = arguments
+                fragmentManager.beginTransaction()
+                    .replace(view.id, fragment)
+                    .commit()
+            }
         }
     )
 }

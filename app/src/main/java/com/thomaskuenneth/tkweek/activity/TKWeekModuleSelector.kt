@@ -24,21 +24,23 @@ fun TKWeekModuleSelector(
     modifier: Modifier = Modifier
 ) {
     LazyColumn(modifier = modifier) {
-        items(TKWeekModule.entries) { module ->
-            val selected = detailVisible && module == uiState.selectedModule.module
-            key(uiState.selectedModule.module) {
-                ListItem(
-                    headlineContent = { Text(text = stringResource(id = module.titleRes)) },
-                    supportingContent = { Text(text = stringResource(id = module.descriptionRes)) },
-                    modifier = Modifier
-                        .clip(MaterialTheme.shapes.large)
-                        .clickable { onModuleSelected(module) },
-                    colors = ListItemDefaults.colors(
-                        containerColor = if (selected) MaterialTheme.colorScheme.secondaryContainer else Color.Transparent,
-                        headlineColor = if (selected) MaterialTheme.colorScheme.onSecondaryContainer else MaterialTheme.colorScheme.onSurface,
-                        supportingColor = if (selected) MaterialTheme.colorScheme.onSecondaryContainer else MaterialTheme.colorScheme.onSurfaceVariant
+        items(TKWeekModule.entries) { entry ->
+            with(uiState.modules.first()) {
+                val selected = detailVisible && module == entry
+                key(entry) {
+                    ListItem(
+                        headlineContent = { Text(text = stringResource(id = entry.titleRes)) },
+                        supportingContent = { Text(text = stringResource(id = entry.descriptionRes)) },
+                        modifier = Modifier
+                            .clip(MaterialTheme.shapes.large)
+                            .clickable { onModuleSelected(entry) },
+                        colors = ListItemDefaults.colors(
+                            containerColor = if (selected) MaterialTheme.colorScheme.secondaryContainer else Color.Transparent,
+                            headlineColor = if (selected) MaterialTheme.colorScheme.onSecondaryContainer else MaterialTheme.colorScheme.onSurface,
+                            supportingColor = if (selected) MaterialTheme.colorScheme.onSecondaryContainer else MaterialTheme.colorScheme.onSurfaceVariant
+                        )
                     )
-                )
+                }
             }
         }
         item {

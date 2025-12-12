@@ -12,7 +12,7 @@ import kotlinx.coroutines.flow.update
 import javax.inject.Inject
 
 data class UiState(
-    val selectedModule: FragmentInfo
+    val modules: List<FragmentInfo>
 )
 
 @HiltViewModel
@@ -20,9 +20,11 @@ class TKWeekViewModel @Inject constructor() : ViewModel() {
 
     private val _uiState = MutableStateFlow(
         UiState(
-            selectedModule = FragmentInfo(
-                module = TKWeekModule.Week,
-                arguments = null
+            modules = listOf(
+                FragmentInfo(
+                    module = TKWeekModule.Week,
+                    arguments = null
+                )
             )
         )
     )
@@ -30,10 +32,10 @@ class TKWeekViewModel @Inject constructor() : ViewModel() {
 
     val navigationTrigger: Channel<Unit> = Channel(Channel.CONFLATED)
 
-    fun selectModule(module: TKWeekModule, arguments: Bundle? = null) {
+    fun selectModule(module: TKWeekModule, arguments: Bundle?, replace: Boolean) {
         _uiState.update {
             it.copy(
-                selectedModule = FragmentInfo(
+                modules = (if (replace) emptyList() else it.modules) + FragmentInfo(
                     module = module,
                     arguments = arguments
                 )

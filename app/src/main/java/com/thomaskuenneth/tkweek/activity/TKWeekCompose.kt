@@ -77,12 +77,14 @@ fun TKWeekApp(viewModel: TKWeekViewModel = viewModel()) {
     val navigator = rememberListDetailPaneScaffoldNavigator<TKWeekModule>()
     val scope = rememberCoroutineScope()
     val uiState by viewModel.uiState.collectAsState()
-    LaunchedEffect(uiState.modules.last()) {
+    LaunchedEffect(Unit) {
         viewModel.navigationTrigger.collect {
-            navigator.navigateTo(
-                pane = ListDetailPaneScaffoldRole.Detail,
-                contentKey = uiState.modules.last().module
-            )
+            uiState.modules.lastOrNull()?.let {
+                navigator.navigateTo(
+                    pane = ListDetailPaneScaffoldRole.Detail,
+                    contentKey = it.module
+                )
+            }
         }
     }
     Scaffold(

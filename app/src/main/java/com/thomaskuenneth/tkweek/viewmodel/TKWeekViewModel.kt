@@ -5,10 +5,10 @@ import androidx.lifecycle.ViewModel
 import com.thomaskuenneth.tkweek.activity.TKWeekModule
 import com.thomaskuenneth.tkweek.types.FragmentInfo
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import javax.inject.Inject
 
@@ -31,8 +31,8 @@ class TKWeekViewModel @Inject constructor() : ViewModel() {
     )
     val uiState = _uiState.asStateFlow()
 
-    private val _navigationTrigger = MutableSharedFlow<Unit>(extraBufferCapacity = 1)
-    val navigationTrigger = _navigationTrigger.asSharedFlow()
+    private val _navigationTrigger = Channel<Unit>(Channel.CONFLATED)
+    val navigationTrigger = _navigationTrigger.receiveAsFlow()
 
     fun selectModule(module: TKWeekModule, arguments: Bundle?, replace: Boolean) {
         _uiState.update {
@@ -43,7 +43,7 @@ class TKWeekViewModel @Inject constructor() : ViewModel() {
                 )
             )
         }
-        _navigationTrigger.tryEmit(Unit)
+        if (replace) _navigationTrigger.trySend(Unit)
     }
 
     fun popModule() {

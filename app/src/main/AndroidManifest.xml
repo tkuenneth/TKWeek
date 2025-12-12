@@ -24,7 +24,7 @@
         tools:targetApi="tiramisu">
 
         <activity
-            android:name=".ui.TKWeekCompose"
+            android:name=".activity.TKWeekCompose"
             android:exported="true"
             android:theme="@style/Theme.Material3.DayNight.NoActionBar">
             <intent-filter>

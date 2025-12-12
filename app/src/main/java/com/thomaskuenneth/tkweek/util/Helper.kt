@@ -33,7 +33,7 @@ import android.util.Log
 import android.widget.DatePicker
 import androidx.preference.PreferenceManager
 import com.thomaskuenneth.tkweek.R
-import com.thomaskuenneth.tkweek.ui.TKWeekCompose
+import com.thomaskuenneth.tkweek.activity.TKWeekCompose
 import com.thomaskuenneth.tkweek.fragment.CLAZZ
 import java.text.DateFormat
 import java.text.SimpleDateFormat

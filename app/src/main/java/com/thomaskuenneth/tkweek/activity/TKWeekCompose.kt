@@ -1,4 +1,4 @@
-package com.thomaskuenneth.tkweek.ui
+package com.thomaskuenneth.tkweek.activity
 
 import android.os.Bundle
 import androidx.activity.compose.setContent
@@ -41,6 +41,8 @@ import com.thomaskuenneth.tkweek.R
 import com.thomaskuenneth.tkweek.TKWeekModule
 import com.thomaskuenneth.tkweek.fragment.CLAZZ
 import com.thomaskuenneth.tkweek.fragment.PAYLOAD
+import com.thomaskuenneth.tkweek.ui.TKWeekModuleContainer
+import com.thomaskuenneth.tkweek.ui.TKWeekModuleSelector
 import com.thomaskuenneth.tkweek.viewmodel.TKWeekViewModel
 import com.thomaskuenneth.tkweek.viewmodel.UiState
 import dagger.hilt.android.AndroidEntryPoint
@@ -139,38 +141,12 @@ fun TKWeekApp(viewModel: TKWeekViewModel = viewModel()) {
                 )
             },
             detailPane = {
-                FragmentContainer(
+                TKWeekModuleContainer(
                     uiState = uiState
                 )
             }
         )
     }
-}
-
-@Composable
-fun FragmentContainer(
-    uiState: UiState
-) {
-    AndroidView(
-        modifier = Modifier.fillMaxSize(),
-        factory = { context ->
-            FragmentContainerView(context).apply {
-                id = R.id.fragment_container_view
-            }
-        },
-        update = { view ->
-            with(uiState.modules.last()) {
-                val fragmentManager = (view.context as AppCompatActivity).supportFragmentManager
-                val fragment =
-                    module.clazz.getConstructor()
-                        .newInstance() as Fragment
-                fragment.arguments = arguments
-                fragmentManager.beginTransaction()
-                    .replace(view.id, fragment)
-                    .commit()
-            }
-        }
-    )
 }
 
 @Preview(showBackground = true)

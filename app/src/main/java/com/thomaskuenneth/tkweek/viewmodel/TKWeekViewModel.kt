@@ -29,7 +29,8 @@ class TKWeekViewModel @Inject constructor() : ViewModel() {
 
     private val _uiState = with(
         TKWeekModuleWithArguments(
-            module = TKWeekModule.Week, arguments = null
+            module = TKWeekModule.Week,
+            arguments = null,
         )
     ) {
         MutableStateFlow(
@@ -46,7 +47,8 @@ class TKWeekViewModel @Inject constructor() : ViewModel() {
     val navigationTrigger = _navigationTrigger.receiveAsFlow()
 
     private val _fragmentScrollDelta = MutableSharedFlow<Float>(
-        extraBufferCapacity = 64, onBufferOverflow = BufferOverflow.DROP_OLDEST
+        extraBufferCapacity = 64,
+        onBufferOverflow = BufferOverflow.DROP_OLDEST
     )
     val fragmentScrollDelta = _fragmentScrollDelta.asSharedFlow()
 
@@ -61,9 +63,14 @@ class TKWeekViewModel @Inject constructor() : ViewModel() {
         _resetScrollTrigger.trySend(Unit)
     }
 
-    fun selectModule(module: TKWeekModule, arguments: Bundle?, topLevel: Boolean) {
+    fun selectModuleWithArguments(
+        module: TKWeekModule,
+        arguments: Bundle?,
+        topLevel: Boolean
+    ) {
         val moduleWithArguments = TKWeekModuleWithArguments(
-            module = module, arguments = arguments
+            module = module,
+            arguments = arguments
         )
         _uiState.update {
             it.copy(
@@ -73,7 +80,8 @@ class TKWeekViewModel @Inject constructor() : ViewModel() {
         }
         _navigationTrigger.trySend(
             NavigationEvent(
-                moduleWithArguments = moduleWithArguments, topLevel = topLevel
+                moduleWithArguments = moduleWithArguments,
+                topLevel = topLevel
             )
         )
     }

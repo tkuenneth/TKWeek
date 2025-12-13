@@ -37,7 +37,6 @@ import com.thomaskuenneth.tkweek.databinding.TkweekfragmentBinding
 import kotlin.math.max
 
 const val CLAZZ = "clazz"
-const val TITLE = "title"
 const val PAYLOAD = "payload"
 const val DATE = "date"
 

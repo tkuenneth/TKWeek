@@ -83,7 +83,7 @@ public class TKWeekUtils {
                         TKWeekViewModel viewModel = new ViewModelProvider((FragmentActivity) activity).get(TKWeekViewModel.class);
                         TKWeekModule module = TKWeekFragmentListAdapter.find(TKWeekModule.Prefs.getClazz());
                         if (module != null) {
-                            viewModel.selectModule(module, new Bundle(), false);
+                            viewModel.selectModuleWithArguments(module, new Bundle(), false);
                         }
                     }
                 }

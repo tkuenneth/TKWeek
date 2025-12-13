@@ -100,7 +100,7 @@ abstract class TKWeekBaseFragment<T> : TKWeekHiltBaseFragment() {
 
     fun selectModule(module: Class<*>, payload: Bundle?) {
         TKWeekFragmentListAdapter.find(module)?.let {
-            viewModel.selectModule(module = it, arguments = payload, topLevel = false)
+            viewModel.selectModuleWithArguments(module = it, arguments = payload, topLevel = false)
         }
     }
 

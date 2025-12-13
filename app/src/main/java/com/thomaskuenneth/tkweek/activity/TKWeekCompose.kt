@@ -54,6 +54,7 @@ import com.thomaskuenneth.tkweek.ui.TKWeekModuleSelector
 import com.thomaskuenneth.tkweek.ui.colorScheme
 import com.thomaskuenneth.tkweek.viewmodel.TKWeekViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.count
 import kotlinx.coroutines.launch
 import kotlin.math.max
 
@@ -66,8 +67,10 @@ class TKWeekCompose : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         intent?.getStringExtra(CLAZZ)?.let { clazzName ->
             TKWeekModule.entries.firstOrNull { it.clazz.name == clazzName }?.let {
-                viewModel.selectModule(
-                    module = it, arguments = intent?.getBundleExtra(PAYLOAD), topLevel = true
+                viewModel.selectModuleWithArguments(
+                    module = it,
+                    arguments = intent?.getBundleExtra(PAYLOAD),
+                    topLevel = true
                 )
             }
         }
@@ -78,6 +81,8 @@ class TKWeekCompose : AppCompatActivity() {
     }
 }
 
+private const val ARGUMENTS = "arguments"
+
 @OptIn(
     ExperimentalMaterial3Api::class, ExperimentalMaterial3AdaptiveApi::class
 )
@@ -87,7 +92,8 @@ fun TKWeekApp(viewModel: TKWeekViewModel = viewModel()) {
         colorScheme = colorScheme()
     ) {
         val threePaneScaffoldNavigator = rememberListDetailPaneScaffoldNavigator<TKWeekModule>()
-        val navHostController = rememberNavController()
+        val navController = rememberNavController()
+        val visibleEntries by navController.visibleEntries.collectAsState()
         val scope = rememberCoroutineScope()
         val uiState by viewModel.uiState.collectAsState()
         val listVisible =
@@ -101,15 +107,15 @@ fun TKWeekApp(viewModel: TKWeekViewModel = viewModel()) {
             viewModel.navigationTrigger.collect { navigationEvent ->
                 if (navigationEvent.topLevel) {
                     threePaneScaffoldNavigator.navigateTo(
-                        pane = ListDetailPaneScaffoldRole.Detail
+                        ListDetailPaneScaffoldRole.Detail
                     )
                 } else {
                     with(navigationEvent.moduleWithArguments) {
-                        navHostController.currentBackStackEntry?.savedStateHandle?.set(
-                                "arguments",
-                                arguments
-                            )
-                        navHostController.navigate(module.name)
+                        navController.currentBackStackEntry?.savedStateHandle?.set(
+                            ARGUMENTS,
+                            arguments
+                        )
+                        navController.navigate(module.name)
                     }
                 }
             }
@@ -131,22 +137,28 @@ fun TKWeekApp(viewModel: TKWeekViewModel = viewModel()) {
             contentWindowInsets = WindowInsets(),
             topBar = {
                 CenterAlignedTopAppBar(
-                    title = { Text(text = stringResource(if (listVisible) R.string.app_name else uiState.activeModuleWithArguments.module.titleRes)) },
+                    title = {
+                        Text(
+                            text = stringResource(if (listVisible) R.string.app_name else uiState.activeModuleWithArguments.module.titleRes)
+                        )
+                    },
                     navigationIcon = {
-                        val hasStackedModules = false
+                        val hasStackedModules = visibleEntries.size > 1
                         if (threePaneScaffoldNavigator.canNavigateBack() || hasStackedModules) {
-                            IconButton(onClick = {
-                                if (hasStackedModules) {
-                                    navHostController.popBackStack()
-                                } else {
-                                    scope.launch {
-                                        threePaneScaffoldNavigator.navigateBack()
+                            IconButton(
+                                onClick = {
+                                    if (hasStackedModules) {
+                                        navController.popBackStack()
+                                    } else {
+                                        scope.launch {
+                                            threePaneScaffoldNavigator.navigateBack()
+                                        }
                                     }
                                 }
-                            }) {
+                            ) {
                                 Icon(
                                     imageVector = Icons.AutoMirrored.Default.ArrowBack,
-                                    contentDescription = null
+                                    contentDescription = null,
                                 )
                             }
                         }
@@ -156,7 +168,8 @@ fun TKWeekApp(viewModel: TKWeekViewModel = viewModel()) {
                         scrolledContainerColor = MaterialTheme.colorScheme.surfaceContainer
                     )
                 )
-            }) { paddingValues ->
+            }
+        ) { paddingValues ->
             val displayCutoutInsets = WindowInsets.displayCutout
             val density = LocalDensity.current
             val layoutDirection = LocalLayoutDirection.current
@@ -169,30 +182,38 @@ fun TKWeekApp(viewModel: TKWeekViewModel = viewModel()) {
                     .padding(paddingValues)
                     .padding(horizontal = horizontalPadding),
                 listPane = {
-                    TKWeekModuleSelector(uiState = uiState, onModuleSelected = { module ->
-                        viewModel.selectModule(
-                            module = module, arguments = null, topLevel = true
-                        )
-                    }, detailVisible = detailVisible, onListStateChanged = { isListAtTop = it })
+                    TKWeekModuleSelector(
+                        uiState = uiState,
+                        onModuleSelected = { module ->
+                            viewModel.selectModuleWithArguments(
+                                module = module,
+                                arguments = null,
+                                topLevel = true
+                            )
+                        },
+                        detailVisible = detailVisible,
+                        onListStateChanged = { isListAtTop = it }
+                    )
                 },
                 detailPane = {
                     val startDestination = uiState.topLevelModuleWithArguments.module.name
                     key(startDestination) {
                         NavHost(
-                            navController = navHostController, startDestination = startDestination
+                            navController = navController,
+                            startDestination = startDestination
                         ) {
                             TKWeekModule.entries.forEach { moduleEntry ->
                                 composable(
                                     route = moduleEntry.name,
-                                    arguments = listOf(navArgument("arguments") {
+                                    arguments = listOf(navArgument(ARGUMENTS) {
                                         type = NavType.ParcelableType(Bundle::class.java)
                                         nullable = true
                                     })
                                 ) {
                                     val args =
-                                        navHostController.previousBackStackEntry?.savedStateHandle?.get<Bundle>(
-                                                "arguments"
-                                            )
+                                        navController.previousBackStackEntry?.savedStateHandle?.get<Bundle>(
+                                            ARGUMENTS
+                                        )
                                     TKWeekModuleContainer(
                                         module = moduleEntry,
                                         arguments = args,
@@ -201,7 +222,8 @@ fun TKWeekApp(viewModel: TKWeekViewModel = viewModel()) {
                             }
                         }
                     }
-                })
+                }
+            )
         }
     }
 }

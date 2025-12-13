@@ -25,7 +25,7 @@ fun ThreePaneScaffoldPaneScope.TKWeekModuleContainer(
     AnimatedPane {
         val context = LocalContext.current
         val fragmentManager = (context as AppCompatActivity).supportFragmentManager
-        val (module, arguments) = uiState.modules.last()
+        val (module, arguments) = uiState.currentFragmentInfo
         val containerId = remember { View.generateViewId() }
 
         DisposableEffect(module, arguments) {

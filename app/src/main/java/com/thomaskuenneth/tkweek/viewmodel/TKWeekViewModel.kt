@@ -16,7 +16,12 @@ import kotlinx.coroutines.flow.update
 import javax.inject.Inject
 
 data class UiState(
-    val modules: List<FragmentInfo>
+    val currentFragmentInfo: FragmentInfo
+)
+
+data class NavigationEvent(
+    val fragmentInfo: FragmentInfo,
+    val topLevel: Boolean
 )
 
 @HiltViewModel
@@ -24,17 +29,16 @@ class TKWeekViewModel @Inject constructor() : ViewModel() {
 
     private val _uiState = MutableStateFlow(
         UiState(
-            modules = listOf(
+            currentFragmentInfo =
                 FragmentInfo(
                     module = TKWeekModule.Week,
                     arguments = null
                 )
-            )
         )
     )
     val uiState = _uiState.asStateFlow()
 
-    private val _navigationTrigger = Channel<Unit>(Channel.CONFLATED)
+    private val _navigationTrigger = Channel<NavigationEvent>(Channel.CONFLATED)
     val navigationTrigger = _navigationTrigger.receiveAsFlow()
 
     private val _fragmentScrollDelta = MutableSharedFlow<Float>(
@@ -54,23 +58,21 @@ class TKWeekViewModel @Inject constructor() : ViewModel() {
         _resetScrollTrigger.trySend(Unit)
     }
 
-    fun selectModule(module: TKWeekModule, arguments: Bundle?, replace: Boolean) {
+    fun selectModule(module: TKWeekModule, arguments: Bundle?, topLevel: Boolean) {
+        val fragmentInfo = FragmentInfo(
+            module = module,
+            arguments = arguments
+        )
         _uiState.update {
             it.copy(
-                modules = (if (replace) emptyList() else it.modules) + FragmentInfo(
-                    module = module,
-                    arguments = arguments
-                )
+                currentFragmentInfo = fragmentInfo
             )
         }
-        if (replace) _navigationTrigger.trySend(Unit)
-    }
-
-    fun popModule() {
-        _uiState.update {
-            it.copy(
-                modules = it.modules.subList(0, it.modules.size - 1)
+        _navigationTrigger.trySend(
+            NavigationEvent(
+                fragmentInfo = fragmentInfo,
+                topLevel = topLevel
             )
-        }
+        )
     }
 }

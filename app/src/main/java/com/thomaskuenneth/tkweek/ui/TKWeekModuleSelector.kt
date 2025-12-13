@@ -41,7 +41,7 @@ fun ThreePaneScaffoldPaneScope.TKWeekModuleSelector(
             modifier = modifier
         ) {
             items(TKWeekModule.entries) { entry ->
-                with(uiState.modules.last()) {
+                with(uiState.currentFragmentInfo) {
                     val selected = detailVisible && module == entry
                     key(entry) {
                         ListItem(

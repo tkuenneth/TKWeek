@@ -41,7 +41,6 @@ import android.text.style.StyleSpan;
 
 import androidx.core.app.NotificationCompat;
 
-import com.thomaskuenneth.tkweek.activity.TKWeekCompose;
 import com.thomaskuenneth.tkweek.util.Helper;
 import com.thomaskuenneth.tkweek.adapter.AnnualEventsListAdapter;
 import com.thomaskuenneth.tkweek.types.Event;

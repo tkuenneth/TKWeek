@@ -24,7 +24,6 @@
 package com.thomaskuenneth.tkweek.fragment
 
 import android.content.Context
-import android.content.Intent
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.os.Bundle
@@ -227,10 +226,6 @@ class CalendarFragment : TKWeekBaseFragment<CalendarBinding>(), View.OnClickList
             cal.add(Calendar.YEAR, 1)
         }
         update()
-    }
-
-    override fun preferencesFinished(resultCode: Int, data: Intent?) {
-        updateCalendar()
     }
 
     private fun update() {

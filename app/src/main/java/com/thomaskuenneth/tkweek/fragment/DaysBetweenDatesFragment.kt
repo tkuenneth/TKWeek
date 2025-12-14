@@ -23,7 +23,6 @@
  */
 package com.thomaskuenneth.tkweek.fragment
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -86,10 +85,6 @@ class DaysBetweenDatesFragment : TKWeekBaseFragment<DaysBetweenDatesActivityBind
             calSecondDate.timeInMillis = MaterialDatePicker.todayInUtcMilliseconds()
             update()
         }
-        update()
-    }
-
-    override fun preferencesFinished(resultCode: Int, data: Intent?) {
         update()
     }
 

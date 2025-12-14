@@ -226,10 +226,6 @@ class MyDayFragment : TKWeekBaseFragment<MydayBinding>() {
         super.onPause()
     }
 
-    override fun preferencesFinished(resultCode: Int, data: Intent?) {
-        updateViews()
-    }
-
     private fun cancelEventsLoader() {
         if (eventsLoader != null) {
             eventsLoader?.cancel(true)

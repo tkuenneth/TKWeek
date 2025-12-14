@@ -24,7 +24,6 @@
  */
 package com.thomaskuenneth.tkweek.fragment
 
-import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
@@ -264,9 +263,5 @@ class AboutYearFragment : TKWeekBaseFragment<AboutAYearBinding>(), View.OnClickL
         do {
             cal.add(Calendar.YEAR, offset)
         } while (!DateUtilities.isSchaltjahr(cal[Calendar.YEAR]))
-    }
-
-    override fun preferencesFinished(resultCode: Int, data: Intent?) {
-        update()
     }
 }

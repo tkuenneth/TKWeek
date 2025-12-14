@@ -357,10 +357,6 @@ class AnnualEventsFragment : TKWeekBaseFragment<EventsBinding>(), AdapterView.On
         }
     }
 
-    override fun preferencesFinished(resultCode: Int, data: Intent?) {
-        updateAll()
-    }
-
     private fun setListAdapterLoadEvents(
         restore: Boolean, search: String?
     ) {

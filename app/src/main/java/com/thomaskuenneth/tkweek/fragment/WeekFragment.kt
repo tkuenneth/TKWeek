@@ -26,7 +26,6 @@ package com.thomaskuenneth.tkweek.fragment
 import android.appwidget.AppWidgetManager
 import android.content.ComponentName
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import android.view.*
 import android.widget.TextView
@@ -110,13 +109,6 @@ class WeekFragment : TKWeekBaseFragment<WeekBinding>(),
 
             else -> super.onOptionsItemSelected(item)
         }
-    }
-
-    override fun preferencesFinished(resultCode: Int, data: Intent?) {
-        super.preferencesFinished(resultCode, data)
-        prepareCalendar(cal, requireContext(), binding.labelWeekNumber, false)
-        updateViewsFromCalendar()
-        updateWeekInfoWidgets(requireContext())
     }
 
     override fun onClick(v: View) {

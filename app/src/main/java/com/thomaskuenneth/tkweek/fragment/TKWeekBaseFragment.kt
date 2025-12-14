@@ -24,7 +24,6 @@
 package com.thomaskuenneth.tkweek.fragment
 
 import android.Manifest
-import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.view.View
@@ -90,10 +89,6 @@ abstract class TKWeekBaseFragment<T> : TKWeekHiltBaseFragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         backing = null
-    }
-
-    open fun preferencesFinished(resultCode: Int, data: Intent?) {
-        // intentionally does nothing
     }
 
     fun selectModule(module: Class<*>, payload: Bundle?) {

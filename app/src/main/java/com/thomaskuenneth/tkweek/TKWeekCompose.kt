@@ -39,6 +39,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalLayoutDirection
+import androidx.compose.ui.platform.isDebugInspectorInfoEnabled
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -140,8 +141,6 @@ fun TKWeekApp(viewModel: TKWeekViewModel = viewModel()) {
                 }
             }
         }
-//        val topBarTitle =
-//            stringResource(if (listVisible) R.string.app_name else activeModuleTitleRes)
         Scaffold(
             modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
             contentWindowInsets = WindowInsets(),
@@ -181,18 +180,20 @@ fun TKWeekApp(viewModel: TKWeekViewModel = viewModel()) {
                         }
                     },
                     actions = {
-                        appBarActions.forEach { action ->
-                            if (action.isVisible) {
-                                if (action.icon != null) {
-                                    IconButton(onClick = action.onClick) {
-                                        Icon(
-                                            painter = painterResource(id = action.icon),
-                                            contentDescription = stringResource(id = action.contentDescription)
-                                        )
-                                    }
-                                } else {
-                                    TextButton(onClick = action.onClick) {
-                                        Text(text = stringResource(id = action.title!!))
+                        if (detailVisible) {
+                            appBarActions.forEach { action ->
+                                if (action.isVisible) {
+                                    if (action.icon != null) {
+                                        IconButton(onClick = action.onClick) {
+                                            Icon(
+                                                painter = painterResource(id = action.icon),
+                                                contentDescription = stringResource(id = action.contentDescription)
+                                            )
+                                        }
+                                    } else {
+                                        TextButton(onClick = action.onClick) {
+                                            Text(text = stringResource(id = action.title!!))
+                                        }
                                     }
                                 }
                             }

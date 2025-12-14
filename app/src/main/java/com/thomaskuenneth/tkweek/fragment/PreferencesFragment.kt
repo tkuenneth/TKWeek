@@ -49,6 +49,11 @@ class PreferencesFragment : PreferenceFragmentCompat() {
         addPreferencesFromResource(R.xml.tkweek_preferences)
     }
 
+    override fun onViewStateRestored(savedInstanceState: Bundle?) {
+        super.onViewStateRestored(savedInstanceState)
+        viewModel.setAppBarActions(emptyList())
+    }
+
     override fun onCreateRecyclerView(
         inflater: LayoutInflater,
         parent: ViewGroup,

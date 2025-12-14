@@ -22,9 +22,9 @@ data class UiState(
 )
 
 data class AppBarAction(
-    @DrawableRes val icon: Int?,
-    @StringRes val contentDescription: Int,
-    @StringRes val title: Int?,
+    @param:DrawableRes val icon: Int?,
+    @param:StringRes val contentDescription: Int,
+    @param:StringRes val title: Int?,
     val onClick: () -> Unit,
     val isVisible: Boolean = true
 )
@@ -75,7 +75,7 @@ class TKWeekViewModel @Inject constructor() : ViewModel() {
     }
 
     fun setAppBarActions(actions: List<AppBarAction>) {
-        _appBarActions.value = actions
+        _appBarActions.update { actions }
     }
 
     fun selectModuleWithArguments(

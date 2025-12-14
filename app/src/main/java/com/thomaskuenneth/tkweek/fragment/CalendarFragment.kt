@@ -41,7 +41,6 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.color.MaterialColors
 import com.thomaskuenneth.tkweek.R
-import com.thomaskuenneth.tkweek.util.Helper
 import com.thomaskuenneth.tkweek.adapter.MonthsAdapter
 import com.thomaskuenneth.tkweek.addDate
 import com.thomaskuenneth.tkweek.databinding.CalendarBinding
@@ -49,6 +48,8 @@ import com.thomaskuenneth.tkweek.fragment.WeekFragment.Companion.prepareCalendar
 import com.thomaskuenneth.tkweek.preference.PickBusinessDaysPreference
 import com.thomaskuenneth.tkweek.updateRecents
 import com.thomaskuenneth.tkweek.util.DateUtilities
+import com.thomaskuenneth.tkweek.util.Helper
+import com.thomaskuenneth.tkweek.util.Helper.DATE
 import java.util.Calendar
 import java.util.Date
 

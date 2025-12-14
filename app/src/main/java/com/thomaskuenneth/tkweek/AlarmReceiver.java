@@ -3,7 +3,7 @@
  *
  * Copyright 2016 - 2020 Thomas Künneth
  *           2021 MATHEMA GmbH
- *           2022 - 2023 Thomas Künneth
+ *           2022 - 2025 Thomas Künneth
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
@@ -41,8 +41,8 @@ import android.text.style.StyleSpan;
 
 import androidx.core.app.NotificationCompat;
 
+import com.thomaskuenneth.tkweek.activity.TKWeekCompose;
 import com.thomaskuenneth.tkweek.util.Helper;
-import com.thomaskuenneth.tkweek.activity.TKWeekActivity;
 import com.thomaskuenneth.tkweek.adapter.AnnualEventsListAdapter;
 import com.thomaskuenneth.tkweek.types.Event;
 
@@ -165,7 +165,7 @@ public class AlarmReceiver extends BroadcastReceiver {
 
     private static NotificationCompat.Builder createBuilder(Context context, long when, int smallIcon) {
         int _id = getNextId();
-        Intent intent = new Intent(context, TKWeekActivity.class);
+        Intent intent = new Intent(context, TKWeekCompose.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         intent.putExtra(KEY_CANCEL_NOTIFICATION, _id);
         NotificationCompat.Builder b = new NotificationCompat.Builder(context, CHANNEL_ID_EVENTS);

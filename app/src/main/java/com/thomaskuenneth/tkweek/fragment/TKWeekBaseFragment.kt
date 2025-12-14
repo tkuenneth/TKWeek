@@ -2,7 +2,7 @@
  * TKWeekBaseFragment.kt
  *
  * Copyright 2021 MATHEMA GmbH
- *           2022 - 2024 Thomas Künneth
+ *           2022 - 2025 Thomas Künneth
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
@@ -24,7 +24,6 @@
 package com.thomaskuenneth.tkweek.fragment
 
 import android.Manifest
-import android.app.Activity
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
@@ -36,7 +35,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.RecyclerView
-import com.thomaskuenneth.tkweek.R
 import com.thomaskuenneth.tkweek.adapter.TKWeekFragmentListAdapter
 import com.thomaskuenneth.tkweek.util.TKWeekUtils
 import com.thomaskuenneth.tkweek.viewmodel.TKWeekViewModel
@@ -172,9 +170,6 @@ abstract class TKWeekBaseFragment<T> : TKWeekHiltBaseFragment() {
             RQ_READ_CALENDAR
         )
     }
-
-    fun isTwoColumnMode(activity: Activity) =
-        activity.findViewById<ViewGroup>(R.id.module_container) != null
 
     private fun findScrollableContent(view: View): View? {
         if (view is RecyclerView || view is NestedScrollView) {

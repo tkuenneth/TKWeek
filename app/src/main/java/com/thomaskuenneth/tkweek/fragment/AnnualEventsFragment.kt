@@ -50,13 +50,14 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import com.thomaskuenneth.tkweek.AlarmReceiver
 import com.thomaskuenneth.tkweek.R
-import com.thomaskuenneth.tkweek.util.Helper
 import com.thomaskuenneth.tkweek.adapter.AnnualEventsListAdapter
 import com.thomaskuenneth.tkweek.adapter.AnnualEventsListAdapter.getUserEventsFile
 import com.thomaskuenneth.tkweek.databinding.EventsBinding
 import com.thomaskuenneth.tkweek.types.Event
 import com.thomaskuenneth.tkweek.types.IContactId
 import com.thomaskuenneth.tkweek.util.DateUtilities
+import com.thomaskuenneth.tkweek.util.Helper
+import com.thomaskuenneth.tkweek.util.Helper.DATE
 import com.thomaskuenneth.tkweek.util.TKWeekUtils
 import java.io.FileInputStream
 import java.io.FileOutputStream

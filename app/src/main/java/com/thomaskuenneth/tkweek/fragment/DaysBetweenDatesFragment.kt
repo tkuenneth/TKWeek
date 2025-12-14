@@ -30,9 +30,10 @@ import android.view.View
 import android.view.ViewGroup
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.thomaskuenneth.tkweek.CalendarAsyncTask
-import com.thomaskuenneth.tkweek.util.Helper
 import com.thomaskuenneth.tkweek.databinding.DaysBetweenDatesActivityBinding
 import com.thomaskuenneth.tkweek.util.DateUtilities
+import com.thomaskuenneth.tkweek.util.Helper
+import com.thomaskuenneth.tkweek.util.Helper.DATE
 import java.util.Calendar
 import java.util.Date
 

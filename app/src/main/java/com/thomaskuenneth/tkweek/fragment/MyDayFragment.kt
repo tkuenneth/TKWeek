@@ -46,7 +46,6 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.setFragmentResultListener
 import androidx.preference.PreferenceManager
 import com.thomaskuenneth.tkweek.R
-import com.thomaskuenneth.tkweek.util.Helper
 import com.thomaskuenneth.tkweek.adapter.AnnualEventsListAdapter
 import com.thomaskuenneth.tkweek.databinding.MydayBinding
 import com.thomaskuenneth.tkweek.fragment.CalendarFragment.Companion.isDayOff
@@ -56,6 +55,8 @@ import com.thomaskuenneth.tkweek.types.Namenstage
 import com.thomaskuenneth.tkweek.types.Zodiac
 import com.thomaskuenneth.tkweek.util.CalendarContractUtils
 import com.thomaskuenneth.tkweek.util.DateUtilities
+import com.thomaskuenneth.tkweek.util.Helper
+import com.thomaskuenneth.tkweek.util.Helper.DATE
 import com.thomaskuenneth.tkweek.util.TKWeekUtils
 import com.thomaskuenneth.tkweek.util.TKWeekUtils.linkToSettings
 import java.text.DateFormat

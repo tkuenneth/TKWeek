@@ -34,7 +34,6 @@ import android.widget.DatePicker
 import androidx.preference.PreferenceManager
 import com.thomaskuenneth.tkweek.R
 import com.thomaskuenneth.tkweek.activity.TKWeekCompose
-import com.thomaskuenneth.tkweek.fragment.CLAZZ
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.Locale
@@ -45,6 +44,10 @@ private const val TAG = "Helper"
 private const val INFINITY_SYMBOL = "infinity_symbol"
 
 object Helper {
+
+    const val CLAZZ = "clazz"
+    const val PAYLOAD = "payload"
+    const val DATE = "date"
 
     const val EXTRA_MODULE = "module"
 

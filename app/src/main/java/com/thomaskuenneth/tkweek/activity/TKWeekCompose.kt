@@ -50,11 +50,11 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.thomaskuenneth.tkweek.R
 import com.thomaskuenneth.tkweek.TKWeekModule
-import com.thomaskuenneth.tkweek.fragment.CLAZZ
-import com.thomaskuenneth.tkweek.fragment.PAYLOAD
 import com.thomaskuenneth.tkweek.ui.TKWeekModuleContainer
 import com.thomaskuenneth.tkweek.ui.TKWeekModuleSelector
 import com.thomaskuenneth.tkweek.ui.colorScheme
+import com.thomaskuenneth.tkweek.util.Helper.CLAZZ
+import com.thomaskuenneth.tkweek.util.Helper.PAYLOAD
 import com.thomaskuenneth.tkweek.viewmodel.TKWeekViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch

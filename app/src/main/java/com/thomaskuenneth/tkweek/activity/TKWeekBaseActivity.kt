@@ -89,10 +89,10 @@ abstract class TKWeekBaseActivity : AppCompatActivity() {
             }
 
             R.id.annual_event_prefs -> {
-                val intent = Intent(this, TKWeekActivity::class.java).apply {
-                    putExtra(Helper.EXTRA_MODULE, TKWeekModule.Prefs.name)
-                }
-                startActivity(intent)
+//                val intent = Intent(this, TKWeekActivity::class.java).apply {
+//                    putExtra(Helper.EXTRA_MODULE, TKWeekModule.Prefs.name)
+//                }
+//                startActivity(intent)
                 true
             }
 

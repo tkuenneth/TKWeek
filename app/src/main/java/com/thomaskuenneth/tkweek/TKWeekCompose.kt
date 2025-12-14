@@ -152,13 +152,22 @@ fun TKWeekApp(viewModel: TKWeekViewModel = viewModel()) {
                 }
             }
         }
+        val displayCutoutInsets = WindowInsets.displayCutout
+        val density = LocalDensity.current
+        val layoutDirection = LocalLayoutDirection.current
+        val left = displayCutoutInsets.getLeft(density, layoutDirection)
+        val right = displayCutoutInsets.getRight(density, layoutDirection)
+        val horizontalPadding =
+            with(density) { max(left, right).toDp() }.coerceAtLeast(16.dp)
         Scaffold(
             modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
             contentWindowInsets = WindowInsets(),
             topBar = {
                 if (uiState.showSearchBar) {
                     SearchBar(
-                        modifier = Modifier.fillMaxWidth(),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = horizontalPadding),
                         query = uiState.searchQuery,
                         onQueryChange = {
                             viewModel.setSearchQuery(it)
@@ -278,13 +287,6 @@ fun TKWeekApp(viewModel: TKWeekViewModel = viewModel()) {
                 }
             }
         ) { paddingValues ->
-            val displayCutoutInsets = WindowInsets.displayCutout
-            val density = LocalDensity.current
-            val layoutDirection = LocalLayoutDirection.current
-            val left = displayCutoutInsets.getLeft(density, layoutDirection)
-            val right = displayCutoutInsets.getRight(density, layoutDirection)
-            val horizontalPadding =
-                with(density) { max(left, right).toDp() }.coerceAtLeast(16.dp)
             NavigableListDetailPaneScaffold(
                 navigator = threePaneScaffoldNavigator,
                 modifier = Modifier

@@ -158,7 +158,7 @@
     <string name="weeks">Wochen</string>
     <string name="months">Monate</string>
     <string name="years">Jahre</string>
-    <string name="clear">Leeren</string>
+    <string name="clear">Löschen</string>
     <string name="date_calculator_info">Bitte + oder - drücken</string>
     <string name="reuse_result">Ergebnis als neues Startdatum</string>
     <string name="count_business_days_only">Nur Werktage zählen</string>
@@ -223,6 +223,8 @@
     <string name="remove_holiday_tag">Feiertagsmarkierung entfernen</string>
     <string name="channel_events">Ereignisse</string>
     <string name="more_options">Weitere Optionen</string>
+    <string name="navigate_up">Nach oben navigieren</string>
+    <string name="close_search">Suche schließen</string>
 
     <!-- PickADateActivity -->
     <string name="description">Beschreibung</string>

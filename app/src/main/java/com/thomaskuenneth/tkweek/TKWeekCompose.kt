@@ -10,13 +10,10 @@ import androidx.compose.foundation.layout.displayCutout
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SearchBar
@@ -187,35 +184,26 @@ fun TKWeekApp(viewModel: TKWeekViewModel = viewModel()) {
                         placeholder = { Text(stringResource(id = R.string.search_hint)) },
                         leadingIcon = {
                             if (uiState.isSearchActive) {
-                                IconButton(onClick = {
-                                    viewModel.setSearchActive(false)
-                                    viewModel.setSearchQuery("")
-                                    focusManager.clearFocus()
-                                }) {
-                                    Icon(
-                                        imageVector = Icons.AutoMirrored.Default.ArrowBack,
-                                        contentDescription = null
-                                    )
-                                }
+                                BackArrow(
+                                    onClick = {
+                                        viewModel.setSearchActive(false)
+                                        viewModel.setSearchQuery("")
+                                        focusManager.clearFocus()
+                                    },
+                                    description = R.string.close_search
+                                )
                             } else {
                                 val hasStackedModules =
                                     currentBackStackEntry != null && navController.previousBackStackEntry != null
                                 if (threePaneScaffoldNavigator.canNavigateBack() || hasStackedModules) {
-                                    IconButton(
-                                        onClick = {
-                                            if (hasStackedModules) {
-                                                navController.popBackStack()
-                                            } else {
-                                                scope.launch {
-                                                    threePaneScaffoldNavigator.navigateBack()
-                                                }
+                                    BackArrow {
+                                        if (hasStackedModules) {
+                                            navController.popBackStack()
+                                        } else {
+                                            scope.launch {
+                                                threePaneScaffoldNavigator.navigateBack()
                                             }
                                         }
-                                    ) {
-                                        Icon(
-                                            imageVector = Icons.AutoMirrored.Default.ArrowBack,
-                                            contentDescription = null,
-                                        )
                                     }
                                 } else {
                                     Icon(
@@ -227,13 +215,8 @@ fun TKWeekApp(viewModel: TKWeekViewModel = viewModel()) {
                         },
                         trailingIcon = {
                             if (uiState.searchQuery.isNotEmpty()) {
-                                IconButton(onClick = {
+                                ClearIcon {
                                     viewModel.setSearchQuery("")
-                                }) {
-                                    Icon(
-                                        imageVector = Icons.Default.Clear,
-                                        contentDescription = null
-                                    )
                                 }
                             }
                         }
@@ -256,21 +239,14 @@ fun TKWeekApp(viewModel: TKWeekViewModel = viewModel()) {
                             val hasStackedModules =
                                 currentBackStackEntry != null && navController.previousBackStackEntry != null
                             if (threePaneScaffoldNavigator.canNavigateBack() || hasStackedModules) {
-                                IconButton(
-                                    onClick = {
-                                        if (hasStackedModules) {
-                                            navController.popBackStack()
-                                        } else {
-                                            scope.launch {
-                                                threePaneScaffoldNavigator.navigateBack()
-                                            }
+                                BackArrow {
+                                    if (hasStackedModules) {
+                                        navController.popBackStack()
+                                    } else {
+                                        scope.launch {
+                                            threePaneScaffoldNavigator.navigateBack()
                                         }
                                     }
-                                ) {
-                                    Icon(
-                                        imageVector = Icons.AutoMirrored.Default.ArrowBack,
-                                        contentDescription = null,
-                                    )
                                 }
                             }
                         },

@@ -1,8 +1,9 @@
-package com.thomaskuenneth.tkweek
+package com.thomaskuenneth.tkweek.ui
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Clear
 import androidx.compose.runtime.Composable
+import com.thomaskuenneth.tkweek.R
 
 @Composable
 fun ClearIcon(onClick: () -> Unit) {

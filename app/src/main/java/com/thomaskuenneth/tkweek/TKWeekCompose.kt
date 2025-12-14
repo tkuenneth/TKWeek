@@ -51,6 +51,8 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.thomaskuenneth.tkweek.ui.BackArrow
+import com.thomaskuenneth.tkweek.ui.ClearIcon
 import com.thomaskuenneth.tkweek.ui.TKWeekAppBarActions
 import com.thomaskuenneth.tkweek.ui.TKWeekModuleContainer
 import com.thomaskuenneth.tkweek.ui.TKWeekModuleSelector
@@ -180,7 +182,7 @@ fun TKWeekApp(viewModel: TKWeekViewModel = viewModel()) {
                                 },
                                 expanded = uiState.isSearchActive,
                                 onExpandedChange = { viewModel.setSearchActive(it) },
-                                placeholder = { Text(stringResource(id = R.string.search_hint)) },
+                                placeholder = { Text(stringResource(id = R.string.events)) },
                                 leadingIcon = {
                                     if (uiState.isSearchActive) {
                                         BackArrow(

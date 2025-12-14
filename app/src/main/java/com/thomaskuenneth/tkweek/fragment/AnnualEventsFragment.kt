@@ -45,7 +45,6 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
-import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.thomaskuenneth.tkweek.AlarmReceiver
 import com.thomaskuenneth.tkweek.R
@@ -446,12 +445,6 @@ class AnnualEventsFragment : TKWeekBaseFragment<EventsBinding>(), AdapterView.On
     private fun updateListAndOptionsMenu() {
         setListAdapterLoadEvents(false, searchString)
         updateAppBarActions()
-        (requireActivity() as AppCompatActivity).supportActionBar?.title =
-            if (searchString?.isNotEmpty() == true) getString(
-                R.string.string1_string2,
-                getString(R.string.annual_events_activity_text1),
-                getString(R.string.filtered)
-            ) else getString(R.string.annual_events_activity_text1)
     }
 
     private fun showError() {

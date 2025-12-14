@@ -302,9 +302,6 @@ Sie TKWeek den Zugriff auf Kontakte gestatten.</string>
     <string name="buss_und_bettag_de">Buß- und Bettag</string>
     <string name="weltkindertag">Weltkindertag</string>
     <string name="schulferien_bundesland">Schulferien</string>
-    <string name="search">Suchen</string>
-    <string name="search_hint">Name d. Ereignisses</string>
-    <string name="filtered">gefiltert</string>
     <string name="weiberfastnacht">Weiberfastnacht</string>
     <string name="sg_national_day">Nationaltag (Singapur)</string>
     <string name="widget_retired">Dieses TKWeek widget wird nicht länger unterstützt. Bitte entfernen Sie es.</string>

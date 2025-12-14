@@ -363,9 +363,6 @@ TKWeek needs to access your contacts.</string>
     <string name="buss_und_bettag_de">day of repentance and prayer</string>
     <string name="weltkindertag">Universal Children\'s Day</string>
     <string name="schulferien_bundesland">School holidays</string>
-    <string name="search">Search</string>
-    <string name="search_hint">Name of an event</string>
-    <string name="filtered">filtered</string>
     <string name="show_school_holidays">Pick state</string>
     <string name="load_all_user_events">Load all user events</string>
     <string name="delete">Delete</string>

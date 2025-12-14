@@ -1,4 +1,4 @@
-package com.thomaskuenneth.tkweek
+package com.thomaskuenneth.tkweek.ui
 
 import androidx.annotation.StringRes
 import androidx.compose.material3.ExperimentalMaterial3Api

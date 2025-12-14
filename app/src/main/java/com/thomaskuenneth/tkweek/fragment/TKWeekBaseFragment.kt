@@ -35,7 +35,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.RecyclerView
-import com.thomaskuenneth.tkweek.adapter.TKWeekFragmentListAdapter
+import com.thomaskuenneth.tkweek.TKWeekModule
 import com.thomaskuenneth.tkweek.util.TKWeekUtils
 import com.thomaskuenneth.tkweek.viewmodel.TKWeekViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -97,7 +97,7 @@ abstract class TKWeekBaseFragment<T> : TKWeekHiltBaseFragment() {
     }
 
     fun selectModule(module: Class<*>, payload: Bundle?) {
-        TKWeekFragmentListAdapter.find(module)?.let {
+        TKWeekModule.find(module)?.let {
             viewModel.selectModuleWithArguments(module = it, arguments = payload, topLevel = false)
         }
     }

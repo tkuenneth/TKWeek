@@ -45,7 +45,6 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.thomaskuenneth.tkweek.R;
 import com.thomaskuenneth.tkweek.TKWeekModule;
-import com.thomaskuenneth.tkweek.adapter.TKWeekFragmentListAdapter;
 import com.thomaskuenneth.tkweek.viewmodel.TKWeekViewModel;
 
 import java.io.File;
@@ -81,7 +80,7 @@ public class TKWeekUtils {
                 public void onClick(@NonNull View widget) {
                     if (activity instanceof FragmentActivity) {
                         TKWeekViewModel viewModel = new ViewModelProvider((FragmentActivity) activity).get(TKWeekViewModel.class);
-                        TKWeekModule module = TKWeekFragmentListAdapter.find(TKWeekModule.Prefs.getClazz());
+                        TKWeekModule module = TKWeekModule.Companion.find(TKWeekModule.Prefs.getClazz());
                         if (module != null) {
                             viewModel.selectModuleWithArguments(module, new Bundle(), false);
                         }

@@ -60,5 +60,11 @@ enum class TKWeekModule(
         R.string.about_activity_text1,
         R.string.about_activity_text2,
         AboutFragment::class.java
-    )
+    );
+
+    companion object {
+        fun find(clazz: Class<*>): TKWeekModule? {
+            return values().firstOrNull { it.clazz == clazz }
+        }
+    }
 }

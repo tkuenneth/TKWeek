@@ -34,9 +34,6 @@ import android.os.Looper
 import android.provider.CalendarContract
 import android.util.Log
 import android.view.LayoutInflater
-import android.view.Menu
-import android.view.MenuInflater
-import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
@@ -59,6 +56,7 @@ import com.thomaskuenneth.tkweek.util.Helper
 import com.thomaskuenneth.tkweek.util.Helper.DATE
 import com.thomaskuenneth.tkweek.util.TKWeekUtils
 import com.thomaskuenneth.tkweek.util.TKWeekUtils.linkToSettings
+import com.thomaskuenneth.tkweek.viewmodel.AppBarAction
 import java.text.DateFormat
 import java.text.MessageFormat
 import java.text.SimpleDateFormat
@@ -90,7 +88,7 @@ class MyDayFragment : TKWeekBaseFragment<MydayBinding>() {
             cal.set(Calendar.MONTH, bundle.getInt(ARGS_MONTH))
             cal.set(Calendar.DAY_OF_MONTH, bundle.getInt(ARGS_DAY_OF_MONTH))
             updateViews()
-            requireActivity().invalidateOptionsMenu()
+            updateAppBarActions()
         }
     }
 
@@ -154,68 +152,6 @@ class MyDayFragment : TKWeekBaseFragment<MydayBinding>() {
             prepareEventsLoader()
     }
 
-    @Deprecated("Deprecated in Java")
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        super.onCreateOptionsMenu(menu, inflater)
-        inflater.inflate(R.menu.menu_today, menu)
-        inflater.inflate(R.menu.menu_new_appointment, menu)
-        inflater.inflate(R.menu.menu_goto_date, menu)
-        inflater.inflate(R.menu.menu_lookup_in_wikipedia, menu)
-    }
-
-    @Deprecated("Deprecated in Java")
-    override fun onPrepareOptionsMenu(menu: Menu) {
-        menu.findItem(R.id.today)?.run {
-            isVisible = !DateUtilities.isToday(cal)
-        }
-        return super.onPrepareOptionsMenu(menu)
-    }
-
-    @Deprecated("Deprecated in Java")
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            R.id.today -> {
-                cal.time = Date()
-                updateViews()
-                requireActivity().invalidateOptionsMenu()
-                return true
-            }
-
-            R.id.look_up_in_wikipedia -> {
-                lookUpInWikipedia()
-                return true
-            }
-
-            R.id.mi_new_appointment -> {
-                val i2 = Intent(Intent.ACTION_INSERT, CalendarContract.Events.CONTENT_URI)
-                i2.putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, cal.timeInMillis)
-                try {
-                    startActivity(i2)
-                } catch (e: ActivityNotFoundException) {
-                    Log.e(TAG, "no activity found", e)
-                }
-                return true
-            }
-
-            R.id.goto_date -> {
-                val datePickerFragment = DatePickerFragment().also {
-                    it.arguments = Bundle().also { bundle ->
-                        bundle.putInt(ARGS_YEAR, cal.get(Calendar.YEAR))
-                        bundle.putInt(ARGS_MONTH, cal.get(Calendar.MONTH))
-                        bundle.putInt(ARGS_DAY_OF_MONTH, cal.get(Calendar.DAY_OF_MONTH))
-                    }
-                }
-                datePickerFragment.show(
-                    parentFragmentManager,
-                    DatePickerFragment.TAG
-                )
-                requireActivity().invalidateOptionsMenu()
-                return true
-            }
-        }
-        return super.onOptionsItemSelected(item)
-    }
-
     override fun onResume() {
         super.onResume()
         prepareEventsLoader()
@@ -224,6 +160,63 @@ class MyDayFragment : TKWeekBaseFragment<MydayBinding>() {
     override fun onPause() {
         cancelEventsLoader()
         super.onPause()
+    }
+
+    override fun updateAppBarActions() {
+        val actions = listOf(
+            AppBarAction(
+                icon = R.drawable.ic_baseline_today_24,
+                contentDescription = R.string.today,
+                title = R.string.today,
+                onClick = {
+                    cal.time = Date()
+                    updateViews()
+                    updateAppBarActions()
+                },
+                isVisible = !DateUtilities.isToday(cal)
+            ),
+            AppBarAction(
+                icon = null,
+                contentDescription = R.string.look_up_in_wikipedia,
+                title = R.string.look_up_in_wikipedia,
+                onClick = {
+                    lookUpInWikipedia()
+                }
+            ),
+            AppBarAction(
+                icon = null,
+                contentDescription = R.string.new_appointment,
+                title = R.string.new_appointment,
+                onClick = {
+                    val i2 = Intent(Intent.ACTION_INSERT, CalendarContract.Events.CONTENT_URI)
+                    i2.putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, cal.timeInMillis)
+                    try {
+                        startActivity(i2)
+                    } catch (e: ActivityNotFoundException) {
+                        Log.e(TAG, "no activity found", e)
+                    }
+                }
+            ),
+            AppBarAction(
+                icon = R.drawable.ic_baseline_date_range_24,
+                contentDescription = R.string.goto_date,
+                title = R.string.goto_date,
+                onClick = {
+                    val datePickerFragment = DatePickerFragment().also {
+                        it.arguments = Bundle().also { bundle ->
+                            bundle.putInt(ARGS_YEAR, cal.get(Calendar.YEAR))
+                            bundle.putInt(ARGS_MONTH, cal.get(Calendar.MONTH))
+                            bundle.putInt(ARGS_DAY_OF_MONTH, cal.get(Calendar.DAY_OF_MONTH))
+                        }
+                    }
+                    datePickerFragment.show(
+                        parentFragmentManager,
+                        DatePickerFragment.TAG
+                    )
+                }
+            )
+        )
+        viewModel.setAppBarActions(actions)
     }
 
     private fun cancelEventsLoader() {

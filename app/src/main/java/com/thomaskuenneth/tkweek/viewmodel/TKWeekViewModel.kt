@@ -1,6 +1,8 @@
 package com.thomaskuenneth.tkweek.viewmodel
 
 import android.os.Bundle
+import androidx.annotation.DrawableRes
+import androidx.annotation.StringRes
 import androidx.lifecycle.ViewModel
 import com.thomaskuenneth.tkweek.TKWeekModule
 import com.thomaskuenneth.tkweek.types.TKWeekModuleWithArguments
@@ -17,6 +19,14 @@ import javax.inject.Inject
 
 data class UiState(
     val topLevelModuleWithArguments: TKWeekModuleWithArguments,
+)
+
+data class AppBarAction(
+    @DrawableRes val icon: Int?,
+    @StringRes val contentDescription: Int,
+    @StringRes val title: Int?,
+    val onClick: () -> Unit,
+    val isVisible: Boolean = true
 )
 
 data class NavigationEvent(
@@ -41,6 +51,9 @@ class TKWeekViewModel @Inject constructor() : ViewModel() {
 
     val uiState = _uiState.asStateFlow()
 
+    private val _appBarActions = MutableStateFlow<List<AppBarAction>>(emptyList())
+    val appBarActions = _appBarActions.asStateFlow()
+
     private val _navigationTrigger = Channel<NavigationEvent>(Channel.CONFLATED)
     val navigationTrigger = _navigationTrigger.receiveAsFlow()
 
@@ -59,6 +72,10 @@ class TKWeekViewModel @Inject constructor() : ViewModel() {
 
     fun resetScroll() {
         _resetScrollTrigger.trySend(Unit)
+    }
+
+    fun setAppBarActions(actions: List<AppBarAction>) {
+        _appBarActions.value = actions
     }
 
     fun selectModuleWithArguments(

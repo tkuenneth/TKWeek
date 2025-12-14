@@ -27,17 +27,21 @@ import android.appwidget.AppWidgetManager
 import android.content.ComponentName
 import android.content.Context
 import android.os.Bundle
-import android.view.*
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.TextView
 import androidx.preference.PreferenceManager
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.slider.Slider
 import com.thomaskuenneth.tkweek.R
-import com.thomaskuenneth.tkweek.util.Helper
 import com.thomaskuenneth.tkweek.appwidget.WeekInfoWidget
 import com.thomaskuenneth.tkweek.databinding.WeekBinding
+import com.thomaskuenneth.tkweek.util.Helper
 import com.thomaskuenneth.tkweek.util.TKWeekUtils
-import java.util.*
+import com.thomaskuenneth.tkweek.viewmodel.AppBarAction
+import java.util.Calendar
+import java.util.Date
 
 class WeekFragment : TKWeekBaseFragment<WeekBinding>(),
     View.OnClickListener {
@@ -92,23 +96,19 @@ class WeekFragment : TKWeekBaseFragment<WeekBinding>(),
         updateViewsFromCalendar()
     }
 
-    @Deprecated("Deprecated in Java")
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        super.onCreateOptionsMenu(menu, inflater)
-        inflater.inflate(R.menu.menu_today, menu)
-    }
-
-    @Deprecated("Deprecated in Java")
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when (item.itemId) {
-            R.id.today -> {
-                cal.time = Date()
-                updateViewsFromCalendar()
-                true
-            }
-
-            else -> super.onOptionsItemSelected(item)
-        }
+    override fun updateAppBarActions() {
+        val actions = listOf(
+            AppBarAction(
+                icon = R.drawable.ic_baseline_today_24,
+                contentDescription = R.string.today,
+                title = R.string.today,
+                onClick = {
+                    cal.time = Date()
+                    updateViewsFromCalendar()
+                }
+            )
+        )
+        viewModel.setAppBarActions(actions)
     }
 
     override fun onClick(v: View) {

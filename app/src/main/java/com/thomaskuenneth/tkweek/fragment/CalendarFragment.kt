@@ -28,9 +28,6 @@ import android.content.res.ColorStateList
 import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.Menu
-import android.view.MenuInflater
-import android.view.MenuItem
 import android.view.View
 import android.view.View.OnLongClickListener
 import android.view.ViewGroup
@@ -49,6 +46,7 @@ import com.thomaskuenneth.tkweek.updateRecents
 import com.thomaskuenneth.tkweek.util.DateUtilities
 import com.thomaskuenneth.tkweek.util.Helper
 import com.thomaskuenneth.tkweek.util.Helper.DATE
+import com.thomaskuenneth.tkweek.viewmodel.AppBarAction
 import java.util.Calendar
 import java.util.Date
 
@@ -188,28 +186,24 @@ class CalendarFragment : TKWeekBaseFragment<CalendarBinding>(), View.OnClickList
         update()
     }
 
-    @Deprecated("Deprecated in Java")
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        super.onCreateOptionsMenu(menu, inflater)
-        inflater.inflate(R.menu.menu_today, menu)
-    }
-
-    @Deprecated("Deprecated in Java")
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when (item.itemId) {
-            R.id.today -> {
-                cal.time = Date()
-                update()
-                true
-            }
-
-            else -> super.onOptionsItemSelected(item)
-        }
-    }
-
     override fun onResume() {
         super.onResume()
         updateRecentDates()
+    }
+
+    override fun updateAppBarActions() {
+        val actions = listOf(
+            AppBarAction(
+                icon = R.drawable.ic_baseline_today_24,
+                contentDescription = R.string.today,
+                title = R.string.today,
+                onClick = {
+                    cal.time = Date()
+                    update()
+                }
+            )
+        )
+        viewModel.setAppBarActions(actions)
     }
 
     override fun onSaveInstanceState(outState: Bundle) {

@@ -17,6 +17,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.adaptive.ExperimentalMaterial3AdaptiveApi
 import androidx.compose.material3.adaptive.layout.AnimatedPane
@@ -38,6 +39,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalLayoutDirection
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -96,6 +98,7 @@ fun TKWeekApp(viewModel: TKWeekViewModel = viewModel()) {
         val currentBackStackEntry by navController.currentBackStackEntryAsState()
         val scope = rememberCoroutineScope()
         val uiState by viewModel.uiState.collectAsState()
+        val appBarActions by viewModel.appBarActions.collectAsState()
         val listVisible =
             threePaneScaffoldNavigator.scaffoldValue[ListDetailPaneScaffoldRole.List] == PaneAdaptedValue.Expanded
         val detailVisible =
@@ -177,6 +180,24 @@ fun TKWeekApp(viewModel: TKWeekViewModel = viewModel()) {
                             }
                         }
                     },
+                    actions = {
+                        appBarActions.forEach { action ->
+                            if (action.isVisible) {
+                                if (action.icon != null) {
+                                    IconButton(onClick = action.onClick) {
+                                        Icon(
+                                            painter = painterResource(id = action.icon),
+                                            contentDescription = stringResource(id = action.contentDescription)
+                                        )
+                                    }
+                                } else {
+                                    TextButton(onClick = action.onClick) {
+                                        Text(text = stringResource(id = action.title!!))
+                                    }
+                                }
+                            }
+                        }
+                    },
                     scrollBehavior = scrollBehavior,
                     colors = TopAppBarDefaults.topAppBarColors(
                         scrolledContainerColor = MaterialTheme.colorScheme.surfaceContainer
@@ -229,6 +250,7 @@ fun TKWeekApp(viewModel: TKWeekViewModel = viewModel()) {
                                             navController.previousBackStackEntry?.savedStateHandle?.get<Bundle>(
                                                 ARGUMENTS
                                             )
+
                                         TKWeekModuleContainer(
                                             module = moduleEntry,
                                             arguments = args,

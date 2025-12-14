@@ -41,13 +41,11 @@ import android.provider.ContactsContract
 import android.view.ContextMenu
 import android.view.LayoutInflater
 import android.view.Menu
-import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.SearchView
 import com.thomaskuenneth.tkweek.AlarmReceiver
 import com.thomaskuenneth.tkweek.R
 import com.thomaskuenneth.tkweek.adapter.AnnualEventsListAdapter
@@ -59,6 +57,7 @@ import com.thomaskuenneth.tkweek.util.DateUtilities
 import com.thomaskuenneth.tkweek.util.Helper
 import com.thomaskuenneth.tkweek.util.Helper.DATE
 import com.thomaskuenneth.tkweek.util.TKWeekUtils
+import com.thomaskuenneth.tkweek.viewmodel.AppBarAction
 import java.io.FileInputStream
 import java.io.FileOutputStream
 import java.io.FileWriter
@@ -231,29 +230,6 @@ class AnnualEventsFragment : TKWeekBaseFragment<EventsBinding>(), AdapterView.On
         super.onDestroy()
     }
 
-    @Deprecated("Deprecated in Java")
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        super.onCreateOptionsMenu(menu, inflater)
-        inflater.inflate(R.menu.menu_search, menu)
-        val searchMenuItem = menu.findItem(R.id.search)
-        (searchMenuItem.actionView as SearchView?)?.run {
-            queryHint = requireContext().getString(R.string.search_hint)
-            setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-                override fun onQueryTextSubmit(query: String): Boolean {
-                    searchString = query
-                    searchMenuItem.collapseActionView()
-                    updateListAndOptionsMenu()
-                    return true
-                }
-
-                override fun onQueryTextChange(newText: String): Boolean {
-                    return true
-                }
-            })
-        }
-        inflater.inflate(R.menu.menu_annual_events_activity, menu)
-    }
-
     override fun onCreateContextMenu(
         menu: ContextMenu, v: View, menuInfo: ContextMenu.ContextMenuInfo?
     ) {
@@ -272,37 +248,6 @@ class AnnualEventsFragment : TKWeekBaseFragment<EventsBinding>(), AdapterView.On
             menu.add(Menu.NONE, MENU_REMOVE_DAY_OFF_TAG, Menu.NONE, MENU_REMOVE_DAY_OFF_TAG)
         } else {
             menu.add(Menu.NONE, MENU_MARK_AS_DAY_OFF, Menu.NONE, MENU_MARK_AS_DAY_OFF)
-        }
-    }
-
-    @Deprecated("Deprecated in Java")
-    override fun onPrepareOptionsMenu(menu: Menu) {
-        super.onPrepareOptionsMenu(menu)
-        menu.findItem(R.id.clear)?.run {
-            isVisible = searchString?.isNotEmpty() == true
-        }
-    }
-
-    @Deprecated("Deprecated in Java")
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when (item.itemId) {
-            R.id.clear -> {
-                searchString = null
-                updateListAndOptionsMenu()
-                true
-            }
-
-            R.id.annual_event_backup_restore -> {
-                showDialog(BackupRestoreDialogFragment())
-                true
-            }
-
-            R.id.new_event -> {
-                showDialog(NewEventFragment())
-                true
-            }
-
-            else -> super.onOptionsItemSelected(item)
         }
     }
 
@@ -355,6 +300,28 @@ class AnnualEventsFragment : TKWeekBaseFragment<EventsBinding>(), AdapterView.On
             payload.putLong(DATE, DateUtilities.getCalendar(o).time.time)
             selectModule(MyDayFragment::class.java, payload)
         }
+    }
+
+    override fun updateAppBarActions() {
+        val actions = listOf(
+            AppBarAction(
+                icon = R.drawable.ic_baseline_add_24,
+                contentDescription = R.string.new_event,
+                title = R.string.new_event,
+                onClick = {
+                    showDialog(NewEventFragment())
+                }
+            ),
+            AppBarAction(
+                icon = R.drawable.ic_baseline_backup_24,
+                contentDescription = R.string.annual_event_backup_restore,
+                title = R.string.annual_event_backup_restore,
+                onClick = {
+                    showDialog(BackupRestoreDialogFragment())
+                }
+            )
+        )
+        viewModel.setAppBarActions(actions)
     }
 
     private fun setListAdapterLoadEvents(
@@ -459,14 +426,13 @@ class AnnualEventsFragment : TKWeekBaseFragment<EventsBinding>(), AdapterView.On
 
     private fun updateListAndOptionsMenu() {
         setListAdapterLoadEvents(false, searchString)
-        (requireActivity() as AppCompatActivity).run {
-            invalidateOptionsMenu()
-            supportActionBar?.title = if (searchString?.isNotEmpty() == true) getString(
+        updateAppBarActions()
+        (requireActivity() as AppCompatActivity).supportActionBar?.title =
+            if (searchString?.isNotEmpty() == true) getString(
                 R.string.string1_string2,
                 getString(R.string.annual_events_activity_text1),
                 getString(R.string.filtered)
             ) else getString(R.string.annual_events_activity_text1)
-        }
     }
 
     private fun showError() {

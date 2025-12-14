@@ -32,11 +32,12 @@ fun ThreePaneScaffoldPaneScope.TKWeekModuleSelector(
 ) {
     AnimatedPane {
         val lazyListState = rememberLazyListState()
+        val (firstVisibleItemIndex, firstVisibleItemScrollOffset) = lazyListState.firstVisibleItemIndex to lazyListState.firstVisibleItemScrollOffset
         LaunchedEffect(
-            lazyListState.firstVisibleItemIndex,
-            lazyListState.firstVisibleItemScrollOffset
+            firstVisibleItemIndex,
+            firstVisibleItemScrollOffset
         ) {
-            onListStateChanged(lazyListState.firstVisibleItemIndex == 0 && lazyListState.firstVisibleItemScrollOffset == 0)
+            onListStateChanged(firstVisibleItemIndex == 0 && firstVisibleItemScrollOffset == 0)
         }
         LazyColumn(
             state = lazyListState,

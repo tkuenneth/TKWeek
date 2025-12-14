@@ -168,6 +168,7 @@ public class AlarmReceiver extends BroadcastReceiver {
         Intent intent = new Intent(context, TKWeekCompose.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         intent.putExtra(KEY_CANCEL_NOTIFICATION, _id);
+        intent.putExtra(Helper.CLAZZ, TKWeekModule.AnnualEvents.getClazz().getName());
         NotificationCompat.Builder b = new NotificationCompat.Builder(context, CHANNEL_ID_EVENTS);
         b.getExtras().putInt(KEY_CANCEL_NOTIFICATION, _id);
         b.setSmallIcon(smallIcon)

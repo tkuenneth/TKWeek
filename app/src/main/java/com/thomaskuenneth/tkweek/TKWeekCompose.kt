@@ -17,7 +17,6 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.adaptive.ExperimentalMaterial3AdaptiveApi
 import androidx.compose.material3.adaptive.layout.AnimatedPane
@@ -39,8 +38,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalLayoutDirection
-import androidx.compose.ui.platform.isDebugInspectorInfoEnabled
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -51,6 +48,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.thomaskuenneth.tkweek.ui.TKWeekAppBarActions
 import com.thomaskuenneth.tkweek.ui.TKWeekModuleContainer
 import com.thomaskuenneth.tkweek.ui.TKWeekModuleSelector
 import com.thomaskuenneth.tkweek.ui.colorScheme
@@ -111,6 +109,13 @@ fun TKWeekApp(viewModel: TKWeekViewModel = viewModel()) {
             mutableIntStateOf(
                 uiState.topLevelModuleWithArguments.module.titleRes
             )
+        }
+        LaunchedEffect(currentBackStackEntry) {
+            currentBackStackEntry?.destination?.route?.let { route ->
+                TKWeekModule.entries.firstOrNull { it.name == route }?.let {
+                    activeModuleTitleRes = it.titleRes
+                }
+            }
         }
         LaunchedEffect(Unit) {
             viewModel.navigationTrigger.collect { navigationEvent ->
@@ -181,22 +186,7 @@ fun TKWeekApp(viewModel: TKWeekViewModel = viewModel()) {
                     },
                     actions = {
                         if (detailVisible) {
-                            appBarActions.forEach { action ->
-                                if (action.isVisible) {
-                                    if (action.icon != null) {
-                                        IconButton(onClick = action.onClick) {
-                                            Icon(
-                                                painter = painterResource(id = action.icon),
-                                                contentDescription = stringResource(id = action.contentDescription)
-                                            )
-                                        }
-                                    } else {
-                                        TextButton(onClick = action.onClick) {
-                                            Text(text = stringResource(id = action.title!!))
-                                        }
-                                    }
-                                }
-                            }
+                            TKWeekAppBarActions(appBarActions)
                         }
                     },
                     scrollBehavior = scrollBehavior,
@@ -256,7 +246,6 @@ fun TKWeekApp(viewModel: TKWeekViewModel = viewModel()) {
                                             module = moduleEntry,
                                             arguments = args,
                                         ) { viewModel.resetScroll() }
-                                        activeModuleTitleRes = moduleEntry.titleRes
                                     }
                                 }
                             }

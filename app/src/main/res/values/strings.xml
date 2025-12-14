@@ -282,6 +282,7 @@ access your contacts data to display birthdays and anniversaries. You can deacti
     <string name="mark_as_holiday">Mark as a holiday</string>
     <string name="remove_holiday_tag">Remove holiday tag</string>
     <string name="channel_events">Events</string>
+    <string name="more_options">More options</string>
 
     <!-- PickADateActivity -->
     <string name="description">description</string>

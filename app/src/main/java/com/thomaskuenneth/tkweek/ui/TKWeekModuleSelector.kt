@@ -20,12 +20,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import com.thomaskuenneth.tkweek.TKWeekModule
 import com.thomaskuenneth.tkweek.util.BottomSpace
-import com.thomaskuenneth.tkweek.viewmodel.UiState
 
 @OptIn(ExperimentalMaterial3AdaptiveApi::class)
 @Composable
 fun ThreePaneScaffoldPaneScope.TKWeekModuleSelector(
-    uiState: UiState,
+    currentRoute: String,
     onModuleSelected: (TKWeekModule) -> Unit,
     detailVisible: Boolean,
     onListStateChanged: (Boolean) -> Unit,
@@ -33,7 +32,10 @@ fun ThreePaneScaffoldPaneScope.TKWeekModuleSelector(
 ) {
     AnimatedPane {
         val lazyListState = rememberLazyListState()
-        LaunchedEffect(lazyListState.firstVisibleItemIndex, lazyListState.firstVisibleItemScrollOffset) {
+        LaunchedEffect(
+            lazyListState.firstVisibleItemIndex,
+            lazyListState.firstVisibleItemScrollOffset
+        ) {
             onListStateChanged(lazyListState.firstVisibleItemIndex == 0 && lazyListState.firstVisibleItemScrollOffset == 0)
         }
         LazyColumn(
@@ -41,22 +43,20 @@ fun ThreePaneScaffoldPaneScope.TKWeekModuleSelector(
             modifier = modifier
         ) {
             items(TKWeekModule.entries) { entry ->
-                with(uiState.topLevelModuleWithArguments) {
-                    val selected = detailVisible && module == entry
-                    key(entry) {
-                        ListItem(
-                            headlineContent = { Text(text = stringResource(id = entry.titleRes)) },
-                            supportingContent = { Text(text = stringResource(id = entry.descriptionRes)) },
-                            modifier = Modifier
-                                .clip(MaterialTheme.shapes.large)
-                                .clickable { onModuleSelected(entry) },
-                            colors = ListItemDefaults.colors(
-                                containerColor = if (selected) MaterialTheme.colorScheme.secondaryContainer else Color.Transparent,
-                                headlineColor = if (selected) MaterialTheme.colorScheme.onSecondaryContainer else MaterialTheme.colorScheme.onSurface,
-                                supportingColor = if (selected) MaterialTheme.colorScheme.onSecondaryContainer else MaterialTheme.colorScheme.onSurfaceVariant
-                            )
+                val selected = detailVisible && entry.name == currentRoute
+                key(entry) {
+                    ListItem(
+                        headlineContent = { Text(text = stringResource(id = entry.titleRes)) },
+                        supportingContent = { Text(text = stringResource(id = entry.descriptionRes)) },
+                        modifier = Modifier
+                            .clip(MaterialTheme.shapes.large)
+                            .clickable { onModuleSelected(entry) },
+                        colors = ListItemDefaults.colors(
+                            containerColor = if (selected) MaterialTheme.colorScheme.secondaryContainer else Color.Transparent,
+                            headlineColor = if (selected) MaterialTheme.colorScheme.onSecondaryContainer else MaterialTheme.colorScheme.onSurface,
+                            supportingColor = if (selected) MaterialTheme.colorScheme.onSecondaryContainer else MaterialTheme.colorScheme.onSurfaceVariant
                         )
-                    }
+                    )
                 }
             }
             item {

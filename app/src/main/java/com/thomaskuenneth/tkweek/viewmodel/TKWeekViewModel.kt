@@ -17,7 +17,6 @@ import javax.inject.Inject
 
 data class UiState(
     val topLevelModuleWithArguments: TKWeekModuleWithArguments,
-    val activeModuleWithArguments: TKWeekModuleWithArguments,
 )
 
 data class NavigationEvent(
@@ -36,7 +35,6 @@ class TKWeekViewModel @Inject constructor() : ViewModel() {
         MutableStateFlow(
             UiState(
                 topLevelModuleWithArguments = this,
-                activeModuleWithArguments = this,
             )
         )
     }
@@ -75,7 +73,6 @@ class TKWeekViewModel @Inject constructor() : ViewModel() {
         _uiState.update {
             it.copy(
                 topLevelModuleWithArguments = if (topLevel) moduleWithArguments else it.topLevelModuleWithArguments,
-                activeModuleWithArguments = moduleWithArguments,
             )
         }
         _navigationTrigger.trySend(

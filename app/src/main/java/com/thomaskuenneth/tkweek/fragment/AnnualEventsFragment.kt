@@ -46,6 +46,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 import com.thomaskuenneth.tkweek.AlarmReceiver
 import com.thomaskuenneth.tkweek.R
 import com.thomaskuenneth.tkweek.adapter.AnnualEventsListAdapter
@@ -58,6 +59,10 @@ import com.thomaskuenneth.tkweek.util.Helper
 import com.thomaskuenneth.tkweek.util.Helper.DATE
 import com.thomaskuenneth.tkweek.util.TKWeekUtils
 import com.thomaskuenneth.tkweek.viewmodel.AppBarAction
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onEach
 import java.io.FileInputStream
 import java.io.FileOutputStream
 import java.io.FileWriter
@@ -114,6 +119,10 @@ class AnnualEventsFragment : TKWeekBaseFragment<EventsBinding>(), AdapterView.On
     @SuppressLint("InflateParams")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        viewModel.uiState.map { it.searchQuery }.distinctUntilChanged().onEach {
+            searchString = it
+            updateListAndOptionsMenu()
+        }.launchIn(viewLifecycleOwner.lifecycleScope)
         eventsLoader = null
         binding.listView.onItemClickListener = this
         binding.listView.setOnCreateContextMenuListener(this)
@@ -221,6 +230,16 @@ class AnnualEventsFragment : TKWeekBaseFragment<EventsBinding>(), AdapterView.On
                 }
             }
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.toggleSearchBar(true)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        viewModel.toggleSearchBar(false)
     }
 
     override fun onDestroy() {

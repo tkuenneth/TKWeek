@@ -7,15 +7,19 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.displayCutout
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.Clear
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SearchBar
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.adaptive.ExperimentalMaterial3AdaptiveApi
@@ -37,6 +41,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -110,6 +115,7 @@ fun TKWeekApp(viewModel: TKWeekViewModel = viewModel()) {
                 uiState.topLevelModuleWithArguments.module.titleRes
             )
         }
+        val focusManager = LocalFocusManager.current
         LaunchedEffect(currentBackStackEntry) {
             currentBackStackEntry?.destination?.route?.let { route ->
                 TKWeekModule.entries.firstOrNull { it.name == route }?.let {
@@ -150,50 +156,126 @@ fun TKWeekApp(viewModel: TKWeekViewModel = viewModel()) {
             modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
             contentWindowInsets = WindowInsets(),
             topBar = {
-                CenterAlignedTopAppBar(
-                    title = {
-                        Text(
-                            text = stringResource(
-                                if (listVisible) {
-                                    R.string.app_name
-                                } else {
-                                    activeModuleTitleRes
+                if (uiState.showSearchBar) {
+                    SearchBar(
+                        modifier = Modifier.fillMaxWidth(),
+                        query = uiState.searchQuery,
+                        onQueryChange = {
+                            viewModel.setSearchQuery(it)
+                            if (!uiState.isSearchActive) {
+                                viewModel.setSearchActive(true)
+                            }
+                        },
+                        onSearch = {
+                            focusManager.clearFocus()
+                        },
+                        active = false,
+                        onActiveChange = {
+                            if (it) {
+                                viewModel.setSearchActive(true)
+                            }
+                        },
+                        placeholder = { Text(stringResource(id = R.string.search_hint)) },
+                        leadingIcon = {
+                            if (uiState.isSearchActive) {
+                                IconButton(onClick = {
+                                    viewModel.setSearchActive(false)
+                                    viewModel.setSearchQuery("")
+                                    focusManager.clearFocus()
+                                }) {
+                                    Icon(
+                                        imageVector = Icons.AutoMirrored.Default.ArrowBack,
+                                        contentDescription = null
+                                    )
                                 }
-                            )
-                        )
-                    },
-                    navigationIcon = {
-                        val hasStackedModules =
-                            currentBackStackEntry != null && navController.previousBackStackEntry != null
-                        if (threePaneScaffoldNavigator.canNavigateBack() || hasStackedModules) {
-                            IconButton(
-                                onClick = {
-                                    if (hasStackedModules) {
-                                        navController.popBackStack()
-                                    } else {
-                                        scope.launch {
-                                            threePaneScaffoldNavigator.navigateBack()
+                            } else {
+                                val hasStackedModules =
+                                    currentBackStackEntry != null && navController.previousBackStackEntry != null
+                                if (threePaneScaffoldNavigator.canNavigateBack() || hasStackedModules) {
+                                    IconButton(
+                                        onClick = {
+                                            if (hasStackedModules) {
+                                                navController.popBackStack()
+                                            } else {
+                                                scope.launch {
+                                                    threePaneScaffoldNavigator.navigateBack()
+                                                }
+                                            }
                                         }
+                                    ) {
+                                        Icon(
+                                            imageVector = Icons.AutoMirrored.Default.ArrowBack,
+                                            contentDescription = null,
+                                        )
                                     }
+                                } else {
+                                    Icon(
+                                        imageVector = Icons.Default.Search,
+                                        contentDescription = null
+                                    )
                                 }
-                            ) {
-                                Icon(
-                                    imageVector = Icons.AutoMirrored.Default.ArrowBack,
-                                    contentDescription = null,
-                                )
+                            }
+                        },
+                        trailingIcon = {
+                            if (uiState.searchQuery.isNotEmpty()) {
+                                IconButton(onClick = {
+                                    viewModel.setSearchQuery("")
+                                }) {
+                                    Icon(
+                                        imageVector = Icons.Default.Clear,
+                                        contentDescription = null
+                                    )
+                                }
                             }
                         }
-                    },
-                    actions = {
-                        if (detailVisible) {
-                            TKWeekAppBarActions(appBarActions)
-                        }
-                    },
-                    scrollBehavior = scrollBehavior,
-                    colors = TopAppBarDefaults.topAppBarColors(
-                        scrolledContainerColor = MaterialTheme.colorScheme.surfaceContainer
+                    ) {
+                    }
+                } else {
+                    CenterAlignedTopAppBar(
+                        title = {
+                            Text(
+                                text = stringResource(
+                                    if (listVisible) {
+                                        R.string.app_name
+                                    } else {
+                                        activeModuleTitleRes
+                                    }
+                                )
+                            )
+                        },
+                        navigationIcon = {
+                            val hasStackedModules =
+                                currentBackStackEntry != null && navController.previousBackStackEntry != null
+                            if (threePaneScaffoldNavigator.canNavigateBack() || hasStackedModules) {
+                                IconButton(
+                                    onClick = {
+                                        if (hasStackedModules) {
+                                            navController.popBackStack()
+                                        } else {
+                                            scope.launch {
+                                                threePaneScaffoldNavigator.navigateBack()
+                                            }
+                                        }
+                                    }
+                                ) {
+                                    Icon(
+                                        imageVector = Icons.AutoMirrored.Default.ArrowBack,
+                                        contentDescription = null,
+                                    )
+                                }
+                            }
+                        },
+                        actions = {
+                            if (detailVisible) {
+                                TKWeekAppBarActions(appBarActions)
+                            }
+                        },
+                        scrollBehavior = scrollBehavior,
+                        colors = TopAppBarDefaults.topAppBarColors(
+                            scrolledContainerColor = MaterialTheme.colorScheme.surfaceContainer
+                        )
                     )
-                )
+                }
             }
         ) { paddingValues ->
             val displayCutoutInsets = WindowInsets.displayCutout
@@ -201,7 +283,8 @@ fun TKWeekApp(viewModel: TKWeekViewModel = viewModel()) {
             val layoutDirection = LocalLayoutDirection.current
             val left = displayCutoutInsets.getLeft(density, layoutDirection)
             val right = displayCutoutInsets.getRight(density, layoutDirection)
-            val horizontalPadding = with(density) { max(left, right).toDp() }.coerceAtLeast(16.dp)
+            val horizontalPadding =
+                with(density) { max(left, right).toDp() }.coerceAtLeast(16.dp)
             NavigableListDetailPaneScaffold(
                 navigator = threePaneScaffoldNavigator,
                 modifier = Modifier

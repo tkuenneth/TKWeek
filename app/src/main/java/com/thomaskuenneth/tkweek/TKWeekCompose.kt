@@ -17,6 +17,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SearchBar
+import androidx.compose.material3.SearchBarDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.adaptive.ExperimentalMaterial3AdaptiveApi
@@ -165,61 +166,67 @@ fun TKWeekApp(viewModel: TKWeekViewModel = viewModel()) {
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(horizontal = horizontalPadding),
-                        query = uiState.searchQuery,
-                        onQueryChange = {
-                            viewModel.setSearchQuery(it)
-                            if (!uiState.isSearchActive) {
-                                viewModel.setSearchActive(true)
-                            }
+                        inputField = {
+                            SearchBarDefaults.InputField(
+                                query = uiState.searchQuery,
+                                onQueryChange = {
+                                    viewModel.setSearchQuery(it)
+                                    if (!uiState.isSearchActive) {
+                                        viewModel.setSearchActive(true)
+                                    }
+                                },
+                                onSearch = {
+                                    focusManager.clearFocus()
+                                },
+                                expanded = uiState.isSearchActive,
+                                onExpandedChange = { viewModel.setSearchActive(it) },
+                                placeholder = { Text(stringResource(id = R.string.search_hint)) },
+                                leadingIcon = {
+                                    if (uiState.isSearchActive) {
+                                        BackArrow(
+                                            onClick = {
+                                                viewModel.setSearchActive(false)
+                                                viewModel.setSearchQuery("")
+                                                focusManager.clearFocus()
+                                            },
+                                            description = R.string.close_search
+                                        )
+                                    } else {
+                                        val hasStackedModules =
+                                            currentBackStackEntry != null && navController.previousBackStackEntry != null
+                                        if (threePaneScaffoldNavigator.canNavigateBack() || hasStackedModules) {
+                                            BackArrow {
+                                                if (hasStackedModules) {
+                                                    navController.popBackStack()
+                                                } else {
+                                                    scope.launch {
+                                                        threePaneScaffoldNavigator.navigateBack()
+                                                    }
+                                                }
+                                            }
+                                        } else {
+                                            Icon(
+                                                imageVector = Icons.Default.Search,
+                                                contentDescription = null
+                                            )
+                                        }
+                                    }
+                                },
+                                trailingIcon = {
+                                    if (uiState.searchQuery.isNotEmpty()) {
+                                        ClearIcon {
+                                            viewModel.setSearchQuery("")
+                                        }
+                                    }
+                                }
+                            )
                         },
-                        onSearch = {
-                            focusManager.clearFocus()
-                        },
-                        active = false,
-                        onActiveChange = {
+                        expanded = false,
+                        onExpandedChange = {
                             if (it) {
                                 viewModel.setSearchActive(true)
                             }
                         },
-                        placeholder = { Text(stringResource(id = R.string.search_hint)) },
-                        leadingIcon = {
-                            if (uiState.isSearchActive) {
-                                BackArrow(
-                                    onClick = {
-                                        viewModel.setSearchActive(false)
-                                        viewModel.setSearchQuery("")
-                                        focusManager.clearFocus()
-                                    },
-                                    description = R.string.close_search
-                                )
-                            } else {
-                                val hasStackedModules =
-                                    currentBackStackEntry != null && navController.previousBackStackEntry != null
-                                if (threePaneScaffoldNavigator.canNavigateBack() || hasStackedModules) {
-                                    BackArrow {
-                                        if (hasStackedModules) {
-                                            navController.popBackStack()
-                                        } else {
-                                            scope.launch {
-                                                threePaneScaffoldNavigator.navigateBack()
-                                            }
-                                        }
-                                    }
-                                } else {
-                                    Icon(
-                                        imageVector = Icons.Default.Search,
-                                        contentDescription = null
-                                    )
-                                }
-                            }
-                        },
-                        trailingIcon = {
-                            if (uiState.searchQuery.isNotEmpty()) {
-                                ClearIcon {
-                                    viewModel.setSearchQuery("")
-                                }
-                            }
-                        }
                     ) {
                     }
                 } else {

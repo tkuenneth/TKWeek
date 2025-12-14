@@ -361,17 +361,19 @@ class AnnualEventsFragment : TKWeekBaseFragment<EventsBinding>(), AdapterView.On
             @Deprecated("Deprecated in Java")
             override fun onPostExecute(result: AnnualEventsListAdapter) {
                 eventsLoader = null
-                binding.listView.adapter = result.also { listAdapter = it }
-                if (listAdapter != null && restore) {
-                    listAdapter?.save(requireContext())
+                if (backing != null) {
+                    binding.listView.adapter = result.also { listAdapter = it }
+                    if (listAdapter != null && restore) {
+                        listAdapter?.save(requireContext())
+                    }
+                    listAdapter?.updateEventsListWidgets(requireContext())
+                    binding.header.text = getString(
+                        R.string.string1_dash_string2,
+                        Helper.FORMAT_DEFAULT.format(listAdapter?.from?.time ?: Date()),
+                        Helper.FORMAT_DEFAULT.format(listAdapter?.to?.time ?: Date())
+                    )
+                    binding.indicator.visibility = View.GONE
                 }
-                listAdapter?.updateEventsListWidgets(requireContext())
-                binding.header.text = getString(
-                    R.string.string1_dash_string2,
-                    Helper.FORMAT_DEFAULT.format(listAdapter?.from?.time ?: Date()),
-                    Helper.FORMAT_DEFAULT.format(listAdapter?.to?.time ?: Date())
-                )
-                binding.indicator.visibility = View.GONE
             }
         }
         eventsLoader?.execute()

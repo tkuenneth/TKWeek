@@ -4,7 +4,9 @@ import android.os.Bundle
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.thomaskuenneth.tkweek.TKWeekModule
+import com.thomaskuenneth.tkweek.preference.PreferenceManager
 import com.thomaskuenneth.tkweek.types.TKWeekModuleWithArguments
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.BufferOverflow
@@ -13,6 +15,8 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import javax.inject.Inject
@@ -21,7 +25,8 @@ data class UiState(
     val topLevelModuleWithArguments: TKWeekModuleWithArguments,
     val showSearchBar: Boolean = false,
     val isSearchActive: Boolean = false,
-    val searchQuery: String = ""
+    val searchQuery: String = "",
+    val avoidHinge: Boolean = false
 )
 
 data class AppBarAction(
@@ -37,7 +42,9 @@ data class NavigationEvent(
 )
 
 @HiltViewModel
-class TKWeekViewModel @Inject constructor() : ViewModel() {
+class TKWeekViewModel @Inject constructor(
+    preferenceManager: PreferenceManager
+) : ViewModel() {
 
     private val _uiState = with(
         TKWeekModuleWithArguments(
@@ -68,6 +75,12 @@ class TKWeekViewModel @Inject constructor() : ViewModel() {
 
     private val _resetScrollTrigger = Channel<Unit>(Channel.CONFLATED)
     val resetScrollTrigger = _resetScrollTrigger.receiveAsFlow()
+
+    init {
+        preferenceManager.avoidHinge.onEach { avoidHinge ->
+            _uiState.update { it.copy(avoidHinge = avoidHinge) }
+        }.launchIn(viewModelScope)
+    }
 
     fun onFragmentScrolled(deltaY: Float) {
         _fragmentScrollDelta.tryEmit(deltaY)

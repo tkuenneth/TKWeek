@@ -21,9 +21,12 @@ import androidx.compose.material3.SearchBarDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.adaptive.ExperimentalMaterial3AdaptiveApi
+import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
 import androidx.compose.material3.adaptive.layout.AnimatedPane
+import androidx.compose.material3.adaptive.layout.HingePolicy
 import androidx.compose.material3.adaptive.layout.ListDetailPaneScaffoldRole
 import androidx.compose.material3.adaptive.layout.PaneAdaptedValue
+import androidx.compose.material3.adaptive.layout.calculatePaneScaffoldDirective
 import androidx.compose.material3.adaptive.navigation.NavigableListDetailPaneScaffold
 import androidx.compose.material3.adaptive.navigation.rememberListDetailPaneScaffoldNavigator
 import androidx.compose.runtime.Composable
@@ -97,11 +100,17 @@ fun TKWeekApp(viewModel: TKWeekViewModel = viewModel()) {
     MaterialTheme(
         colorScheme = colorScheme()
     ) {
-        val threePaneScaffoldNavigator = rememberListDetailPaneScaffoldNavigator<TKWeekModule>()
+        val uiState by viewModel.uiState.collectAsState()
+        val threePaneScaffoldNavigator =
+            rememberListDetailPaneScaffoldNavigator<TKWeekModule>(
+                scaffoldDirective = calculatePaneScaffoldDirective(
+                    windowAdaptiveInfo = currentWindowAdaptiveInfo(),
+                    verticalHingePolicy = if (uiState.avoidHinge) HingePolicy.AlwaysAvoid else HingePolicy.NeverAvoid
+                )
+            )
         val navController = rememberNavController()
         val currentBackStackEntry by navController.currentBackStackEntryAsState()
         val scope = rememberCoroutineScope()
-        val uiState by viewModel.uiState.collectAsState()
         val appBarActions by viewModel.appBarActions.collectAsState()
         val listVisible =
             threePaneScaffoldNavigator.scaffoldValue[ListDetailPaneScaffoldRole.List] == PaneAdaptedValue.Expanded
@@ -317,7 +326,7 @@ fun TKWeekApp(viewModel: TKWeekViewModel = viewModel()) {
                                             arguments = args,
                                         ) { viewModel.resetScroll() }
                                     }
-                                }
+                                 }
                             }
                         }
                     }

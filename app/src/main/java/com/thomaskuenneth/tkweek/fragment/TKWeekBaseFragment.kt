@@ -70,6 +70,7 @@ abstract class TKWeekBaseFragment<T> : TKWeekHiltBaseFragment() {
                                 viewModel.setDetailScrolled(recyclerView.canScrollVertically(-1))
                             }
                         })
+                        viewModel.setDetailScrolled(scrollable.canScrollVertically(-1))
                     }
                 }
 
@@ -78,6 +79,7 @@ abstract class TKWeekBaseFragment<T> : TKWeekHiltBaseFragment() {
                         NestedScrollView.OnScrollChangeListener { _, _, scrollY, _, _ ->
                             viewModel.setDetailScrolled(scrollY > 0)
                         })
+                    viewModel.setDetailScrolled(scrollable.scrollY > 0)
                 }
             }
         }

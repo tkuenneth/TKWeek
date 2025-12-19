@@ -91,6 +91,7 @@ class PreferencesFragment : PreferenceFragmentCompat() {
                 viewModel.setDetailScrolled(recyclerView.canScrollVertically(-1))
             }
         })
+        viewModel.setDetailScrolled(recyclerView.canScrollVertically(-1))
         ViewCompat.setOnApplyWindowInsetsListener(recyclerView) { _, insets ->
             val offset = if (lastRecyclerView != recyclerView) {
                 lastRecyclerView = recyclerView

@@ -19,8 +19,7 @@ import com.thomaskuenneth.tkweek.TKWeekModule
 @Composable
 fun TKWeekModuleContainer(
     module: TKWeekModule,
-    arguments: Bundle?,
-    onResetScroll: () -> Unit
+    arguments: Bundle?
 ) {
     val context = LocalContext.current
     val fragmentManager = (context as AppCompatActivity).supportFragmentManager
@@ -41,7 +40,6 @@ fun TKWeekModuleContainer(
             .commit()
 
         onDispose {
-            onResetScroll()
             fragmentManager.findFragmentByTag(moduleName)?.let {
                 // Safe to use allowingStateLoss here because if the state is lost,
                 // the fragment will be restored and then cleaned up by the block above

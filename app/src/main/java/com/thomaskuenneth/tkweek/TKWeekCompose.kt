@@ -129,6 +129,11 @@ fun TKWeekApp(viewModel: TKWeekViewModel = viewModel()) {
                 }
             }
         }
+        LaunchedEffect(listVisible) {
+            if (!listVisible) {
+                viewModel.setListScrolled(false)
+            }
+        }
         LaunchedEffect(Unit) {
             viewModel.navigationTrigger.collect { navigationEvent ->
                 if (navigationEvent.topLevel) {
@@ -317,8 +322,8 @@ fun TKWeekApp(viewModel: TKWeekViewModel = viewModel()) {
 
                                         TKWeekModuleContainer(
                                             module = moduleEntry,
-                                            arguments = args,
-                                        ) { }
+                                            arguments = args
+                                        )
                                     }
                                  }
                             }

@@ -33,7 +33,6 @@ import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.preference.PreferenceManager
-import androidx.recyclerview.widget.RecyclerView
 import com.thomaskuenneth.tkweek.TKWeekModule
 import com.thomaskuenneth.tkweek.util.TKWeekUtils
 import com.thomaskuenneth.tkweek.viewmodel.TKWeekViewModel
@@ -52,36 +51,14 @@ abstract class TKWeekBaseFragment<T> : TKWeekHiltBaseFragment() {
 
     protected var backing: T? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        if (savedInstanceState == null)
-            setHasOptionsMenu(true)
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         findScrollableContent(view)?.let { scrollable ->
-            when (scrollable) {
-                is RecyclerView -> {
-                    if (scrollable.adapter?.itemCount ?: 0 > 0) {
-                        scrollable.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-                            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                                super.onScrolled(recyclerView, dx, dy)
-                                viewModel.setDetailScrolled(recyclerView.canScrollVertically(-1))
-                            }
-                        })
-                        viewModel.setDetailScrolled(scrollable.canScrollVertically(-1))
-                    }
-                }
-
-                is NestedScrollView -> {
-                    scrollable.setOnScrollChangeListener(
-                        NestedScrollView.OnScrollChangeListener { _, _, scrollY, _, _ ->
-                            viewModel.setDetailScrolled(scrollY > 0)
-                        })
-                    viewModel.setDetailScrolled(scrollable.scrollY > 0)
-                }
-            }
+            scrollable.setOnScrollChangeListener(
+                NestedScrollView.OnScrollChangeListener { _, _, scrollY, _, _ ->
+                    viewModel.setDetailScrolled(scrollY > 0)
+                })
+            viewModel.setDetailScrolled(scrollable.scrollY > 0)
         }
     }
 
@@ -175,8 +152,8 @@ abstract class TKWeekBaseFragment<T> : TKWeekHiltBaseFragment() {
         )
     }
 
-    private fun findScrollableContent(view: View): View? {
-        if (view is RecyclerView || view is NestedScrollView) {
+    private fun findScrollableContent(view: View): NestedScrollView? {
+        if (view is NestedScrollView) {
             return view
         }
         if (view is ViewGroup) {

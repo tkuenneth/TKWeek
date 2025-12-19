@@ -74,6 +74,11 @@ class PreferencesFragment : PreferenceFragmentCompat() {
         viewModel.setAppBarActions(emptyList())
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        viewModel.setDetailScrolled(false)
+    }
+
     override fun onCreateRecyclerView(
         inflater: LayoutInflater,
         parent: ViewGroup,
@@ -83,7 +88,7 @@ class PreferencesFragment : PreferenceFragmentCompat() {
         recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
-                viewModel.onFragmentScrolled(dy.toFloat())
+                viewModel.setDetailScrolled(recyclerView.canScrollVertically(-1))
             }
         })
         ViewCompat.setOnApplyWindowInsetsListener(recyclerView) { _, insets ->

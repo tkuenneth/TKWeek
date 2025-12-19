@@ -5,6 +5,7 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.displayCutout
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -35,12 +36,11 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.key
 import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalLayoutDirection
@@ -116,9 +116,6 @@ fun TKWeekApp(viewModel: TKWeekViewModel = viewModel()) {
             threePaneScaffoldNavigator.scaffoldValue[ListDetailPaneScaffoldRole.List] == PaneAdaptedValue.Expanded
         val detailVisible =
             threePaneScaffoldNavigator.scaffoldValue[ListDetailPaneScaffoldRole.Detail] == PaneAdaptedValue.Expanded
-        val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
-        var isListAtTop by remember { mutableStateOf(true) }
-        val topAppBarState = scrollBehavior.state
         var activeModuleTitleRes by remember(uiState.topLevelModuleWithArguments) {
             mutableIntStateOf(
                 uiState.topLevelModuleWithArguments.module.titleRes
@@ -149,18 +146,6 @@ fun TKWeekApp(viewModel: TKWeekViewModel = viewModel()) {
                 }
             }
         }
-        LaunchedEffect(Unit) {
-            viewModel.fragmentScrollDelta.collect {
-                topAppBarState.contentOffset -= it
-            }
-        }
-        LaunchedEffect(Unit) {
-            viewModel.resetScrollTrigger.collect {
-                if (isListAtTop) {
-                    topAppBarState.contentOffset = 0f
-                }
-            }
-        }
         val displayCutoutInsets = WindowInsets.displayCutout
         val density = LocalDensity.current
         val layoutDirection = LocalLayoutDirection.current
@@ -169,7 +154,6 @@ fun TKWeekApp(viewModel: TKWeekViewModel = viewModel()) {
         val horizontalPadding =
             with(density) { max(left, right).toDp() }.coerceAtLeast(16.dp)
         Scaffold(
-            modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
             contentWindowInsets = WindowInsets(),
             topBar = {
                 if (uiState.showSearchBar) {
@@ -241,6 +225,15 @@ fun TKWeekApp(viewModel: TKWeekViewModel = viewModel()) {
                     ) {
                     }
                 } else {
+                    val isScrolled = uiState.isListScrolled || uiState.isDetailScrolled
+                    val topAppBarColors = TopAppBarDefaults.centerAlignedTopAppBarColors()
+                    val containerColor by animateColorAsState(
+                        targetValue = if (isScrolled)
+                            topAppBarColors.scrolledContainerColor
+                        else
+                            topAppBarColors.containerColor,
+                        label = "containerColor"
+                    )
                     CenterAlignedTopAppBar(
                         title = {
                             Text(
@@ -273,9 +266,8 @@ fun TKWeekApp(viewModel: TKWeekViewModel = viewModel()) {
                                 TKWeekAppBarActions(appBarActions)
                             }
                         },
-                        scrollBehavior = scrollBehavior,
                         colors = TopAppBarDefaults.topAppBarColors(
-                            scrolledContainerColor = MaterialTheme.colorScheme.surfaceContainer
+                            containerColor = containerColor
                         )
                     )
                 }
@@ -297,7 +289,9 @@ fun TKWeekApp(viewModel: TKWeekViewModel = viewModel()) {
                             )
                         },
                         detailVisible = detailVisible,
-                        onListStateChanged = { isListAtTop = it }
+                        onListStateChanged = { isAtTop ->
+                            viewModel.setListScrolled(!isAtTop)
+                        }
                     )
                 },
                 detailPane = {
@@ -324,7 +318,7 @@ fun TKWeekApp(viewModel: TKWeekViewModel = viewModel()) {
                                         TKWeekModuleContainer(
                                             module = moduleEntry,
                                             arguments = args,
-                                        ) { viewModel.resetScroll() }
+                                        ) { }
                                     }
                                  }
                             }

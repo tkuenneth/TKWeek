@@ -9,11 +9,8 @@ import com.thomaskuenneth.tkweek.TKWeekModule
 import com.thomaskuenneth.tkweek.preference.PreferenceManager
 import com.thomaskuenneth.tkweek.types.TKWeekModuleWithArguments
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -26,7 +23,9 @@ data class UiState(
     val showSearchBar: Boolean = false,
     val isSearchActive: Boolean = false,
     val searchQuery: String = "",
-    val avoidHinge: Boolean = false
+    val avoidHinge: Boolean = false,
+    val isListScrolled: Boolean = false,
+    val isDetailScrolled: Boolean = false
 )
 
 data class AppBarAction(
@@ -67,27 +66,18 @@ class TKWeekViewModel @Inject constructor(
     private val _navigationTrigger = Channel<NavigationEvent>(Channel.CONFLATED)
     val navigationTrigger = _navigationTrigger.receiveAsFlow()
 
-    private val _fragmentScrollDelta = MutableSharedFlow<Float>(
-        extraBufferCapacity = 64,
-        onBufferOverflow = BufferOverflow.DROP_OLDEST
-    )
-    val fragmentScrollDelta = _fragmentScrollDelta.asSharedFlow()
-
-    private val _resetScrollTrigger = Channel<Unit>(Channel.CONFLATED)
-    val resetScrollTrigger = _resetScrollTrigger.receiveAsFlow()
-
     init {
         preferenceManager.avoidHinge.onEach { avoidHinge ->
             _uiState.update { it.copy(avoidHinge = avoidHinge) }
         }.launchIn(viewModelScope)
     }
 
-    fun onFragmentScrolled(deltaY: Float) {
-        _fragmentScrollDelta.tryEmit(deltaY)
+    fun setListScrolled(isScrolled: Boolean) {
+        _uiState.update { it.copy(isListScrolled = isScrolled) }
     }
 
-    fun resetScroll() {
-        _resetScrollTrigger.trySend(Unit)
+    fun setDetailScrolled(isScrolled: Boolean) {
+        _uiState.update { it.copy(isDetailScrolled = isScrolled) }
     }
 
     fun setAppBarActions(actions: List<AppBarAction>) {

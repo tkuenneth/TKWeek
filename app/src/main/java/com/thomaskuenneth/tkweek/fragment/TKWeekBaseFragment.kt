@@ -51,7 +51,6 @@ abstract class TKWeekHiltBaseFragment : Fragment() {
 abstract class TKWeekBaseFragment<T> : TKWeekHiltBaseFragment() {
 
     protected var backing: T? = null
-    private var lastScrollY = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -68,7 +67,7 @@ abstract class TKWeekBaseFragment<T> : TKWeekHiltBaseFragment() {
                         scrollable.addOnScrollListener(object : RecyclerView.OnScrollListener() {
                             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                                 super.onScrolled(recyclerView, dx, dy)
-                                viewModel.onFragmentScrolled(dy.toFloat())
+                                viewModel.setDetailScrolled(recyclerView.canScrollVertically(-1))
                             }
                         })
                     }
@@ -77,9 +76,7 @@ abstract class TKWeekBaseFragment<T> : TKWeekHiltBaseFragment() {
                 is NestedScrollView -> {
                     scrollable.setOnScrollChangeListener(
                         NestedScrollView.OnScrollChangeListener { _, _, scrollY, _, _ ->
-                            val dy = scrollY - lastScrollY
-                            viewModel.onFragmentScrolled(dy.toFloat())
-                            lastScrollY = scrollY
+                            viewModel.setDetailScrolled(scrollY > 0)
                         })
                 }
             }
@@ -93,6 +90,7 @@ abstract class TKWeekBaseFragment<T> : TKWeekHiltBaseFragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
+        viewModel.setDetailScrolled(false)
         backing = null
     }
 

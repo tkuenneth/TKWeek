@@ -123,6 +123,18 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/down" />
 
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/message"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:gravity="center"
+                        android:text="@string/week_calculation_message"
+                        android:textAppearance="?attr/textAppearanceBodyMedium"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/week_selection" />
+
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <com.google.android.material.divider.MaterialDivider
@@ -151,26 +163,12 @@
 
         </com.google.android.material.card.MaterialCardView>
 
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/message"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:paddingStart="16dp"
-            android:paddingEnd="16dp"
-            android:text="@string/week_calculation_message"
-            android:textAppearance="?attr/textAppearanceBodyMedium"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/main_card"
-            app:layout_constraintWidth_max="500dp" />
-
         <com.thomaskuenneth.tkweek.util.BottomSpace
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/message" />
+            app:layout_constraintTop_toBottomOf="@id/main_card" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.core.widget.NestedScrollView>

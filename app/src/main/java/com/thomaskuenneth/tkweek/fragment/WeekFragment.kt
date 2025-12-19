@@ -89,7 +89,7 @@ class WeekFragment : TKWeekBaseFragment<WeekBinding>(),
         binding.down.setOnClickListener(this)
         binding.up.setOnClickListener(this)
         TKWeekUtils.linkToSettings(
-            binding.root,
+            binding.weekControlsContainer,
             requireActivity(),
             R.string.week_calculation_message
         )

@@ -99,6 +99,7 @@ class WeekFragment : TKWeekBaseFragment<WeekBinding>(),
         super.onStart()
         prepareCalendar(cal, requireContext(), binding.labelWeekNumber, false)
         updateViewsFromCalendar()
+        updateWeekInfoWidgets(requireContext())
     }
 
     override fun updateAppBarActions() {
@@ -185,14 +186,14 @@ class WeekFragment : TKWeekBaseFragment<WeekBinding>(),
 
         @JvmStatic
         fun prepareCalendar(
-            cal: Calendar, context: Context, label_week_number: TextView?, appendColon: Boolean
+            cal: Calendar, context: Context, labelWeekNumber: TextView?, appendColon: Boolean
         ) {
             val prefs = PreferenceManager.getDefaultSharedPreferences(context)
             val useISO = prefs.getBoolean(USE_ISO_WEEKS, false)
             if (useISO) {
                 cal.minimalDaysInFirstWeek = 4
                 cal.firstDayOfWeek = Calendar.MONDAY
-                label_week_number?.setText(R.string.week_number_iso)
+                labelWeekNumber?.setText(R.string.week_number_iso)
             } else {
                 val c = Calendar.getInstance()
                 val s = prefs.getString(START_OF_WEEK, "-1")
@@ -207,11 +208,11 @@ class WeekFragment : TKWeekBaseFragment<WeekBinding>(),
                 }
                 cal.minimalDaysInFirstWeek = c.minimalDaysInFirstWeek
                 cal.firstDayOfWeek = c.firstDayOfWeek
-                label_week_number?.setText(R.string.week_number)
+                labelWeekNumber?.setText(R.string.week_number)
             }
             cal[Calendar.DAY_OF_MONTH] = cal[Calendar.DAY_OF_MONTH]
-            if (label_week_number != null && appendColon) {
-                label_week_number.append(":")
+            if (labelWeekNumber != null && appendColon) {
+                labelWeekNumber.append(":")
             }
         }
     }

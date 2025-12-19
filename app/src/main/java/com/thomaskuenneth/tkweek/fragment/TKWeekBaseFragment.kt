@@ -127,12 +127,6 @@ abstract class TKWeekBaseFragment<T> : TKWeekHiltBaseFragment() {
         )
     }
 
-    fun shouldShowPermissionReadCallLogRationale() =
-        TKWeekUtils.shouldShowRequestPermissionRationale(
-            requireActivity(),
-            Manifest.permission.READ_CALL_LOG
-        )
-
     fun shouldShowAppointments() = !PreferenceManager.getDefaultSharedPreferences(requireContext())
         .getBoolean("hide_appointments", false)
 

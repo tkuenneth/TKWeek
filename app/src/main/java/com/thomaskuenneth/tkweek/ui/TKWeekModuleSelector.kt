@@ -39,6 +39,15 @@ fun ThreePaneScaffoldPaneScope.TKWeekModuleSelector(
         ) {
             onListStateChanged(firstVisibleItemIndex == 0 && firstVisibleItemScrollOffset == 0)
         }
+        LaunchedEffect(currentRoute) {
+            val index = TKWeekModule.entries.indexOfFirst { it.name == currentRoute }
+            if (index >= 0) {
+                val isVisible = lazyListState.layoutInfo.visibleItemsInfo.any { it.index == index }
+                if (!isVisible) {
+                    lazyListState.animateScrollToItem(index)
+                }
+            }
+        }
         LazyColumn(
             state = lazyListState,
             modifier = modifier

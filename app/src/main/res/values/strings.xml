@@ -154,6 +154,7 @@ access your contacts data to display birthdays and anniversaries. You can deacti
     <string name="week_number_iso">ISO week number</string>
     <string name="first_and_last_day_of_week" translatable="false">%1$s %2$s - %3$s %4$s</string>
     <string name="week_calculation_message">You can change how the week number is calculated in Settings.</string>
+    <string name="go_to_settings">Go to Settings</string>
 
     <!-- AboutAYear -->
     <string name="about_a_year_label1">Friday the 13th</string>

@@ -140,6 +140,7 @@ class MyDayFragment : TKWeekBaseFragment<MydayBinding>() {
             requestPermissions(l, 0)
         }
         updateViews()
+        linkToSettings(binding.keyValueContainer, requireActivity(), R.string.go_to_settings)
     }
 
     @Deprecated("Deprecated in Java")

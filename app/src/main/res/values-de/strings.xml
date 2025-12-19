@@ -120,6 +120,7 @@
     <string name="week_number">Wochennr.</string>
     <string name="week_number_iso">Wochennummer (ISO)</string>
     <string name="week_calculation_message">Sie können die Berechnung der Wochennummer in den Einstellungen ändern.</string>
+    <string name="go_to_settings">Zu den Einstellungen</string>
 
     <!-- AboutAYear -->
     <string name="about_a_year_label1">Freitag, der 13.</string>

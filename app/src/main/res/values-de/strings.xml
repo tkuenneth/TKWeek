@@ -119,6 +119,7 @@
     <string name="date_within_week">Datum innerhalb einer Woche</string>
     <string name="week_number">Wochennr.</string>
     <string name="week_number_iso">Wochennummer (ISO)</string>
+    <string name="week_calculation_message">Sie können die Berechnung der Wochennummer in den Einstellungen ändern.</string>
 
     <!-- AboutAYear -->
     <string name="about_a_year_label1">Freitag, der 13.</string>

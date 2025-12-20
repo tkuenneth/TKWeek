@@ -5,22 +5,14 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.displayCutout
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Search
-import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.SearchBar
-import androidx.compose.material3.SearchBarDefaults
-import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.adaptive.ExperimentalMaterial3AdaptiveApi
 import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
 import androidx.compose.material3.adaptive.layout.AnimatedPane
@@ -40,11 +32,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalLayoutDirection
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -54,11 +44,10 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import com.thomaskuenneth.tkweek.ui.BackArrow
-import com.thomaskuenneth.tkweek.ui.ClearIcon
-import com.thomaskuenneth.tkweek.ui.TKWeekAppBarActions
 import com.thomaskuenneth.tkweek.ui.TKWeekModuleContainer
 import com.thomaskuenneth.tkweek.ui.TKWeekModuleSelector
+import com.thomaskuenneth.tkweek.ui.TKWeekSearchBar
+import com.thomaskuenneth.tkweek.ui.TKWeekTopAppBar
 import com.thomaskuenneth.tkweek.ui.colorScheme
 import com.thomaskuenneth.tkweek.util.Helper.CLAZZ
 import com.thomaskuenneth.tkweek.util.Helper.PAYLOAD
@@ -161,120 +150,42 @@ fun TKWeekApp(viewModel: TKWeekViewModel = viewModel()) {
         Scaffold(
             contentWindowInsets = WindowInsets(),
             topBar = {
-                if (uiState.showSearchBar) {
-                    SearchBar(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(horizontal = horizontalPadding),
-                        inputField = {
-                            SearchBarDefaults.InputField(
-                                query = uiState.searchQuery,
-                                onQueryChange = {
-                                    viewModel.setSearchQuery(it)
-                                    if (!uiState.isSearchActive) {
-                                        viewModel.setSearchActive(true)
-                                    }
-                                },
-                                onSearch = {
-                                    focusManager.clearFocus()
-                                },
-                                expanded = uiState.isSearchActive,
-                                onExpandedChange = { viewModel.setSearchActive(it) },
-                                placeholder = { Text(stringResource(id = R.string.events)) },
-                                leadingIcon = {
-                                    if (uiState.isSearchActive) {
-                                        BackArrow(
-                                            onClick = {
-                                                viewModel.setSearchActive(false)
-                                                viewModel.setSearchQuery("")
-                                                focusManager.clearFocus()
-                                            },
-                                            description = R.string.close_search
-                                        )
-                                    } else {
-                                        val hasStackedModules =
-                                            currentBackStackEntry != null && navController.previousBackStackEntry != null
-                                        if (threePaneScaffoldNavigator.canNavigateBack() || hasStackedModules) {
-                                            BackArrow {
-                                                if (hasStackedModules) {
-                                                    navController.popBackStack()
-                                                } else {
-                                                    scope.launch {
-                                                        threePaneScaffoldNavigator.navigateBack()
-                                                    }
-                                                }
-                                            }
-                                        } else {
-                                            Icon(
-                                                imageVector = Icons.Default.Search,
-                                                contentDescription = null
-                                            )
-                                        }
-                                    }
-                                },
-                                trailingIcon = {
-                                    if (uiState.searchQuery.isNotEmpty()) {
-                                        ClearIcon {
-                                            viewModel.setSearchQuery("")
-                                        }
-                                    }
-                                }
-                            )
-                        },
-                        expanded = false,
-                        onExpandedChange = {
-                            if (it) {
-                                viewModel.setSearchActive(true)
-                            }
-                        },
-                    ) {
+                val hasStackedModules =
+                    currentBackStackEntry != null && navController.previousBackStackEntry != null
+                val canNavigateBack = threePaneScaffoldNavigator.canNavigateBack() || hasStackedModules
+                val onNavigateBack: () -> Unit = {
+                    if (hasStackedModules) {
+                        navController.popBackStack()
+                    } else {
+                        scope.launch {
+                            threePaneScaffoldNavigator.navigateBack()
+                        }
                     }
-                } else {
-                    val isScrolled = uiState.isListScrolled || uiState.isDetailScrolled
-                    val topAppBarColors = TopAppBarDefaults.centerAlignedTopAppBarColors()
-                    val containerColor by animateColorAsState(
-                        targetValue = if (isScrolled)
-                            topAppBarColors.scrolledContainerColor
-                        else
-                            topAppBarColors.containerColor,
-                        label = "containerColor"
-                    )
-                    CenterAlignedTopAppBar(
-                        title = {
-                            Text(
-                                text = stringResource(
-                                    if (listVisible) {
-                                        R.string.app_name
-                                    } else {
-                                        activeModuleTitleRes
-                                    }
-                                )
-                            )
-                        },
-                        navigationIcon = {
-                            val hasStackedModules =
-                                currentBackStackEntry != null && navController.previousBackStackEntry != null
-                            if (threePaneScaffoldNavigator.canNavigateBack() || hasStackedModules) {
-                                BackArrow {
-                                    if (hasStackedModules) {
-                                        navController.popBackStack()
-                                    } else {
-                                        scope.launch {
-                                            threePaneScaffoldNavigator.navigateBack()
-                                        }
-                                    }
-                                }
-                            }
-                        },
-                        actions = {
-                            if (detailVisible) {
-                                TKWeekAppBarActions(appBarActions)
-                            }
-                        },
-                        colors = TopAppBarDefaults.topAppBarColors(
-                            containerColor = containerColor
+                }
+
+                Crossfade(targetState = uiState.showSearchBar, label = "searchBar") { showSearchBar ->
+                    if (showSearchBar) {
+                        TKWeekSearchBar(
+                            uiState = uiState,
+                            viewModel = viewModel,
+                            focusManager = focusManager,
+                            canNavigateBack = canNavigateBack,
+                            onNavigateBack = onNavigateBack,
+                            appBarActions = appBarActions,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(horizontal = horizontalPadding)
                         )
-                    )
+                    } else {
+                        TKWeekTopAppBar(
+                            uiState = uiState,
+                            detailVisible = detailVisible,
+                            activeModuleTitleRes = activeModuleTitleRes,
+                            appBarActions = appBarActions,
+                            canNavigateBack = canNavigateBack,
+                            onNavigateBack = onNavigateBack
+                        )
+                    }
                 }
             }
         ) { paddingValues ->

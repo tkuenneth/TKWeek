@@ -42,6 +42,7 @@ import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.setFragmentResultListener
 import androidx.preference.PreferenceManager
+import com.google.android.material.datepicker.MaterialDatePicker
 import com.thomaskuenneth.tkweek.R
 import com.thomaskuenneth.tkweek.adapter.AnnualEventsListAdapter
 import com.thomaskuenneth.tkweek.databinding.MydayBinding
@@ -82,13 +83,6 @@ class MyDayFragment : TKWeekBaseFragment<MydayBinding>() {
                     ARGS_NOTES, ""
                 )
             )
-        }
-        setFragmentResultListener(RESULT_DATEPICKER) { _, bundle ->
-            cal.set(Calendar.YEAR, bundle.getInt(ARGS_YEAR))
-            cal.set(Calendar.MONTH, bundle.getInt(ARGS_MONTH))
-            cal.set(Calendar.DAY_OF_MONTH, bundle.getInt(ARGS_DAY_OF_MONTH))
-            updateViews()
-            updateAppBarActions()
         }
     }
 
@@ -139,6 +133,22 @@ class MyDayFragment : TKWeekBaseFragment<MydayBinding>() {
             permissions.toArray(l)
             requestMultiplePermissions(l.requireNoNulls())
         }
+        binding.myDayDate.setOnClickListener {
+            val picker = MaterialDatePicker.Builder.datePicker()
+                .setSelection(cal.timeInMillis)
+                .build()
+            picker.addOnPositiveButtonClickListener { selection ->
+                cal.timeInMillis = selection
+                updateViews()
+                updateAppBarActions()
+            }
+            picker.show(parentFragmentManager, "date_picker")
+        }
+        binding.myDayToday.setOnClickListener {
+            cal.time = Date()
+            updateViews()
+            updateAppBarActions()
+        }
         updateViews()
         linkToSettings(binding.keyValueContainer, requireActivity(), R.string.go_to_settings)
     }
@@ -170,17 +180,6 @@ class MyDayFragment : TKWeekBaseFragment<MydayBinding>() {
     override fun updateAppBarActions() {
         val actions = listOf(
             AppBarAction(
-                icon = R.drawable.ic_baseline_today_24,
-                contentDescription = R.string.today,
-                title = R.string.today,
-                onClick = {
-                    cal.time = Date()
-                    updateViews()
-                    updateAppBarActions()
-                },
-                isVisible = !DateUtilities.isToday(cal)
-            ),
-            AppBarAction(
                 icon = null,
                 contentDescription = R.string.look_up_in_wikipedia,
                 title = R.string.look_up_in_wikipedia,
@@ -200,24 +199,6 @@ class MyDayFragment : TKWeekBaseFragment<MydayBinding>() {
                     } catch (e: ActivityNotFoundException) {
                         Log.e(TAG, "no activity found", e)
                     }
-                }
-            ),
-            AppBarAction(
-                icon = R.drawable.ic_baseline_date_range_24,
-                contentDescription = R.string.goto_date,
-                title = R.string.goto_date,
-                onClick = {
-                    val datePickerFragment = DatePickerFragment().also {
-                        it.arguments = Bundle().also { bundle ->
-                            bundle.putInt(ARGS_YEAR, cal.get(Calendar.YEAR))
-                            bundle.putInt(ARGS_MONTH, cal.get(Calendar.MONTH))
-                            bundle.putInt(ARGS_DAY_OF_MONTH, cal.get(Calendar.DAY_OF_MONTH))
-                        }
-                    }
-                    datePickerFragment.show(
-                        parentFragmentManager,
-                        DatePickerFragment.TAG
-                    )
                 }
             )
         )
@@ -281,15 +262,7 @@ class MyDayFragment : TKWeekBaseFragment<MydayBinding>() {
             R.string.day_of_year, weekNumber,
             maxWeekNumber, maxWeekNumber - weekNumber
         )
-        val strDate = if (DateUtilities.isToday(cal)) {
-            getString(
-                R.string.string1_string2,
-                Helper.FORMAT_FULL.format(cal.time),
-                getString(R.string.today)
-            )
-        } else {
-            Helper.FORMAT_FULL.format(cal.time)
-        }
+        val strDate = Helper.FORMAT_FULL.format(cal.time)
         if (isDayOff(requireContext(), cal.time)) {
             binding.myDayDate.text = getString(
                 R.string.string1_dash_string2, strDate,
@@ -298,6 +271,7 @@ class MyDayFragment : TKWeekBaseFragment<MydayBinding>() {
         } else {
             binding.myDayDate.text = strDate
         }
+        binding.myDayToday.isEnabled = !DateUtilities.isToday(cal)
         val date = cal.time
         val current = cal.get(Calendar.DAY_OF_YEAR)
         val max = cal.getActualMaximum(Calendar.DAY_OF_YEAR)

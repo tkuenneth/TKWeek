@@ -39,7 +39,6 @@ import com.thomaskuenneth.tkweek.appwidget.WeekInfoWidget
 import com.thomaskuenneth.tkweek.databinding.WeekBinding
 import com.thomaskuenneth.tkweek.util.Helper
 import com.thomaskuenneth.tkweek.util.TKWeekUtils
-import com.thomaskuenneth.tkweek.viewmodel.AppBarAction
 import java.util.Calendar
 import java.util.Date
 
@@ -66,6 +65,10 @@ class WeekFragment : TKWeekBaseFragment<WeekBinding>(),
                 updateViewsFromCalendar()
             }
             picker.show(parentFragmentManager, "date_picker")
+        }
+        binding.dateToday.setOnClickListener {
+            cal.time = Date()
+            updateViewsFromCalendar()
         }
         binding.weekSelection.addOnChangeListener { _, value, fromUser ->
             if (fromUser) {
@@ -100,21 +103,6 @@ class WeekFragment : TKWeekBaseFragment<WeekBinding>(),
         prepareCalendar(cal, requireContext(), binding.labelWeekNumber, false)
         updateViewsFromCalendar()
         updateWeekInfoWidgets(requireContext())
-    }
-
-    override fun updateAppBarActions() {
-        val actions = listOf(
-            AppBarAction(
-                icon = R.drawable.ic_baseline_today_24,
-                contentDescription = R.string.today,
-                title = R.string.today,
-                onClick = {
-                    cal.time = Date()
-                    updateViewsFromCalendar()
-                }
-            )
-        )
-        viewModel.setAppBarActions(actions)
     }
 
     override fun onClick(v: View) {

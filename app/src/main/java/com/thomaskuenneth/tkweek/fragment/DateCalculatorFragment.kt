@@ -35,8 +35,8 @@ import com.google.android.material.datepicker.MaterialDatePicker
 import com.thomaskuenneth.tkweek.R
 import com.thomaskuenneth.tkweek.databinding.DateCalculatorBinding
 import com.thomaskuenneth.tkweek.preference.PickBusinessDaysPreference
+import com.thomaskuenneth.tkweek.util.DateUtilities
 import com.thomaskuenneth.tkweek.util.Helper
-import com.thomaskuenneth.tkweek.viewmodel.AppBarAction
 import java.util.Calendar
 import java.util.Date
 
@@ -64,6 +64,10 @@ class DateCalculatorFragment : TKWeekBaseFragment<DateCalculatorBinding>() {
             }
             picker.show(childFragmentManager, DateCalculatorFragment::class.java.simpleName)
         }
+        binding.dateCalculatorToday.setOnClickListener {
+            cal.time = Date()
+            updateDateButton()
+        }
         binding.dateCalculatorResult.setText(R.string.date_calculator_info)
         binding.dateCalculatorAdd.setOnClickListener { update(false) }
         binding.dateCalculatorSubtract.setOnClickListener { update(true) }
@@ -73,21 +77,6 @@ class DateCalculatorFragment : TKWeekBaseFragment<DateCalculatorBinding>() {
             binding.months.text = null
             binding.years.text = null
         }
-    }
-
-    override fun updateAppBarActions() {
-        val actions = listOf(
-            AppBarAction(
-                icon = R.drawable.ic_baseline_today_24,
-                contentDescription = R.string.today,
-                title = R.string.today,
-                onClick = {
-                    cal.time = Date()
-                    updateDateButton()
-                }
-            )
-        )
-        viewModel.setAppBarActions(actions)
     }
 
     private fun update(subtract: Boolean) {
@@ -123,6 +112,7 @@ class DateCalculatorFragment : TKWeekBaseFragment<DateCalculatorBinding>() {
 
     private fun updateDateButton() {
         binding.dateCalculatorDate.text = Helper.FORMAT_FULL.format(cal.time)
+        binding.dateCalculatorToday.isEnabled = !DateUtilities.isToday(cal)
     }
 
     private fun getInt(view: EditText, subtract: Boolean): Int {

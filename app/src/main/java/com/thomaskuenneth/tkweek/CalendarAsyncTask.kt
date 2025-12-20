@@ -124,8 +124,6 @@ class CalendarAsyncTask(
     override fun onPostExecute(b: Bundle) {
         binding.firstDate.isEnabled = true
         binding.secondDate.isEnabled = true
-        binding.firstDateToday.isEnabled = true
-        binding.secondDateToday.isEnabled = true
         val days = b.getInt(DAYS)
         binding.daysBetweenDatesTotal1.text = context.getString(
             R.string.days_between_dates_days, days

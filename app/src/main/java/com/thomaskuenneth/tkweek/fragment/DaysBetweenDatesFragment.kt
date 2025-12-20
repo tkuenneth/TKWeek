@@ -100,8 +100,8 @@ class DaysBetweenDatesFragment : TKWeekBaseFragment<DaysBetweenDatesActivityBind
         }
         binding.firstDate.isEnabled = true
         binding.secondDate.isEnabled = true
-        binding.firstDateToday.isEnabled = true
-        binding.secondDateToday.isEnabled = true
+        binding.firstDateToday.isEnabled = !DateUtilities.isToday(calFirstDate)
+        binding.secondDateToday.isEnabled = !DateUtilities.isToday(calSecondDate)
         CalendarAsyncTask(requireContext(), binding).execute(c1, c2)
     }
 

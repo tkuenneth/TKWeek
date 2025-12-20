@@ -37,6 +37,7 @@ import com.google.android.material.slider.Slider
 import com.thomaskuenneth.tkweek.R
 import com.thomaskuenneth.tkweek.appwidget.WeekInfoWidget
 import com.thomaskuenneth.tkweek.databinding.WeekBinding
+import com.thomaskuenneth.tkweek.util.DateUtilities
 import com.thomaskuenneth.tkweek.util.Helper
 import com.thomaskuenneth.tkweek.util.TKWeekUtils
 import java.util.Calendar
@@ -158,6 +159,7 @@ class WeekFragment : TKWeekBaseFragment<WeekBinding>(),
             Helper.FORMAT_DEFAULT.format(end)
         )
         binding.firstAndLastDayOfWeek.text = text
+        binding.dateToday.isEnabled = !DateUtilities.isToday(cal)
     }
 
     companion object {

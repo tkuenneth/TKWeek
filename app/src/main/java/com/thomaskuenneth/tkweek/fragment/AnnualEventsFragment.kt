@@ -31,7 +31,6 @@ import android.app.Activity
 import android.app.NotificationManager
 import android.content.Context
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.AsyncTask
 import android.os.Build
@@ -158,9 +157,31 @@ class AnnualEventsFragment : TKWeekBaseFragment<EventsBinding>(), AdapterView.On
         if (permissions.isNotEmpty()) {
             val l = arrayOfNulls<String>(permissions.size)
             permissions.toArray(l)
-            requestPermissions(l, 0)
+            requestMultiplePermissions(l.requireNoNulls())
         }
         updateAll()
+    }
+
+    override fun onReadContactsPermissionResult(isGranted: Boolean) {
+        if (isGranted) {
+            setListAdapterLoadEvents(false, searchString)
+        }
+        updatePermissionInfo()
+    }
+
+    override fun onPostNotificationsPermissionResult(isGranted: Boolean) {
+        updatePermissionInfo()
+    }
+
+    override fun onReadCalendarPermissionResult(isGranted: Boolean) {
+        updatePermissionInfo()
+    }
+
+    override fun onMultiplePermissionsResult(results: Map<String, Boolean>) {
+        if (results[Manifest.permission.READ_CONTACTS] == true) {
+            setListAdapterLoadEvents(false, searchString)
+        }
+        updatePermissionInfo()
     }
 
     @Deprecated("Deprecated in Java")
@@ -203,18 +224,6 @@ class AnnualEventsFragment : TKWeekBaseFragment<EventsBinding>(), AdapterView.On
             }
             if (!success) showError()
         }
-    }
-
-    @Deprecated("Deprecated in Java")
-    override fun onRequestPermissionsResult(
-        requestCode: Int, permissions: Array<out String>, grantResults: IntArray
-    ) {
-        if ((grantResults.isNotEmpty()) && (grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
-            if (requestCode == RQ_READ_CONTACTS) {
-                setListAdapterLoadEvents(false, searchString)
-            }
-        }
-        updatePermissionInfo()
     }
 
     override fun onStart() {

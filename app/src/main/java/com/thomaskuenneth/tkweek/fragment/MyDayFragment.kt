@@ -137,20 +137,24 @@ class MyDayFragment : TKWeekBaseFragment<MydayBinding>() {
         if (permissions.isNotEmpty()) {
             val l = arrayOfNulls<String>(permissions.size)
             permissions.toArray(l)
-            requestPermissions(l, 0)
+            requestMultiplePermissions(l.requireNoNulls())
         }
         updateViews()
         linkToSettings(binding.keyValueContainer, requireActivity(), R.string.go_to_settings)
     }
 
-    @Deprecated("Deprecated in Java")
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<String>,
-        grantResults: IntArray
-    ) {
-        if (!grantResults.indices.isEmpty())
+    override fun onReadContactsPermissionResult(isGranted: Boolean) {
+        prepareEventsLoader()
+    }
+
+    override fun onReadCalendarPermissionResult(isGranted: Boolean) {
+        prepareEventsLoader()
+    }
+
+    override fun onMultiplePermissionsResult(results: Map<String, Boolean>) {
+        if (results.isNotEmpty()) {
             prepareEventsLoader()
+        }
     }
 
     override fun onResume() {

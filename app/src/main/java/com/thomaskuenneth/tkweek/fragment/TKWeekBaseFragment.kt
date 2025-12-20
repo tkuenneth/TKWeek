@@ -28,6 +28,7 @@ import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
@@ -38,10 +39,6 @@ import com.thomaskuenneth.tkweek.util.TKWeekUtils
 import com.thomaskuenneth.tkweek.viewmodel.TKWeekViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
-const val RQ_READ_CONTACTS = 0
-const val RQ_READ_CALENDAR = 1
-const val RQ_POST_NOTIFICATIONS = 2
-
 @AndroidEntryPoint
 abstract class TKWeekHiltBaseFragment : Fragment() {
     protected val viewModel: TKWeekViewModel by activityViewModels()
@@ -50,6 +47,26 @@ abstract class TKWeekHiltBaseFragment : Fragment() {
 abstract class TKWeekBaseFragment<T> : TKWeekHiltBaseFragment() {
 
     protected var backing: T? = null
+
+    private val requestReadContactsLauncher =
+        registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
+            onReadContactsPermissionResult(isGranted)
+        }
+
+    private val requestPostNotificationsLauncher =
+        registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
+            onPostNotificationsPermissionResult(isGranted)
+        }
+
+    private val requestReadCalendarLauncher =
+        registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
+            onReadCalendarPermissionResult(isGranted)
+        }
+
+    private val requestMultiplePermissionsLauncher =
+        registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { results ->
+            onMultiplePermissionsResult(results)
+        }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -114,17 +131,19 @@ abstract class TKWeekBaseFragment<T> : TKWeekHiltBaseFragment() {
     }
 
     fun requestReadContacts() {
-        requestPermissions(
-            arrayOf(Manifest.permission.READ_CONTACTS),
-            RQ_READ_CONTACTS
-        )
+        requestReadContactsLauncher.launch(Manifest.permission.READ_CONTACTS)
+    }
+
+    open fun onReadContactsPermissionResult(isGranted: Boolean) {
     }
 
     fun requestPostNotifications() {
-        requestPermissions(
-            arrayOf(Manifest.permission.POST_NOTIFICATIONS),
-            RQ_POST_NOTIFICATIONS
-        )
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            requestPostNotificationsLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
+        }
+    }
+
+    open fun onPostNotificationsPermissionResult(isGranted: Boolean) {
     }
 
     fun shouldShowAppointments() = !PreferenceManager.getDefaultSharedPreferences(requireContext())
@@ -140,10 +159,17 @@ abstract class TKWeekBaseFragment<T> : TKWeekHiltBaseFragment() {
         )
 
     fun requestReadCalendar() {
-        requestPermissions(
-            arrayOf(Manifest.permission.READ_CALENDAR),
-            RQ_READ_CALENDAR
-        )
+        requestReadCalendarLauncher.launch(Manifest.permission.READ_CALENDAR)
+    }
+
+    open fun onReadCalendarPermissionResult(isGranted: Boolean) {
+    }
+
+    fun requestMultiplePermissions(permissions: Array<String>) {
+        requestMultiplePermissionsLauncher.launch(permissions)
+    }
+
+    open fun onMultiplePermissionsResult(results: Map<String, Boolean>) {
     }
 
     private fun findScrollableContent(view: View): NestedScrollView? {

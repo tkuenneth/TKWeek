@@ -355,7 +355,6 @@ class AnnualEventsFragment : TKWeekBaseFragment<EventsBinding>(), AdapterView.On
         restore: Boolean, search: String?
     ) {
         loadEventsJob?.cancel()
-        binding.indicator.visibility = View.VISIBLE
         loadEventsJob = lifecycleScope.launch {
             val result = withContext(Dispatchers.IO) {
                 AnnualEventsListAdapter.create(
@@ -374,7 +373,6 @@ class AnnualEventsFragment : TKWeekBaseFragment<EventsBinding>(), AdapterView.On
                     Helper.FORMAT_DEFAULT.format(listAdapter?.from?.time ?: Date()),
                     Helper.FORMAT_DEFAULT.format(listAdapter?.to?.time ?: Date())
                 )
-                binding.indicator.visibility = View.GONE
             }
         }
     }

@@ -230,6 +230,7 @@ class CalendarFragment : TKWeekBaseFragment<CalendarBinding>(), View.OnClickList
     private fun load(year: Int) {
         listAdapter?.run {
             if (year >= from[Calendar.YEAR] && year <= to[Calendar.YEAR]) {
+                updateFromListAdapter()
                 return
             }
         }
@@ -341,7 +342,6 @@ class CalendarFragment : TKWeekBaseFragment<CalendarBinding>(), View.OnClickList
             R.string.calendar_number_days_off, daysOff
         )
         load(cal[Calendar.YEAR])
-        updateFromListAdapter()
     }
 
     private fun updateFromListAdapter() {
@@ -352,11 +352,15 @@ class CalendarFragment : TKWeekBaseFragment<CalendarBinding>(), View.OnClickList
                 .map { Helper.FORMAT_YYYYMMDD.format(DateUtilities.getCalendar(it).time) }
                 .toSet()
             if (holidayEvents.isNotEmpty()) {
-                for (i in 8 until days.size) {
-                    val day = days[i]
-                    (day.tag as? Date)?.let { date ->
-                        if (holidayEvents.contains(Helper.FORMAT_YYYYMMDD.format(date))) {
-                            day.setTextColor(Color.RED)
+                for (week in 1..6) {
+                    for (day in 1..7) {
+                        val pos = day + week * 8
+                        if (pos < days.size) {
+                            val view = days[pos]
+                            (view.tag as? Date)?.let { date ->
+                                if (holidayEvents.contains(Helper.FORMAT_YYYYMMDD.format(date))) {
+                                }
+                            }
                         }
                     }
                 }

@@ -219,8 +219,8 @@
     <string name="annual_event_backup_restore">Sichern / Wiederherstellen</string>
     <string name="mark_as_day_off">Als Ruhetag kennzeichnen</string>
     <string name="remove_day_off_tag">Ruhetagsmarkierung entfernen</string>
-    <string name="mark_as_holiday">Als Feiertag kennzeichnen</string>
-    <string name="remove_holiday_tag">Feiertagsmarkierung entfernen</string>
+    <string name="mark_as_holiday">Als gesetzlichen Feiertag markieren</string>
+    <string name="remove_holiday_tag">Markierung als gesetzlicher Feiertag entfernen</string>
     <string name="channel_events">Ereignisse</string>
     <string name="more_options">Weitere Optionen</string>
     <string name="navigate_up">Nach oben navigieren</string>

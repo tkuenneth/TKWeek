@@ -42,6 +42,7 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
+import androidx.core.content.edit
 import androidx.lifecycle.lifecycleScope
 import com.thomaskuenneth.tkweek.AlarmReceiver
 import com.thomaskuenneth.tkweek.R
@@ -74,6 +75,8 @@ private val MENU_DELETE = R.string.menu_delete
 private val MENU_DAYS_BETWEEN_DATES = R.string.days_between_dates_activity_text1
 private val MENU_MARK_AS_DAY_OFF = R.string.mark_as_day_off
 private val MENU_REMOVE_DAY_OFF_TAG = R.string.remove_day_off_tag
+private val MENU_MARK_AS_HOLIDAY = R.string.mark_as_holiday
+private val MENU_REMOVE_HOLIDAY_TAG = R.string.remove_holiday_tag
 
 @Suppress("DEPRECATION")
 class AnnualEventsFragment : TKWeekBaseFragment<EventsBinding>(), AdapterView.OnItemClickListener {
@@ -276,6 +279,11 @@ class AnnualEventsFragment : TKWeekBaseFragment<EventsBinding>(), AdapterView.On
         } else {
             menu.add(Menu.NONE, MENU_MARK_AS_DAY_OFF, Menu.NONE, MENU_MARK_AS_DAY_OFF)
         }
+        if (isHoliday(requireContext(), item)) {
+            menu.add(Menu.NONE, MENU_REMOVE_HOLIDAY_TAG, Menu.NONE, MENU_REMOVE_HOLIDAY_TAG)
+        } else {
+            menu.add(Menu.NONE, MENU_MARK_AS_HOLIDAY, Menu.NONE, MENU_MARK_AS_HOLIDAY)
+        }
     }
 
     override fun onContextItemSelected(item: MenuItem): Boolean {
@@ -305,6 +313,18 @@ class AnnualEventsFragment : TKWeekBaseFragment<EventsBinding>(), AdapterView.On
 
             MENU_REMOVE_DAY_OFF_TAG -> {
                 CalendarFragment.setDayOff(requireContext(), date, false)
+                updateItemAtPosition(mi.position)
+                true
+            }
+
+            MENU_MARK_AS_HOLIDAY -> {
+                setHoliday(requireContext(), event, true)
+                updateItemAtPosition(mi.position)
+                true
+            }
+
+            MENU_REMOVE_HOLIDAY_TAG -> {
+                setHoliday(requireContext(), event, false)
                 updateItemAtPosition(mi.position)
                 true
             }
@@ -384,14 +404,13 @@ class AnnualEventsFragment : TKWeekBaseFragment<EventsBinding>(), AdapterView.On
         return prefs.getBoolean(getPreferencesKey(event), false)
     }
 
-    // FIXME: used to be used to mark a day off; maybe reimplement click handler
     fun setHoliday(context: Context, event: Event, holiday: Boolean) {
         val prefs = context.getSharedPreferences(
             TAG, Context.MODE_PRIVATE
         )
-        val e = prefs.edit()
-        e.putBoolean(getPreferencesKey(event), holiday)
-        e.apply()
+        prefs.edit {
+            putBoolean(getPreferencesKey(event), holiday)
+        }
     }
 
     private fun restore() {

@@ -279,8 +279,8 @@ access your contacts data to display birthdays and anniversaries. You can deacti
     <string name="annual_event_backup_restore">Backup / Restore</string>
     <string name="mark_as_day_off">Mark as a day off</string>
     <string name="remove_day_off_tag">Remove day off tag</string>
-    <string name="mark_as_holiday">Mark as a holiday</string>
-    <string name="remove_holiday_tag">Remove holiday tag</string>
+    <string name="mark_as_holiday">Mark as public holiday</string>
+    <string name="remove_holiday_tag">Unmark as public holiday</string>
     <string name="channel_events">Events</string>
     <string name="more_options">More options</string>
     <string name="navigate_up">Navigate up</string>

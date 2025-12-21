@@ -101,7 +101,6 @@
     <string name="recent_events_title">Kürzliche Ereignisse</string>
     <string name="recent_events_summary">Anzahl Tage am Anfang der Liste</string>
     <string name="widget_appearance">Widget-Aussehen</string>
-    <string name="myday_activity_hide_nameday">Namenstage ausblenden</string>
     <string name="hide_seasons">Jahreszeiten ausblenden</string>
     <string name="hide_astrological_sign">Tierkreiszeichen ausblenden</string>
     <string name="third_sunday_of_june">3. Sonntag im Juni</string>
@@ -135,7 +134,6 @@
     <string name="day_of_year">%1$d von %2$d (%3$d verbleibend)</string>
     <string name="is_leap_year">Schaltjahr:</string>
     <string name="astrological_sign">Tierkreiszeichen:</string>
-    <string name="name_day">Namenstag:</string>
     <string name="look_up_in_wikipedia">In Wikipedia nachschlagen</string>
 
     <!-- DaysBetweenDatesActivity -->

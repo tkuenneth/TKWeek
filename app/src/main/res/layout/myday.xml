@@ -148,25 +148,6 @@
                         app:layout_constraintStart_toEndOf="@id/my_day_label_astrological_sign" />
 
                     <com.google.android.material.textview.MaterialTextView
-                        android:id="@+id/my_day_label_name_day"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/name_day"
-                        android:textAppearance="@style/TextAppearance.Material3.BodySmall"
-                        android:textColor="?attr/colorOnSurfaceVariant"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/my_day_label_astrological_sign" />
-
-                    <com.google.android.material.textview.MaterialTextView
-                        android:id="@+id/my_day_name_day"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="6dip"
-                        android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
-                        app:layout_constraintBaseline_toBaselineOf="@id/my_day_label_name_day"
-                        app:layout_constraintStart_toEndOf="@id/my_day_label_name_day" />
-
-                    <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/message"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -176,7 +157,7 @@
                         android:textAppearance="?attr/textAppearanceBodyMedium"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/my_day_name_day" />
+                        app:layout_constraintTop_toBottomOf="@id/my_day_astrological_sign" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 

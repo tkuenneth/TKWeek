@@ -2,6 +2,7 @@ package com.thomaskuenneth.tkweek
 
 import android.app.Application
 import androidx.core.content.edit
+import androidx.preference.PreferenceManager
 import com.google.android.material.color.DynamicColors
 import dagger.hilt.android.HiltAndroidApp
 import net.time4j.android.ApplicationStarter
@@ -19,6 +20,9 @@ class TKWeekApplication : Application() {
             getSharedPreferences("PickCountriesPreference", MODE_PRIVATE)
         prefs.edit {
             prefs.all.forEach { (key: String?, _: Any?) -> remove(key) }
+        }
+        PreferenceManager.getDefaultSharedPreferences(this).edit {
+            remove("hide_nameday")
         }
     }
 }

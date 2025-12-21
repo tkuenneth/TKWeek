@@ -49,7 +49,6 @@ import com.thomaskuenneth.tkweek.databinding.MydayBinding
 import com.thomaskuenneth.tkweek.fragment.CalendarFragment.Companion.isDayOff
 import com.thomaskuenneth.tkweek.fragment.WeekFragment.Companion.prepareCalendar
 import com.thomaskuenneth.tkweek.types.Event
-import com.thomaskuenneth.tkweek.types.Namenstage
 import com.thomaskuenneth.tkweek.types.Zodiac
 import com.thomaskuenneth.tkweek.util.CalendarContractUtils
 import com.thomaskuenneth.tkweek.util.DateUtilities
@@ -246,9 +245,6 @@ class MyDayFragment : TKWeekBaseFragment<MydayBinding>() {
     private fun updateViews() {
         val prefs = PreferenceManager
             .getDefaultSharedPreferences(requireContext())
-        val hide = prefs.getBoolean("hide_nameday", false)
-        binding.myDayNameDay.visibility = if (hide) View.GONE else View.VISIBLE
-        binding.myDayLabelNameDay.visibility = if (hide) View.GONE else View.VISIBLE
         val hideAstrologicalSign = prefs.getBoolean("hide_astrological_sign", false)
         binding.myDayAstrologicalSign.visibility =
             if (hideAstrologicalSign) View.GONE else View.VISIBLE
@@ -285,7 +281,6 @@ class MyDayFragment : TKWeekBaseFragment<MydayBinding>() {
             R.string.no
         )
         binding.myDayAstrologicalSign.text = Zodiac.getSign(requireContext(), date)
-        binding.myDayNameDay.text = Namenstage.getNameDays(requireContext(), date)
         prepareEventsLoader()
         updateNotes()
     }

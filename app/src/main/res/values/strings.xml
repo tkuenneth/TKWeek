@@ -131,7 +131,6 @@ access your contacts data to display birthdays and anniversaries. You can deacti
     <string name="recent_events_title">Recent Events</string>
     <string name="recent_events_summary">Days displayed at top of events list</string>
     <string name="widget_appearance">Widget appearance</string>
-    <string name="myday_activity_hide_nameday">Hide name day</string>
     <string name="hide_seasons">Hide seasons</string>
     <string name="hide_astrological_sign">Hide Sign of the Zodiac</string>
     <string name="third_sunday_of_june">Third Sunday of June</string>
@@ -169,7 +168,6 @@ access your contacts data to display birthdays and anniversaries. You can deacti
     <string name="day_of_year">%1$d of %2$d (%3$d left)</string>
     <string name="is_leap_year">Leap year:</string>
     <string name="astrological_sign">Sign of the Zodiac:</string>
-    <string name="name_day">Name day:</string>
     <string name="look_up_in_wikipedia">Look up in Wikipedia</string>
 
     <!-- DaysBetweenDatesActivity -->

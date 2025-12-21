@@ -104,10 +104,6 @@
             android:title="@string/hide_astrological_sign" />
 
         <CheckBoxPreference
-            android:key="hide_nameday"
-            android:title="@string/myday_activity_hide_nameday" />
-
-        <CheckBoxPreference
             android:key="hide_appointments"
             android:title="@string/myday_activity_hide_appointments" />
 

@@ -33,6 +33,7 @@ import android.view.View.OnLongClickListener
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
+import androidx.core.content.edit
 import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.color.MaterialColors
@@ -46,7 +47,6 @@ import com.thomaskuenneth.tkweek.updateRecents
 import com.thomaskuenneth.tkweek.util.DateUtilities
 import com.thomaskuenneth.tkweek.util.Helper
 import com.thomaskuenneth.tkweek.util.Helper.DATE
-import com.thomaskuenneth.tkweek.viewmodel.AppBarAction
 import java.util.Calendar
 import java.util.Date
 
@@ -97,7 +97,7 @@ class CalendarFragment : TKWeekBaseFragment<CalendarBinding>(), View.OnClickList
             }
             if (year < 0) year = 0
             if (year > 2100) year = 2100
-            binding.calendarYear.setText("$year")
+            binding.calendarYear.text = "$year"
             requireContext().getSystemService(InputMethodManager::class.java).run {
                 hideSoftInputFromWindow(binding.calendarYear.windowToken, 0)
             }
@@ -106,6 +106,10 @@ class CalendarFragment : TKWeekBaseFragment<CalendarBinding>(), View.OnClickList
         }
         binding.calendarDown.setOnClickListener(this)
         binding.calendarUp.setOnClickListener(this)
+        binding.calendarToday.setOnClickListener {
+            cal.time = Date()
+            update()
+        }
         monthsAdapter = MonthsAdapter(requireContext()) { position ->
             cal[Calendar.MONTH] = position
             updateCalendar()
@@ -191,21 +195,6 @@ class CalendarFragment : TKWeekBaseFragment<CalendarBinding>(), View.OnClickList
         updateRecentDates()
     }
 
-    override fun updateAppBarActions() {
-        val actions = listOf(
-            AppBarAction(
-                icon = R.drawable.ic_baseline_today_24,
-                contentDescription = R.string.today,
-                title = R.string.today,
-                onClick = {
-                    cal.time = Date()
-                    update()
-                }
-            )
-        )
-        viewModel.setAppBarActions(actions)
-    }
-
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         outState.putString(
@@ -223,7 +212,7 @@ class CalendarFragment : TKWeekBaseFragment<CalendarBinding>(), View.OnClickList
     }
 
     private fun update() {
-        binding.calendarYear.setText("${cal[Calendar.YEAR]}")
+        binding.calendarYear.text = "${cal[Calendar.YEAR]}"
         binding.calendarGallery.scrollToPosition(cal[Calendar.MONTH])
         updateCalendar()
     }
@@ -258,9 +247,11 @@ class CalendarFragment : TKWeekBaseFragment<CalendarBinding>(), View.OnClickList
         temp.add(Calendar.DAY_OF_MONTH, -7)
         for (i in 1..7) {
             days[i].tag = null
-            days[i].text = Helper.FORMAT_DAY_OF_WEEK_SHORT.format(
-                temp.time
-            ).substring(0, 1)
+            days[i].text = "${
+                Helper.FORMAT_DAY_OF_WEEK_SHORT.format(
+                    temp.time
+                )[0]
+            }"
             val dayOfWeek = temp[Calendar.DAY_OF_WEEK]
             if (dayOfWeek == Calendar.SATURDAY || dayOfWeek == Calendar.SUNDAY) {
                 days[i].setTextColor(Color.RED)
@@ -324,21 +315,14 @@ class CalendarFragment : TKWeekBaseFragment<CalendarBinding>(), View.OnClickList
 
         val cal: Calendar = Calendar.getInstance()
 
-        /**
-         * Flags a date as a day off or removes the flag
-         *
-         * @param context kontext
-         * @param date    date
-         * @param dayOff  `true` if the date is flagged as a day off
-         */
         @JvmStatic
         fun setDayOff(context: Context, date: Date, dayOff: Boolean) {
             val prefs = context.getSharedPreferences(
                 TAG, Context.MODE_PRIVATE
             )
-            val e = prefs.edit()
-            e.putBoolean(Helper.FORMAT_YYYYMMDD.format(date), dayOff)
-            e.apply()
+            prefs.edit {
+                putBoolean(Helper.FORMAT_YYYYMMDD.format(date), dayOff)
+            }
         }
 
         /**

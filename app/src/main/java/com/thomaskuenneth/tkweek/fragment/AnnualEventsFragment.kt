@@ -58,10 +58,6 @@ import com.thomaskuenneth.tkweek.util.TKWeekUtils
 import com.thomaskuenneth.tkweek.viewmodel.AppBarAction
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.FileInputStream
@@ -122,10 +118,6 @@ class AnnualEventsFragment : TKWeekBaseFragment<EventsBinding>(), AdapterView.On
     @SuppressLint("InflateParams")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.uiState.map { it.searchQuery }.distinctUntilChanged().onEach {
-            searchString = it
-            updateListAndOptionsMenu()
-        }.launchIn(viewLifecycleOwner.lifecycleScope)
         loadEventsJob = null
         binding.listView.onItemClickListener = this
         binding.listView.setOnCreateContextMenuListener(this)
@@ -243,16 +235,6 @@ class AnnualEventsFragment : TKWeekBaseFragment<EventsBinding>(), AdapterView.On
                 }
             }
         }
-    }
-
-    override fun onResume() {
-        super.onResume()
-        viewModel.toggleSearchBar(true)
-    }
-
-    override fun onPause() {
-        super.onPause()
-        viewModel.toggleSearchBar(false)
     }
 
     override fun onDestroy() {
@@ -440,10 +422,10 @@ class AnnualEventsFragment : TKWeekBaseFragment<EventsBinding>(), AdapterView.On
             if (shouldShowPermissionPostNotificationsRationale()) View.VISIBLE else View.GONE
     }
 
-    private fun updateListAndOptionsMenu() {
-        setListAdapterLoadEvents(false, searchString)
-        updateAppBarActions()
-    }
+//    private fun updateListAndOptionsMenu() {
+//        setListAdapterLoadEvents(false, searchString)
+//        updateAppBarActions()
+//    }
 
     private fun showError() {
         val message = getString(

@@ -5,10 +5,8 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.displayCutout
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
@@ -33,7 +31,6 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -46,7 +43,6 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.thomaskuenneth.tkweek.ui.TKWeekModuleContainer
 import com.thomaskuenneth.tkweek.ui.TKWeekModuleSelector
-import com.thomaskuenneth.tkweek.ui.TKWeekSearchBar
 import com.thomaskuenneth.tkweek.ui.TKWeekTopAppBar
 import com.thomaskuenneth.tkweek.ui.colorScheme
 import com.thomaskuenneth.tkweek.util.Helper.CLAZZ
@@ -110,7 +106,6 @@ fun TKWeekApp(viewModel: TKWeekViewModel = viewModel()) {
                 uiState.topLevelModuleWithArguments.module.titleRes
             )
         }
-        val focusManager = LocalFocusManager.current
         LaunchedEffect(currentBackStackEntry) {
             currentBackStackEntry?.destination?.route?.let { route ->
                 TKWeekModule.entries.firstOrNull { it.name == route }?.let {
@@ -152,7 +147,8 @@ fun TKWeekApp(viewModel: TKWeekViewModel = viewModel()) {
             topBar = {
                 val hasStackedModules =
                     currentBackStackEntry != null && navController.previousBackStackEntry != null
-                val canNavigateBack = threePaneScaffoldNavigator.canNavigateBack() || hasStackedModules
+                val canNavigateBack =
+                    threePaneScaffoldNavigator.canNavigateBack() || hasStackedModules
                 val onNavigateBack: () -> Unit = {
                     if (hasStackedModules) {
                         navController.popBackStack()
@@ -162,31 +158,14 @@ fun TKWeekApp(viewModel: TKWeekViewModel = viewModel()) {
                         }
                     }
                 }
-
-                Crossfade(targetState = uiState.showSearchBar, label = "searchBar") { showSearchBar ->
-                    if (showSearchBar) {
-                        TKWeekSearchBar(
-                            uiState = uiState,
-                            viewModel = viewModel,
-                            focusManager = focusManager,
-                            canNavigateBack = canNavigateBack,
-                            onNavigateBack = onNavigateBack,
-                            appBarActions = appBarActions,
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(horizontal = horizontalPadding)
-                        )
-                    } else {
-                        TKWeekTopAppBar(
-                            uiState = uiState,
-                            detailVisible = detailVisible,
-                            activeModuleTitleRes = activeModuleTitleRes,
-                            appBarActions = appBarActions,
-                            canNavigateBack = canNavigateBack,
-                            onNavigateBack = onNavigateBack
-                        )
-                    }
-                }
+                TKWeekTopAppBar(
+                    uiState = uiState,
+                    detailVisible = detailVisible,
+                    activeModuleTitleRes = activeModuleTitleRes,
+                    appBarActions = appBarActions,
+                    canNavigateBack = canNavigateBack,
+                    onNavigateBack = onNavigateBack
+                )
             }
         ) { paddingValues ->
             NavigableListDetailPaneScaffold(
@@ -236,7 +215,7 @@ fun TKWeekApp(viewModel: TKWeekViewModel = viewModel()) {
                                             arguments = args
                                         )
                                     }
-                                 }
+                                }
                             }
                         }
                     }

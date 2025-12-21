@@ -20,9 +20,6 @@ import javax.inject.Inject
 
 data class UiState(
     val topLevelModuleWithArguments: TKWeekModuleWithArguments,
-    val showSearchBar: Boolean = false,
-    val isSearchActive: Boolean = false,
-    val searchQuery: String = "",
     val avoidHinge: Boolean = false,
     val isListScrolled: Boolean = false,
     val isDetailScrolled: Boolean = false
@@ -104,17 +101,5 @@ class TKWeekViewModel @Inject constructor(
                 topLevel = topLevel
             )
         )
-    }
-
-    fun toggleSearchBar(show: Boolean) {
-        _uiState.update { it.copy(showSearchBar = show) }
-    }
-
-    fun setSearchActive(active: Boolean) {
-        _uiState.update { it.copy(isSearchActive = active) }
-    }
-
-    fun setSearchQuery(query: String) {
-        _uiState.update { it.copy(searchQuery = query) }
     }
 }

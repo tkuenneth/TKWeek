@@ -26,7 +26,9 @@ package com.thomaskuenneth.tkweek.fragment
 import android.content.Context
 import android.content.res.ColorStateList
 import android.graphics.Color
+import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
+import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.View.OnLongClickListener
@@ -359,6 +361,7 @@ class CalendarFragment : TKWeekBaseFragment<CalendarBinding>(), View.OnClickList
                             val view = days[pos]
                             (view.tag as? Date)?.let { date ->
                                 if (holidayEvents.contains(Helper.FORMAT_YYYYMMDD.format(date))) {
+                                    createHolidayBackground(view)
                                 }
                             }
                         }
@@ -366,6 +369,32 @@ class CalendarFragment : TKWeekBaseFragment<CalendarBinding>(), View.OnClickList
                 }
             }
         }
+    }
+
+    private fun createHolidayBackground(view: View) {
+        val radius = TypedValue.applyDimension(
+            TypedValue.COMPLEX_UNIT_DIP,
+            16f,
+            resources.displayMetrics
+        )
+        val drawable = GradientDrawable()
+        drawable.shape = GradientDrawable.RECTANGLE
+        drawable.cornerRadius = radius
+        drawable.setStroke(
+            TypedValue.applyDimension(
+                TypedValue.COMPLEX_UNIT_DIP,
+                2f,
+                resources.displayMetrics
+            ).toInt(),
+            Color.RED
+        )
+        view.backgroundTintList?.let { tint ->
+            drawable.setColor(tint.defaultColor)
+            view.backgroundTintList = null
+        } ?: run {
+            drawable.setColor(Color.TRANSPARENT)
+        }
+        view.background = drawable
     }
 
     companion object {

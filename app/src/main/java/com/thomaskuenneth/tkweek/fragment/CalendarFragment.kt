@@ -35,18 +35,25 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
 import androidx.core.content.edit
 import androidx.core.content.res.ResourcesCompat
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.color.MaterialColors
 import com.thomaskuenneth.tkweek.R
+import com.thomaskuenneth.tkweek.adapter.AnnualEventsListAdapter
 import com.thomaskuenneth.tkweek.adapter.MonthsAdapter
 import com.thomaskuenneth.tkweek.addDate
 import com.thomaskuenneth.tkweek.databinding.CalendarBinding
 import com.thomaskuenneth.tkweek.fragment.WeekFragment.Companion.prepareCalendar
 import com.thomaskuenneth.tkweek.preference.PickBusinessDaysPreference
+import com.thomaskuenneth.tkweek.types.Event
 import com.thomaskuenneth.tkweek.updateRecents
 import com.thomaskuenneth.tkweek.util.DateUtilities
 import com.thomaskuenneth.tkweek.util.Helper
 import com.thomaskuenneth.tkweek.util.Helper.DATE
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.util.Calendar
 import java.util.Date
 
@@ -59,6 +66,9 @@ class CalendarFragment : TKWeekBaseFragment<CalendarBinding>(), View.OnClickList
 
     private lateinit var days: MutableList<TextView>
     private lateinit var monthsAdapter: MonthsAdapter
+
+    private var listAdapter: AnnualEventsListAdapter? = null
+    private var loadEventsJob: Job? = null
 
     private val dayOffListener = OnLongClickListener { v: View ->
         (v.tag as? Date)?.let {
@@ -217,6 +227,27 @@ class CalendarFragment : TKWeekBaseFragment<CalendarBinding>(), View.OnClickList
         updateCalendar()
     }
 
+    private fun load(year: Int) {
+        listAdapter?.run {
+            if (year >= from[Calendar.YEAR] && year <= to[Calendar.YEAR]) {
+                return
+            }
+        }
+        loadEventsJob?.cancel()
+        loadEventsJob = lifecycleScope.launch {
+            val result = withContext(Dispatchers.IO) {
+                val calFrom = DateUtilities.getCalendar(year, Calendar.JANUARY, 1)
+                val calTo = DateUtilities.getCalendar(year, Calendar.DECEMBER, 31)
+                AnnualEventsListAdapter(
+                    requireContext(), calFrom, calTo, false, null
+                )
+            }
+            listAdapter = result
+            loadEventsJob = null
+            updateFromListAdapter()
+        }
+    }
+
     private fun updateCalendar() {
         monthsAdapter.updateSelectedPosition(cal[Calendar.MONTH])
         val defaultColor = binding.calendarLayoutRecent.recent1.textColors
@@ -309,6 +340,28 @@ class CalendarFragment : TKWeekBaseFragment<CalendarBinding>(), View.OnClickList
         binding.calendarNumberDaysOff.text = getString(
             R.string.calendar_number_days_off, daysOff
         )
+        load(cal[Calendar.YEAR])
+        updateFromListAdapter()
+    }
+
+    private fun updateFromListAdapter() {
+        listAdapter?.also { adapter ->
+            val holidayEvents = (0 until adapter.count)
+                .map { adapter.getItem(it) as Event }
+                .filter { AnnualEventsFragment.isHoliday(requireContext(), it) }
+                .map { Helper.FORMAT_YYYYMMDD.format(DateUtilities.getCalendar(it).time) }
+                .toSet()
+            if (holidayEvents.isNotEmpty()) {
+                for (i in 8 until days.size) {
+                    val day = days[i]
+                    (day.tag as? Date)?.let { date ->
+                        if (holidayEvents.contains(Helper.FORMAT_YYYYMMDD.format(date))) {
+                            day.setTextColor(Color.RED)
+                        }
+                    }
+                }
+            }
+        }
     }
 
     companion object {

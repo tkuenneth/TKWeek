@@ -397,22 +397,6 @@ class AnnualEventsFragment : TKWeekBaseFragment<EventsBinding>(), AdapterView.On
         }
     }
 
-    fun isHoliday(context: Context, event: Event): Boolean {
-        val prefs = context.getSharedPreferences(
-            TAG, Context.MODE_PRIVATE
-        )
-        return prefs.getBoolean(getPreferencesKey(event), false)
-    }
-
-    fun setHoliday(context: Context, event: Event, holiday: Boolean) {
-        val prefs = context.getSharedPreferences(
-            TAG, Context.MODE_PRIVATE
-        )
-        prefs.edit {
-            putBoolean(getPreferencesKey(event), holiday)
-        }
-    }
-
     private fun restore() {
         val intent = Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
             addCategory(Intent.CATEGORY_OPENABLE)
@@ -447,11 +431,6 @@ class AnnualEventsFragment : TKWeekBaseFragment<EventsBinding>(), AdapterView.On
         }
     }
 
-    private fun getPreferencesKey(event: Event): String {
-        val description = TKWeekUtils.getStringNotNull(event.descr)
-        return "holiday_$description"
-    }
-
     private fun updatePermissionInfo() {
         binding.messageLinkToSettingsContacts.root.visibility =
             if (shouldShowBirthdays() && shouldShowPermissionReadContactsRationale()) View.VISIBLE else View.GONE
@@ -477,5 +456,30 @@ class AnnualEventsFragment : TKWeekBaseFragment<EventsBinding>(), AdapterView.On
             }
         }
         fragment.show(parentFragmentManager, MessageFragment.TAG)
+    }
+
+    companion object {
+        @JvmStatic
+        fun isHoliday(context: Context, event: Event): Boolean {
+            val prefs = context.getSharedPreferences(
+                TAG, Context.MODE_PRIVATE
+            )
+            return prefs.getBoolean(getPreferencesKey(event), false)
+        }
+
+        @JvmStatic
+        fun setHoliday(context: Context, event: Event, holiday: Boolean) {
+            val prefs = context.getSharedPreferences(
+                TAG, Context.MODE_PRIVATE
+            )
+            prefs.edit {
+                putBoolean(getPreferencesKey(event), holiday)
+            }
+        }
+
+        private fun getPreferencesKey(event: Event): String {
+            val description = TKWeekUtils.getStringNotNull(event.descr)
+            return "holiday_$description"
+        }
     }
 }

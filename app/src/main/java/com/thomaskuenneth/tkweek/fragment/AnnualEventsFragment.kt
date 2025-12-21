@@ -32,10 +32,8 @@ import android.app.NotificationManager
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
-import android.os.AsyncTask
 import android.os.Build
 import android.os.Bundle
-import android.os.Looper
 import android.provider.ContactsContract
 import android.view.ContextMenu
 import android.view.LayoutInflater
@@ -57,10 +55,14 @@ import com.thomaskuenneth.tkweek.util.Helper
 import com.thomaskuenneth.tkweek.util.Helper.DATE
 import com.thomaskuenneth.tkweek.util.TKWeekUtils
 import com.thomaskuenneth.tkweek.viewmodel.AppBarAction
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.io.FileInputStream
 import java.io.FileOutputStream
 import java.io.FileWriter
@@ -78,7 +80,7 @@ class AnnualEventsFragment : TKWeekBaseFragment<EventsBinding>(), AdapterView.On
 
     private val binding get() = backing!!
 
-    private var eventsLoader: AsyncTask<Void, Void, AnnualEventsListAdapter>? = null
+    private var loadEventsJob: Job? = null
 
     private var listAdapter: AnnualEventsListAdapter? = null
 
@@ -121,7 +123,7 @@ class AnnualEventsFragment : TKWeekBaseFragment<EventsBinding>(), AdapterView.On
             searchString = it
             updateListAndOptionsMenu()
         }.launchIn(viewLifecycleOwner.lifecycleScope)
-        eventsLoader = null
+        loadEventsJob = null
         binding.listView.onItemClickListener = this
         binding.listView.setOnCreateContextMenuListener(this)
         val permissions = ArrayList<String>()
@@ -251,9 +253,7 @@ class AnnualEventsFragment : TKWeekBaseFragment<EventsBinding>(), AdapterView.On
     }
 
     override fun onDestroy() {
-        eventsLoader?.run {
-            cancel(true)
-        }
+        loadEventsJob?.cancel()
         super.onDestroy()
     }
 
@@ -354,38 +354,29 @@ class AnnualEventsFragment : TKWeekBaseFragment<EventsBinding>(), AdapterView.On
     private fun setListAdapterLoadEvents(
         restore: Boolean, search: String?
     ) {
+        loadEventsJob?.cancel()
         binding.indicator.visibility = View.VISIBLE
-        eventsLoader = @SuppressLint("StaticFieldLeak") object :
-            AsyncTask<Void, Void, AnnualEventsListAdapter>() {
-            @Deprecated("Deprecated in Java")
-            override fun doInBackground(vararg params: Void): AnnualEventsListAdapter {
-                if (Looper.myLooper() == null) {
-                    Looper.prepare()
-                }
-                return AnnualEventsListAdapter.create(
+        loadEventsJob = lifecycleScope.launch {
+            val result = withContext(Dispatchers.IO) {
+                AnnualEventsListAdapter.create(
                     requireContext(), search
                 )
             }
-
-            @Deprecated("Deprecated in Java")
-            override fun onPostExecute(result: AnnualEventsListAdapter) {
-                eventsLoader = null
-                if (backing != null) {
-                    binding.listView.adapter = result.also { listAdapter = it }
-                    if (listAdapter != null && restore) {
-                        listAdapter?.save(requireContext())
-                    }
-                    listAdapter?.updateEventsListWidgets(requireContext())
-                    binding.header.text = getString(
-                        R.string.string1_dash_string2,
-                        Helper.FORMAT_DEFAULT.format(listAdapter?.from?.time ?: Date()),
-                        Helper.FORMAT_DEFAULT.format(listAdapter?.to?.time ?: Date())
-                    )
-                    binding.indicator.visibility = View.GONE
+            loadEventsJob = null
+            if (backing != null) {
+                binding.listView.adapter = result.also { listAdapter = it }
+                if (listAdapter != null && restore) {
+                    listAdapter?.save(requireContext())
                 }
+                listAdapter?.updateEventsListWidgets(requireContext())
+                binding.header.text = getString(
+                    R.string.string1_dash_string2,
+                    Helper.FORMAT_DEFAULT.format(listAdapter?.from?.time ?: Date()),
+                    Helper.FORMAT_DEFAULT.format(listAdapter?.to?.time ?: Date())
+                )
+                binding.indicator.visibility = View.GONE
             }
         }
-        eventsLoader?.execute()
     }
 
     fun isHoliday(context: Context, event: Event): Boolean {

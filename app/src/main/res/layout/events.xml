@@ -95,13 +95,40 @@
         android:hint="@string/find_an_event"
         app:layout_anchor="@id/search_bar">
 
-        <ListView
-            android:id="@+id/search_list_view"
+        <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:divider="@android:color/transparent"
-            android:dividerHeight="8dp"
-            android:listSelector="?android:attr/activatedBackgroundIndicator" />
+            android:fillViewport="true">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <com.thomaskuenneth.tkweek.util.FixedHeightGridView
+                    android:id="@+id/search_list_view"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:divider="@android:color/transparent"
+                    android:dividerHeight="8dp"
+                    android:listSelector="?android:attr/activatedBackgroundIndicator"
+                    app:layout_constraintBaseline_toTopOf="@id/search_bottom_space"
+                    app:layout_constraintBottom_toTopOf="@id/search_bottom_space"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <com.thomaskuenneth.tkweek.util.BottomSpace
+                    android:id="@+id/search_bottom_space"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/search_list_view" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.core.widget.NestedScrollView>
 
     </com.google.android.material.search.SearchView>
 

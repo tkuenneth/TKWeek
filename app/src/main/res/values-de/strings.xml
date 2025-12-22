@@ -225,6 +225,7 @@
     <string name="more_options">Weitere Optionen</string>
     <string name="navigate_up">Nach oben navigieren</string>
     <string name="close_search">Suche schließen</string>
+    <string name="find_an_event">Finde ein Ereignis</string>
 
     <!-- PickADateActivity -->
     <string name="description">Beschreibung</string>

@@ -285,6 +285,7 @@ access your contacts data to display birthdays and anniversaries. You can deacti
     <string name="more_options">More options</string>
     <string name="navigate_up">Navigate up</string>
     <string name="close_search">Close search</string>
+    <string name="find_an_event">Find an event</string>
 
     <!-- PickADateActivity -->
     <string name="description">description</string>

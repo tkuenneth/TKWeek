@@ -35,6 +35,8 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.ContactsContract
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.ContextMenu
 import android.view.LayoutInflater
 import android.view.Menu
@@ -44,6 +46,7 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import androidx.core.content.edit
 import androidx.lifecycle.lifecycleScope
+import com.google.android.material.search.SearchView
 import com.thomaskuenneth.tkweek.AlarmReceiver
 import com.thomaskuenneth.tkweek.R
 import com.thomaskuenneth.tkweek.adapter.AnnualEventsListAdapter
@@ -121,6 +124,30 @@ class AnnualEventsFragment : TKWeekBaseFragment<EventsBinding>(), AdapterView.On
         loadEventsJob = null
         binding.listView.onItemClickListener = this
         binding.listView.setOnCreateContextMenuListener(this)
+        binding.searchView.setupWithSearchBar(binding.searchBar)
+        binding.searchView
+            .editText
+            .setOnEditorActionListener { _, _, _ ->
+                searchString = binding.searchView.text.toString()
+                setListAdapterLoadEvents(false, searchString, true)
+                false
+            }
+        binding.searchView.editText.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                searchString = s.toString()
+                setListAdapterLoadEvents(false, searchString, true)
+            }
+
+            override fun afterTextChanged(s: Editable?) {}
+        })
+        binding.searchView.addTransitionListener { _, _, newState ->
+            if (newState == SearchView.TransitionState.HIDDEN) {
+                setListAdapterLoadEvents(false, null, false)
+            }
+        }
+        binding.searchListView.onItemClickListener = this
         val permissions = ArrayList<String>()
         binding.messageNotifications.message.setText(R.string.str_permission_post_notifications)
         binding.messageNotifications.button.setOnClickListener {
@@ -316,7 +343,12 @@ class AnnualEventsFragment : TKWeekBaseFragment<EventsBinding>(), AdapterView.On
     }
 
     override fun onItemClick(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-        val o = listAdapter?.getItem(position)
+        val adapter = if (parent == binding.searchListView) {
+            binding.searchListView.adapter as AnnualEventsListAdapter
+        } else {
+            listAdapter
+        }
+        val o = adapter?.getItem(position)
         if (o as? IContactId? != null && o.contactId != null) {
             val intent = Intent(
                 Intent.ACTION_VIEW, Uri.withAppendedPath(
@@ -354,7 +386,7 @@ class AnnualEventsFragment : TKWeekBaseFragment<EventsBinding>(), AdapterView.On
     }
 
     private fun setListAdapterLoadEvents(
-        restore: Boolean, search: String?
+        restore: Boolean, search: String?, isSearch: Boolean = false
     ) {
         loadEventsJob?.cancel()
         loadEventsJob = lifecycleScope.launch {
@@ -365,16 +397,20 @@ class AnnualEventsFragment : TKWeekBaseFragment<EventsBinding>(), AdapterView.On
             }
             loadEventsJob = null
             if (backing != null) {
-                binding.listView.adapter = result.also { listAdapter = it }
-                if (listAdapter != null && restore) {
-                    listAdapter?.save(requireContext())
+                if (isSearch) {
+                    binding.searchListView.adapter = result
+                } else {
+                    binding.listView.adapter = result.also { listAdapter = it }
+                    if (listAdapter != null && restore) {
+                        listAdapter?.save(requireContext())
+                    }
+                    listAdapter?.updateEventsListWidgets(requireContext())
+                    binding.header.text = getString(
+                        R.string.string1_dash_string2,
+                        Helper.FORMAT_DEFAULT.format(listAdapter?.from?.time ?: Date()),
+                        Helper.FORMAT_DEFAULT.format(listAdapter?.to?.time ?: Date())
+                    )
                 }
-                listAdapter?.updateEventsListWidgets(requireContext())
-                binding.header.text = getString(
-                    R.string.string1_dash_string2,
-                    Helper.FORMAT_DEFAULT.format(listAdapter?.from?.time ?: Date()),
-                    Helper.FORMAT_DEFAULT.format(listAdapter?.to?.time ?: Date())
-                )
             }
         }
     }

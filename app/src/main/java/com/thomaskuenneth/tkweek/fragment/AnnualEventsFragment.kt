@@ -67,7 +67,6 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.FileInputStream
@@ -107,13 +106,21 @@ class AnnualEventsFragment : TKWeekBaseFragment<EventsBinding>(), AdapterView.On
         parentFragmentManager.setFragmentResultListener(
             REQUEST_KEY_NEW_EVENT_FRAGMENT, this
         ) { _, bundle ->
-            val descr = bundle.getString(DESCR, "")
+            val description = bundle.getString(DESCR, "")
             val annuallyRepeating = bundle.getBoolean(ANNUALLY_REPEATING, false)
             val date = bundle.getSerializable(DATE)
-            val event = Event(descr, date as Date, annuallyRepeating)
-            listAdapter?.addEventNoCheck(event)
-            listAdapter?.save(requireContext())
-            setListAdapterLoadEvents(false, annualEventsViewModel.searchQuery.value)
+            val event = Event(description, date as Date, annuallyRepeating)
+            lifecycleScope.launch {
+                val context = requireContext()
+                val adapter = listAdapter ?: withContext(Dispatchers.IO) {
+                    AnnualEventsListAdapter.create(context, null)
+                }
+                adapter.addEventNoCheck(event)
+                withContext(Dispatchers.IO) {
+                    adapter.save(context)
+                }
+                setListAdapterLoadEvents(false, annualEventsViewModel.searchQuery.value)
+            }
         }
     }
 
@@ -247,41 +254,56 @@ class AnnualEventsFragment : TKWeekBaseFragment<EventsBinding>(), AdapterView.On
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == Activity.RESULT_OK) {
-            var success = false
-            when (requestCode) {
-                BACKUP -> {
-                    data?.data?.also { uri ->
-                        requireContext().run {
-                            contentResolver.openFileDescriptor(uri, "w")?.use {
-                                success = listAdapter?.saveUserEvents(FileWriter(it.fileDescriptor))
-                                    ?: false
+            lifecycleScope.launch {
+                var success = false
+                val context = requireContext()
+                when (requestCode) {
+                    BACKUP -> {
+                        data?.data?.also { uri ->
+                            val adapter = listAdapter ?: withContext(Dispatchers.IO) {
+                                AnnualEventsListAdapter.create(context, null)
                             }
-                        }
-                    }
-                }
-
-                RESTORE -> {
-                    data?.data?.also { uri ->
-                        requireContext().contentResolver.openFileDescriptor(uri, "r")?.use {
-                            FileInputStream(it.fileDescriptor).use { fis ->
-                                FileOutputStream(getUserEventsFile(requireContext())).use { fos ->
-                                    var current: Int
-                                    while (true) {
-                                        current = fis.read()
-                                        if (current == -1) {
-                                            break
-                                        }
-                                        fos.write(current)
-                                    }
-                                    success = true
+                            success = withContext(Dispatchers.IO) {
+                                try {
+                                    context.contentResolver.openFileDescriptor(uri, "w")?.use {
+                                        adapter.saveUserEvents(FileWriter(it.fileDescriptor))
+                                    } ?: false
+                                } catch (_: Exception) {
+                                    false
                                 }
                             }
                         }
-                        setListAdapterLoadEvents(true, annualEventsViewModel.searchQuery.value)
+                    }
+
+                    RESTORE -> {
+                        data?.data?.also { uri ->
+                            success = withContext(Dispatchers.IO) {
+                                try {
+                                    context.contentResolver.openFileDescriptor(uri, "r")?.use {
+                                        FileInputStream(it.fileDescriptor).use { fis ->
+                                            FileOutputStream(getUserEventsFile(context)).use { fos ->
+                                                var current: Int
+                                                while (true) {
+                                                    current = fis.read()
+                                                    if (current == -1) {
+                                                        break
+                                                    }
+                                                    fos.write(current)
+                                                }
+                                            }
+                                        }
+                                    }
+                                    true
+                                } catch (_: Exception) {
+                                    false
+                                }
+                            }
+                            setListAdapterLoadEvents(true, annualEventsViewModel.searchQuery.value)
+                        }
                     }
                 }
+                if (!success) showError()
             }
-            if (!success) showError()
         }
     }
 
@@ -297,11 +319,6 @@ class AnnualEventsFragment : TKWeekBaseFragment<EventsBinding>(), AdapterView.On
                 }
             }
         }
-    }
-
-    override fun onDestroy() {
-        loadEventsJob?.cancel()
-        super.onDestroy()
     }
 
     override fun onCreateContextMenu(
@@ -424,13 +441,12 @@ class AnnualEventsFragment : TKWeekBaseFragment<EventsBinding>(), AdapterView.On
         restore: Boolean, search: String?, isSearch: Boolean = false
     ) {
         loadEventsJob?.cancel()
-        loadEventsJob = lifecycleScope.launch {
+        loadEventsJob = viewLifecycleOwner.lifecycleScope.launch {
             val result = withContext(Dispatchers.IO) {
                 AnnualEventsListAdapter.create(
                     requireContext(), search
                 )
             }
-            loadEventsJob = null
             if (backing != null) {
                 if (isSearch) {
                     binding.searchListView.adapter = result

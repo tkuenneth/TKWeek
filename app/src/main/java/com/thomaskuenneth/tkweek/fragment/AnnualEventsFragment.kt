@@ -222,7 +222,7 @@ class AnnualEventsFragment : TKWeekBaseFragment<EventsBinding>(), AdapterView.On
                                 binding.searchView.editText.setSelection(query.length)
                             }
                         }
-                        setListAdapterLoadEvents(false, query, isOpen)
+                        setListAdapterLoadEvents(false, if (isOpen) query else null, isOpen)
                     }.launchIn(this)
             }
         }

@@ -13,6 +13,6 @@ class MyDayViewModel : ViewModel() {
     }
 
     fun setCalendarTime(time: Long) {
-        cal.time.time = time
+        setCalendarTime(Date(time))
     }
 }

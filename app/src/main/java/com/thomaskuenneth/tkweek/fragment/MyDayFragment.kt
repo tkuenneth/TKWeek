@@ -179,16 +179,12 @@ class MyDayFragment : TKWeekBaseFragment<MydayBinding>() {
     override fun updateAppBarActions() {
         val actions = listOf(
             AppBarAction(
-                icon = null,
-                contentDescription = R.string.look_up_in_wikipedia,
                 title = R.string.look_up_in_wikipedia,
                 onClick = {
                     lookUpInWikipedia()
                 }
             ),
             AppBarAction(
-                icon = null,
-                contentDescription = R.string.new_appointment,
                 title = R.string.new_appointment,
                 onClick = {
                     val i2 = Intent(Intent.ACTION_INSERT, CalendarContract.Events.CONTENT_URI)

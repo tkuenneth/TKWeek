@@ -27,9 +27,9 @@ data class UiState(
 )
 
 data class AppBarAction(
-    @param:DrawableRes val icon: Int?,
-    @param:StringRes val contentDescription: Int,
-    @param:StringRes val title: Int?,
+    @param:StringRes val title: Int,
+    @param:DrawableRes val icon: Int? = null,
+    @param:StringRes val contentDescription: Int = title,
     val onClick: () -> Unit,
     val isVisible: Boolean = true
 )

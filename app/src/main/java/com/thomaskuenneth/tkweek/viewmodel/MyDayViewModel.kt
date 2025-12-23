@@ -1,10 +1,13 @@
 package com.thomaskuenneth.tkweek.viewmodel
 
 import androidx.lifecycle.ViewModel
+import dagger.hilt.android.lifecycle.HiltViewModel
+import jakarta.inject.Inject
 import java.util.Calendar
 import java.util.Date
 
-class MyDayViewModel : ViewModel() {
+@HiltViewModel
+class MyDayViewModel @Inject constructor() : ViewModel() {
     var cal: Calendar = Calendar.getInstance()
         private set
 

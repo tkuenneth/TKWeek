@@ -460,10 +460,11 @@ class AnnualEventsFragment : TKWeekBaseFragment<EventsBinding>(), AdapterView.On
                     binding.searchListView.adapter = result
                 } else {
                     binding.listView.adapter = result.also { listAdapter = it }
-                    if (listAdapter != null && restore) {
+                    if (restore) {
                         listAdapter?.save(requireContext())
+                    } else {
+                        listAdapter?.updateEventsListWidgets(requireContext())
                     }
-                    listAdapter?.updateEventsListWidgets(requireContext())
                     binding.header.text = getString(
                         R.string.string1_dash_string2,
                         Helper.FORMAT_DEFAULT.format(listAdapter?.from?.time ?: Date()),

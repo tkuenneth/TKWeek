@@ -9,6 +9,17 @@
     android:paddingHorizontal="16dp"
     android:paddingVertical="12dp">
 
+    <com.google.android.material.divider.MaterialDivider
+        android:id="@+id/divider"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:dividerColor="?attr/colorSurface"
+        app:dividerThickness="2dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/text1"
         android:layout_width="0dp"
@@ -17,7 +28,7 @@
         android:textColor="@color/list_item_color_selector"
         app:layout_constraintEnd_toStartOf="@id/text3"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/divider" />
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/text2"

@@ -63,6 +63,11 @@ abstract class TKWeekBaseFragment<T> : TKWeekHiltBaseFragment() {
             onReadCalendarPermissionResult(isGranted)
         }
 
+    private val requestReadCallLogLauncher =
+        registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
+            onReadCallLogPermissionResult(isGranted)
+        }
+
     private val requestMultiplePermissionsLauncher =
         registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { results ->
             onMultiplePermissionsResult(results)
@@ -163,6 +168,19 @@ abstract class TKWeekBaseFragment<T> : TKWeekHiltBaseFragment() {
     }
 
     open fun onReadCalendarPermissionResult(isGranted: Boolean) {
+    }
+
+    fun shouldShowPermissionReadCallLogRationale() =
+        TKWeekUtils.shouldShowRequestPermissionRationale(
+            requireActivity(),
+            Manifest.permission.READ_CALL_LOG
+        )
+
+    fun requestReadCallLog() {
+        requestReadCallLogLauncher.launch(Manifest.permission.READ_CALL_LOG)
+    }
+
+    open fun onReadCallLogPermissionResult(isGranted: Boolean) {
     }
 
     fun requestMultiplePermissions(permissions: Array<String>) {

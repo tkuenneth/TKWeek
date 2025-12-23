@@ -159,6 +159,10 @@ public class TKWeekUtils {
         return canDoXYZ(context, Manifest.permission.READ_CALENDAR);
     }
 
+    public static boolean canReadCallLog(Context context) {
+        return canDoXYZ(context, Manifest.permission.READ_CALL_LOG);
+    }
+
     private static boolean canDoXYZ(Context context, String permission) {
         return context.checkSelfPermission(permission) == PackageManager.PERMISSION_GRANTED;
     }

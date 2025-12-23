@@ -26,8 +26,14 @@ package com.thomaskuenneth.tkweek.fragment
 import android.Manifest
 import android.content.ActivityNotFoundException
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.database.Cursor
+import android.net.Uri
 import android.os.Bundle
 import android.provider.CalendarContract
+import android.provider.CallLog.Calls
+import android.provider.ContactsContract
+import android.telephony.PhoneNumberUtils
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -35,6 +41,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.TextView
+import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.net.toUri
 import androidx.core.view.isEmpty
@@ -50,6 +57,7 @@ import com.thomaskuenneth.tkweek.adapter.AnnualEventsListAdapter
 import com.thomaskuenneth.tkweek.databinding.MydayBinding
 import com.thomaskuenneth.tkweek.fragment.CalendarFragment.Companion.isDayOff
 import com.thomaskuenneth.tkweek.fragment.WeekFragment.Companion.prepareCalendar
+import com.thomaskuenneth.tkweek.types.Call
 import com.thomaskuenneth.tkweek.types.Event
 import com.thomaskuenneth.tkweek.types.Zodiac
 import com.thomaskuenneth.tkweek.util.CalendarContractUtils
@@ -85,6 +93,8 @@ class MyDayFragment : TKWeekBaseFragment<MydayBinding>() {
     private val cal: Calendar
         get() = myDayViewModel.cal
 
+    private var hasTelephony = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setFragmentResultListener(RESULT_NOTES) { _, bundle ->
@@ -106,6 +116,8 @@ class MyDayFragment : TKWeekBaseFragment<MydayBinding>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val pm = requireContext().packageManager
+        hasTelephony = pm.hasSystemFeature(PackageManager.FEATURE_TELEPHONY)
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.RESUMED) {
                 launch {
@@ -122,6 +134,7 @@ class MyDayFragment : TKWeekBaseFragment<MydayBinding>() {
                             )
                         }
                         updateEvents(adapter)
+                        updateMissedCalls()
                     }
                 }
                 triggerLoad()
@@ -158,6 +171,11 @@ class MyDayFragment : TKWeekBaseFragment<MydayBinding>() {
         ) {
             permissions.add(Manifest.permission.READ_CALENDAR)
         }
+        if (isShowMissedCalls()) {
+            if (!TKWeekUtils.canReadCallLog(requireContext()) && !shouldShowPermissionReadCallLogRationale()) {
+                permissions.add(Manifest.permission.READ_CALL_LOG)
+            }
+        }
         if (permissions.isNotEmpty()) {
             val l = arrayOfNulls<String>(permissions.size)
             permissions.toArray(l)
@@ -188,6 +206,10 @@ class MyDayFragment : TKWeekBaseFragment<MydayBinding>() {
     }
 
     override fun onReadCalendarPermissionResult(isGranted: Boolean) {
+        triggerLoad()
+    }
+
+    override fun onReadCallLogPermissionResult(isGranted: Boolean) {
         triggerLoad()
     }
 
@@ -491,5 +513,167 @@ class MyDayFragment : TKWeekBaseFragment<MydayBinding>() {
     private fun updateNoteAndDeleteButton(note: String) {
         binding.myDayNotes.text = note
         binding.myDaySymbolDelete.isEnabled = note.isNotEmpty()
+    }
+
+    private fun isShowMissedCalls(): Boolean {
+        var show = hasTelephony
+        if (show) {
+            val prefs = PreferenceManager
+                .getDefaultSharedPreferences(requireContext())
+            show = !prefs.getBoolean("hide_missed_calls", false)
+        }
+        return show
+    }
+
+    private suspend fun updateMissedCalls() {
+        if (!isAdded) return
+        val show = isShowMissedCalls()
+        binding.missedCallsContainer.visibility = if (show) View.VISIBLE else View.GONE
+        binding.dividerMissedCalls.visibility = if (show) View.VISIBLE else View.GONE
+        if (show) {
+            binding.myDayMissedCalls.removeAllViews()
+            val inflater = layoutInflater
+            if (TKWeekUtils.canReadCallLog(requireContext())) {
+                val list = runInterruptible(Dispatchers.IO) {
+                    getMissedCalls()
+                }
+                val now = Calendar.getInstance()
+                val current = Calendar.getInstance()
+                for (position in list.indices) {
+                    val parent =
+                        inflater.inflate(R.layout.two_line_item, binding.myDayMissedCalls, false)
+                    binding.myDayMissedCalls.addView(parent)
+                    // divider
+                    if (position > 0) {
+                        val divider = parent.findViewById<View>(R.id.divider)
+                        divider.visibility = View.VISIBLE
+                    }
+                    val text1 = parent.findViewById<TextView>(R.id.text1)
+                    val text2 = parent.findViewById<TextView>(R.id.text2)
+                    val text3 = parent.findViewById<TextView>(R.id.text3)
+                    val text4 = parent.findViewById<TextView>(R.id.text4)
+                    val call = list[position]
+                    parent.setOnClickListener {
+                        val uri = Uri.withAppendedPath(
+                            Calls.CONTENT_URI,
+                            call._id.toString()
+                        )
+                        val intent = Intent(Intent.ACTION_VIEW, uri)
+                        intent.type = Calls.CONTENT_TYPE
+                        try {
+                            startActivity(intent)
+                        } catch (e: ActivityNotFoundException) {
+                            Log.e(TAG, "updateMissedCalls()", e)
+                            Toast.makeText(
+                                requireContext(),
+                                R.string.error_call_log, Toast.LENGTH_LONG
+                            ).show()
+                        }
+                    }
+                    var number = call.number
+                    number = if ("-1" == number) {
+                        getString(R.string.unknown)
+                    } else {
+                        PhoneNumberUtils.formatNumber(number, Locale.getDefault().country) ?: number
+                    }
+                    if (call.name.isNotEmpty()) {
+                        text1.text = call.name
+                        text2.text = getString(
+                            R.string.string1_string2,
+                            call.label, number
+                        )
+                    } else {
+                        text1.text = number
+                        text2.visibility = View.GONE
+                    }
+                    current.timeInMillis = call.date
+                    val time = current.time
+                    val days = DateUtilities.diffDayPeriods(
+                        now,
+                        current
+                    )
+                    text3.text = AnnualEventsListAdapter.getDaysAsString(
+                        inflater,
+                        days
+                    )
+                    text4.text = Helper.FORMAT_TIME_SHORT.format(time)
+                    text4.visibility = View.VISIBLE
+                }
+                maybeAddNone(inflater, binding.myDayMissedCalls)
+            } else {
+                val layout =
+                    inflater.inflate(
+                        R.layout.message_link_to_settings,
+                        binding.myDayMissedCalls,
+                        false
+                    ) as ConstraintLayout
+                linkToSettings(layout, requireActivity(), R.string.str_need_call_log_permission)
+                val button = layout.findViewById<Button>(R.id.button)
+                button.setOnClickListener {
+                    requestReadCallLog()
+                }
+                button.visibility = if (shouldShowPermissionReadCallLogRationale()
+                ) View.VISIBLE else View.GONE
+                binding.myDayMissedCalls.addView(layout)
+            }
+        }
+    }
+
+    private fun getMissedCalls(): List<Call> {
+        val missedCalls: MutableList<Call> = ArrayList()
+        val projection = arrayOf(
+            Calls.NUMBER, Calls.DATE, Calls.CACHED_NAME,
+            Calls.CACHED_NUMBER_TYPE, Calls.CACHED_NUMBER_LABEL, Calls._ID
+        )
+        val selection = Calls.TYPE + " = ?"
+        val selectionArgs = arrayOf(Calls.MISSED_TYPE.toString())
+        var c: Cursor? = null
+        try {
+            c = requireActivity().contentResolver.query(
+                Calls.CONTENT_URI, projection,
+                selection, selectionArgs, Calls.DEFAULT_SORT_ORDER
+            )
+        } catch (e: SecurityException) {
+            Log.e(TAG, "getMissedCalls()", e)
+        }
+        if (c != null) {
+            val idxNumber = c.getColumnIndex(Calls.NUMBER)
+            val idxDate = c.getColumnIndex(Calls.DATE)
+            val idxCachedName = c.getColumnIndex(Calls.CACHED_NAME)
+            val idxCachedNumberType = c
+                .getColumnIndex(Calls.CACHED_NUMBER_TYPE)
+            val idxCachedNumberLabel = c
+                .getColumnIndex(Calls.CACHED_NUMBER_LABEL)
+            val idxID = c.getColumnIndex(Calls._ID)
+            while (c.moveToNext()) {
+                var number = ""
+                if (number.isEmpty()) {
+                    number = TKWeekUtils.getStringNotNull(
+                        c
+                            .getString(idxNumber)
+                    )
+                }
+                val date = c.getLong(idxDate)
+                val name = TKWeekUtils.getStringNotNull(
+                    c
+                        .getString(idxCachedName)
+                )
+                var label = TKWeekUtils.getStringNotNull(
+                    c
+                        .getString(idxCachedNumberLabel)
+                )
+                if (label.isEmpty()) {
+                    val type = c.getInt(idxCachedNumberType)
+                    val resId = ContactsContract.CommonDataKinds.Phone
+                        .getTypeLabelResource(type)
+                    label = getString(resId)
+                }
+                val idx = c.getInt(idxID)
+                val call = Call(number, date, name, label, idx)
+                missedCalls.add(call)
+            }
+            c.close()
+        }
+        return missedCalls
     }
 }

@@ -227,6 +227,45 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/notes_container" />
 
+                <!-- Missed Calls Section -->
+                <LinearLayout
+                    android:id="@+id/missed_calls_container"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp"
+                    android:visibility="gone"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/divider2">
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/my_day_label_missed_calls"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginBottom="8dp"
+                        android:text="@string/missed_calls"
+                        android:textAppearance="@style/TextAppearance.Material3.TitleMedium" />
+
+                    <LinearLayout
+                        android:id="@+id/my_day_missed_calls"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical" />
+                </LinearLayout>
+
+                <com.google.android.material.divider.MaterialDivider
+                    android:id="@+id/divider_missed_calls"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    app:dividerColor="?attr/colorSurface"
+                    app:dividerThickness="2dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/missed_calls_container" />
+
                 <!-- Events Section -->
                 <LinearLayout
                     android:id="@+id/events_container"
@@ -236,7 +275,7 @@
                     android:padding="16dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/divider2">
+                    app:layout_constraintTop_toBottomOf="@id/divider_missed_calls">
 
                     <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/my_day_label_events"

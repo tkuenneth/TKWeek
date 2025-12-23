@@ -24,13 +24,9 @@
 package com.thomaskuenneth.tkweek.fragment
 
 import android.Manifest
-import android.annotation.SuppressLint
 import android.content.ActivityNotFoundException
 import android.content.Intent
-import android.net.Uri
-import android.os.AsyncTask
 import android.os.Bundle
-import android.os.Looper
 import android.provider.CalendarContract
 import android.util.Log
 import android.view.LayoutInflater
@@ -40,7 +36,12 @@ import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.net.toUri
+import androidx.core.view.isEmpty
 import androidx.fragment.app.setFragmentResultListener
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.preference.PreferenceManager
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.thomaskuenneth.tkweek.R
@@ -57,7 +58,12 @@ import com.thomaskuenneth.tkweek.util.Helper.DATE
 import com.thomaskuenneth.tkweek.util.TKWeekUtils
 import com.thomaskuenneth.tkweek.util.TKWeekUtils.linkToSettings
 import com.thomaskuenneth.tkweek.viewmodel.AppBarAction
-import java.text.DateFormat
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.receiveAsFlow
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runInterruptible
 import java.text.MessageFormat
 import java.text.SimpleDateFormat
 import java.util.Calendar
@@ -70,7 +76,7 @@ class MyDayFragment : TKWeekBaseFragment<MydayBinding>() {
 
     private val binding get() = backing!!
 
-    private var eventsLoader: AsyncTask<Void, Void, AnnualEventsListAdapter>? = null
+    private val loadTrigger = Channel<Unit>(Channel.CONFLATED)
 
     private lateinit var cal: Calendar
 
@@ -95,7 +101,27 @@ class MyDayFragment : TKWeekBaseFragment<MydayBinding>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        eventsLoader = null
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.RESUMED) {
+                launch {
+                    loadTrigger.receiveAsFlow().collectLatest {
+                        val context = requireContext()
+                        val calClone = cal.clone() as Calendar
+                        val adapter = runInterruptible(Dispatchers.IO) {
+                            AnnualEventsListAdapter(
+                                context,
+                                calClone,
+                                calClone,
+                                true,
+                                null
+                            )
+                        }
+                        updateEvents(adapter)
+                    }
+                }
+                triggerLoad()
+            }
+        }
         binding.myDaySymbolNotes.setOnClickListener {
             val fragment = EditNotesFragment().also {
                 it.arguments = Bundle().also { bundle ->
@@ -153,27 +179,17 @@ class MyDayFragment : TKWeekBaseFragment<MydayBinding>() {
     }
 
     override fun onReadContactsPermissionResult(isGranted: Boolean) {
-        prepareEventsLoader()
+        triggerLoad()
     }
 
     override fun onReadCalendarPermissionResult(isGranted: Boolean) {
-        prepareEventsLoader()
+        triggerLoad()
     }
 
     override fun onMultiplePermissionsResult(results: Map<String, Boolean>) {
         if (results.isNotEmpty()) {
-            prepareEventsLoader()
+            triggerLoad()
         }
-    }
-
-    override fun onResume() {
-        super.onResume()
-        prepareEventsLoader()
-    }
-
-    override fun onPause() {
-        cancelEventsLoader()
-        super.onPause()
     }
 
     override fun updateAppBarActions() {
@@ -200,42 +216,8 @@ class MyDayFragment : TKWeekBaseFragment<MydayBinding>() {
         viewModel.setAppBarActions(actions)
     }
 
-    private fun cancelEventsLoader() {
-        if (eventsLoader != null) {
-            eventsLoader?.cancel(true)
-            eventsLoader = null
-        }
-    }
-
-    private fun prepareEventsLoader() {
-        cancelEventsLoader()
-        eventsLoader = @SuppressLint("StaticFieldLeak")
-        object : AsyncTask<Void, Void, AnnualEventsListAdapter>() {
-            @Deprecated("Deprecated in Java")
-            override fun onPreExecute() {
-            }
-
-            @Deprecated("Deprecated in Java")
-            override fun doInBackground(vararg params: Void): AnnualEventsListAdapter? {
-                if (Looper.myLooper() == null) {
-                    Looper.prepare()
-                }
-                return AnnualEventsListAdapter(
-                    requireContext(),
-                    cal,
-                    cal,
-                    true,
-                    null
-                )
-            }
-
-            @Deprecated("Deprecated in Java")
-            override fun onPostExecute(result: AnnualEventsListAdapter?) {
-                eventsLoader = null
-                updateEvents(result!!)
-            }
-        }
-        eventsLoader?.execute()
+    private fun triggerLoad() {
+        loadTrigger.trySend(Unit)
     }
 
     private fun updateViews() {
@@ -277,7 +259,7 @@ class MyDayFragment : TKWeekBaseFragment<MydayBinding>() {
             R.string.no
         )
         binding.myDayAstrologicalSign.text = Zodiac.getSign(requireContext(), date)
-        prepareEventsLoader()
+        triggerLoad()
         updateNotes()
     }
 
@@ -312,13 +294,13 @@ class MyDayFragment : TKWeekBaseFragment<MydayBinding>() {
                     temp[Calendar.YEAR] = cal.get(Calendar.YEAR)
                 }
                 if (DateUtilities.diffDayPeriods(cal, temp) == 0L) {
-                    val descr = adapter.getDescription(event, requireContext())
+                    val description = adapter.getDescription(event, requireContext())
                     val parent =
                         inflate(R.layout.string_one_line2, binding.myDayEvents, false)
                     binding.myDayEvents.addView(parent)
                     val str = parent
                         .findViewById<TextView>(R.id.string_one_line2_text)
-                    str.text = descr
+                    str.text = description
                     val color = parent.findViewById<View>(R.id.string_one_line2_color)
                     color.setBackgroundColor(event.color)
                 }
@@ -376,10 +358,9 @@ class MyDayFragment : TKWeekBaseFragment<MydayBinding>() {
                 line1.text = title
                 val line2 = parent
                     .findViewById<TextView>(R.id.appointment_two_line_2)
-                var dateformat: DateFormat
                 val calFrom = DateUtilities.getCalendar(from)
                 val calTo = DateUtilities.getCalendar(to)
-                dateformat = if (DateUtilities.diffDayPeriods(calFrom, calTo) != 0L) {
+                val dateFormat = if (DateUtilities.diffDayPeriods(calFrom, calTo) != 0L) {
                     Helper.FORMAT_DATE_TIME_SHORT
                 } else {
                     Helper.FORMAT_TIME_SHORT
@@ -395,8 +376,8 @@ class MyDayFragment : TKWeekBaseFragment<MydayBinding>() {
                     sb.append(description)
                 }
                 line2.text = getString(
-                    R.string.from_to, dateformat.format(from),
-                    dateformat.format(to), sb.toString()
+                    R.string.from_to, dateFormat.format(from),
+                    dateFormat.format(to), sb.toString()
                 )
                 line2.isEnabled = isFutureOrOngoing
                 val color = parent.findViewById<View>(R.id.appointment_two_line_color)
@@ -462,13 +443,13 @@ class MyDayFragment : TKWeekBaseFragment<MydayBinding>() {
         val url = MessageFormat.format(pattern, month, day)
         val viewIntent = Intent(
             "android.intent.action.VIEW",
-            Uri.parse(url)
+            url.toUri()
         )
         startActivity(viewIntent)
     }
 
     private fun maybeAddNone(inflater: LayoutInflater, layout: LinearLayout) {
-        if (layout.childCount == 0) {
+        if (layout.isEmpty()) {
             val tv = inflater.inflate(
                 R.layout.string_one_line,
                 layout, false

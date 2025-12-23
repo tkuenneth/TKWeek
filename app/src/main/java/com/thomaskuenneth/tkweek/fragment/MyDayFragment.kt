@@ -38,6 +38,7 @@ import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.net.toUri
 import androidx.core.view.isEmpty
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.setFragmentResultListener
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -58,6 +59,7 @@ import com.thomaskuenneth.tkweek.util.Helper.DATE
 import com.thomaskuenneth.tkweek.util.TKWeekUtils
 import com.thomaskuenneth.tkweek.util.TKWeekUtils.linkToSettings
 import com.thomaskuenneth.tkweek.viewmodel.AppBarAction
+import com.thomaskuenneth.tkweek.viewmodel.MyDayViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.collectLatest
@@ -78,7 +80,10 @@ class MyDayFragment : TKWeekBaseFragment<MydayBinding>() {
 
     private val loadTrigger = Channel<Unit>(Channel.CONFLATED)
 
-    private lateinit var cal: Calendar
+    private val myDayViewModel: MyDayViewModel by activityViewModels()
+
+    private val cal: Calendar
+        get() = myDayViewModel.cal
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -136,11 +141,11 @@ class MyDayFragment : TKWeekBaseFragment<MydayBinding>() {
         binding.myDaySymbolDelete.setOnClickListener {
             saveNoteAndUpdateUI("")
         }
-        cal = Calendar.getInstance()
         arguments?.run {
             val time = getLong(DATE)
-            if (time > 0)
-                cal.time = Date(time)
+            if (time > 0) {
+                myDayViewModel.setCalendarTime(time)
+            }
         }
         val permissions = ArrayList<String>()
         if (shouldShowBirthdays() && !TKWeekUtils.canReadContacts(requireContext())
@@ -163,14 +168,14 @@ class MyDayFragment : TKWeekBaseFragment<MydayBinding>() {
                 .setSelection(cal.timeInMillis)
                 .build()
             picker.addOnPositiveButtonClickListener { selection ->
-                cal.timeInMillis = selection
+                myDayViewModel.setCalendarTime(selection)
                 updateViews()
                 updateAppBarActions()
             }
             picker.show(parentFragmentManager, "date_picker")
         }
         binding.myDayToday.setOnClickListener {
-            cal.time = Date()
+            myDayViewModel.setCalendarTime(Date())
             updateViews()
             updateAppBarActions()
         }

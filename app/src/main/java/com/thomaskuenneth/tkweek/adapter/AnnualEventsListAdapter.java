@@ -31,6 +31,8 @@ import android.appwidget.AppWidgetManager;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.Handler;
+import android.os.Looper;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -40,7 +42,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.thomaskuenneth.tkweek.R;
-import com.thomaskuenneth.tkweek.activity.TKWeekActivity;
+import com.thomaskuenneth.tkweek.util.Helper;
 import com.thomaskuenneth.tkweek.appwidget.EventsListWidget;
 import com.thomaskuenneth.tkweek.fragment.CalendarFragment;
 import com.thomaskuenneth.tkweek.preference.PickCountriesPreference;
@@ -224,8 +226,8 @@ public class AnnualEventsListAdapter extends BaseAdapter implements Comparator<E
         }
         loadUserEvents(context, getUserEventsFile(context), yearFrom, yearTo);
         if (!prefs.getBoolean("hide_allday_events", false)) {
-            List<Event> alldayEvents = CalendarContractUtils.getAllDayEvents(context, calFrom, calTo, expandAllDayEvents);
-            addAll(alldayEvents);
+            List<Event> allDayEvents = CalendarContractUtils.getAllDayEvents(context, calFrom, calTo, expandAllDayEvents);
+            addAll(allDayEvents);
         }
         data.sort(this);
     }
@@ -276,13 +278,15 @@ public class AnnualEventsListAdapter extends BaseAdapter implements Comparator<E
     }
 
     public void updateEventsListWidgets(Context context) {
-        AppWidgetManager m = AppWidgetManager.getInstance(context);
-        if (m != null) {
-            int[] appWidgetIds = m.getAppWidgetIds(new ComponentName(context, EventsListWidget.class));
-            if ((appWidgetIds != null) && (appWidgetIds.length > 0)) {
-                EventsListWidget.updateWidgets(context, m, appWidgetIds);
+        new Handler(Looper.getMainLooper()).post(() -> {
+            AppWidgetManager m = AppWidgetManager.getInstance(context);
+            if (m != null) {
+                int[] appWidgetIds = m.getAppWidgetIds(new ComponentName(context, EventsListWidget.class));
+                if ((appWidgetIds != null) && (appWidgetIds.length > 0)) {
+                    EventsListWidget.updateWidgets(context, m, appWidgetIds);
+                }
             }
-        }
+        });
     }
 
     @Override
@@ -318,7 +322,7 @@ public class AnnualEventsListAdapter extends BaseAdapter implements Comparator<E
         Context context = convertView.getContext();
         holder.text1.setText(getDescription(event, context));
         var strDate = getDateAsString(event, context);
-        if (CalendarFragment.isDayOff(context, DateUtilities.getCalendar(event).getTime())) {
+        if (CalendarFragment.isDayOff(prefs, DateUtilities.getCalendar(event).getTime())) {
             holder.text2.setText(context.getString(R.string.string1_string2, strDate, context.getString(R.string.day_off)));
         } else {
             holder.text2.setText(strDate);
@@ -362,13 +366,13 @@ public class AnnualEventsListAdapter extends BaseAdapter implements Comparator<E
     public String getDateAsString(Event event, Context context) {
         Calendar cal = DateUtilities.getCalendar(event);
         Date calTime = cal.getTime();
-        String dateAsString = TKWeekActivity.FORMAT_FULL.format(calTime);
+        String dateAsString = Helper.FORMAT_FULL.format(calTime);
         if (event.occurrences > 0) {
             if (event instanceof Birthday) {
                 long diffDays = DateUtilities.diffDayPeriods(today_cal, cal);
-                return context.getString(diffDays < 0 ? R.string.birthday_past : R.string.birthday_future, event.occurrences, TKWeekActivity.FORMAT_DAY_OF_WEEK.format(calTime), TKWeekActivity.FORMAT_MONTH.format(calTime), event.getDay(), event.getYear() - event.occurrences);
+                return context.getString(diffDays < 0 ? R.string.birthday_past : R.string.birthday_future, event.occurrences, Helper.FORMAT_DAY_OF_WEEK.format(calTime), Helper.FORMAT_MONTH.format(calTime), event.getDay(), event.getYear() - event.occurrences);
             } else if (event instanceof Anniversary) {
-                return context.getString(R.string.template_anniversary, event.occurrences, TKWeekActivity.FORMAT_DAY_OF_WEEK.format(calTime), TKWeekActivity.FORMAT_MONTH.format(calTime), event.getDay(), event.getYear() - event.occurrences);
+                return context.getString(R.string.template_anniversary, event.occurrences, Helper.FORMAT_DAY_OF_WEEK.format(calTime), Helper.FORMAT_MONTH.format(calTime), event.getDay(), event.getYear() - event.occurrences);
             }
         }
         return dateAsString;
@@ -381,7 +385,7 @@ public class AnnualEventsListAdapter extends BaseAdapter implements Comparator<E
             return context.getString(R.string.event, ((Anniversary) event).getText(), event.descr);
         }
         if (event.annuallyRepeating) {
-            return context.getString(R.string.string1_string2, event.descr, TKWeekActivity.getInfinitySymbol(context));
+            return context.getString(R.string.string1_string2, event.descr, Helper.getInfinitySymbol(context));
         }
         return event.descr;
     }
@@ -404,29 +408,18 @@ public class AnnualEventsListAdapter extends BaseAdapter implements Comparator<E
     }
 
     public boolean saveUserEvents(File file) {
-        FileWriter fw = null;
         boolean success = false;
-        try {
-            fw = new FileWriter(file);
+        try (FileWriter fw = new FileWriter(file)) {
             success = saveUserEvents(fw);
         } catch (IOException e) {
             Log.e(TAG, "saveUserEvents()", e);
-        }
-        if (fw != null) {
-            try {
-                fw.close();
-            } catch (IOException e) {
-                // should move to try-with-resources
-            }
         }
         return success;
     }
 
     public boolean saveUserEvents(Writer writer) {
-        BufferedWriter bw = null;
         boolean success = false;
-        try {
-            bw = new BufferedWriter(writer);
+        try (BufferedWriter bw = new BufferedWriter(writer)) {
             for (int i = 0; i < getCount(); i++) {
                 Event event = (Event) getItem(i);
                 if (!event.builtin && !event.cloned) {
@@ -447,14 +440,6 @@ public class AnnualEventsListAdapter extends BaseAdapter implements Comparator<E
             success = true;
         } catch (IOException e) {
             Log.e(TAG, "saveUserEvents()", e);
-        } finally {
-            if (bw != null) {
-                try {
-                    bw.close();
-                } catch (IOException e) {
-                    // should move to try-with-resources
-                }
-            }
         }
         return success;
     }
@@ -544,7 +529,7 @@ public class AnnualEventsListAdapter extends BaseAdapter implements Comparator<E
                 add(new FixedEvent(DateUtilities.getCalendar(dst_end), context.getString(R.string.dst_end), true), false);
             }
             add(new FixedEvent(DateUtilities.getMothersDay(year), context.getString(R.string.muttertag), true), false);
-            int mode = TKWeekActivity.getIntFromSharedPreferences(prefs, "fathersday", 0);
+            int mode = Helper.getIntFromSharedPreferences(prefs, "fathersday", 0);
             if (mode == 1) {
                 Calendar cal = CalendarIterator.iterateUntil(DateUtilities.getCalendar(year, Calendar.JUNE, 1), CalendarCondition.createCalendarCondition(CONDITION.EQUAL, Calendar.DAY_OF_WEEK, Calendar.SUNDAY, true), Calendar.DAY_OF_MONTH, 1);
                 cal.add(Calendar.WEEK_OF_MONTH, 2);
@@ -662,91 +647,75 @@ public class AnnualEventsListAdapter extends BaseAdapter implements Comparator<E
     }
 
     private void loadUserEvents(Context context, final File file, final int yearFrom, final int yearTo) {
-        FileReader fr = null;
-        BufferedReader br = null;
         try {
             if (file.exists()) {
-                fr = new FileReader(file);
-                br = new BufferedReader(fr);
-                String descr;
-                while ((descr = br.readLine()) != null) {
-                    if (descr.startsWith("$$$INFINITY$$$=")) {
-                        String value = descr.substring(15);
-                        if (TKWeekUtils.length(value) > 0) {
-                            TKWeekActivity.setInfinitySymbol(context, value);
-                        }
-                        continue;
-                    } else if (descr.startsWith("$$$TKWEEK_PREFS_")) {
-                        int pos = descr.indexOf("=");
-                        if (pos > 17) {
-                            String key = descr.substring(16, pos++);
-                            if (pos < descr.length()) {
-                                try {
-                                    int value = Integer.parseInt(descr.substring(pos));
-                                    TKWeekActivity.putInt(context, key, value);
-                                } catch (NumberFormatException e) {
-                                    Log.e(TAG, "could not convert to int", e);
+                try (FileReader fr = new FileReader(file);
+                     BufferedReader br = new BufferedReader(fr)) {
+                    String descr;
+                    while ((descr = br.readLine()) != null) {
+                        if (descr.startsWith("$$$INFINITY$$$=")) {
+                            String value = descr.substring(15);
+                            if (TKWeekUtils.length(value) > 0) {
+                                Helper.setInfinitySymbol(context, value);
+                            }
+                            continue;
+                        } else if (descr.startsWith("$$$TKWEEK_PREFS_")) {
+                            int pos = descr.indexOf("=");
+                            if (pos > 17) {
+                                String key = descr.substring(16, pos++);
+                                if (pos < descr.length()) {
+                                    try {
+                                        int value = Integer.parseInt(descr.substring(pos));
+                                        Helper.putInt(context, key, value);
+                                    } catch (NumberFormatException e) {
+                                        Log.e(TAG, "could not convert to int", e);
+                                    }
                                 }
                             }
+                            continue;
                         }
-                        continue;
-                    }
-                    boolean fixedEvent = descr.endsWith(FIXED_EVENT);
-                    if (fixedEvent) {
-                        descr = descr.substring(0, descr.indexOf(FIXED_EVENT));
-                    }
-                    String strYear = br.readLine();
-                    if (strYear == null) {
-                        break;
-                    }
-                    String month = br.readLine();
-                    if (month == null) {
-                        break;
-                    }
-                    String day = br.readLine();
-                    if (day == null) {
-                        break;
-                    }
-                    boolean annuallyRepeating = !fixedEvent;
-                    boolean forceLoaded = false;
-                    if (!annuallyRepeating) {
-                        if (prefs.getBoolean("load_all_user_events", false)) {
-                            forceLoaded = true;
+                        boolean fixedEvent = descr.endsWith(FIXED_EVENT);
+                        if (fixedEvent) {
+                            descr = descr.substring(0, descr.indexOf(FIXED_EVENT));
                         }
-                    }
-                    String runtimeID = annuallyRepeating ? UUID.randomUUID().toString() : null;
-                    int intYear = Integer.parseInt(strYear);
-                    int _from;
-                    int _to;
-                    if (annuallyRepeating) {
-                        _from = Math.max(yearFrom, intYear);
-                        _to = yearTo;
-                    } else {
-                        _from = intYear;
-                        _to = intYear;
-                    }
-                    for (int year = _from; year <= _to; year++) {
-                        add(new Event(descr, year, Integer.parseInt(month), Integer.parseInt(day), false, annuallyRepeating, Event.DEFAULT_COLOUR, Event.DEFAULT_CALENDAR, runtimeID, year != _from), forceLoaded);
+                        String strYear = br.readLine();
+                        if (strYear == null) {
+                            break;
+                        }
+                        String month = br.readLine();
+                        if (month == null) {
+                            break;
+                        }
+                        String day = br.readLine();
+                        if (day == null) {
+                            break;
+                        }
+                        boolean annuallyRepeating = !fixedEvent;
+                        boolean forceLoaded = false;
+                        if (!annuallyRepeating) {
+                            if (prefs.getBoolean("load_all_user_events", false)) {
+                                forceLoaded = true;
+                            }
+                        }
+                        String runtimeID = annuallyRepeating ? UUID.randomUUID().toString() : null;
+                        int intYear = Integer.parseInt(strYear);
+                        int _from;
+                        int _to;
+                        if (annuallyRepeating) {
+                            _from = Math.max(yearFrom, intYear);
+                            _to = yearTo;
+                        } else {
+                            _from = intYear;
+                            _to = intYear;
+                        }
+                        for (int year = _from; year <= _to; year++) {
+                            add(new Event(descr, year, Integer.parseInt(month), Integer.parseInt(day), false, annuallyRepeating, Event.DEFAULT_COLOUR, Event.DEFAULT_CALENDAR, runtimeID, year != _from), forceLoaded);
+                        }
                     }
                 }
             }
         } catch (Throwable tr) {
             Log.e(TAG, "loadUserEvents()", tr);
-        } finally {
-            if (br != null) {
-                try {
-                    br.close();
-                } catch (IOException e) {
-                    // should move to try-with-resources
-                }
-            }
-            if (fr != null) {
-                try {
-                    fr.close();
-                } catch (IOException e) {
-                    // should move to try-with-resources
-                }
-            }
         }
     }
 

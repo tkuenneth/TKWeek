@@ -131,7 +131,6 @@ access your contacts data to display birthdays and anniversaries. You can deacti
     <string name="recent_events_title">Recent Events</string>
     <string name="recent_events_summary">Days displayed at top of events list</string>
     <string name="widget_appearance">Widget appearance</string>
-    <string name="myday_activity_hide_nameday">Hide name day</string>
     <string name="hide_seasons">Hide seasons</string>
     <string name="hide_astrological_sign">Hide Sign of the Zodiac</string>
     <string name="third_sunday_of_june">Third Sunday of June</string>
@@ -153,6 +152,8 @@ access your contacts data to display birthdays and anniversaries. You can deacti
     <string name="week_number">Week number</string>
     <string name="week_number_iso">ISO week number</string>
     <string name="first_and_last_day_of_week" translatable="false">%1$s %2$s - %3$s %4$s</string>
+    <string name="week_calculation_message">You can change how the week number is calculated in Settings.</string>
+    <string name="go_to_settings">Go to Settings</string>
 
     <!-- AboutAYear -->
     <string name="about_a_year_label1">Friday the 13th</string>
@@ -167,7 +168,6 @@ access your contacts data to display birthdays and anniversaries. You can deacti
     <string name="day_of_year">%1$d of %2$d (%3$d left)</string>
     <string name="is_leap_year">Leap year:</string>
     <string name="astrological_sign">Sign of the Zodiac:</string>
-    <string name="name_day">Name day:</string>
     <string name="look_up_in_wikipedia">Look up in Wikipedia</string>
 
     <!-- DaysBetweenDatesActivity -->
@@ -279,9 +279,13 @@ access your contacts data to display birthdays and anniversaries. You can deacti
     <string name="annual_event_backup_restore">Backup / Restore</string>
     <string name="mark_as_day_off">Mark as a day off</string>
     <string name="remove_day_off_tag">Remove day off tag</string>
-    <string name="mark_as_holiday">Mark as a holiday</string>
-    <string name="remove_holiday_tag">Remove holiday tag</string>
+    <string name="mark_as_holiday">Mark as public holiday</string>
+    <string name="remove_holiday_tag">Unmark as public holiday</string>
     <string name="channel_events">Events</string>
+    <string name="more_options">More options</string>
+    <string name="navigate_up">Navigate up</string>
+    <string name="close_search">Close search</string>
+    <string name="find_an_event">Find an event</string>
 
     <!-- PickADateActivity -->
     <string name="description">description</string>
@@ -360,9 +364,6 @@ TKWeek needs to access your contacts.</string>
     <string name="buss_und_bettag_de">day of repentance and prayer</string>
     <string name="weltkindertag">Universal Children\'s Day</string>
     <string name="schulferien_bundesland">School holidays</string>
-    <string name="search">Search</string>
-    <string name="search_hint">Name of an event</string>
-    <string name="filtered">filtered</string>
     <string name="show_school_holidays">Pick state</string>
     <string name="load_all_user_events">Load all user events</string>
     <string name="delete">Delete</string>
@@ -407,5 +408,6 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 	</string>
+    <string name="avoid_hinge">Avoid hinge</string>
 
 </resources>

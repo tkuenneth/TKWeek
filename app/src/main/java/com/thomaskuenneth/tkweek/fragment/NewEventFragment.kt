@@ -2,7 +2,7 @@
  * NewEventFragment.kt
  *
  * Copyright 2021 MATHEMA GmbH
- *           2022 - 2023 Thomas Künneth
+ *           2022 - 2025 Thomas Künneth
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
@@ -33,6 +33,7 @@ import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.setFragmentResult
 import com.thomaskuenneth.tkweek.R
 import com.thomaskuenneth.tkweek.util.DateUtilities
+import com.thomaskuenneth.tkweek.util.Helper.DATE
 
 const val REQUEST_KEY_NEW_EVENT_FRAGMENT = "NewEventFragment"
 const val ANNUALLY_REPEATING = "annuallyRepeatring"

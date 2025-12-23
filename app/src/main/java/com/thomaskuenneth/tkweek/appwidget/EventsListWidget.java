@@ -32,7 +32,7 @@ import android.preference.PreferenceManager;
 import android.widget.RemoteViews;
 
 import com.thomaskuenneth.tkweek.R;
-import com.thomaskuenneth.tkweek.activity.TKWeekActivity;
+import com.thomaskuenneth.tkweek.util.Helper;
 import com.thomaskuenneth.tkweek.adapter.AnnualEventsListAdapter;
 import com.thomaskuenneth.tkweek.fragment.AnnualEventsFragment;
 import com.thomaskuenneth.tkweek.types.Event;
@@ -144,7 +144,7 @@ public class EventsListWidget extends AppWidgetProvider {
                 updateViews.setTextViewText(R.id.text_4r, text_4r);
                 updateViews.setTextViewText(R.id.text_4l, text_4l);
                 updateViews.setOnClickPendingIntent(R.id.events_list_widget_id,
-                        TKWeekActivity.createPendingIntentToLaunchTKWeek(context,
+                        Helper.createPendingIntentToLaunchTKWeek(context,
                                 REQUEST_CODE_EVENTS_LIST_WIDGET,
                                 AnnualEventsFragment.class));
                 appWidgetManager.updateAppWidget(appWidgetIds, updateViews);

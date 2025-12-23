@@ -13,7 +13,6 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 import android.widget.DatePicker;
 
-import com.thomaskuenneth.tkweek.activity.TKWeekActivity;
 import com.thomaskuenneth.tkweek.types.Event;
 import com.thomaskuenneth.tkweek.util.CalendarCondition.CONDITION;
 
@@ -161,7 +160,7 @@ public class DateUtilities {
     public static Calendar getThanksgiving(Context context, int year) {
         SharedPreferences prefs = PreferenceManager
                 .getDefaultSharedPreferences(context);
-        int thanksgiving = TKWeekActivity.getIntFromSharedPreferences(prefs,
+        int thanksgiving = Helper.getIntFromSharedPreferences(prefs,
                 "thanksgiving", 1);
         Calendar cal = null;
         if (thanksgiving == 1) {
@@ -393,15 +392,15 @@ public class DateUtilities {
             case 2025:
                 return "20250420";
             case 2026:
-                return "20260412";
+                return "20260405";
             case 2027:
-                return "20270502";
+                return "20270328";
             case 2028:
                 return "20280416";
             case 2029:
-                return "20290408";
+                return "20290401";
             case 2030:
-                return "20300428";
+                return "20300421";
             default:
                 return null;
         }
@@ -457,7 +456,7 @@ public class DateUtilities {
             if (m.matches()) {
                 String date = m.group(1) + m.group(2) + m.group(3);
                 try {
-                    result = TKWeekActivity.FORMAT_YYYYMMDD.parse(date);
+                    result = Helper.FORMAT_YYYYMMDD.parse(date);
                 } catch (Throwable tr) {
                     Log.e(TAG, "getDateFromString1()", tr);
                 }
@@ -493,7 +492,7 @@ public class DateUtilities {
     public static int getAge(Date birthday, Calendar when) {
         int age = 0;
         if ((birthday != null) && (when != null)) {
-            String stringBirthday = TKWeekActivity.FORMAT_YYYYMMDD.format(birthday);
+            String stringBirthday = Helper.FORMAT_YYYYMMDD.format(birthday);
             int yearBirthday = Integer.parseInt(stringBirthday.substring(0, 4));
             int yearToday = when.get(Calendar.YEAR);
             age = yearToday - yearBirthday;
@@ -529,8 +528,8 @@ public class DateUtilities {
     public static boolean isToday(Calendar cal) {
         Date now = new Date();
         Date date = cal.getTime();
-        String strNow = TKWeekActivity.FORMAT_YYYYMMDD.format(now);
-        String strDate = TKWeekActivity.FORMAT_YYYYMMDD.format(date);
+        String strNow = Helper.FORMAT_YYYYMMDD.format(now);
+        String strDate = Helper.FORMAT_YYYYMMDD.format(date);
         return strNow.equals(strDate);
     }
 

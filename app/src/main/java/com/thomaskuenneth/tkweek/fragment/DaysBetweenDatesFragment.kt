@@ -23,16 +23,16 @@
  */
 package com.thomaskuenneth.tkweek.fragment
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.thomaskuenneth.tkweek.CalendarAsyncTask
-import com.thomaskuenneth.tkweek.activity.TKWeekActivity
 import com.thomaskuenneth.tkweek.databinding.DaysBetweenDatesActivityBinding
 import com.thomaskuenneth.tkweek.util.DateUtilities
+import com.thomaskuenneth.tkweek.util.Helper
+import com.thomaskuenneth.tkweek.util.Helper.DATE
 import java.util.Calendar
 import java.util.Date
 
@@ -49,6 +49,7 @@ class DaysBetweenDatesFragment : TKWeekBaseFragment<DaysBetweenDatesActivityBind
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         binding.checkboxIncludeFirstDate
             .setOnCheckedChangeListener { _, _ -> update() }
         arguments?.run {
@@ -87,13 +88,9 @@ class DaysBetweenDatesFragment : TKWeekBaseFragment<DaysBetweenDatesActivityBind
         update()
     }
 
-    override fun preferencesFinished(resultCode: Int, data: Intent?) {
-        update()
-    }
-
     private fun update() {
-        binding.firstDate.text = TKWeekActivity.FORMAT_FULL.format(calFirstDate.time)
-        binding.secondDate.text = TKWeekActivity.FORMAT_FULL.format(calSecondDate.time)
+        binding.firstDate.text = Helper.FORMAT_FULL.format(calFirstDate.time)
+        binding.secondDate.text = Helper.FORMAT_FULL.format(calSecondDate.time)
         var c1 = calFirstDate.clone() as Calendar
         var c2 = calSecondDate.clone() as Calendar
         if (c2.before(c1)) {
@@ -103,8 +100,8 @@ class DaysBetweenDatesFragment : TKWeekBaseFragment<DaysBetweenDatesActivityBind
         }
         binding.firstDate.isEnabled = true
         binding.secondDate.isEnabled = true
-        binding.firstDateToday.isEnabled = true
-        binding.secondDateToday.isEnabled = true
+        binding.firstDateToday.isEnabled = !DateUtilities.isToday(calFirstDate)
+        binding.secondDateToday.isEnabled = !DateUtilities.isToday(calSecondDate)
         CalendarAsyncTask(requireContext(), binding).execute(c1, c2)
     }
 

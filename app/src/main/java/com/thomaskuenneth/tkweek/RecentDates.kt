@@ -25,9 +25,11 @@ package com.thomaskuenneth.tkweek
 
 import android.content.Context
 import android.widget.TextView
-import com.thomaskuenneth.tkweek.activity.TKWeekActivity
+import androidx.core.content.edit
+import com.thomaskuenneth.tkweek.util.Helper
 import java.text.ParseException
-import java.util.*
+import java.util.Arrays
+import java.util.Date
 
 private const val numRecents = 3
 private val recents = arrayOfNulls<String>(numRecents)
@@ -44,7 +46,7 @@ fun updateRecents(
         Context.MODE_PRIVATE
     )
     for (i in 0 until numRecents) {
-        recents[i] = prefs.getString(getRecentKey(i), TKWeekActivity.DASHES)
+        recents[i] = prefs.getString(getRecentKey(i), Helper.DASHES)
     }
     Arrays.sort(recents)
     populateRecent(textview1, 0)
@@ -53,7 +55,7 @@ fun updateRecents(
 }
 
 fun addDate(context: Context, key: String, date: Date) {
-    val string = TKWeekActivity.FORMAT_YYYYMMDD.format(date)
+    val string = Helper.FORMAT_YYYYMMDD.format(date)
     var found = false
     var i = 0
     while (i < numRecents) {
@@ -68,14 +70,14 @@ fun addDate(context: Context, key: String, date: Date) {
             key,
             Context.MODE_PRIVATE
         )
-        val e = prefs.edit()
-        var pos = prefs.getInt("recent_next", 0)
-        e.putString(getRecentKey(pos), string)
-        if (++pos >= 3) {
-            pos = 0
+        prefs.edit {
+            var pos = prefs.getInt("recent_next", 0)
+            putString(getRecentKey(pos), string)
+            if (++pos >= 3) {
+                pos = 0
+            }
+            putInt("recent_next", pos)
         }
-        e.putInt("recent_next", pos)
-        e.apply()
     }
 }
 
@@ -83,12 +85,12 @@ private fun populateRecent(tv: TextView, pos: Int) {
     var date: Date? = null
     recents[pos]?.let { str ->
         try {
-            date = TKWeekActivity.FORMAT_YYYYMMDD.parse(str)
+            date = Helper.FORMAT_YYYYMMDD.parse(str)
             date?.let {
-                tv.text = TKWeekActivity.FORMAT_DATE_SHORT.format(it)
+                tv.text = Helper.FORMAT_DATE_SHORT.format(it)
             }
         } catch (_: ParseException) {
-            tv.text = TKWeekActivity.DASHES
+            tv.text = Helper.DASHES
         }
     }
     tv.tag = date

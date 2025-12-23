@@ -2,7 +2,7 @@
  * TKWeekBaseFragment.kt
  *
  * Copyright 2021 MATHEMA GmbH
- *           2022 - 2024 Thomas Künneth
+ *           2022 - 2025 Thomas Künneth
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
@@ -24,75 +24,79 @@
 package com.thomaskuenneth.tkweek.fragment
 
 import android.Manifest
-import android.app.Activity
-import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.view.View
 import android.view.ViewGroup
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentTransaction
+import androidx.fragment.app.activityViewModels
 import androidx.preference.PreferenceManager
-import com.thomaskuenneth.tkweek.ActivityDescription
-import com.thomaskuenneth.tkweek.R
-import com.thomaskuenneth.tkweek.activity.ModuleContainerActivity
-import com.thomaskuenneth.tkweek.adapter.TKWeekFragmentListAdapter
+import com.thomaskuenneth.tkweek.TKWeekModule
 import com.thomaskuenneth.tkweek.util.TKWeekUtils
+import com.thomaskuenneth.tkweek.viewmodel.TKWeekViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
-const val RQ_READ_CONTACTS = 0
-const val RQ_READ_CALENDAR = 1
-const val RQ_POST_NOTIFICATIONS = 2
+@AndroidEntryPoint
+abstract class TKWeekHiltBaseFragment : Fragment() {
+    protected val viewModel: TKWeekViewModel by activityViewModels()
+}
 
-abstract class TKWeekBaseFragment<T> : Fragment() {
+abstract class TKWeekBaseFragment<T> : TKWeekHiltBaseFragment() {
 
     protected var backing: T? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        if (savedInstanceState == null)
-            setHasOptionsMenu(true)
+    private val requestReadContactsLauncher =
+        registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
+            onReadContactsPermissionResult(isGranted)
+        }
+
+    private val requestPostNotificationsLauncher =
+        registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
+            onPostNotificationsPermissionResult(isGranted)
+        }
+
+    private val requestReadCalendarLauncher =
+        registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
+            onReadCalendarPermissionResult(isGranted)
+        }
+
+    private val requestMultiplePermissionsLauncher =
+        registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { results ->
+            onMultiplePermissionsResult(results)
+        }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        findScrollableContent(view)?.let { scrollable ->
+            scrollable.setOnScrollChangeListener(
+                NestedScrollView.OnScrollChangeListener { _, _, scrollY, _, _ ->
+                    viewModel.setDetailScrolled(scrollY > 0)
+                })
+            viewModel.setDetailScrolled(scrollable.scrollY > 0)
+        }
+    }
+
+    override fun onViewStateRestored(savedInstanceState: Bundle?) {
+        super.onViewStateRestored(savedInstanceState)
+        updateAppBarActions()
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
+        viewModel.setDetailScrolled(false)
         backing = null
     }
 
-    open fun preferencesFinished(resultCode: Int, data: Intent?) {
-        // intentionally does nothing
+    open fun updateAppBarActions() {
+        viewModel.setAppBarActions(emptyList())
     }
 
-    fun launchModule(module: Class<*>, payload: Bundle?) {
-        TKWeekFragmentListAdapter.find(module)?.let {
-            launchModule(it, payload)
-        }
-    }
-
-    fun launchModule(module: ActivityDescription, payload: Bundle?) {
-        if (isTwoColumnMode(requireActivity())) {
-            (parentFragmentManager.findFragmentByTag(getString(R.string.tag_module_selection)) as? TKWeekFragment)?.run {
-                val fragment = module.fragment().newInstance()
-                fragment.arguments = payload
-                parentFragmentManager.run {
-                    beginTransaction()
-                        .replace(
-                            R.id.module_container,
-                            fragment,
-                            getString(R.string.tag_module_fragment)
-                        )
-                        .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-                        .disallowAddToBackStack()
-                        .commit()
-                }
-                updateSelection(TKWeekFragmentListAdapter.getPosition(module.fragment()))
-            }
-        } else {
-            val intent = Intent(context, ModuleContainerActivity::class.java)
-            intent.putExtra(CLAZZ, module.fragment())
-            intent.putExtra(TITLE, module.text1())
-            intent.putExtra(PAYLOAD, payload)
-            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
-            requireContext().startActivity(intent)
+    fun selectModule(module: Class<*>, payload: Bundle?) {
+        TKWeekModule.find(module)?.let {
+            viewModel.selectModuleWithArguments(module = it, arguments = payload, topLevel = false)
         }
     }
 
@@ -127,24 +131,20 @@ abstract class TKWeekBaseFragment<T> : Fragment() {
     }
 
     fun requestReadContacts() {
-        requestPermissions(
-            arrayOf(Manifest.permission.READ_CONTACTS),
-            RQ_READ_CONTACTS
-        )
+        requestReadContactsLauncher.launch(Manifest.permission.READ_CONTACTS)
+    }
+
+    open fun onReadContactsPermissionResult(isGranted: Boolean) {
     }
 
     fun requestPostNotifications() {
-        requestPermissions(
-            arrayOf(Manifest.permission.POST_NOTIFICATIONS),
-            RQ_POST_NOTIFICATIONS
-        )
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            requestPostNotificationsLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
+        }
     }
 
-    fun shouldShowPermissionReadCallLogRationale() =
-        TKWeekUtils.shouldShowRequestPermissionRationale(
-            requireActivity(),
-            Manifest.permission.READ_CALL_LOG
-        )
+    open fun onPostNotificationsPermissionResult(isGranted: Boolean) {
+    }
 
     fun shouldShowAppointments() = !PreferenceManager.getDefaultSharedPreferences(requireContext())
         .getBoolean("hide_appointments", false)
@@ -159,12 +159,31 @@ abstract class TKWeekBaseFragment<T> : Fragment() {
         )
 
     fun requestReadCalendar() {
-        requestPermissions(
-            arrayOf(Manifest.permission.READ_CALENDAR),
-            RQ_READ_CALENDAR
-        )
+        requestReadCalendarLauncher.launch(Manifest.permission.READ_CALENDAR)
     }
 
-    fun isTwoColumnMode(activity: Activity) =
-        activity.findViewById<ViewGroup>(R.id.module_container) != null
+    open fun onReadCalendarPermissionResult(isGranted: Boolean) {
+    }
+
+    fun requestMultiplePermissions(permissions: Array<String>) {
+        requestMultiplePermissionsLauncher.launch(permissions)
+    }
+
+    open fun onMultiplePermissionsResult(results: Map<String, Boolean>) {
+    }
+
+    private fun findScrollableContent(view: View): NestedScrollView? {
+        if (view is NestedScrollView) {
+            return view
+        }
+        if (view is ViewGroup) {
+            for (i in 0 until view.childCount) {
+                val result = findScrollableContent(view.getChildAt(i))
+                if (result != null) {
+                    return result
+                }
+            }
+        }
+        return null
+    }
 }

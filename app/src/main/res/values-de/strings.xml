@@ -101,7 +101,6 @@
     <string name="recent_events_title">Kürzliche Ereignisse</string>
     <string name="recent_events_summary">Anzahl Tage am Anfang der Liste</string>
     <string name="widget_appearance">Widget-Aussehen</string>
-    <string name="myday_activity_hide_nameday">Namenstage ausblenden</string>
     <string name="hide_seasons">Jahreszeiten ausblenden</string>
     <string name="hide_astrological_sign">Tierkreiszeichen ausblenden</string>
     <string name="third_sunday_of_june">3. Sonntag im Juni</string>
@@ -119,6 +118,8 @@
     <string name="date_within_week">Datum innerhalb einer Woche</string>
     <string name="week_number">Wochennr.</string>
     <string name="week_number_iso">Wochennummer (ISO)</string>
+    <string name="week_calculation_message">Sie können die Berechnung der Wochennummer in den Einstellungen ändern.</string>
+    <string name="go_to_settings">Zu den Einstellungen</string>
 
     <!-- AboutAYear -->
     <string name="about_a_year_label1">Freitag, der 13.</string>
@@ -133,7 +134,6 @@
     <string name="day_of_year">%1$d von %2$d (%3$d verbleibend)</string>
     <string name="is_leap_year">Schaltjahr:</string>
     <string name="astrological_sign">Tierkreiszeichen:</string>
-    <string name="name_day">Namenstag:</string>
     <string name="look_up_in_wikipedia">In Wikipedia nachschlagen</string>
 
     <!-- DaysBetweenDatesActivity -->
@@ -158,7 +158,7 @@
     <string name="weeks">Wochen</string>
     <string name="months">Monate</string>
     <string name="years">Jahre</string>
-    <string name="clear">Leeren</string>
+    <string name="clear">Löschen</string>
     <string name="date_calculator_info">Bitte + oder - drücken</string>
     <string name="reuse_result">Ergebnis als neues Startdatum</string>
     <string name="count_business_days_only">Nur Werktage zählen</string>
@@ -219,9 +219,13 @@
     <string name="annual_event_backup_restore">Sichern / Wiederherstellen</string>
     <string name="mark_as_day_off">Als Ruhetag kennzeichnen</string>
     <string name="remove_day_off_tag">Ruhetagsmarkierung entfernen</string>
-    <string name="mark_as_holiday">Als Feiertag kennzeichnen</string>
-    <string name="remove_holiday_tag">Feiertagsmarkierung entfernen</string>
+    <string name="mark_as_holiday">Als gesetzlichen Feiertag markieren</string>
+    <string name="remove_holiday_tag">Markierung als gesetzlicher Feiertag entfernen</string>
     <string name="channel_events">Ereignisse</string>
+    <string name="more_options">Weitere Optionen</string>
+    <string name="navigate_up">Nach oben navigieren</string>
+    <string name="close_search">Suche schließen</string>
+    <string name="find_an_event">Finde ein Ereignis</string>
 
     <!-- PickADateActivity -->
     <string name="description">Beschreibung</string>
@@ -299,9 +303,6 @@ Sie TKWeek den Zugriff auf Kontakte gestatten.</string>
     <string name="buss_und_bettag_de">Buß- und Bettag</string>
     <string name="weltkindertag">Weltkindertag</string>
     <string name="schulferien_bundesland">Schulferien</string>
-    <string name="search">Suchen</string>
-    <string name="search_hint">Name d. Ereignisses</string>
-    <string name="filtered">gefiltert</string>
     <string name="weiberfastnacht">Weiberfastnacht</string>
     <string name="sg_national_day">Nationaltag (Singapur)</string>
     <string name="widget_retired">Dieses TKWeek widget wird nicht länger unterstützt. Bitte entfernen Sie es.</string>
@@ -328,5 +329,6 @@ Sie TKWeek den Zugriff auf Kontakte gestatten.</string>
     <string name="tolkien_reading_day">Tag der Tolkien-Lektüre</string>
     <string name="hobbit_day">Hobbit-Tag</string>
     <string name="world_seagrass_day">Welttag des Seegrases</string>
+    <string name="avoid_hinge">Scharnier meiden</string>
 
 </resources>

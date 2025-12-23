@@ -24,17 +24,14 @@
         tools:targetApi="tiramisu">
 
         <activity
-            android:name=".activity.TKWeekActivity"
-            android:exported="true">
+            android:name=".TKWeekCompose"
+            android:exported="true"
+            android:theme="@style/Theme.Material3.DayNight.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.ModuleContainerActivity" />
-        <activity
-            android:name=".activity.TKWeekPrefsActivity"
-            android:label="@string/settings" />
 
         <receiver
             android:name=".appwidget.EventsListWidget"

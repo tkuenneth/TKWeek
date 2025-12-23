@@ -31,33 +31,46 @@ import android.app.Activity
 import android.app.NotificationManager
 import android.content.Context
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.net.Uri
-import android.os.AsyncTask
 import android.os.Build
 import android.os.Bundle
-import android.os.Looper
 import android.provider.ContactsContract
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.ContextMenu
 import android.view.LayoutInflater
 import android.view.Menu
-import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
-import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.SearchView
+import androidx.core.content.edit
+import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.DefaultLifecycleObserver
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
+import com.google.android.material.search.SearchView
 import com.thomaskuenneth.tkweek.AlarmReceiver
 import com.thomaskuenneth.tkweek.R
-import com.thomaskuenneth.tkweek.activity.TKWeekActivity
 import com.thomaskuenneth.tkweek.adapter.AnnualEventsListAdapter
 import com.thomaskuenneth.tkweek.adapter.AnnualEventsListAdapter.getUserEventsFile
 import com.thomaskuenneth.tkweek.databinding.EventsBinding
 import com.thomaskuenneth.tkweek.types.Event
 import com.thomaskuenneth.tkweek.types.IContactId
 import com.thomaskuenneth.tkweek.util.DateUtilities
+import com.thomaskuenneth.tkweek.util.Helper
+import com.thomaskuenneth.tkweek.util.Helper.DATE
 import com.thomaskuenneth.tkweek.util.TKWeekUtils
+import com.thomaskuenneth.tkweek.viewmodel.AnnualEventsViewModel
+import com.thomaskuenneth.tkweek.viewmodel.AppBarAction
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.io.FileInputStream
 import java.io.FileOutputStream
 import java.io.FileWriter
@@ -69,20 +82,26 @@ private val MENU_DELETE = R.string.menu_delete
 private val MENU_DAYS_BETWEEN_DATES = R.string.days_between_dates_activity_text1
 private val MENU_MARK_AS_DAY_OFF = R.string.mark_as_day_off
 private val MENU_REMOVE_DAY_OFF_TAG = R.string.remove_day_off_tag
+private val MENU_MARK_AS_HOLIDAY = R.string.mark_as_holiday
+private val MENU_REMOVE_HOLIDAY_TAG = R.string.remove_holiday_tag
 
 @Suppress("DEPRECATION")
 class AnnualEventsFragment : TKWeekBaseFragment<EventsBinding>(), AdapterView.OnItemClickListener {
 
     private val binding get() = backing!!
+    private val annualEventsViewModel: AnnualEventsViewModel by activityViewModels()
 
-    private var eventsLoader: AsyncTask<Void, Void, AnnualEventsListAdapter>? = null
+    private var loadEventsJob: Job? = null
 
     private var listAdapter: AnnualEventsListAdapter? = null
 
-    private var searchString: String? = null
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        lifecycle.addObserver(object : DefaultLifecycleObserver {
+            override fun onStop(owner: LifecycleOwner) {
+                viewModel.setShouldShowProgressIndicator(false)
+            }
+        })
         parentFragmentManager.setFragmentResultListener(
             REQUEST_KEY_BACKUP_RESTORE_FRAGMENT, this
         ) { _, bundle ->
@@ -94,13 +113,21 @@ class AnnualEventsFragment : TKWeekBaseFragment<EventsBinding>(), AdapterView.On
         parentFragmentManager.setFragmentResultListener(
             REQUEST_KEY_NEW_EVENT_FRAGMENT, this
         ) { _, bundle ->
-            val descr = bundle.getString(DESCR, "")
+            val description = bundle.getString(DESCR, "")
             val annuallyRepeating = bundle.getBoolean(ANNUALLY_REPEATING, false)
             val date = bundle.getSerializable(DATE)
-            val event = Event(descr, date as Date, annuallyRepeating)
-            listAdapter?.addEventNoCheck(event)
-            listAdapter?.save(requireContext())
-            setListAdapterLoadEvents(false, searchString)
+            val event = Event(description, date as Date, annuallyRepeating)
+            lifecycleScope.launch {
+                val context = requireContext()
+                val adapter = listAdapter ?: withContext(Dispatchers.IO) {
+                    AnnualEventsListAdapter.create(context, null)
+                }
+                adapter.addEventNoCheck(event)
+                withContext(Dispatchers.IO) {
+                    adapter.save(context)
+                }
+                setListAdapterLoadEvents(false, annualEventsViewModel.searchQuery.value)
+            }
         }
     }
 
@@ -113,9 +140,37 @@ class AnnualEventsFragment : TKWeekBaseFragment<EventsBinding>(), AdapterView.On
 
     @SuppressLint("InflateParams")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        eventsLoader = null
+        super.onViewCreated(view, savedInstanceState)
+        loadEventsJob = null
         binding.listView.onItemClickListener = this
         binding.listView.setOnCreateContextMenuListener(this)
+        binding.searchView.setupWithSearchBar(binding.searchBar)
+        val lifecycleOwner = viewLifecycleOwner
+        binding.searchView
+            .editText
+            .setOnEditorActionListener { _, _, _ ->
+                if (lifecycleOwner.lifecycle.currentState.isAtLeast(androidx.lifecycle.Lifecycle.State.RESUMED)) {
+                    annualEventsViewModel.setSearchQuery(binding.searchView.text.toString())
+                }
+                false
+            }
+        binding.searchView.editText.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                if (lifecycleOwner.lifecycle.currentState.isAtLeast(androidx.lifecycle.Lifecycle.State.RESUMED)) {
+                    annualEventsViewModel.setSearchQuery(s.toString())
+                }
+            }
+
+            override fun afterTextChanged(s: Editable?) {}
+        })
+        binding.searchView.addTransitionListener { _, _, newState ->
+            if (lifecycleOwner.lifecycle.currentState.isAtLeast(androidx.lifecycle.Lifecycle.State.RESUMED)) {
+                annualEventsViewModel.setSearchOpen(newState == SearchView.TransitionState.SHOWING || newState == SearchView.TransitionState.SHOWN)
+            }
+        }
+        binding.searchListView.onItemClickListener = this
         val permissions = ArrayList<String>()
         binding.messageNotifications.message.setText(R.string.str_permission_post_notifications)
         binding.messageNotifications.button.setOnClickListener {
@@ -149,63 +204,114 @@ class AnnualEventsFragment : TKWeekBaseFragment<EventsBinding>(), AdapterView.On
         if (permissions.isNotEmpty()) {
             val l = arrayOfNulls<String>(permissions.size)
             permissions.toArray(l)
-            requestPermissions(l, 0)
+            requestMultiplePermissions(l.requireNoNulls())
         }
         updateAll()
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(androidx.lifecycle.Lifecycle.State.STARTED) {
+                combine(
+                    annualEventsViewModel.isSearchOpen,
+                    annualEventsViewModel.searchQuery
+                ) { isOpen, query ->
+                    isOpen to query
+                }
+                    .onEach { (isOpen, query) ->
+                        if (isOpen) {
+                            binding.searchView.show()
+                        } else {
+                            binding.searchView.hide()
+                        }
+                        val currentText = binding.searchView.text.toString()
+                        if (currentText != query) {
+                            binding.searchView.setText(query)
+                            if (query != null) {
+                                binding.searchView.editText.setSelection(query.length)
+                            }
+                        }
+                        setListAdapterLoadEvents(false, if (isOpen) query else null, isOpen)
+                    }.launchIn(this)
+            }
+        }
+    }
+
+    override fun onReadContactsPermissionResult(isGranted: Boolean) {
+        if (isGranted) {
+            setListAdapterLoadEvents(false, annualEventsViewModel.searchQuery.value)
+        }
+        updatePermissionInfo()
+    }
+
+    override fun onPostNotificationsPermissionResult(isGranted: Boolean) {
+        updatePermissionInfo()
+    }
+
+    override fun onReadCalendarPermissionResult(isGranted: Boolean) {
+        updatePermissionInfo()
+    }
+
+    override fun onMultiplePermissionsResult(results: Map<String, Boolean>) {
+        if (results[Manifest.permission.READ_CONTACTS] == true) {
+            setListAdapterLoadEvents(false, annualEventsViewModel.searchQuery.value)
+        }
+        updatePermissionInfo()
     }
 
     @Deprecated("Deprecated in Java")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == Activity.RESULT_OK) {
-            var success = false
-            when (requestCode) {
-                BACKUP -> {
-                    data?.data?.also { uri ->
-                        requireContext().run {
-                            contentResolver.openFileDescriptor(uri, "w")?.use {
-                                success = listAdapter?.saveUserEvents(FileWriter(it.fileDescriptor))
-                                    ?: false
+            lifecycleScope.launch {
+                var success = false
+                val context = requireContext()
+                when (requestCode) {
+                    BACKUP -> {
+                        data?.data?.also { uri ->
+                            val adapter = listAdapter ?: withContext(Dispatchers.IO) {
+                                AnnualEventsListAdapter.create(context, null)
                             }
-                        }
-                    }
-                }
-
-                RESTORE -> {
-                    data?.data?.also { uri ->
-                        requireContext().contentResolver.openFileDescriptor(uri, "r")?.use {
-                            FileInputStream(it.fileDescriptor).use { fis ->
-                                FileOutputStream(getUserEventsFile(requireContext())).use { fos ->
-                                    var current: Int
-                                    while (true) {
-                                        current = fis.read()
-                                        if (current == -1) {
-                                            break
-                                        }
-                                        fos.write(current)
-                                    }
-                                    success = true
+                            success = withContext(Dispatchers.IO) {
+                                try {
+                                    context.contentResolver.openFileDescriptor(uri, "w")?.use {
+                                        adapter.saveUserEvents(FileWriter(it.fileDescriptor))
+                                    } ?: false
+                                } catch (_: Exception) {
+                                    false
                                 }
                             }
                         }
-                        setListAdapterLoadEvents(true, searchString)
+                    }
+
+                    RESTORE -> {
+                        data?.data?.also { uri ->
+                            success = withContext(Dispatchers.IO) {
+                                try {
+                                    context.contentResolver.openFileDescriptor(uri, "r")?.use {
+                                        FileInputStream(it.fileDescriptor).use { fis ->
+                                            FileOutputStream(getUserEventsFile(context)).use { fos ->
+                                                var current: Int
+                                                while (true) {
+                                                    current = fis.read()
+                                                    if (current == -1) {
+                                                        break
+                                                    }
+                                                    fos.write(current)
+                                                }
+                                            }
+                                        }
+                                    }
+                                    true
+                                } catch (_: Exception) {
+                                    false
+                                }
+                            }
+                            setListAdapterLoadEvents(true, annualEventsViewModel.searchQuery.value)
+                        }
                     }
                 }
-            }
-            if (!success) showError()
-        }
-    }
-
-    @Deprecated("Deprecated in Java")
-    override fun onRequestPermissionsResult(
-        requestCode: Int, permissions: Array<out String>, grantResults: IntArray
-    ) {
-        if ((grantResults.isNotEmpty()) && (grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
-            if (requestCode == RQ_READ_CONTACTS) {
-                setListAdapterLoadEvents(false, searchString)
+                if (!success) showError()
             }
         }
-        updatePermissionInfo()
     }
 
     override fun onStart() {
@@ -220,36 +326,6 @@ class AnnualEventsFragment : TKWeekBaseFragment<EventsBinding>(), AdapterView.On
                 }
             }
         }
-    }
-
-    override fun onDestroy() {
-        eventsLoader?.run {
-            cancel(true)
-        }
-        super.onDestroy()
-    }
-
-    @Deprecated("Deprecated in Java")
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        super.onCreateOptionsMenu(menu, inflater)
-        inflater.inflate(R.menu.menu_search, menu)
-        val searchMenuItem = menu.findItem(R.id.search)
-        (searchMenuItem.actionView as SearchView?)?.run {
-            queryHint = requireContext().getString(R.string.search_hint)
-            setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-                override fun onQueryTextSubmit(query: String): Boolean {
-                    searchString = query
-                    searchMenuItem.collapseActionView()
-                    updateListAndOptionsMenu()
-                    return true
-                }
-
-                override fun onQueryTextChange(newText: String): Boolean {
-                    return true
-                }
-            })
-        }
-        inflater.inflate(R.menu.menu_annual_events_activity, menu)
     }
 
     override fun onCreateContextMenu(
@@ -271,37 +347,10 @@ class AnnualEventsFragment : TKWeekBaseFragment<EventsBinding>(), AdapterView.On
         } else {
             menu.add(Menu.NONE, MENU_MARK_AS_DAY_OFF, Menu.NONE, MENU_MARK_AS_DAY_OFF)
         }
-    }
-
-    @Deprecated("Deprecated in Java")
-    override fun onPrepareOptionsMenu(menu: Menu) {
-        super.onPrepareOptionsMenu(menu)
-        menu.findItem(R.id.clear)?.run {
-            isVisible = searchString?.isNotEmpty() == true
-        }
-    }
-
-    @Deprecated("Deprecated in Java")
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when (item.itemId) {
-            R.id.clear -> {
-                searchString = null
-                updateListAndOptionsMenu()
-                true
-            }
-
-            R.id.annual_event_backup_restore -> {
-                showDialog(BackupRestoreDialogFragment())
-                true
-            }
-
-            R.id.new_event -> {
-                val f = NewEventFragment()
-                showDialog(f)
-                true
-            }
-
-            else -> super.onOptionsItemSelected(item)
+        if (isHoliday(requireContext(), item)) {
+            menu.add(Menu.NONE, MENU_REMOVE_HOLIDAY_TAG, Menu.NONE, MENU_REMOVE_HOLIDAY_TAG)
+        } else {
+            menu.add(Menu.NONE, MENU_MARK_AS_HOLIDAY, Menu.NONE, MENU_MARK_AS_HOLIDAY)
         }
     }
 
@@ -320,7 +369,7 @@ class AnnualEventsFragment : TKWeekBaseFragment<EventsBinding>(), AdapterView.On
             MENU_DAYS_BETWEEN_DATES -> {
                 val payload = Bundle()
                 payload.putLong(DATE, date.time)
-                launchModule(DaysBetweenDatesFragment::class.java, payload)
+                selectModule(DaysBetweenDatesFragment::class.java, payload)
                 true
             }
 
@@ -336,12 +385,29 @@ class AnnualEventsFragment : TKWeekBaseFragment<EventsBinding>(), AdapterView.On
                 true
             }
 
+            MENU_MARK_AS_HOLIDAY -> {
+                setHoliday(requireContext(), event, true)
+                updateItemAtPosition(mi.position)
+                true
+            }
+
+            MENU_REMOVE_HOLIDAY_TAG -> {
+                setHoliday(requireContext(), event, false)
+                updateItemAtPosition(mi.position)
+                true
+            }
+
             else -> super.onContextItemSelected(item)
         }
     }
 
     override fun onItemClick(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-        val o = listAdapter?.getItem(position)
+        val adapter = if (parent == binding.searchListView) {
+            binding.searchListView.adapter as AnnualEventsListAdapter
+        } else {
+            listAdapter
+        }
+        val o = adapter?.getItem(position)
         if (o as? IContactId? != null && o.contactId != null) {
             val intent = Intent(
                 Intent.ACTION_VIEW, Uri.withAppendedPath(
@@ -352,64 +418,62 @@ class AnnualEventsFragment : TKWeekBaseFragment<EventsBinding>(), AdapterView.On
         } else if (o as? Event? != null) {
             val payload = Bundle()
             payload.putLong(DATE, DateUtilities.getCalendar(o).time.time)
-            launchModule(MyDayFragment::class.java, payload)
+            selectModule(MyDayFragment::class.java, payload)
         }
     }
 
-    override fun preferencesFinished(resultCode: Int, data: Intent?) {
-        updateAll()
+    override fun updateAppBarActions() {
+        val actions = listOf(
+            AppBarAction(
+                icon = R.drawable.ic_baseline_add_24,
+                contentDescription = R.string.new_event,
+                title = R.string.new_event,
+                onClick = {
+                    showDialog(NewEventFragment())
+                }
+            ),
+            AppBarAction(
+                icon = R.drawable.ic_baseline_backup_24,
+                contentDescription = R.string.annual_event_backup_restore,
+                title = R.string.annual_event_backup_restore,
+                onClick = {
+                    showDialog(BackupRestoreDialogFragment())
+                }
+            )
+        )
+        viewModel.setAppBarActions(actions)
     }
 
     private fun setListAdapterLoadEvents(
-        restore: Boolean, search: String?
+        restore: Boolean, search: String?, isSearch: Boolean = false
     ) {
-        binding.indicator.visibility = View.VISIBLE
-        eventsLoader = @SuppressLint("StaticFieldLeak") object :
-            AsyncTask<Void, Void, AnnualEventsListAdapter>() {
-            @Deprecated("Deprecated in Java")
-            override fun doInBackground(vararg params: Void): AnnualEventsListAdapter {
-                if (Looper.myLooper() == null) {
-                    Looper.prepare()
-                }
-                return AnnualEventsListAdapter.create(
+        loadEventsJob?.cancel()
+        viewModel.setShouldShowProgressIndicator(true)
+        loadEventsJob = viewLifecycleOwner.lifecycleScope.launch {
+            val result = withContext(Dispatchers.IO) {
+                AnnualEventsListAdapter.create(
                     requireContext(), search
                 )
             }
-
-            @Deprecated("Deprecated in Java")
-            override fun onPostExecute(result: AnnualEventsListAdapter) {
-                eventsLoader = null
-                binding.listView.adapter = result.also { listAdapter = it }
-                if (listAdapter != null && restore) {
-                    listAdapter?.save(requireContext())
+            if (backing != null) {
+                if (isSearch) {
+                    binding.searchListView.adapter = result
+                } else {
+                    binding.listView.adapter = result.also { listAdapter = it }
+                    if (restore) {
+                        listAdapter?.save(requireContext())
+                    } else {
+                        listAdapter?.updateEventsListWidgets(requireContext())
+                    }
+                    binding.header.text = getString(
+                        R.string.string1_dash_string2,
+                        Helper.FORMAT_DEFAULT.format(listAdapter?.from?.time ?: Date()),
+                        Helper.FORMAT_DEFAULT.format(listAdapter?.to?.time ?: Date())
+                    )
                 }
-                listAdapter?.updateEventsListWidgets(requireContext())
-                binding.header.text = getString(
-                    R.string.string1_dash_string2,
-                    TKWeekActivity.FORMAT_DEFAULT.format(listAdapter?.from?.time ?: Date()),
-                    TKWeekActivity.FORMAT_DEFAULT.format(listAdapter?.to?.time ?: Date())
-                )
-                binding.indicator.visibility = View.GONE
             }
+            viewModel.setShouldShowProgressIndicator(false)
         }
-        eventsLoader?.execute()
-    }
-
-    fun isHoliday(context: Context, event: Event): Boolean {
-        val prefs = context.getSharedPreferences(
-            TAG, Context.MODE_PRIVATE
-        )
-        return prefs.getBoolean(getPreferencesKey(event), false)
-    }
-
-    // FIXME: used to be used to mark a day off; maybe reimplement click handler
-    fun setHoliday(context: Context, event: Event, holiday: Boolean) {
-        val prefs = context.getSharedPreferences(
-            TAG, Context.MODE_PRIVATE
-        )
-        val e = prefs.edit()
-        e.putBoolean(getPreferencesKey(event), holiday)
-        e.apply()
     }
 
     private fun restore() {
@@ -426,14 +490,14 @@ class AnnualEventsFragment : TKWeekBaseFragment<EventsBinding>(), AdapterView.On
             type = "text/plain"
             putExtra(
                 Intent.EXTRA_TITLE,
-                "AnnualEvents_${TKWeekActivity.FORMAT_YYYYMMDD.format(Date())}.txt"
+                "AnnualEvents_${Helper.FORMAT_YYYYMMDD.format(Date())}.txt"
             )
         }
         startActivityForResult(intent, BACKUP)
     }
 
     private fun updateAll() {
-        setListAdapterLoadEvents(false, searchString)
+        setListAdapterLoadEvents(false, annualEventsViewModel.searchQuery.value)
         updatePermissionInfo()
     }
 
@@ -446,11 +510,6 @@ class AnnualEventsFragment : TKWeekBaseFragment<EventsBinding>(), AdapterView.On
         }
     }
 
-    private fun getPreferencesKey(event: Event): String {
-        val description = TKWeekUtils.getStringNotNull(event.descr)
-        return "holiday_$description"
-    }
-
     private fun updatePermissionInfo() {
         binding.messageLinkToSettingsContacts.root.visibility =
             if (shouldShowBirthdays() && shouldShowPermissionReadContactsRationale()) View.VISIBLE else View.GONE
@@ -458,18 +517,6 @@ class AnnualEventsFragment : TKWeekBaseFragment<EventsBinding>(), AdapterView.On
             if (shouldShowAllDayEvents() && shouldShowPermissionReadCalendarRationale()) View.VISIBLE else View.GONE
         binding.messageNotifications.root.visibility =
             if (shouldShowPermissionPostNotificationsRationale()) View.VISIBLE else View.GONE
-    }
-
-    private fun updateListAndOptionsMenu() {
-        setListAdapterLoadEvents(false, searchString)
-        (requireActivity() as AppCompatActivity).run {
-            invalidateOptionsMenu()
-            supportActionBar?.title = if (searchString?.isNotEmpty() == true) getString(
-                R.string.string1_string2,
-                getString(R.string.annual_events_activity_text1),
-                getString(R.string.filtered)
-            ) else getString(R.string.annual_events_activity_text1)
-        }
     }
 
     private fun showError() {
@@ -483,5 +530,30 @@ class AnnualEventsFragment : TKWeekBaseFragment<EventsBinding>(), AdapterView.On
             }
         }
         fragment.show(parentFragmentManager, MessageFragment.TAG)
+    }
+
+    companion object {
+        @JvmStatic
+        fun isHoliday(context: Context, event: Event): Boolean {
+            val prefs = context.getSharedPreferences(
+                TAG, Context.MODE_PRIVATE
+            )
+            return prefs.getBoolean(getPreferencesKey(event), false)
+        }
+
+        @JvmStatic
+        fun setHoliday(context: Context, event: Event, holiday: Boolean) {
+            val prefs = context.getSharedPreferences(
+                TAG, Context.MODE_PRIVATE
+            )
+            prefs.edit {
+                putBoolean(getPreferencesKey(event), holiday)
+            }
+        }
+
+        private fun getPreferencesKey(event: Event): String {
+            val description = TKWeekUtils.getStringNotNull(event.descr)
+            return "holiday_$description"
+        }
     }
 }

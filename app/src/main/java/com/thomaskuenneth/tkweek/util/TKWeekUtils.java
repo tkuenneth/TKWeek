@@ -27,9 +27,9 @@ package com.thomaskuenneth.tkweek.util;
 import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
+import android.os.Bundle;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.method.LinkMovementMethod;
@@ -40,9 +40,12 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.FragmentActivity;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.thomaskuenneth.tkweek.R;
-import com.thomaskuenneth.tkweek.activity.TKWeekPrefsActivity;
+import com.thomaskuenneth.tkweek.TKWeekModule;
+import com.thomaskuenneth.tkweek.viewmodel.TKWeekViewModel;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -65,8 +68,6 @@ public class TKWeekUtils {
 
     private static final String TAG = TKWeekUtils.class.getSimpleName();
 
-    public static final int RQ_TKWEEK_PREFS = 0x2908;
-
     public static void linkToSettings(ViewGroup layout, Activity activity, int resId) {
         TextView message = layout.findViewById(R.id.message);
         String s = activity.getString(resId);
@@ -77,8 +78,13 @@ public class TKWeekUtils {
             spannable.setSpan(new ClickableSpan() {
                 @Override
                 public void onClick(@NonNull View widget) {
-                    Intent i = new Intent(activity, TKWeekPrefsActivity.class);
-                    activity.startActivityForResult(i, RQ_TKWEEK_PREFS);
+                    if (activity instanceof FragmentActivity) {
+                        TKWeekViewModel viewModel = new ViewModelProvider((FragmentActivity) activity).get(TKWeekViewModel.class);
+                        TKWeekModule module = TKWeekModule.Companion.find(TKWeekModule.Prefs.getClazz());
+                        if (module != null) {
+                            viewModel.selectModuleWithArguments(module, new Bundle(), false);
+                        }
+                    }
                 }
             }, pos, pos + settings.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
             message.setMovementMethod(LinkMovementMethod.getInstance());

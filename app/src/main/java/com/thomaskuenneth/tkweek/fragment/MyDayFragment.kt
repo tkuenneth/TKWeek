@@ -34,9 +34,6 @@ import android.os.Looper
 import android.provider.CalendarContract
 import android.util.Log
 import android.view.LayoutInflater
-import android.view.Menu
-import android.view.MenuInflater
-import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
@@ -45,19 +42,21 @@ import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.setFragmentResultListener
 import androidx.preference.PreferenceManager
+import com.google.android.material.datepicker.MaterialDatePicker
 import com.thomaskuenneth.tkweek.R
-import com.thomaskuenneth.tkweek.activity.TKWeekActivity
 import com.thomaskuenneth.tkweek.adapter.AnnualEventsListAdapter
 import com.thomaskuenneth.tkweek.databinding.MydayBinding
 import com.thomaskuenneth.tkweek.fragment.CalendarFragment.Companion.isDayOff
 import com.thomaskuenneth.tkweek.fragment.WeekFragment.Companion.prepareCalendar
 import com.thomaskuenneth.tkweek.types.Event
-import com.thomaskuenneth.tkweek.types.Namenstage
 import com.thomaskuenneth.tkweek.types.Zodiac
 import com.thomaskuenneth.tkweek.util.CalendarContractUtils
 import com.thomaskuenneth.tkweek.util.DateUtilities
+import com.thomaskuenneth.tkweek.util.Helper
+import com.thomaskuenneth.tkweek.util.Helper.DATE
 import com.thomaskuenneth.tkweek.util.TKWeekUtils
 import com.thomaskuenneth.tkweek.util.TKWeekUtils.linkToSettings
+import com.thomaskuenneth.tkweek.viewmodel.AppBarAction
 import java.text.DateFormat
 import java.text.MessageFormat
 import java.text.SimpleDateFormat
@@ -84,13 +83,6 @@ class MyDayFragment : TKWeekBaseFragment<MydayBinding>() {
                 )
             )
         }
-        setFragmentResultListener(RESULT_DATEPICKER) { _, bundle ->
-            cal.set(Calendar.YEAR, bundle.getInt(ARGS_YEAR))
-            cal.set(Calendar.MONTH, bundle.getInt(ARGS_MONTH))
-            cal.set(Calendar.DAY_OF_MONTH, bundle.getInt(ARGS_DAY_OF_MONTH))
-            updateViews()
-            requireActivity().invalidateOptionsMenu()
-        }
     }
 
     override fun onCreateView(
@@ -102,6 +94,7 @@ class MyDayFragment : TKWeekBaseFragment<MydayBinding>() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         eventsLoader = null
         binding.myDaySymbolNotes.setOnClickListener {
             val fragment = EditNotesFragment().also {
@@ -137,81 +130,40 @@ class MyDayFragment : TKWeekBaseFragment<MydayBinding>() {
         if (permissions.isNotEmpty()) {
             val l = arrayOfNulls<String>(permissions.size)
             permissions.toArray(l)
-            requestPermissions(l, 0)
+            requestMultiplePermissions(l.requireNoNulls())
+        }
+        binding.myDayDate.setOnClickListener {
+            val picker = MaterialDatePicker.Builder.datePicker()
+                .setSelection(cal.timeInMillis)
+                .build()
+            picker.addOnPositiveButtonClickListener { selection ->
+                cal.timeInMillis = selection
+                updateViews()
+                updateAppBarActions()
+            }
+            picker.show(parentFragmentManager, "date_picker")
+        }
+        binding.myDayToday.setOnClickListener {
+            cal.time = Date()
+            updateViews()
+            updateAppBarActions()
         }
         updateViews()
+        linkToSettings(binding.keyValueContainer, requireActivity(), R.string.go_to_settings)
     }
 
-    @Deprecated("Deprecated in Java")
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<String>,
-        grantResults: IntArray
-    ) {
-        if (!grantResults.indices.isEmpty())
+    override fun onReadContactsPermissionResult(isGranted: Boolean) {
+        prepareEventsLoader()
+    }
+
+    override fun onReadCalendarPermissionResult(isGranted: Boolean) {
+        prepareEventsLoader()
+    }
+
+    override fun onMultiplePermissionsResult(results: Map<String, Boolean>) {
+        if (results.isNotEmpty()) {
             prepareEventsLoader()
-    }
-
-    @Deprecated("Deprecated in Java")
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        super.onCreateOptionsMenu(menu, inflater)
-        inflater.inflate(R.menu.menu_today, menu)
-        inflater.inflate(R.menu.menu_new_appointment, menu)
-        inflater.inflate(R.menu.menu_goto_date, menu)
-        inflater.inflate(R.menu.menu_lookup_in_wikipedia, menu)
-    }
-
-    @Deprecated("Deprecated in Java")
-    override fun onPrepareOptionsMenu(menu: Menu) {
-        menu.findItem(R.id.today)?.run {
-            isVisible = !DateUtilities.isToday(cal)
         }
-        return super.onPrepareOptionsMenu(menu)
-    }
-
-    @Deprecated("Deprecated in Java")
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            R.id.today -> {
-                cal.time = Date()
-                updateViews()
-                requireActivity().invalidateOptionsMenu()
-                return true
-            }
-
-            R.id.look_up_in_wikipedia -> {
-                lookUpInWikipedia()
-                return true
-            }
-
-            R.id.mi_new_appointment -> {
-                val i2 = Intent(Intent.ACTION_INSERT, CalendarContract.Events.CONTENT_URI)
-                i2.putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, cal.timeInMillis)
-                try {
-                    startActivity(i2)
-                } catch (e: ActivityNotFoundException) {
-                    Log.e(TAG, "no activity found", e)
-                }
-                return true
-            }
-
-            R.id.goto_date -> {
-                val datePickerFragment = DatePickerFragment().also {
-                    it.arguments = Bundle().also { bundle ->
-                        bundle.putInt(ARGS_YEAR, cal.get(Calendar.YEAR))
-                        bundle.putInt(ARGS_MONTH, cal.get(Calendar.MONTH))
-                        bundle.putInt(ARGS_DAY_OF_MONTH, cal.get(Calendar.DAY_OF_MONTH))
-                    }
-                }
-                datePickerFragment.show(
-                    parentFragmentManager,
-                    DatePickerFragment.TAG
-                )
-                requireActivity().invalidateOptionsMenu()
-                return true
-            }
-        }
-        return super.onOptionsItemSelected(item)
     }
 
     override fun onResume() {
@@ -224,8 +176,32 @@ class MyDayFragment : TKWeekBaseFragment<MydayBinding>() {
         super.onPause()
     }
 
-    override fun preferencesFinished(resultCode: Int, data: Intent?) {
-        updateViews()
+    override fun updateAppBarActions() {
+        val actions = listOf(
+            AppBarAction(
+                icon = null,
+                contentDescription = R.string.look_up_in_wikipedia,
+                title = R.string.look_up_in_wikipedia,
+                onClick = {
+                    lookUpInWikipedia()
+                }
+            ),
+            AppBarAction(
+                icon = null,
+                contentDescription = R.string.new_appointment,
+                title = R.string.new_appointment,
+                onClick = {
+                    val i2 = Intent(Intent.ACTION_INSERT, CalendarContract.Events.CONTENT_URI)
+                    i2.putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, cal.timeInMillis)
+                    try {
+                        startActivity(i2)
+                    } catch (e: ActivityNotFoundException) {
+                        Log.e(TAG, "no activity found", e)
+                    }
+                }
+            )
+        )
+        viewModel.setAppBarActions(actions)
     }
 
     private fun cancelEventsLoader() {
@@ -269,9 +245,6 @@ class MyDayFragment : TKWeekBaseFragment<MydayBinding>() {
     private fun updateViews() {
         val prefs = PreferenceManager
             .getDefaultSharedPreferences(requireContext())
-        val hide = prefs.getBoolean("hide_nameday", false)
-        binding.myDayNameDay.visibility = if (hide) View.GONE else View.VISIBLE
-        binding.myDayLabelNameDay.visibility = if (hide) View.GONE else View.VISIBLE
         val hideAstrologicalSign = prefs.getBoolean("hide_astrological_sign", false)
         binding.myDayAstrologicalSign.visibility =
             if (hideAstrologicalSign) View.GONE else View.VISIBLE
@@ -285,15 +258,7 @@ class MyDayFragment : TKWeekBaseFragment<MydayBinding>() {
             R.string.day_of_year, weekNumber,
             maxWeekNumber, maxWeekNumber - weekNumber
         )
-        val strDate = if (DateUtilities.isToday(cal)) {
-            getString(
-                R.string.string1_string2,
-                TKWeekActivity.FORMAT_FULL.format(cal.time),
-                getString(R.string.today)
-            )
-        } else {
-            TKWeekActivity.FORMAT_FULL.format(cal.time)
-        }
+        val strDate = Helper.FORMAT_FULL.format(cal.time)
         if (isDayOff(requireContext(), cal.time)) {
             binding.myDayDate.text = getString(
                 R.string.string1_dash_string2, strDate,
@@ -302,6 +267,7 @@ class MyDayFragment : TKWeekBaseFragment<MydayBinding>() {
         } else {
             binding.myDayDate.text = strDate
         }
+        binding.myDayToday.isEnabled = !DateUtilities.isToday(cal)
         val date = cal.time
         val current = cal.get(Calendar.DAY_OF_YEAR)
         val max = cal.getActualMaximum(Calendar.DAY_OF_YEAR)
@@ -315,7 +281,6 @@ class MyDayFragment : TKWeekBaseFragment<MydayBinding>() {
             R.string.no
         )
         binding.myDayAstrologicalSign.text = Zodiac.getSign(requireContext(), date)
-        binding.myDayNameDay.text = Namenstage.getNameDays(requireContext(), date)
         prepareEventsLoader()
         updateNotes()
     }
@@ -419,9 +384,9 @@ class MyDayFragment : TKWeekBaseFragment<MydayBinding>() {
                 val calFrom = DateUtilities.getCalendar(from)
                 val calTo = DateUtilities.getCalendar(to)
                 dateformat = if (DateUtilities.diffDayPeriods(calFrom, calTo) != 0L) {
-                    TKWeekActivity.FORMAT_DATE_TIME_SHORT
+                    Helper.FORMAT_DATE_TIME_SHORT
                 } else {
-                    TKWeekActivity.FORMAT_TIME_SHORT
+                    Helper.FORMAT_TIME_SHORT
                 }
                 val sb = StringBuilder()
                 var duration = ((appointment.dtend - appointment.dtstart) / 60000).toInt()
@@ -457,12 +422,12 @@ class MyDayFragment : TKWeekBaseFragment<MydayBinding>() {
             sb.append("\n")
         }
         when {
-            mins >= TKWeekActivity.MINUTES_PER_DAY -> {
-                val days = mins / TKWeekActivity.MINUTES_PER_DAY
+            mins >= Helper.MINUTES_PER_DAY -> {
+                val days = mins / Helper.MINUTES_PER_DAY
                 sb.append(days)
                 sb.append(" ")
                 sb.append(this.getString(if (days == 1) R.string.day else R.string.days))
-                mins %= TKWeekActivity.MINUTES_PER_DAY
+                mins %= Helper.MINUTES_PER_DAY
             }
 
             mins >= 60 -> {
@@ -532,7 +497,7 @@ class MyDayFragment : TKWeekBaseFragment<MydayBinding>() {
     }
 
     private fun getNameForNotes(): String {
-        return "Note_" + TKWeekActivity.FORMAT_YYYYMMDD.format(cal.time)
+        return "Note_" + Helper.FORMAT_YYYYMMDD.format(cal.time)
     }
 
     private fun saveNoteAndUpdateUI(note: String) {

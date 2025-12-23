@@ -25,23 +25,58 @@ package com.thomaskuenneth.tkweek.fragment
 
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
+import androidx.preference.CheckBoxPreference
 import androidx.preference.PreferenceFragmentCompat
 import androidx.recyclerview.widget.RecyclerView
+import androidx.window.layout.FoldingFeature
+import androidx.window.layout.WindowInfoTracker
 import com.thomaskuenneth.tkweek.R
+import com.thomaskuenneth.tkweek.preference.PreferenceManager
+import com.thomaskuenneth.tkweek.viewmodel.TKWeekViewModel
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
+@AndroidEntryPoint
 class PreferencesFragment : PreferenceFragmentCompat() {
 
     private var lastRecyclerView: RecyclerView? = null
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
+    private val viewModel: TKWeekViewModel by activityViewModels()
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         addPreferencesFromResource(R.xml.tkweek_preferences)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                WindowInfoTracker.getOrCreate(requireContext())
+                    .windowLayoutInfo(requireActivity())
+                    .collect { newLayoutInfo ->
+                        val hasHinge = newLayoutInfo.displayFeatures.any { it is FoldingFeature }
+                        findPreference<CheckBoxPreference>(PreferenceManager.AVOID_HINGE)?.isVisible =
+                            hasHinge
+                    }
+            }
+        }
+    }
+
+    override fun onViewStateRestored(savedInstanceState: Bundle?) {
+        super.onViewStateRestored(savedInstanceState)
+        viewModel.setAppBarActions(emptyList())
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        viewModel.setDetailScrolled(false)
     }
 
     override fun onCreateRecyclerView(
@@ -50,7 +85,14 @@ class PreferencesFragment : PreferenceFragmentCompat() {
         savedInstanceState: Bundle?
     ): RecyclerView {
         val recyclerView = super.onCreateRecyclerView(inflater, parent, savedInstanceState)
-        ViewCompat.setOnApplyWindowInsetsListener(recyclerView) { view, insets ->
+        recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+                viewModel.setDetailScrolled(recyclerView.canScrollVertically(-1))
+            }
+        })
+        viewModel.setDetailScrolled(recyclerView.canScrollVertically(-1))
+        ViewCompat.setOnApplyWindowInsetsListener(recyclerView) { _, insets ->
             val offset = if (lastRecyclerView != recyclerView) {
                 lastRecyclerView = recyclerView
                 insets.getInsets(WindowInsetsCompat.Type.navigationBars()).bottom

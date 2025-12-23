@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingHorizontal="16dp">
+        android:layout_height="wrap_content">
 
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/main_card"
@@ -25,17 +25,39 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/my_day_date"
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/date_picker_container"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:paddingTop="16dp"
-                    android:paddingBottom="8dp"
-                    android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
+                    android:padding="16dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/my_day_today"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:contentDescription="@string/today"
+                        android:text="@string/today"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/my_day_date"
+                        style="@style/Widget.Material3.Button.OutlinedButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="8dp"
+                        android:ellipsize="start"
+                        android:lines="1"
+                        app:layout_constraintBaseline_toBaselineOf="@id/my_day_today"
+                        app:layout_constraintEnd_toStartOf="@id/my_day_today"
+                        app:layout_constraintStart_toStartOf="parent"
+                        tools:text="Friday, June 14, 2024" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <!-- Key-Value Section -->
                 <androidx.constraintlayout.widget.ConstraintLayout
@@ -46,7 +68,7 @@
                     android:paddingBottom="16dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/my_day_date">
+                    app:layout_constraintTop_toBottomOf="@id/date_picker_container">
 
                     <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/my_day_label_week_number"
@@ -126,23 +148,16 @@
                         app:layout_constraintStart_toEndOf="@id/my_day_label_astrological_sign" />
 
                     <com.google.android.material.textview.MaterialTextView
-                        android:id="@+id/my_day_label_name_day"
+                        android:id="@+id/message"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/name_day"
-                        android:textAppearance="@style/TextAppearance.Material3.BodySmall"
-                        android:textColor="?attr/colorOnSurfaceVariant"
+                        android:layout_marginTop="8dp"
+                        android:gravity="center"
+                        android:text="@string/go_to_settings"
+                        android:textAppearance="?attr/textAppearanceBodyMedium"
+                        app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/my_day_label_astrological_sign" />
-
-                    <com.google.android.material.textview.MaterialTextView
-                        android:id="@+id/my_day_name_day"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="6dip"
-                        android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
-                        app:layout_constraintBaseline_toBaselineOf="@id/my_day_label_name_day"
-                        app:layout_constraintStart_toEndOf="@id/my_day_label_name_day" />
+                        app:layout_constraintTop_toBottomOf="@id/my_day_astrological_sign" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 

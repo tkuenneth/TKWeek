@@ -22,7 +22,8 @@ data class UiState(
     val topLevelModuleWithArguments: TKWeekModuleWithArguments,
     val avoidHinge: Boolean = false,
     val isListScrolled: Boolean = false,
-    val isDetailScrolled: Boolean = false
+    val isDetailScrolled: Boolean = false,
+    val shouldShowProgressIndicator: Boolean = false,
 )
 
 data class AppBarAction(
@@ -101,5 +102,9 @@ class TKWeekViewModel @Inject constructor(
                 topLevel = topLevel
             )
         )
+    }
+
+    fun setShouldShowProgressIndicator(shouldShowProgressIndicator: Boolean) {
+        _uiState.update { it.copy(shouldShowProgressIndicator = shouldShowProgressIndicator) }
     }
 }

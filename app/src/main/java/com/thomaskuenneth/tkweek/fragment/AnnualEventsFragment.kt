@@ -46,6 +46,8 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import androidx.core.content.edit
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.DefaultLifecycleObserver
+import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.google.android.material.search.SearchView
@@ -95,6 +97,11 @@ class AnnualEventsFragment : TKWeekBaseFragment<EventsBinding>(), AdapterView.On
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        lifecycle.addObserver(object : DefaultLifecycleObserver {
+            override fun onStop(owner: LifecycleOwner) {
+                viewModel.setShouldShowProgressIndicator(false)
+            }
+        })
         parentFragmentManager.setFragmentResultListener(
             REQUEST_KEY_BACKUP_RESTORE_FRAGMENT, this
         ) { _, bundle ->
@@ -441,6 +448,7 @@ class AnnualEventsFragment : TKWeekBaseFragment<EventsBinding>(), AdapterView.On
         restore: Boolean, search: String?, isSearch: Boolean = false
     ) {
         loadEventsJob?.cancel()
+        viewModel.setShouldShowProgressIndicator(true)
         loadEventsJob = viewLifecycleOwner.lifecycleScope.launch {
             val result = withContext(Dispatchers.IO) {
                 AnnualEventsListAdapter.create(
@@ -463,6 +471,7 @@ class AnnualEventsFragment : TKWeekBaseFragment<EventsBinding>(), AdapterView.On
                     )
                 }
             }
+            viewModel.setShouldShowProgressIndicator(false)
         }
     }
 

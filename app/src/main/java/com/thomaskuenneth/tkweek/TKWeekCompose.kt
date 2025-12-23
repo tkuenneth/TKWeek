@@ -13,7 +13,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.adaptive.ExperimentalMaterial3AdaptiveApi
 import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
-import androidx.compose.material3.adaptive.layout.AnimatedPane
 import androidx.compose.material3.adaptive.layout.HingePolicy
 import androidx.compose.material3.adaptive.layout.ListDetailPaneScaffoldRole
 import androidx.compose.material3.adaptive.layout.PaneAdaptedValue
@@ -24,7 +23,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.key
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -35,13 +33,9 @@ import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.navigation.NavType
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import androidx.navigation.navArgument
-import com.thomaskuenneth.tkweek.ui.TKWeekModuleContainer
+import com.thomaskuenneth.tkweek.ui.TKWeekDetailPane
 import com.thomaskuenneth.tkweek.ui.TKWeekModuleSelector
 import com.thomaskuenneth.tkweek.ui.TKWeekTopAppBar
 import com.thomaskuenneth.tkweek.ui.colorScheme
@@ -190,35 +184,10 @@ fun TKWeekApp(viewModel: TKWeekViewModel = viewModel()) {
                     )
                 },
                 detailPane = {
-                    AnimatedPane {
-                        val startDestination = uiState.topLevelModuleWithArguments.module.name
-                        key(startDestination) {
-                            NavHost(
-                                navController = navController,
-                                startDestination = startDestination
-                            ) {
-                                TKWeekModule.entries.forEach { moduleEntry ->
-                                    composable(
-                                        route = moduleEntry.name,
-                                        arguments = listOf(navArgument(ARGUMENTS) {
-                                            type = NavType.ParcelableType(Bundle::class.java)
-                                            nullable = true
-                                        })
-                                    ) {
-                                        val args =
-                                            navController.previousBackStackEntry?.savedStateHandle?.get<Bundle>(
-                                                ARGUMENTS
-                                            )
-
-                                        TKWeekModuleContainer(
-                                            module = moduleEntry,
-                                            arguments = args
-                                        )
-                                    }
-                                }
-                            }
-                        }
-                    }
+                    TKWeekDetailPane(
+                        uiState = uiState,
+                        navController = navController
+                    )
                 }
             )
         }

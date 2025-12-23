@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.adaptive.ExperimentalMaterial3AdaptiveApi
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.remember
@@ -16,7 +15,6 @@ import androidx.fragment.app.FragmentContainerView
 import com.thomaskuenneth.tkweek.R
 import com.thomaskuenneth.tkweek.TKWeekModule
 
-@OptIn(ExperimentalMaterial3AdaptiveApi::class)
 @Composable
 fun TKWeekModuleContainer(
     module: TKWeekModule,

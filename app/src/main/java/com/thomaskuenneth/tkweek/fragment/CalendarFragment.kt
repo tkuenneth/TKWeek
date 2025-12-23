@@ -24,6 +24,7 @@
 package com.thomaskuenneth.tkweek.fragment
 
 import android.content.Context
+import android.content.SharedPreferences
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.graphics.drawable.GradientDrawable
@@ -423,6 +424,11 @@ class CalendarFragment : TKWeekBaseFragment<CalendarBinding>(), View.OnClickList
             val prefs = context.getSharedPreferences(
                 TAG, Context.MODE_PRIVATE
             )
+            return isDayOff(prefs, date)
+        }
+
+        @JvmStatic
+        fun isDayOff(prefs: SharedPreferences, date: Date): Boolean {
             return prefs.getBoolean(Helper.FORMAT_YYYYMMDD.format(date), false)
         }
     }

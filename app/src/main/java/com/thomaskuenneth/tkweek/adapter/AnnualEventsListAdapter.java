@@ -322,7 +322,7 @@ public class AnnualEventsListAdapter extends BaseAdapter implements Comparator<E
         Context context = convertView.getContext();
         holder.text1.setText(getDescription(event, context));
         var strDate = getDateAsString(event, context);
-        if (CalendarFragment.isDayOff(context, DateUtilities.getCalendar(event).getTime())) {
+        if (CalendarFragment.isDayOff(prefs, DateUtilities.getCalendar(event).getTime())) {
             holder.text2.setText(context.getString(R.string.string1_string2, strDate, context.getString(R.string.day_off)));
         } else {
             holder.text2.setText(strDate);

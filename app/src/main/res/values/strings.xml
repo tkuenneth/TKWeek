@@ -318,16 +318,20 @@ access your contacts data to display birthdays and anniversaries. You can deacti
     <string name="tasks">tasks</string>
     <string name="events">events</string>
     <string name="toast_task_completed">Task completed.</string>
-    <string name="missing_right_create_task">To create tasks,
+    <string name="missing_permission_create_task">To create tasks,
 you need to grant access to contacts in system settings.</string>
-    <string name="needed_right_create_task">To create tasks,
-TKWeek needs to access your contacts.</string>
     <string name="no_title">(no title)</string>
     <string name="new_appointment">New appointment</string>
     <string name="no_notes">no notes</string>
     <string name="no_permission">no permission</string>
     <string name="add_note">Add note</string>
     <string name="edit_note">Edit note</string>
+    <string name="missed_calls">Missed calls</string>
+    <string name="missing_permission_call_log">To display missed calls,
+TKWeek needs to access the call log. If you do not want to see
+missed calls, you can hide them in Settings.</string>
+    <string name="error_call_log">Error accessing call log</string>
+    <string name="hide_missed_calls">Hide missed calls</string>
 
     <!-- EventsListWidget -->
     <string name="events_list_widget_name">Events list</string>
@@ -409,11 +413,5 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 	</string>
     <string name="avoid_hinge">Avoid hinge</string>
-    <string name="missed_calls">Missed calls</string>
-    <string name="str_need_call_log_permission">To display missed calls,
-TKWeek needs to access the call log. If you do not want to see
-missed calls, you can hide them in Settings.</string>
-    <string name="error_call_log">Error accessing call log</string>
-    <string name="myday_activity_hide_missed_calls">Hide missed calls</string>
 
 </resources>

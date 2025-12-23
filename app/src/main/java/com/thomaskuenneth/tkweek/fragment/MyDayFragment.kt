@@ -533,6 +533,22 @@ class MyDayFragment : TKWeekBaseFragment<MydayBinding>() {
         if (show) {
             binding.myDayMissedCalls.removeAllViews()
             val inflater = layoutInflater
+            var showIfNoPermission = true
+            if (!TKWeekUtils.canReadCallLog(requireContext()) && shouldShowPermissionReadCallLogRationale()) {
+                val layout =
+                    inflater.inflate(
+                        R.layout.message_link_to_settings,
+                        binding.myDayMissedCalls,
+                        false
+                    ) as ConstraintLayout
+                linkToSettings(layout, requireActivity(), R.string.missing_permission_call_log)
+                val button = layout.findViewById<Button>(R.id.button)
+                button.setOnClickListener {
+                    requestReadCallLog()
+                }
+                binding.myDayMissedCalls.addView(layout)
+                showIfNoPermission = false
+            }
             if (TKWeekUtils.canReadCallLog(requireContext())) {
                 val list = runInterruptible(Dispatchers.IO) {
                     getMissedCalls()
@@ -600,21 +616,8 @@ class MyDayFragment : TKWeekBaseFragment<MydayBinding>() {
                     text4.visibility = View.VISIBLE
                 }
                 maybeAddNone(inflater, binding.myDayMissedCalls)
-            } else {
-                val layout =
-                    inflater.inflate(
-                        R.layout.message_link_to_settings,
-                        binding.myDayMissedCalls,
-                        false
-                    ) as ConstraintLayout
-                linkToSettings(layout, requireActivity(), R.string.str_need_call_log_permission)
-                val button = layout.findViewById<Button>(R.id.button)
-                button.setOnClickListener {
-                    requestReadCallLog()
-                }
-                button.visibility = if (shouldShowPermissionReadCallLogRationale()
-                ) View.VISIBLE else View.GONE
-                binding.myDayMissedCalls.addView(layout)
+            } else if (showIfNoPermission) {
+                addNoPermission(inflater, binding.myDayMissedCalls)
             }
         }
     }

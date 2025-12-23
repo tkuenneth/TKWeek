@@ -1,11 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-	strings.xml (de)
-	TKWeek (c) 2009 - 2020 Thomas Künneth
-	           2021 MATHEMA GmbH
-	All rights reserved.
--->
-
 <resources>
 
     <string name="not_successful">%1$s war nicht erfolgreich.</string>
@@ -258,10 +251,8 @@
     <string name="tasks">Aufgaben</string>
     <string name="events">Ereignisse</string>
     <string name="toast_task_completed">Aufgabe abgeschlossen.</string>
-	<string name="missing_right_create_task">Um Aufgaben anlegen zu können, müssen
+	<string name="missing_permission_create_task">Um Aufgaben anlegen zu können, müssen
 Sie TKWeek in den Systemeinstellungen den Zugriff auf Kontakte gewähren.</string>
-	<string name="needed_right_create_task">Um Aufgaben anlegen zu können, müssen
-Sie TKWeek den Zugriff auf Kontakte gestatten.</string>
     <string name="no_title">(kein Titel)</string>
     <string name="new_appointment">Neuer Termin</string>
     <string name="no_notes">keine Notizen</string>
@@ -272,6 +263,12 @@ Sie TKWeek den Zugriff auf Kontakte gestatten.</string>
     <string name="str_permission_post_notifications">TKWeek möchte einmal pro Tag Benachrichtigungen senden.</string>
     <string name="add_note">Notiz hinzufügen</string>
     <string name="edit_note">Notiz bearbeiten</string>
+    <string name="missed_calls">Verpasste Anrufe</string>
+    <string name="missing_permission_call_log">Um verpasste Anrufe anzuzeigen,
+benötigt TKWeek Zugriff auf die Anrufliste. Wenn Sie keine verpassten Anrufe sehen möchten,
+können Sie diese in den Einstellungen ausblenden.</string>
+    <string name="error_call_log">Fehler beim Zugriff auf die Anrufliste</string>
+    <string name="hide_missed_calls">Verpasste Anrufe ausblenden</string>
 
     <!-- EventsListWidget -->
     <string name="events_list_widget_name">Ereignisliste</string>

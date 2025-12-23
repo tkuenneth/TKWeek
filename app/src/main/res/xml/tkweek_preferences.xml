@@ -105,7 +105,7 @@
 
         <CheckBoxPreference
             android:key="hide_missed_calls"
-            android:title="@string/myday_activity_hide_missed_calls" />
+            android:title="@string/hide_missed_calls" />
 
         <CheckBoxPreference
             android:key="hide_appointments"

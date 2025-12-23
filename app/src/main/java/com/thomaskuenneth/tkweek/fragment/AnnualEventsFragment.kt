@@ -518,11 +518,6 @@ class AnnualEventsFragment : TKWeekBaseFragment<EventsBinding>(), AdapterView.On
             if (shouldShowPermissionPostNotificationsRationale()) View.VISIBLE else View.GONE
     }
 
-//    private fun updateListAndOptionsMenu() {
-//        setListAdapterLoadEvents(false, searchString)
-//        updateAppBarActions()
-//    }
-
     private fun showError() {
         val message = getString(
             R.string.not_successful, getString(R.string.annual_event_backup_restore)

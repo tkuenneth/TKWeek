@@ -226,8 +226,8 @@ public class AnnualEventsListAdapter extends BaseAdapter implements Comparator<E
         }
         loadUserEvents(context, getUserEventsFile(context), yearFrom, yearTo);
         if (!prefs.getBoolean("hide_allday_events", false)) {
-            List<Event> alldayEvents = CalendarContractUtils.getAllDayEvents(context, calFrom, calTo, expandAllDayEvents);
-            addAll(alldayEvents);
+            List<Event> allDayEvents = CalendarContractUtils.getAllDayEvents(context, calFrom, calTo, expandAllDayEvents);
+            addAll(allDayEvents);
         }
         data.sort(this);
     }

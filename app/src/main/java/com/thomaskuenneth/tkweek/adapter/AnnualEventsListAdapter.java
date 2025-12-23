@@ -31,6 +31,8 @@ import android.appwidget.AppWidgetManager;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.Handler;
+import android.os.Looper;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -276,13 +278,15 @@ public class AnnualEventsListAdapter extends BaseAdapter implements Comparator<E
     }
 
     public void updateEventsListWidgets(Context context) {
-        AppWidgetManager m = AppWidgetManager.getInstance(context);
-        if (m != null) {
-            int[] appWidgetIds = m.getAppWidgetIds(new ComponentName(context, EventsListWidget.class));
-            if ((appWidgetIds != null) && (appWidgetIds.length > 0)) {
-                EventsListWidget.updateWidgets(context, m, appWidgetIds);
+        new Handler(Looper.getMainLooper()).post(() -> {
+            AppWidgetManager m = AppWidgetManager.getInstance(context);
+            if (m != null) {
+                int[] appWidgetIds = m.getAppWidgetIds(new ComponentName(context, EventsListWidget.class));
+                if ((appWidgetIds != null) && (appWidgetIds.length > 0)) {
+                    EventsListWidget.updateWidgets(context, m, appWidgetIds);
+                }
             }
-        }
+        });
     }
 
     @Override

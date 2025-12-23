@@ -559,11 +559,9 @@ class MyDayFragment : TKWeekBaseFragment<MydayBinding>() {
                     val parent =
                         inflater.inflate(R.layout.two_line_item, binding.myDayMissedCalls, false)
                     binding.myDayMissedCalls.addView(parent)
-                    // divider
-                    if (position > 0) {
-                        val divider = parent.findViewById<View>(R.id.divider)
-                        divider.visibility = View.VISIBLE
-                    }
+                    parent.setPadding(0, 0, 0, 0)
+                    val divider = parent.findViewById<View>(R.id.divider)
+                    divider.visibility = if (position > 0) View.VISIBLE else View.GONE
                     val text1 = parent.findViewById<TextView>(R.id.text1)
                     val text2 = parent.findViewById<TextView>(R.id.text2)
                     val text3 = parent.findViewById<TextView>(R.id.text3)
@@ -574,8 +572,9 @@ class MyDayFragment : TKWeekBaseFragment<MydayBinding>() {
                             Calls.CONTENT_URI,
                             call._id.toString()
                         )
-                        val intent = Intent(Intent.ACTION_VIEW, uri)
-                        intent.type = Calls.CONTENT_TYPE
+                        val intent = Intent(Intent.ACTION_VIEW).apply {
+                            setDataAndType(uri, Calls.CONTENT_TYPE)
+                        }
                         try {
                             startActivity(intent)
                         } catch (e: ActivityNotFoundException) {

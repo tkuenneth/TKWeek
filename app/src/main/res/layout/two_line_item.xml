@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="?android:attr/activatedBackgroundIndicator"
@@ -9,13 +10,11 @@
     android:paddingHorizontal="16dp"
     android:paddingVertical="12dp">
 
-    <com.google.android.material.divider.MaterialDivider
+    <Space
         android:id="@+id/divider"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="4dp"
         android:visibility="gone"
-        app:dividerColor="?attr/colorSurface"
-        app:dividerThickness="2dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -26,9 +25,24 @@
         android:layout_height="wrap_content"
         android:textAppearance="?attr/textAppearanceBodyLarge"
         android:textColor="@color/list_item_color_selector"
+        app:layout_constraintBottom_toTopOf="@id/text2"
         app:layout_constraintEnd_toStartOf="@id/text3"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/divider" />
+        app:layout_constraintTop_toBottomOf="@id/divider"
+        tools:text="Text 1 Text 1 Text 1 Text 1 Text 1 Text 1 Text 1 Text 1 Text 1 Text 1" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/text3"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:gravity="end"
+        android:textAppearance="?attr/textAppearanceBodyLarge"
+        android:textColor="@color/list_item_color_selector"
+        app:layout_constraintBaseline_toBaselineOf="@id/text1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/text1"
+        tools:text="Text 3 Text 3 Text 3 Text 3 Text 3 Text 3 Text 3 Text 3 Text 3 Text 3" />
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/text2"
@@ -36,35 +50,22 @@
         android:layout_height="wrap_content"
         android:textAppearance="?attr/textAppearanceBodyMedium"
         android:textColor="@color/list_item_color_selector"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/text4"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/text1" />
-
-    <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/text3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="end"
-        android:layout_marginStart="16dp"
-        android:textAppearance="?attr/textAppearanceBodyLarge"
-        android:textColor="@color/list_item_color_selector"
-        app:layout_constraintBaseline_toBaselineOf="@id/text1"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/text1" />
+        app:layout_constraintTop_toBottomOf="@id/text1"
+        tools:text="Text 2 Text 2 Text 2 Text 2 Text 2 Text 2 Text 2 Text 2 Text 2 Text 2" />
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/text4"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:gravity="end"
         android:layout_marginStart="16dp"
-        android:singleLine="true"
+        android:gravity="end"
         android:textAppearance="?attr/textAppearanceBodyMedium"
         android:textColor="@color/list_item_color_selector"
-        android:visibility="gone"
-        app:layout_constraintBaseline_toBaselineOf="@id/text2"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/text2" />
+        app:layout_constraintStart_toEndOf="@id/text2"
+        app:layout_constraintTop_toBottomOf="@id/text3"
+        tools:text="Text 4 Text 4 Text 4 Text 4 Text 4 Text 4 Text 4 Text 4 Text 4 Text 4" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -36,6 +36,7 @@
 
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/date_calculator_today"
+                        style="@style/Widget.Material3.Button.TonalButton"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:contentDescription="@string/today"
@@ -183,6 +184,7 @@
 
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/date_calculator_add"
+                        style="@style/Widget.Material3.Button.TonalButton"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:minWidth="64dp"
@@ -194,6 +196,7 @@
 
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/date_calculator_subtract"
+                        style="@style/Widget.Material3.Button.TonalButton"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
@@ -206,6 +209,7 @@
 
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/date_calculator_clear"
+                        style="@style/Widget.Material3.Button.TonalButton"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="24dp"

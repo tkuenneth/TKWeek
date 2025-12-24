@@ -12,7 +12,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentContainerView
-import com.thomaskuenneth.tkweek.R
 import com.thomaskuenneth.tkweek.TKWeekModule
 
 @Composable
@@ -35,12 +34,6 @@ fun TKWeekModuleContainer(
         val fragment = module.clazz.getConstructor().newInstance() as Fragment
         fragment.arguments = arguments
         fragmentManager.beginTransaction()
-            .setCustomAnimations(
-                R.anim.slide_in_right,
-                R.anim.slide_out_left,
-                R.anim.slide_in_right,
-                R.anim.slide_out_left
-            )
             .replace(containerId, fragment, moduleName)
             .commitNow()
 

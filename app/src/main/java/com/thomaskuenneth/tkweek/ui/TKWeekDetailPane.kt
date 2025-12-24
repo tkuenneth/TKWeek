@@ -2,10 +2,6 @@ package com.thomaskuenneth.tkweek.ui
 
 import android.os.Bundle
 import androidx.compose.animation.AnimatedContentTransitionScope
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
-import androidx.compose.animation.scaleIn
-import androidx.compose.animation.scaleOut
 import androidx.compose.foundation.layout.Box
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.adaptive.ExperimentalMaterial3AdaptiveApi
@@ -45,20 +41,16 @@ fun ThreePaneScaffoldPaneScope.TKWeekDetailPane(
                             nullable = true
                         }),
                         enterTransition = {
-                            slideIntoContainer(AnimatedContentTransitionScope.SlideDirection.Start) +
-                                    fadeIn() + scaleIn(initialScale = 0.9f)
+                            slideIntoContainer(AnimatedContentTransitionScope.SlideDirection.Start)
                         },
                         exitTransition = {
-                            slideOutOfContainer(AnimatedContentTransitionScope.SlideDirection.Start) +
-                                    fadeOut() + scaleOut(targetScale = 1.1f)
+                            slideOutOfContainer(AnimatedContentTransitionScope.SlideDirection.Start)
                         },
                         popEnterTransition = {
-                            slideIntoContainer(AnimatedContentTransitionScope.SlideDirection.End) +
-                                    fadeIn() + scaleIn(initialScale = 1.1f)
+                            slideIntoContainer(AnimatedContentTransitionScope.SlideDirection.Start)
                         },
                         popExitTransition = {
-                            slideOutOfContainer(AnimatedContentTransitionScope.SlideDirection.End) +
-                                    fadeOut() + scaleOut(targetScale = 0.9f)
+                            slideOutOfContainer(AnimatedContentTransitionScope.SlideDirection.Start)
                         }
                     ) {
                         val args =

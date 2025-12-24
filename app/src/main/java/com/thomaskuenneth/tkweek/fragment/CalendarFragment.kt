@@ -253,6 +253,9 @@ class CalendarFragment : TKWeekBaseFragment<CalendarBinding>(), View.OnClickList
     }
 
     private fun updateCalendar() {
+        val now = Calendar.getInstance()
+        binding.calendarToday.isEnabled =
+            cal[Calendar.YEAR] != now[Calendar.YEAR] || cal[Calendar.MONTH] != now[Calendar.MONTH]
         monthsAdapter.updateSelectedPosition(cal[Calendar.MONTH])
         val defaultColor = binding.calendarLayoutRecent.recent1.textColors
         val activeColor = MaterialColors.getColor(

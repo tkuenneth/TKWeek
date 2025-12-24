@@ -24,8 +24,10 @@
 package com.thomaskuenneth.tkweek.fragment
 
 import android.app.Dialog
+import android.content.Context
 import android.content.DialogInterface
 import android.os.Bundle
+import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import androidx.appcompat.app.AlertDialog
 import androidx.core.widget.doAfterTextChanged
@@ -61,9 +63,18 @@ class EditNotesFragment : DialogFragment() {
         }
         dialog.setOnShowListener {
             notes.setText(initialNote)
+            notes.requestFocus()
             updateButton(dialog)
         }
+        dialog.window?.setSoftInputMode(android.view.WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE)
         return dialog
+    }
+
+    override fun onDismiss(dialog: DialogInterface) {
+        super.onDismiss(dialog)
+        context?.getSystemService(InputMethodManager::class.java)?.run {
+            hideSoftInputFromWindow(notes.windowToken, 0)
+        }
     }
 
     private fun updateButton(dialog: AlertDialog) {

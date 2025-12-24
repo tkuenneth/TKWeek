@@ -48,7 +48,6 @@
 
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/calendar_down"
-                        style="?attr/materialIconButtonFilledStyle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:contentDescription="@string/previous_year"
@@ -64,7 +63,7 @@
                         android:id="@+id/calendar_year"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:minWidth="48dp"
+                        android:minWidth="80dp"
                         android:gravity="center"
                         android:textAppearance="?attr/textAppearanceBodyLarge"
                         app:layout_constraintBaseline_toBaselineOf="@id/calendar_down"
@@ -74,7 +73,6 @@
 
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/calendar_up"
-                        style="?attr/materialIconButtonFilledStyle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:contentDescription="@string/next_year"

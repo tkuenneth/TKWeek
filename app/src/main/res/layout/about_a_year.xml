@@ -37,7 +37,6 @@
 
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/about_a_year_down"
-                        style="?attr/materialIconButtonFilledStyle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:contentDescription="@string/previous_year"
@@ -53,7 +52,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="center"
-                        android:minWidth="48dp"
+                        android:minWidth="80dp"
                         android:textAppearance="?attr/textAppearanceBodyLarge"
                         app:layout_constraintBaseline_toBaselineOf="@id/about_a_year_down"
                         app:layout_constraintEnd_toStartOf="@+id/about_a_year_up"
@@ -62,7 +61,6 @@
 
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/about_a_year_up"
-                        style="?attr/materialIconButtonFilledStyle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:contentDescription="@string/next_year"

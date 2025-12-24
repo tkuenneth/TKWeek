@@ -23,8 +23,6 @@
 package com.thomaskuenneth.tkweek.util
 
 import android.app.PendingIntent
-import android.appwidget.AppWidgetManager
-import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
@@ -142,32 +140,6 @@ object Helper {
             .getDefaultSharedPreferences(context)
         prefs.edit {
             putInt(key, value)
-        }
-    }
-
-    @JvmStatic
-    fun updateWidgets(context: Context?, widgetClasses: Array<Class<*>>) {
-        val m = AppWidgetManager.getInstance(context)
-        if (m != null) {
-            for (widgetClass in widgetClasses) {
-                val appWidgetIds = m.getAppWidgetIds(
-                    ComponentName(
-                        context!!, widgetClass
-                    )
-                )
-                if (appWidgetIds != null && appWidgetIds.isNotEmpty()) {
-                    try {
-                        val method = widgetClass.getMethod(
-                            "updateWidgets",
-                            Context::class.java,
-                            AppWidgetManager::class.java, IntArray::class.java
-                        )
-                        method.invoke(null, context, m, appWidgetIds)
-                    } catch (t: Throwable) {
-                        Log.e(TAG, "updateWidgets()", t)
-                    }
-                }
-            }
         }
     }
 

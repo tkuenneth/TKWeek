@@ -50,8 +50,6 @@ object Helper {
     const val PAYLOAD = "payload"
     const val DATE = "date"
 
-    const val EXTRA_MODULE = "module"
-
     const val DASHES = "---"
 
     const val MINUTES_PER_DAY = 24 * 60
@@ -100,9 +98,6 @@ object Helper {
     )
 
     @JvmField
-    val FORMAT_YYMM: DateFormat = SimpleDateFormat("MMdd", Locale.US)
-
-    @JvmField
     val FORMAT_DATE_TIME_SHORT: DateFormat = DateFormat
         .getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT)
 
@@ -111,17 +106,6 @@ object Helper {
         android.text.format.DateFormat.getBestDateTimePattern(Locale.getDefault(), "EEEddMMMyyyy"),
         Locale.getDefault()
     )
-
-    @JvmStatic
-    fun startActivityClearTopNewTask(
-        context: Context,
-        clazz: Class<*>?
-    ) {
-        val intent = Intent(context, clazz)
-        intent.flags = (Intent.FLAG_ACTIVITY_CLEAR_TOP
-                or Intent.FLAG_ACTIVITY_NEW_TASK)
-        context.startActivity(intent)
-    }
 
     fun configureDatePicker(dp: DatePicker) {
         dp.minDate = dp.minDate

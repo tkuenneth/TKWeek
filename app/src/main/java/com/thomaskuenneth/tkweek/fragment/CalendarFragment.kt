@@ -352,7 +352,7 @@ class CalendarFragment : TKWeekBaseFragment<CalendarBinding>(), View.OnClickList
             val holidayEvents = (0 until adapter.count)
                 .map { adapter.getItem(it) as Event }
                 .filter { AnnualEventsFragment.isHoliday(requireContext(), it) }
-                .map { Helper.FORMAT_YYYYMMDD.format(DateUtilities.getCalendar(it).time) }
+                .map { Helper.FORMAT_YYYY_MM_DD.format(DateUtilities.getCalendar(it).time) }
                 .toSet()
             if (holidayEvents.isNotEmpty()) {
                 for (week in 1..6) {
@@ -361,7 +361,7 @@ class CalendarFragment : TKWeekBaseFragment<CalendarBinding>(), View.OnClickList
                         if (pos < days.size) {
                             val view = days[pos]
                             (view.tag as? Date)?.let { date ->
-                                if (holidayEvents.contains(Helper.FORMAT_YYYYMMDD.format(date))) {
+                                if (holidayEvents.contains(Helper.FORMAT_YYYY_MM_DD.format(date))) {
                                     createHolidayBackground(view)
                                 }
                             }
@@ -408,7 +408,7 @@ class CalendarFragment : TKWeekBaseFragment<CalendarBinding>(), View.OnClickList
                 TAG, Context.MODE_PRIVATE
             )
             prefs.edit {
-                putBoolean(Helper.FORMAT_YYYYMMDD.format(date), dayOff)
+                putBoolean(Helper.FORMAT_YYYY_MM_DD.format(date), dayOff)
             }
         }
 
@@ -429,7 +429,7 @@ class CalendarFragment : TKWeekBaseFragment<CalendarBinding>(), View.OnClickList
 
         @JvmStatic
         fun isDayOff(prefs: SharedPreferences, date: Date): Boolean {
-            return prefs.getBoolean(Helper.FORMAT_YYYYMMDD.format(date), false)
+            return prefs.getBoolean(Helper.FORMAT_YYYY_MM_DD.format(date), false)
         }
     }
 

@@ -28,7 +28,6 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Build
 import android.util.Log
-import android.widget.DatePicker
 import androidx.core.content.edit
 import androidx.preference.PreferenceManager
 import com.thomaskuenneth.tkweek.R
@@ -53,12 +52,7 @@ object Helper {
     const val MINUTES_PER_DAY = 24 * 60
 
     @JvmField
-    val FORMAT_DDMMYY = SimpleDateFormat(
-        "dd.MM.yy", Locale.US
-    )
-
-    @JvmField
-    val FORMAT_YYYYMMDD: DateFormat = SimpleDateFormat(
+    val FORMAT_YYYY_MM_DD: DateFormat = SimpleDateFormat(
         "yyyyMMdd", Locale.US
     )
 
@@ -104,11 +98,6 @@ object Helper {
         android.text.format.DateFormat.getBestDateTimePattern(Locale.getDefault(), "EEEddMMMyyyy"),
         Locale.getDefault()
     )
-
-    fun configureDatePicker(dp: DatePicker) {
-        dp.minDate = dp.minDate
-        dp.maxDate = dp.maxDate
-    }
 
     @JvmStatic
     fun getInfinitySymbol(context: Context): String? {

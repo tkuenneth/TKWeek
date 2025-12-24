@@ -501,7 +501,7 @@ class MyDayFragment : TKWeekBaseFragment<MydayBinding>() {
     }
 
     private fun getNameForNotes(): String {
-        return "Note_" + Helper.FORMAT_YYYYMMDD.format(cal.time)
+        return "Note_" + Helper.FORMAT_YYYY_MM_DD.format(cal.time)
     }
 
     private fun saveNoteAndUpdateUI(note: String) {

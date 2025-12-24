@@ -456,7 +456,7 @@ public class DateUtilities {
             if (m.matches()) {
                 String date = m.group(1) + m.group(2) + m.group(3);
                 try {
-                    result = Helper.FORMAT_YYYYMMDD.parse(date);
+                    result = Helper.FORMAT_YYYY_MM_DD.parse(date);
                 } catch (Throwable tr) {
                     Log.e(TAG, "getDateFromString1()", tr);
                 }
@@ -492,7 +492,7 @@ public class DateUtilities {
     public static int getAge(Date birthday, Calendar when) {
         int age = 0;
         if ((birthday != null) && (when != null)) {
-            String stringBirthday = Helper.FORMAT_YYYYMMDD.format(birthday);
+            String stringBirthday = Helper.FORMAT_YYYY_MM_DD.format(birthday);
             int yearBirthday = Integer.parseInt(stringBirthday.substring(0, 4));
             int yearToday = when.get(Calendar.YEAR);
             age = yearToday - yearBirthday;
@@ -528,8 +528,8 @@ public class DateUtilities {
     public static boolean isToday(Calendar cal) {
         Date now = new Date();
         Date date = cal.getTime();
-        String strNow = Helper.FORMAT_YYYYMMDD.format(now);
-        String strDate = Helper.FORMAT_YYYYMMDD.format(date);
+        String strNow = Helper.FORMAT_YYYY_MM_DD.format(now);
+        String strDate = Helper.FORMAT_YYYY_MM_DD.format(date);
         return strNow.equals(strDate);
     }
 

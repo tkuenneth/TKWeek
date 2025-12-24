@@ -55,7 +55,7 @@ fun updateRecents(
 }
 
 fun addDate(context: Context, key: String, date: Date) {
-    val string = Helper.FORMAT_YYYYMMDD.format(date)
+    val string = Helper.FORMAT_YYYY_MM_DD.format(date)
     var found = false
     var i = 0
     while (i < numRecents) {
@@ -85,7 +85,7 @@ private fun populateRecent(tv: TextView, pos: Int) {
     var date: Date? = null
     recents[pos]?.let { str ->
         try {
-            date = Helper.FORMAT_YYYYMMDD.parse(str)
+            date = Helper.FORMAT_YYYY_MM_DD.parse(str)
             date?.let {
                 tv.text = Helper.FORMAT_DATE_SHORT.format(it)
             }

@@ -490,7 +490,7 @@ class AnnualEventsFragment : TKWeekBaseFragment<EventsBinding>(), AdapterView.On
             type = "text/plain"
             putExtra(
                 Intent.EXTRA_TITLE,
-                "AnnualEvents_${Helper.FORMAT_YYYYMMDD.format(Date())}.txt"
+                "AnnualEvents_${Helper.FORMAT_YYYY_MM_DD.format(Date())}.txt"
             )
         }
         startActivityForResult(intent, BACKUP)

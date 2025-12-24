@@ -1,6 +1,11 @@
 package com.thomaskuenneth.tkweek.ui
 
 import android.os.Bundle
+import androidx.compose.animation.AnimatedContentTransitionScope
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.scaleIn
+import androidx.compose.animation.scaleOut
 import androidx.compose.foundation.layout.Box
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.adaptive.ExperimentalMaterial3AdaptiveApi
@@ -38,7 +43,23 @@ fun ThreePaneScaffoldPaneScope.TKWeekDetailPane(
                         arguments = listOf(navArgument(ARGUMENTS) {
                             type = NavType.ParcelableType(Bundle::class.java)
                             nullable = true
-                        })
+                        }),
+                        enterTransition = {
+                            slideIntoContainer(AnimatedContentTransitionScope.SlideDirection.Start) +
+                                    fadeIn() + scaleIn(initialScale = 0.9f)
+                        },
+                        exitTransition = {
+                            slideOutOfContainer(AnimatedContentTransitionScope.SlideDirection.Start) +
+                                    fadeOut() + scaleOut(targetScale = 1.1f)
+                        },
+                        popEnterTransition = {
+                            slideIntoContainer(AnimatedContentTransitionScope.SlideDirection.End) +
+                                    fadeIn() + scaleIn(initialScale = 1.1f)
+                        },
+                        popExitTransition = {
+                            slideOutOfContainer(AnimatedContentTransitionScope.SlideDirection.End) +
+                                    fadeOut() + scaleOut(targetScale = 0.9f)
+                        }
                     ) {
                         val args =
                             navController.previousBackStackEntry?.savedStateHandle?.get<Bundle>(
@@ -48,7 +69,7 @@ fun ThreePaneScaffoldPaneScope.TKWeekDetailPane(
                         Box(contentAlignment = Alignment.Center) {
                             TKWeekModuleContainer(
                                 module = moduleEntry,
-                                arguments = args
+                                arguments = args,
                             )
                             if (uiState.shouldShowProgressIndicator) {
                                 CircularProgressIndicator()

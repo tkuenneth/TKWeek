@@ -136,7 +136,7 @@ class WeekFragment : TKWeekBaseFragment<WeekBinding>(),
     }
 
     private fun updateViews(updateWeekSelection: Boolean = true) {
-        binding.dateWithinWeek.text = Helper.FORMAT_FULL.format(cal.time)
+        binding.dateWithinWeek.text = Helper.FORMAT_EEE_D_MMM_YYYY.format(cal.time)
         val weekOfYear = cal[Calendar.WEEK_OF_YEAR]
         binding.weekNumber.text = TKWeekUtils.integerToString(weekOfYear)
         val temp = cal.clone() as Calendar

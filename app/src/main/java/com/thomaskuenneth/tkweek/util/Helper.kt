@@ -31,6 +31,7 @@ import android.content.SharedPreferences
 import android.os.Build
 import android.util.Log
 import android.widget.DatePicker
+import androidx.core.content.edit
 import androidx.preference.PreferenceManager
 import com.thomaskuenneth.tkweek.R
 import com.thomaskuenneth.tkweek.TKWeekCompose
@@ -105,6 +106,12 @@ object Helper {
     val FORMAT_DATE_TIME_SHORT: DateFormat = DateFormat
         .getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT)
 
+    @JvmField
+    val FORMAT_EEE_D_MMM_YYYY: DateFormat = SimpleDateFormat(
+        android.text.format.DateFormat.getBestDateTimePattern(Locale.getDefault(), "EEEddMMMyyyy"),
+        Locale.getDefault()
+    )
+
     @JvmStatic
     fun startActivityClearTopNewTask(
         context: Context,
@@ -140,18 +147,18 @@ object Helper {
     fun putString(context: Context, key: String?, value: String?) {
         val prefs = PreferenceManager
             .getDefaultSharedPreferences(context)
-        val editor = prefs.edit()
-        editor.putString(key, value)
-        editor.apply()
+        prefs.edit {
+            putString(key, value)
+        }
     }
 
     @JvmStatic
     fun putInt(context: Context, key: String?, value: Int) {
         val prefs = PreferenceManager
             .getDefaultSharedPreferences(context)
-        val editor = prefs.edit()
-        editor.putInt(key, value)
-        editor.apply()
+        prefs.edit {
+            putInt(key, value)
+        }
     }
 
     @JvmStatic

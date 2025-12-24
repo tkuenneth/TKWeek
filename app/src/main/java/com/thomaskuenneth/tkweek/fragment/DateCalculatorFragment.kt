@@ -103,7 +103,7 @@ class DateCalculatorFragment : TKWeekBaseFragment<DateCalculatorBinding>() {
         } else {
             temp.add(Calendar.DAY_OF_MONTH, getInt(binding.days, subtract))
         }
-        binding.dateCalculatorResult.text = Helper.FORMAT_FULL.format(temp.time)
+        binding.dateCalculatorResult.text = Helper.FORMAT_EEE_D_MMM_YYYY.format(temp.time)
         if (binding.dateCalculatorReuseResult.isChecked) {
             cal.time = temp.time
             updateDateButton()
@@ -111,7 +111,7 @@ class DateCalculatorFragment : TKWeekBaseFragment<DateCalculatorBinding>() {
     }
 
     private fun updateDateButton() {
-        binding.dateCalculatorDate.text = Helper.FORMAT_FULL.format(cal.time)
+        binding.dateCalculatorDate.text = Helper.FORMAT_EEE_D_MMM_YYYY.format(cal.time)
         binding.dateCalculatorToday.isEnabled = !DateUtilities.isToday(cal)
     }
 

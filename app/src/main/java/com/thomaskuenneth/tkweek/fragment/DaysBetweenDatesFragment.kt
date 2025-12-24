@@ -89,8 +89,8 @@ class DaysBetweenDatesFragment : TKWeekBaseFragment<DaysBetweenDatesActivityBind
     }
 
     private fun update() {
-        binding.firstDate.text = Helper.FORMAT_FULL.format(calFirstDate.time)
-        binding.secondDate.text = Helper.FORMAT_FULL.format(calSecondDate.time)
+        binding.firstDate.text = Helper.FORMAT_EEE_D_MMM_YYYY.format(calFirstDate.time)
+        binding.secondDate.text = Helper.FORMAT_EEE_D_MMM_YYYY.format(calSecondDate.time)
         var c1 = calFirstDate.clone() as Calendar
         var c2 = calSecondDate.clone() as Calendar
         if (c2.before(c1)) {

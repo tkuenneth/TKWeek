@@ -263,7 +263,7 @@ class MyDayFragment : TKWeekBaseFragment<MydayBinding>() {
             R.string.day_of_year, weekNumber,
             maxWeekNumber, maxWeekNumber - weekNumber
         )
-        val strDate = Helper.FORMAT_FULL.format(cal.time)
+        val strDate = Helper.FORMAT_EEE_D_MMM_YYYY.format(cal.time)
         if (isDayOff(requireContext(), cal.time)) {
             binding.myDayDate.text = getString(
                 R.string.string1_dash_string2, strDate,

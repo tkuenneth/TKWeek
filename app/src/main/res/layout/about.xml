@@ -186,12 +186,13 @@
 
                     <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/about_size_in_pixel"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
                         android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
                         app:layout_constraintBaseline_toBaselineOf="@id/about_label_size_in_pixel"
                         app:layout_constraintStart_toEndOf="@id/about_label_size_in_pixel"
+                        app:layout_constraintEnd_toEndOf="parent"
                         tools:text="line 1\nline 2" />
 
                     <com.google.android.material.textview.MaterialTextView

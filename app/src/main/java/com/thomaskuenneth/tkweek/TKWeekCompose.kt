@@ -186,7 +186,8 @@ fun TKWeekApp(viewModel: TKWeekViewModel = viewModel()) {
                 detailPane = {
                     TKWeekDetailPane(
                         uiState = uiState,
-                        navController = navController
+                        navController = navController,
+                        detailVisible = detailVisible,
                     )
                 }
             )

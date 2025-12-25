@@ -47,7 +47,6 @@ import kotlinx.coroutines.launch
 @AndroidEntryPoint
 class PreferencesFragment : PreferenceFragmentCompat() {
 
-    private var lastRecyclerView: RecyclerView? = null
     private val viewModel: TKWeekViewModel by activityViewModels()
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
@@ -65,6 +64,14 @@ class PreferencesFragment : PreferenceFragmentCompat() {
                         findPreference<CheckBoxPreference>(PreferenceManager.AVOID_HINGE)?.isVisible =
                             hasHinge
                     }
+            }
+        }
+        listView.apply {
+            val bottomPadding = paddingBottom
+            ViewCompat.setOnApplyWindowInsetsListener(this) { v, insets ->
+                val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+                v.setPadding(v.paddingLeft, v.paddingTop, v.paddingRight, bottomPadding + systemBars.bottom)
+                insets
             }
         }
     }
@@ -92,19 +99,6 @@ class PreferencesFragment : PreferenceFragmentCompat() {
             }
         })
         viewModel.setDetailScrolled(recyclerView.canScrollVertically(-1))
-        ViewCompat.setOnApplyWindowInsetsListener(recyclerView) { _, insets ->
-            val offset = if (lastRecyclerView != recyclerView) {
-                lastRecyclerView = recyclerView
-                insets.getInsets(WindowInsetsCompat.Type.navigationBars()).bottom
-            } else 0
-            recyclerView.setPadding(
-                recyclerView.paddingLeft,
-                recyclerView.paddingTop,
-                recyclerView.paddingRight,
-                recyclerView.paddingBottom + offset
-            )
-            insets
-        }
         return recyclerView
     }
 }

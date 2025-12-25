@@ -1,11 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
-	tkweek_preferences.xml
-	Copyright 2010 - 2020 Thomas Künneth
-	          2021 MATHEMA GmbH
-	          2022 Thomas Künneth
--->
-
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
     <PreferenceCategory android:title="@string/week_activity_text1">
@@ -60,15 +52,6 @@
             android:dialogTitle="@string/show_national_holidays"
             android:summary="@string/show_national_holidays"
             android:title="@string/national_holidays" />
-
-        <!--
-        <ListPreference
-            android:defaultValue="@string/hide"
-            android:dialogTitle="@string/show_school_holidays"
-            android:key="schulferien_bundesland"
-            android:summary="@string/show_school_holidays"
-            android:title="@string/schulferien_bundesland" />
-        -->
 
         <CheckBoxPreference
             android:key="hide_allday_events"

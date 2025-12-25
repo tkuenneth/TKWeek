@@ -20,8 +20,8 @@ android {
         applicationId = "com.thomaskuenneth.tkweek"
         minSdk = 24
         targetSdk = 36
-        versionCode = 22203
-        versionName = "2.2.2"
+        versionCode = 23001
+        versionName = "2.3.0"
     }
 
     buildTypes {

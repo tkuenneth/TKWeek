@@ -1,0 +1,88 @@
+name: Build and Release APK
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v4
+
+      - name: Grant rights
+        run: chmod +x gradlew
+
+      - name: Build Release APK
+        run: ./gradlew assembleRelease
+
+      - name: Sign APK
+        id: sign
+        run: |
+          # Decode the Keystore
+          echo "${{ secrets.SIGNING_KEY }}" | base64 -d > release.keystore
+          
+          # Find the latest build-tools version
+          BUILD_TOOLS_VERSION=$(ls $ANDROID_HOME/build-tools/ | sort -r | head -n 1)
+          ANDROID_BUILD_TOOLS="$ANDROID_HOME/build-tools/$BUILD_TOOLS_VERSION"
+          
+          # Define paths
+          UNSIGNED_APK="app/build/outputs/apk/release/app-release-unsigned.apk"
+          ALIGNED_APK="app/build/outputs/apk/release/app-release-aligned.apk"
+          SIGNED_APK="app/build/outputs/apk/release/app-release.apk"
+          
+          # Align the APK
+          "$ANDROID_BUILD_TOOLS/zipalign" -v -p 4 "$UNSIGNED_APK" "$ALIGNED_APK"
+          
+          # Sign the APK
+          "$ANDROID_BUILD_TOOLS/apksigner" sign \
+            --ks release.keystore \
+            --ks-pass pass:${{ secrets.KEY_STORE_PASSWORD }} \
+            --key-pass pass:${{ secrets.KEY_PASSWORD }} \
+            --ks-key-alias ${{ secrets.ALIAS }} \
+            --out "$SIGNED_APK" \
+            "$ALIGNED_APK"
+            
+          # Clean up keystore
+          rm release.keystore
+          
+          # Output the path for the next step
+          echo "signedReleaseFile=$SIGNED_APK" >> $GITHUB_OUTPUT
+
+      - name: Get Version Info
+        id: version_info
+        run: |
+          VERSION_CODE=$(grep 'versionCode' app/build.gradle.kts | awk '{print $3}')
+          VERSION_NAME=$(grep 'versionName' app/build.gradle.kts | awk -F'=' '{print $2}' | tr -d ' "')
+          echo "VERSION_CODE=$VERSION_CODE" >> $GITHUB_ENV
+          echo "VERSION_NAME=$VERSION_NAME" >> $GITHUB_ENV
+
+      - name: Read Changelog
+        id: changelog
+        run: |
+            CHANGELOG_FILE="fastlane/metadata/android/en-US/changelogs/${{ env.VERSION_CODE }}.txt"
+            if [ -f "$CHANGELOG_FILE" ]; then
+              cat "$CHANGELOG_FILE" > release_notes.txt
+            else
+              echo "Release ${{ env.VERSION_NAME }}" > release_notes.txt
+            fi
+
+      - name: Create Release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release create "${{ env.VERSION_NAME }}" \
+            --title "Release ${{ env.VERSION_NAME }}" \
+            --notes-file release_notes.txt \
+            "${{ steps.sign.outputs.signedReleaseFile }}"

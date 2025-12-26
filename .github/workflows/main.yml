@@ -46,11 +46,14 @@ jobs:
           "$ANDROID_BUILD_TOOLS/zipalign" -v -p 4 "$UNSIGNED_APK" "$ALIGNED_APK"
           
           # Sign the APK
+          # v2 and v3 signing is enabled by default in newer apksigner versions, but explicit flags ensure it.
           "$ANDROID_BUILD_TOOLS/apksigner" sign \
             --ks release.keystore \
             --ks-pass pass:${{ secrets.KEY_STORE_PASSWORD }} \
             --key-pass pass:${{ secrets.KEY_PASSWORD }} \
             --ks-key-alias ${{ secrets.ALIAS }} \
+            --v2-signing-enabled true \
+            --v3-signing-enabled true \
             --out "$SIGNED_APK" \
             "$ALIGNED_APK"
             

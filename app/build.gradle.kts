@@ -1,4 +1,5 @@
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import org.gradle.api.tasks.bundling.AbstractArchiveTask
 
 plugins {
     alias(libs.plugins.android.application)
@@ -42,6 +43,20 @@ android {
     }
 
     namespace = "com.thomaskuenneth.tkweek"
+
+    // F-Droid: Reproducible Builds
+    // Disables a proprietary Google blob that changes every build
+    dependenciesInfo {
+        includeInApk = false
+        includeInBundle = false
+    }
+}
+
+// F-Droid: Reproducible Builds
+// https://f-droid.org/docs/Reproducible_Builds/#publishing-apks-with-the-upstream-developers-signature
+tasks.withType<AbstractArchiveTask>().configureEach {
+    isPreserveFileTimestamps = false
+    isReproducibleFileOrder = true
 }
 
 kotlin {

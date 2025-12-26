@@ -53,7 +53,7 @@ jobs:
             --key-pass pass:${{ secrets.KEY_PASSWORD }} \
             --ks-key-alias ${{ secrets.ALIAS }} \
             --v2-signing-enabled true \
-            --v3-signing-enabled true \
+            --v3-signing-enabled false \
             --out "$SIGNED_APK" \
             "$ALIGNED_APK"
             

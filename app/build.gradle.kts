@@ -29,6 +29,10 @@ android {
         release {
             isMinifyEnabled = true
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"))
+            @Suppress("UnstableApiUsage")
+            vcsInfo {
+                include = false
+            }
         }
     }
 

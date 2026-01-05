@@ -1,0 +1,3 @@
+- Erste Version in F-Droid
+- INTERNET Berechtigung entfernt
+- Verwendung aktualisierter Bibliotheken und Werkzeuge

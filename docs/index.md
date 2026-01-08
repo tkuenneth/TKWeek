@@ -19,3 +19,7 @@ layout: home
 <li>We respect your privacy</li>
 <li>Completely <a href="https://github.com/tkuenneth/TKWeek">open source</a></li>
 </ul>
+
+<a href="https://f-droid.org/packages/com.thomaskuenneth.tkweek/">
+    <img src="https://fdroid.gitlab.io/artwork/badge/get-it-on.png" alt="Get it on F-Droid" height="80">
+</a>

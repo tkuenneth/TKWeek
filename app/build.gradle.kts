@@ -3,7 +3,6 @@ import org.gradle.api.tasks.bundling.AbstractArchiveTask
 
 plugins {
     alias(libs.plugins.android.application)
-    alias(libs.plugins.jetbrains.kotlin.android)
     alias(libs.plugins.compose.compiler)
     alias(libs.plugins.hilt)
     alias(libs.plugins.ksp)
@@ -21,8 +20,8 @@ android {
         applicationId = "com.thomaskuenneth.tkweek"
         minSdk = 24
         targetSdk = 36
-        versionCode = 23101
-        versionName = "2.3.1"
+        versionCode = 23201
+        versionName = "2.3.2"
     }
 
     buildTypes {

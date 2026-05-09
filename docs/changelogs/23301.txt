@@ -1,0 +1,2 @@
+- Library and tools upgrades
+- Baseline profiles and startup profiles are generated for release builds to improve startup and runtime JIT behavior

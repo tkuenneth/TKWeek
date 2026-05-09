@@ -92,3 +92,10 @@ keystore
 .idea/deviceManager.xml
 .idea/detekt.xml
 .idea/appInsightsSettings.xml
+
+# Baseline profile and benchmark artifacts
+**/outputs/connected_android_test_additional_output/
+**/outputs/managed_device_android_test_additional_output/
+**/benchmarkData/
+**/managed_device_avds/
+baselineprofile/build/

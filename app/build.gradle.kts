@@ -3,6 +3,7 @@ import org.gradle.api.tasks.bundling.AbstractArchiveTask
 
 plugins {
     alias(libs.plugins.android.application)
+    alias(libs.plugins.baselineprofile)
     alias(libs.plugins.compose.compiler)
     alias(libs.plugins.hilt)
     alias(libs.plugins.ksp)
@@ -20,8 +21,8 @@ android {
         applicationId = "com.thomaskuenneth.tkweek"
         minSdk = 24
         targetSdk = 36
-        versionCode = 23201
-        versionName = "2.3.2"
+        versionCode = 23301
+        versionName = "2.3.3"
     }
 
     buildTypes {
@@ -70,13 +71,14 @@ kotlin {
 }
 
 dependencies {
+    baselineProfile(project(":baselineprofile"))
+
     implementation(libs.androidx.material3.adaptive.navigation.suite)
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.compose.ui)
     implementation(libs.androidx.compose.ui.graphics)
     implementation(libs.androidx.compose.ui.tooling.preview)
 
-    implementation(libs.androidx.material3.adaptive.navigation.suite)
     implementation(libs.androidx.material3.adaptive.layout)
     implementation(libs.androidx.material3.adaptive.navigation)
 
@@ -99,4 +101,5 @@ dependencies {
     implementation(libs.hilt.android)
     ksp(libs.hilt.compiler)
     implementation(libs.androidx.hilt.navigation.compose)
+    implementation(libs.androidx.profileinstaller)
 }

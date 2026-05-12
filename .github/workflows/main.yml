@@ -66,8 +66,8 @@ jobs:
       - name: Get Version Info
         id: version_info
         run: |
-          VERSION_CODE=$(grep 'versionCode' app/build.gradle.kts | awk '{print $3}')
-          VERSION_NAME=$(grep 'versionName' app/build.gradle.kts | awk -F'=' '{print $2}' | tr -d ' "')
+          VERSION_CODE=$(grep -oP 'versionCode\s*=\s*\K\d+' app/build.gradle.kts)
+          VERSION_NAME=$(grep -oP 'versionName\s*=\s*"\K[^"]+' app/build.gradle.kts)
           echo "VERSION_CODE=$VERSION_CODE" >> $GITHUB_ENV
           echo "VERSION_NAME=$VERSION_NAME" >> $GITHUB_ENV
 

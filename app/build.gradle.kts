@@ -21,15 +21,18 @@ android {
         applicationId = "com.thomaskuenneth.tkweek"
         minSdk = 24
         targetSdk = 36
-        versionCode = 23301
-        versionName = "2.3.3"
+        versionCode = 23401
+        versionName = "2.3.4"
     }
 
     buildTypes {
         release {
             isMinifyEnabled = true
             isShrinkResources = true
-            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"))
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
             @Suppress("UnstableApiUsage")
             vcsInfo {
                 include = false

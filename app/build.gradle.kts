@@ -20,7 +20,7 @@ android {
     defaultConfig {
         applicationId = "com.thomaskuenneth.tkweek"
         minSdk = 24
-        targetSdk = 36
+        targetSdk = 37
         versionCode = 23401
         versionName = "2.3.4"
     }
@@ -41,8 +41,8 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
+        sourceCompatibility = JavaVersion.VERSION_21
+        targetCompatibility = JavaVersion.VERSION_21
     }
 
     lint {
@@ -69,7 +69,7 @@ tasks.withType<AbstractArchiveTask>().configureEach {
 
 kotlin {
     compilerOptions {
-        jvmTarget.set(JvmTarget.JVM_17)
+        jvmTarget.set(JvmTarget.JVM_21)
     }
 }
 

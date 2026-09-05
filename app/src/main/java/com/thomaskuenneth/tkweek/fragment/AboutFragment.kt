@@ -24,6 +24,7 @@
  */
 package com.thomaskuenneth.tkweek.fragment
 
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
@@ -31,6 +32,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.thomaskuenneth.tkweek.OpenSourceLicensesActivity
 import com.thomaskuenneth.tkweek.R
 import com.thomaskuenneth.tkweek.databinding.AboutBinding
 import com.thomaskuenneth.tkweek.util.TKWeekUtils
@@ -101,5 +103,8 @@ class AboutFragment : TKWeekBaseFragment<AboutBinding>() {
         val sb = StringBuilder(Build.VERSION.RELEASE)
         sb.append(" (${Build.VERSION.SDK_INT})")
         binding.aboutAndroidVersion.text = sb.toString()
+        binding.aboutOpenSourceLicenses.setOnClickListener {
+            startActivity(Intent(requireContext(), OpenSourceLicensesActivity::class.java))
+        }
     }
 }

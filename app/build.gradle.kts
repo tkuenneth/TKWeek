@@ -7,6 +7,7 @@ plugins {
     alias(libs.plugins.compose.compiler)
     alias(libs.plugins.hilt)
     alias(libs.plugins.ksp)
+    alias(libs.plugins.aboutLibraries.android)
 }
 
 android {
@@ -21,8 +22,9 @@ android {
         applicationId = "com.thomaskuenneth.tkweek"
         minSdk = 24
         targetSdk = 37
-        versionCode = 23501
-        versionName = "2.3.5"
+        versionCode = 24001
+        versionName = "2.4.0"
+        testInstrumentationRunner = "com.thomaskuenneth.tkweek.HiltTestRunner"
     }
 
     buildTypes {
@@ -77,9 +79,7 @@ dependencies {
     baselineProfile(project(":baselineprofile"))
 
     implementation(libs.androidx.material3.adaptive.navigation.suite)
-    implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.compose.ui)
-    implementation(libs.androidx.compose.ui.graphics)
     implementation(libs.androidx.compose.ui.tooling.preview)
 
     implementation(libs.androidx.material3.adaptive.layout)
@@ -105,4 +105,14 @@ dependencies {
     ksp(libs.hilt.compiler)
     implementation(libs.androidx.hilt.navigation.compose)
     implementation(libs.androidx.profileinstaller)
+    implementation(libs.aboutlibraries.compose.m3)
+
+    testImplementation(libs.junit)
+
+    androidTestImplementation(platform(libs.androidx.compose.bom))
+    androidTestImplementation(libs.androidx.junit)
+    androidTestImplementation(libs.androidx.espresso.core)
+    androidTestImplementation(libs.androidx.ui.test.junit4)
+    androidTestImplementation(libs.hilt.android.testing)
+    debugImplementation(libs.androidx.ui.test.manifest)
 }

@@ -93,6 +93,9 @@ keystore
 .idea/detekt.xml
 .idea/appInsightsSettings.xml
 
+# Local agent guidance (not committed)
+AGENTS.md
+
 # Baseline profile and benchmark artifacts
 **/outputs/connected_android_test_additional_output/
 **/outputs/managed_device_android_test_additional_output/

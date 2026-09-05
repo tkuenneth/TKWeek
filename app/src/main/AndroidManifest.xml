@@ -34,6 +34,11 @@
             </intent-filter>
         </activity>
 
+        <activity
+            android:name=".OpenSourceLicensesActivity"
+            android:exported="false"
+            android:theme="@style/Theme.Material3.DayNight.NoActionBar" />
+
         <receiver
             android:name=".appwidget.EventsListWidget"
             android:exported="true"

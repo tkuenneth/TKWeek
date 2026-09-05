@@ -1,0 +1,2 @@
+- Verwendung aktualisierter Bibliotheken und Werkzeuge
+- Open-Source-Lizenzen unter Über TKWeek

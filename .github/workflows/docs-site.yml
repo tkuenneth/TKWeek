@@ -1,0 +1,60 @@
+name: Build and Deploy Docs
+
+on:
+  workflow_dispatch:
+  workflow_call:
+
+jobs:
+  docs:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install ImageMagick and sshpass
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y imagemagick sshpass
+          if ! command -v magick >/dev/null 2>&1; then
+            sudo ln -sf "$(command -v convert)" /usr/local/bin/magick
+          fi
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.3'
+          bundler-cache: true
+          working-directory: docs
+
+      - name: Create animated GIF
+        run: |
+          chmod +x create_gif.sh
+          ./create_gif.sh
+
+      - name: Build Jekyll site
+        run: bundle exec jekyll build
+        working-directory: docs
+
+      - name: Deploy site via rsync
+        env:
+          SSHPASS: ${{ secrets.RSYNC_PASSWORD }}
+        run: |
+          if [ -z "$SSHPASS" ]; then
+            echo "Error: RSYNC_PASSWORD secret is not set"
+            exit 1
+          fi
+
+          set +e
+          sshpass -e rsync -avz --progress --exclude='.git/' \
+            -e "ssh -o StrictHostKeyChecking=accept-new" \
+            docs/_site/ \
+            su525639@access-5019329309.webspace-host.com:tkweek
+          RSYNC_EXIT_CODE=$?
+          set -e
+
+          if [ "$RSYNC_EXIT_CODE" -ne 0 ]; then
+            echo "Error: rsync failed with exit code $RSYNC_EXIT_CODE"
+            exit "$RSYNC_EXIT_CODE"
+          fi
+
+          echo "rsync completed successfully"

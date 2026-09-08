@@ -4,7 +4,12 @@ on:
   workflow_dispatch:
 
 jobs:
+  docs:
+    uses: ./.github/workflows/docs-site.yml
+    secrets: inherit
+
   build:
+    needs: docs
     runs-on: ubuntu-latest
     permissions:
       contents: write

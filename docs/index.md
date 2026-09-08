@@ -7,7 +7,7 @@ layout: home
   <div style="flex: 1; min-width: 0;">
     <p>Do you need to convert between a <strong>week number</strong> and a date or require some information about a date? Find out if a year is a <strong>leap year</strong>, calculate the number of days, business days, weeks, weekends, month turns and years <strong>between two dates</strong>? Want to add or subtract days, weeks or months to a given date?</p>
     <p>With <strong>TKWeek</strong>, it‘s no hassle. Even a basic calendar view is at your fingertips. You can use it to flag days off. Just tap and hold until the color changes. And with <strong>My Day</strong> you see what is up on a particular day.</p>
-    <p>Curious to know when Friday 13th takes place? <strong>TKWeek</strong> will tell you. The app has many national and international public holidays built in, for example Reformation Day, St. Martin&apos;s Day, Christmas, Good Friday, Seven Sleepers Day, Pentecost, Ash Wednesday, and Easter.</p>
+    <p>Curious to know when Friday 13th takes place? <strong>TKWeek</strong> will tell you. The app has many national and international public holidays built in, for example Reformation Day, St. Martin&apos;s Day, Christmas, Good Friday, Seven Sleepers Day, Pentecost, Ash Wednesday, Easter, International Day of Peace, and Human Rights Day.</p>
     <p>Some of the other special days TKWeek knows: Ice Saints, Valentine&apos;s Day, Mother&apos;s Day, Halloween, St. Patrick&apos;s Day, Earth Day, All Saints. And there are so many more included.</p>
     <p>Also important:</p>
     <ul>

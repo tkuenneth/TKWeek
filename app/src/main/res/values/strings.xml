@@ -376,6 +376,16 @@ missed calls, you can hide them in Settings.</string>
     <string name="tolkien_reading_day">Tolkien Reading Day</string>
     <string name="hobbit_day">Hobbit Day</string>
     <string name="world_seagrass_day">World Seagrass Day</string>
+    <string name="world_water_day">World Water Day</string>
+    <string name="world_health_day">World Health Day</string>
+    <string name="world_book_day">World Book Day</string>
+    <string name="world_environment_day">World Environment Day</string>
+    <string name="world_oceans_day">World Oceans Day</string>
+    <string name="nelson_mandela_day">Nelson Mandela International Day</string>
+    <string name="international_day_of_peace">International Day of Peace</string>
+    <string name="world_teachers_day">World Teachers\' Day</string>
+    <string name="world_food_day">World Food Day</string>
+    <string name="human_rights_day">Human Rights Day</string>
 
     <!-- birthdays -->
     <string name="charles_dickens" translatable="false">Charles Dickens</string>

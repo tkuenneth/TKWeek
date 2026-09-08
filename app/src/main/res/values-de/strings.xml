@@ -326,6 +326,16 @@ können Sie diese in den Einstellungen ausblenden.</string>
     <string name="tolkien_reading_day">Tag der Tolkien-Lektüre</string>
     <string name="hobbit_day">Hobbit-Tag</string>
     <string name="world_seagrass_day">Welttag des Seegrases</string>
+    <string name="world_water_day">Weltwassertag</string>
+    <string name="world_health_day">Weltgesundheitstag</string>
+    <string name="world_book_day">Welttag des Buches und des Urheberrechts</string>
+    <string name="world_environment_day">Weltumwelttag</string>
+    <string name="world_oceans_day">Welttag der Ozeane</string>
+    <string name="nelson_mandela_day">Internationaler Nelson-Mandela-Tag</string>
+    <string name="international_day_of_peace">Internationaler Friedenstag</string>
+    <string name="world_teachers_day">Welttag der Lehrerin und des Lehrers</string>
+    <string name="world_food_day">Welternährungstag</string>
+    <string name="human_rights_day">Tag der Menschenrechte</string>
     <string name="avoid_hinge">Scharnier meiden</string>
     <string name="open_source_licenses">Open-Source-Lizenzen</string>
 

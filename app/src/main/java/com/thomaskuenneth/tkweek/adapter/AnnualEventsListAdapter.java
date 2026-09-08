@@ -102,6 +102,16 @@ public class AnnualEventsListAdapter extends BaseAdapter implements Comparator<E
             R.string.tolkien_reading_day, Calendar.MARCH, 25,
             R.string.hobbit_day, Calendar.SEPTEMBER, 22,
             R.string.world_seagrass_day, Calendar.MARCH, 1,
+            R.string.world_water_day, Calendar.MARCH, 22,
+            R.string.world_health_day, Calendar.APRIL, 7,
+            R.string.world_book_day, Calendar.APRIL, 23,
+            R.string.world_environment_day, Calendar.JUNE, 5,
+            R.string.world_oceans_day, Calendar.JUNE, 8,
+            R.string.nelson_mandela_day, Calendar.JULY, 18,
+            R.string.international_day_of_peace, Calendar.SEPTEMBER, 21,
+            R.string.world_teachers_day, Calendar.OCTOBER, 5,
+            R.string.world_food_day, Calendar.OCTOBER, 16,
+            R.string.human_rights_day, Calendar.DECEMBER, 10,
     };
 
     private static final int[] nationalEvents_FR = {

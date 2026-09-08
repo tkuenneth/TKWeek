@@ -49,7 +49,9 @@ import com.thomaskuenneth.tkweek.preference.PickCountriesPreference;
 import com.thomaskuenneth.tkweek.types.Anniversary;
 import com.thomaskuenneth.tkweek.types.Birthday;
 import com.thomaskuenneth.tkweek.types.Event;
+import com.thomaskuenneth.tkweek.types.FixedDateObservance;
 import com.thomaskuenneth.tkweek.types.FixedEvent;
+import com.thomaskuenneth.tkweek.types.InternationalAnnualEvents;
 import com.thomaskuenneth.tkweek.types.Mondphasen;
 import com.thomaskuenneth.tkweek.types.Seasons;
 import com.thomaskuenneth.tkweek.util.CalendarCondition;
@@ -87,31 +89,6 @@ public class AnnualEventsListAdapter extends BaseAdapter implements Comparator<E
             R.string.charles_dickens, Calendar.FEBRUARY, 7, 1812,
             R.string.abraham_lincoln, Calendar.FEBRUARY, 12, 1809,
             R.string.charles_babbage, Calendar.DECEMBER, 26, 1791
-    };
-
-    private static final int[] internationalEvents = {
-            R.string.weltfrauentag, Calendar.MARCH, 8,
-            R.string.weltkindertag, Calendar.NOVEMBER, 20,
-            R.string.tag_der_erde, Calendar.APRIL, 22,
-            R.string.halloween, Calendar.OCTOBER, 31,
-            R.string.neujahr, Calendar.JANUARY, 1,
-            R.string.silvester, Calendar.DECEMBER, 31,
-            R.string.erster_april, Calendar.APRIL, 1,
-            R.string.tag_der_arbeit, Calendar.MAY, 1,
-            R.string.valentinstag, Calendar.FEBRUARY, 14,
-            R.string.tolkien_reading_day, Calendar.MARCH, 25,
-            R.string.hobbit_day, Calendar.SEPTEMBER, 22,
-            R.string.world_seagrass_day, Calendar.MARCH, 1,
-            R.string.world_water_day, Calendar.MARCH, 22,
-            R.string.world_health_day, Calendar.APRIL, 7,
-            R.string.world_book_day, Calendar.APRIL, 23,
-            R.string.world_environment_day, Calendar.JUNE, 5,
-            R.string.world_oceans_day, Calendar.JUNE, 8,
-            R.string.nelson_mandela_day, Calendar.JULY, 18,
-            R.string.international_day_of_peace, Calendar.SEPTEMBER, 21,
-            R.string.world_teachers_day, Calendar.OCTOBER, 5,
-            R.string.world_food_day, Calendar.OCTOBER, 16,
-            R.string.human_rights_day, Calendar.DECEMBER, 10,
     };
 
     private static final int[] nationalEvents_FR = {
@@ -528,7 +505,7 @@ public class AnnualEventsListAdapter extends BaseAdapter implements Comparator<E
                 addEasterEvents(context, year);
                 addSimpleEvents(context, iceSaints, year);
             }
-            addSimpleEvents(context, internationalEvents, year);
+            addSimpleEvents(context, InternationalAnnualEvents.ALL, year);
             DaylightSavingTime dst = new DaylightSavingTime(year);
             Date dst_begin = dst.getBegin();
             if (dst_begin != null) {
@@ -760,6 +737,12 @@ public class AnnualEventsListAdapter extends BaseAdapter implements Comparator<E
     private void addSimpleEvents(Context context, int[] events, int year) {
         for (int i = 0; i < events.length; i += 3) {
             add(new Event(context.getString(events[i]), year, events[i + 1], events[i + 2], true, true), false);
+        }
+    }
+
+    private void addSimpleEvents(Context context, List<FixedDateObservance> events, int year) {
+        for (FixedDateObservance event : events) {
+            add(new Event(context.getString(event.getNameResId()), year, event.getMonth(), event.getDayOfMonth(), true, true), false);
         }
     }
 

@@ -9,5 +9,8 @@ class HiltTestRunner : AndroidJUnitRunner() {
         cl: ClassLoader?,
         className: String?,
         context: Context?
-    ): Application = super.newApplication(cl, TKWeekHiltTestApp_Application::class.java.name, context)
+    ): Application {
+        val hiltAppName = "${TKWeekHiltTestApp::class.java.name}_Application"
+        return super.newApplication(cl, hiltAppName, context)
+    }
 }

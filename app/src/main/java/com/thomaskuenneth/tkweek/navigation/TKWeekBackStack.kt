@@ -1,5 +1,5 @@
 /*
- * TKWeekTestTags.kt
+ * TKWeekBackStack.kt
  *
  * Copyright 2022 - 2026 Thomas Künneth
  *
@@ -20,13 +20,26 @@
  * CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package com.thomaskuenneth.tkweek.ui
+package com.thomaskuenneth.tkweek.navigation
 
-/** Semantics test tags shared by UI and instrumentation tests. */
-object TKWeekTestTags {
-    const val TOP_APP_BAR_TITLE = "tkweek_top_app_bar_title"
-    const val MODULE_LIST = "tkweek_module_list"
+import androidx.navigation3.runtime.NavKey
+import com.thomaskuenneth.tkweek.TKWeekModule
+import com.thomaskuenneth.tkweek.types.TKWeekDestination
+import com.thomaskuenneth.tkweek.viewmodel.NavigationRequest
 
-    /** The tag for a module's row in the master list. */
-    fun moduleListItem(moduleName: String): String = "tkweek_module_list_item_$moduleName"
+val DEFAULT_MODULE: TKWeekModule = TKWeekModule.Week
+
+fun initialTKWeekBackStack(): List<NavKey> = listOf(TKWeekDestination.ModuleList)
+
+// A top-level request always drops every entry above the list entry and pushes the requested one,
+// even when re-selecting the module already active - never checks structural equality, since that's
+// what let reselecting a nested-into module silently do nothing.
+fun MutableList<NavKey>.applyNavigation(request: NavigationRequest) {
+    require(isNotEmpty()) { "Back stack must never be empty." }
+    if (request.topLevel) {
+        while (size > 1) {
+            removeAt(lastIndex)
+        }
+    }
+    add(TKWeekDestination.Detail(module = request.module, date = request.date))
 }

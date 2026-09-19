@@ -24,28 +24,31 @@ package com.thomaskuenneth.tkweek.ui
 
 import android.os.Bundle
 import android.view.View
+import androidx.activity.compose.LocalActivity
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.viewinterop.AndroidView
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentContainerView
 import com.thomaskuenneth.tkweek.TKWeekModule
+import com.thomaskuenneth.tkweek.util.Helper
 
 @Composable
 fun TKWeekModuleContainer(
     module: TKWeekModule,
-    arguments: Bundle?
+    date: Long? = null,
 ) {
-    val context = LocalContext.current
-    val fragmentManager = (context as AppCompatActivity).supportFragmentManager
+    // LocalActivity, unlike LocalContext, survives a ContextThemeWrapper (e.g. DeviceConfigurationOverride).
+    val fragmentManager = (LocalActivity.current as AppCompatActivity).supportFragmentManager
     val containerId = remember { View.generateViewId() }
+    val arguments: Bundle? = date?.let { bundleOf(Helper.DATE to it) }
 
-    DisposableEffect(module, arguments) {
+    DisposableEffect(module, date) {
         val moduleName = module.clazz.name
         // Cleanup any existing fragment with this tag (e.g. restored from saved state)
         // to ensure we don't have duplicates or "zombies" attached to old view IDs.

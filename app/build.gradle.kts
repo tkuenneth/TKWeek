@@ -5,6 +5,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.baselineprofile)
     alias(libs.plugins.compose.compiler)
+    alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.hilt)
     alias(libs.plugins.ksp)
     alias(libs.plugins.aboutLibraries.android)
@@ -84,6 +85,10 @@ dependencies {
 
     implementation(libs.androidx.material3.adaptive.layout)
     implementation(libs.androidx.material3.adaptive.navigation)
+    implementation(libs.androidx.material3.adaptive.navigation3)
+    implementation(libs.androidx.navigation3.runtime)
+    implementation(libs.androidx.navigation3.ui)
+    implementation(libs.kotlinx.serialization.core)
 
     implementation(libs.androidx.compose.material.icons.extended)
 
@@ -108,6 +113,10 @@ dependencies {
     implementation(libs.aboutlibraries.compose.m3)
 
     testImplementation(libs.junit)
+    testImplementation(libs.kotlinx.coroutines.test)
+    testImplementation(libs.turbine)
+    testImplementation(libs.mockito.core)
+    testImplementation(libs.mockito.kotlin)
 
     androidTestImplementation(platform(libs.androidx.compose.bom))
     androidTestImplementation(libs.androidx.junit)

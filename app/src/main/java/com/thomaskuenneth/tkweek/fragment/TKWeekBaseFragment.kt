@@ -35,6 +35,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.preference.PreferenceManager
 import com.thomaskuenneth.tkweek.TKWeekModule
+import com.thomaskuenneth.tkweek.util.Helper
 import com.thomaskuenneth.tkweek.util.TKWeekUtils
 import com.thomaskuenneth.tkweek.viewmodel.TKWeekViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -101,7 +102,9 @@ abstract class TKWeekBaseFragment<T> : TKWeekHiltBaseFragment() {
 
     fun selectModule(module: Class<*>, payload: Bundle?) {
         TKWeekModule.find(module)?.let {
-            viewModel.selectModuleWithArguments(module = it, arguments = payload, topLevel = false)
+            val date = payload?.takeIf { bundle -> bundle.containsKey(Helper.DATE) }
+                ?.getLong(Helper.DATE)
+            viewModel.requestNavigation(module = it, date = date, topLevel = false)
         }
     }
 

@@ -29,7 +29,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.os.Build;
-import android.os.Bundle;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.method.LinkMovementMethod;
@@ -82,7 +81,7 @@ public class TKWeekUtils {
                         TKWeekViewModel viewModel = new ViewModelProvider((FragmentActivity) activity).get(TKWeekViewModel.class);
                         TKWeekModule module = TKWeekModule.Companion.find(TKWeekModule.Prefs.getClazz());
                         if (module != null) {
-                            viewModel.selectModuleWithArguments(module, new Bundle(), false);
+                            viewModel.requestNavigation(module, null, false);
                         }
                     }
                 }

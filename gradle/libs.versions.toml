@@ -13,6 +13,9 @@ composeBom = "2026.09.00"
 material = "1.14.0"
 material3AdaptiveNavSuite = "1.4.0"
 material3Adaptive = "1.3.0"
+material3AdaptiveNavigation3 = "1.3.0"
+navigation3 = "1.1.7"
+kotlinxSerialization = "1.11.0"
 appCompat = "1.8.0"
 materialIconsExtended = "1.7.8"
 preferenceKtx = "1.2.1"
@@ -25,6 +28,10 @@ aboutLibraries = "15.2.0"
 baselineProfile = "1.5.0"
 profileinstaller = "1.4.1"
 uiautomator = "2.4.0"
+turbine = "1.2.1"
+kotlinxCoroutinesTest = "1.11.0"
+mockitoCore = "5.23.0"
+mockitoKotlin = "6.3.0"
 
 [libraries]
 androidx-activity-ktx = { module = "androidx.activity:activity-ktx", version.ref = "activityKtx" }
@@ -48,6 +55,14 @@ androidx-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit
 androidx-material3-adaptive-navigation-suite = { module = "androidx.compose.material3:material3-adaptive-navigation-suite", version.ref = "material3AdaptiveNavSuite" }
 androidx-material3-adaptive-layout = { module = "androidx.compose.material3.adaptive:adaptive-layout", version.ref = "material3Adaptive" }
 androidx-material3-adaptive-navigation = { module = "androidx.compose.material3.adaptive:adaptive-navigation", version.ref = "material3Adaptive" }
+androidx-material3-adaptive-navigation3 = { module = "androidx.compose.material3.adaptive:adaptive-navigation3", version.ref = "material3AdaptiveNavigation3" }
+androidx-navigation3-runtime = { module = "androidx.navigation3:navigation3-runtime", version.ref = "navigation3" }
+androidx-navigation3-ui = { module = "androidx.navigation3:navigation3-ui", version.ref = "navigation3" }
+kotlinx-serialization-core = { module = "org.jetbrains.kotlinx:kotlinx-serialization-core", version.ref = "kotlinxSerialization" }
+kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlinxCoroutinesTest" }
+turbine = { module = "app.cash.turbine:turbine", version.ref = "turbine" }
+mockito-core = { module = "org.mockito:mockito-core", version.ref = "mockitoCore" }
+mockito-kotlin = { module = "org.mockito.kotlin:mockito-kotlin", version.ref = "mockitoKotlin" }
 material = { module = "com.google.android.material:material", version.ref = "material" }
 time4j-android = { module = "net.time4j:time4j-android", version.ref = "time4jAndroid" }
 hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hilt" }
@@ -63,6 +78,7 @@ aboutlibraries-compose-m3 = { module = "com.mikepenz:aboutlibraries-compose-m3",
 android-application = { id = "com.android.application", version.ref = "agp" }
 android-test = { id = "com.android.test", version.ref = "agp" }
 compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
+kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 baselineprofile = { id = "androidx.baselineprofile", version.ref = "baselineProfile" }
 hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }

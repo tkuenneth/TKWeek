@@ -1,5 +1,5 @@
 /*
- * TKWeekTestTags.kt
+ * TKWeekDestination.kt
  *
  * Copyright 2022 - 2026 Thomas Künneth
  *
@@ -20,13 +20,17 @@
  * CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package com.thomaskuenneth.tkweek.ui
+package com.thomaskuenneth.tkweek.types
 
-/** Semantics test tags shared by UI and instrumentation tests. */
-object TKWeekTestTags {
-    const val TOP_APP_BAR_TITLE = "tkweek_top_app_bar_title"
-    const val MODULE_LIST = "tkweek_module_list"
+import androidx.navigation3.runtime.NavKey
+import com.thomaskuenneth.tkweek.TKWeekModule
+import kotlinx.serialization.Serializable
 
-    /** The tag for a module's row in the master list. */
-    fun moduleListItem(moduleName: String): String = "tkweek_module_list_item_$moduleName"
+sealed interface TKWeekDestination : NavKey {
+
+    @Serializable
+    data object ModuleList : TKWeekDestination
+
+    @Serializable
+    data class Detail(val module: TKWeekModule, val date: Long? = null) : TKWeekDestination
 }

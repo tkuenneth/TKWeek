@@ -32,7 +32,9 @@ import com.thomaskuenneth.tkweek.fragment.DaysBetweenDatesFragment
 import com.thomaskuenneth.tkweek.fragment.MyDayFragment
 import com.thomaskuenneth.tkweek.fragment.PreferencesFragment
 import com.thomaskuenneth.tkweek.fragment.WeekFragment
+import kotlinx.serialization.Serializable
 
+@Serializable
 enum class TKWeekModule(
     @param:StringRes val titleRes: Int,
     @param:StringRes val descriptionRes: Int,

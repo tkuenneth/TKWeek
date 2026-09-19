@@ -44,7 +44,6 @@ private const val INFINITY_SYMBOL = "infinity_symbol"
 object Helper {
 
     const val CLAZZ = "clazz"
-    const val PAYLOAD = "payload"
     const val DATE = "date"
 
     const val DASHES = "---"

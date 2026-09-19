@@ -30,70 +30,71 @@ import androidx.compose.material3.ListItem
 import androidx.compose.material3.ListItemDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.material3.adaptive.ExperimentalMaterial3AdaptiveApi
-import androidx.compose.material3.adaptive.layout.AnimatedPane
-import androidx.compose.material3.adaptive.layout.ThreePaneScaffoldPaneScope
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.key
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import com.thomaskuenneth.tkweek.TKWeekModule
 import com.thomaskuenneth.tkweek.util.BottomSpace
 
-@OptIn(ExperimentalMaterial3AdaptiveApi::class)
 @Composable
-fun ThreePaneScaffoldPaneScope.TKWeekModuleSelector(
-    currentRoute: String,
+fun TKWeekModuleSelector(
+    selectedModule: TKWeekModule?,
     onModuleSelected: (TKWeekModule) -> Unit,
-    detailVisible: Boolean,
     onListStateChanged: (Boolean) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
-    AnimatedPane {
-        val lazyListState = rememberLazyListState()
-        val (firstVisibleItemIndex, firstVisibleItemScrollOffset) = lazyListState.firstVisibleItemIndex to lazyListState.firstVisibleItemScrollOffset
-        LaunchedEffect(
-            firstVisibleItemIndex,
-            firstVisibleItemScrollOffset
-        ) {
-            onListStateChanged(firstVisibleItemIndex == 0 && firstVisibleItemScrollOffset == 0)
+    val lazyListState = rememberLazyListState()
+    val firstVisibleItemIndex = lazyListState.firstVisibleItemIndex
+    val firstVisibleItemScrollOffset = lazyListState.firstVisibleItemScrollOffset
+    LaunchedEffect(firstVisibleItemIndex, firstVisibleItemScrollOffset) {
+        onListStateChanged(firstVisibleItemIndex == 0 && firstVisibleItemScrollOffset == 0)
+    }
+    LaunchedEffect(selectedModule) {
+        val index = selectedModule?.let { module -> TKWeekModule.entries.indexOf(module) } ?: return@LaunchedEffect
+        val isVisible = lazyListState.layoutInfo.visibleItemsInfo.any { it.index == index }
+        if (!isVisible) {
+            lazyListState.animateScrollToItem(index)
         }
-        LaunchedEffect(currentRoute) {
-            val index = TKWeekModule.entries.indexOfFirst { it.name == currentRoute }
-            if (index >= 0) {
-                val isVisible = lazyListState.layoutInfo.visibleItemsInfo.any { it.index == index }
-                if (!isVisible) {
-                    lazyListState.animateScrollToItem(index)
-                }
-            }
+    }
+    LazyColumn(
+        state = lazyListState,
+        modifier = modifier.testTag(TKWeekTestTags.MODULE_LIST)
+    ) {
+        items(TKWeekModule.entries, key = { it }) { entry ->
+            val selected = entry == selectedModule
+            ListItem(
+                headlineContent = { Text(text = stringResource(id = entry.titleRes)) },
+                supportingContent = { Text(text = stringResource(id = entry.descriptionRes)) },
+                modifier = Modifier
+                    .testTag(TKWeekTestTags.moduleListItem(entry.name))
+                    .clip(MaterialTheme.shapes.large)
+                    .clickable { onModuleSelected(entry) },
+                colors = ListItemDefaults.colors(
+                    containerColor = if (selected) MaterialTheme.colorScheme.secondaryContainer else Color.Transparent,
+                    headlineColor = if (selected) MaterialTheme.colorScheme.onSecondaryContainer else MaterialTheme.colorScheme.onSurface,
+                    supportingColor = if (selected) MaterialTheme.colorScheme.onSecondaryContainer else MaterialTheme.colorScheme.onSurfaceVariant
+                )
+            )
         }
-        LazyColumn(
-            state = lazyListState,
-            modifier = modifier
-        ) {
-            items(TKWeekModule.entries) { entry ->
-                val selected = detailVisible && entry.name == currentRoute
-                key(entry) {
-                    ListItem(
-                        headlineContent = { Text(text = stringResource(id = entry.titleRes)) },
-                        supportingContent = { Text(text = stringResource(id = entry.descriptionRes)) },
-                        modifier = Modifier
-                            .clip(MaterialTheme.shapes.large)
-                            .clickable { onModuleSelected(entry) },
-                        colors = ListItemDefaults.colors(
-                            containerColor = if (selected) MaterialTheme.colorScheme.secondaryContainer else Color.Transparent,
-                            headlineColor = if (selected) MaterialTheme.colorScheme.onSecondaryContainer else MaterialTheme.colorScheme.onSurface,
-                            supportingColor = if (selected) MaterialTheme.colorScheme.onSecondaryContainer else MaterialTheme.colorScheme.onSurfaceVariant
-                        )
-                    )
-                }
-            }
-            item {
-                BottomSpace()
-            }
+        item {
+            BottomSpace()
         }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun TKWeekModuleSelectorPreview() {
+    MaterialTheme(colorScheme = colorScheme()) {
+        TKWeekModuleSelector(
+            selectedModule = TKWeekModule.Calendar,
+            onModuleSelected = {},
+            onListStateChanged = {}
+        )
     }
 }

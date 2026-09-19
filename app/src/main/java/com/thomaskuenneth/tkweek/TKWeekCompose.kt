@@ -22,50 +22,57 @@
  */
 package com.thomaskuenneth.tkweek
 
+import android.content.Intent
 import android.os.Bundle
+import androidx.activity.compose.LocalActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.displayCutout
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.adaptive.ExperimentalMaterial3AdaptiveApi
 import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
 import androidx.compose.material3.adaptive.layout.HingePolicy
-import androidx.compose.material3.adaptive.layout.ListDetailPaneScaffoldRole
-import androidx.compose.material3.adaptive.layout.PaneAdaptedValue
 import androidx.compose.material3.adaptive.layout.calculatePaneScaffoldDirective
-import androidx.compose.material3.adaptive.navigation.NavigableListDetailPaneScaffold
-import androidx.compose.material3.adaptive.navigation.rememberListDetailPaneScaffoldNavigator
+import androidx.compose.material3.adaptive.navigation.BackNavigationBehavior
+import androidx.compose.material3.adaptive.navigation3.ListDetailSceneStrategy
+import androidx.compose.material3.adaptive.navigation3.rememberListDetailSceneStrategy
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalLayoutDirection
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.navigation.compose.currentBackStackEntryAsState
-import androidx.navigation.compose.rememberNavController
-import com.thomaskuenneth.tkweek.ui.TKWeekDetailPane
+import androidx.navigation3.runtime.NavKey
+import androidx.navigation3.runtime.entryProvider
+import androidx.navigation3.runtime.rememberNavBackStack
+import androidx.navigation3.ui.NavDisplay
+import com.thomaskuenneth.tkweek.navigation.DEFAULT_MODULE
+import com.thomaskuenneth.tkweek.navigation.applyNavigation
+import com.thomaskuenneth.tkweek.navigation.canNavigateBack
+import com.thomaskuenneth.tkweek.navigation.initialTKWeekBackStack
+import com.thomaskuenneth.tkweek.navigation.isDetailPaneVisible
+import com.thomaskuenneth.tkweek.navigation.isListPaneVisible
+import com.thomaskuenneth.tkweek.types.TKWeekDestination
+import com.thomaskuenneth.tkweek.ui.TKWeekModuleContainer
 import com.thomaskuenneth.tkweek.ui.TKWeekModuleSelector
 import com.thomaskuenneth.tkweek.ui.TKWeekTopAppBar
 import com.thomaskuenneth.tkweek.ui.colorScheme
 import com.thomaskuenneth.tkweek.util.Helper.CLAZZ
-import com.thomaskuenneth.tkweek.util.Helper.PAYLOAD
+import com.thomaskuenneth.tkweek.viewmodel.NavigationRequest
 import com.thomaskuenneth.tkweek.viewmodel.TKWeekViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.launch
 import kotlin.math.max
 
 @AndroidEntryPoint
@@ -75,82 +82,94 @@ class TKWeekCompose : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        intent?.getStringExtra(CLAZZ)?.let { clazzName ->
-            TKWeekModule.entries.firstOrNull { it.clazz.name == clazzName }?.let {
-                viewModel.selectModuleWithArguments(
-                    module = it,
-                    arguments = intent?.getBundleExtra(PAYLOAD),
-                    topLevel = true
-                )
-            }
-        }
+        val deepLinkRequest = intent.toNavigationRequest()
         enableEdgeToEdge()
         setContent {
-            TKWeekApp(viewModel)
+            TKWeekApp(viewModel = viewModel, initialNavigationRequest = deepLinkRequest)
         }
     }
+
+    // FLAG_ACTIVITY_CLEAR_TOP redelivers a widget tap's Intent here instead of a new onCreate()
+    // when the task is already running; without this override that Intent is silently dropped.
+    override fun onNewIntent(intent: Intent) {
+        super.onNewIntent(intent)
+        setIntent(intent)
+        intent.toNavigationRequest()?.let { request ->
+            viewModel.requestNavigation(module = request.module, topLevel = true)
+        }
+    }
+
+    private fun Intent.toNavigationRequest(): NavigationRequest? =
+        getStringExtra(CLAZZ)?.let { clazzName ->
+            TKWeekModule.entries.firstOrNull { it.clazz.name == clazzName }
+        }?.let { module ->
+            NavigationRequest(module = module, topLevel = true)
+        }
 }
 
-private const val ARGUMENTS = "arguments"
-
 @OptIn(
-    ExperimentalMaterial3Api::class, ExperimentalMaterial3AdaptiveApi::class
+    ExperimentalMaterial3Api::class,
+    ExperimentalMaterial3AdaptiveApi::class,
 )
 @Composable
-fun TKWeekApp(viewModel: TKWeekViewModel = viewModel()) {
+fun TKWeekApp(
+    viewModel: TKWeekViewModel = viewModel(),
+    initialNavigationRequest: NavigationRequest? = null,
+) {
     MaterialTheme(
         colorScheme = colorScheme()
     ) {
         val uiState by viewModel.uiState.collectAsState()
-        val threePaneScaffoldNavigator =
-            rememberListDetailPaneScaffoldNavigator<TKWeekModule>(
-                scaffoldDirective = calculatePaneScaffoldDirective(
-                    windowAdaptiveInfo = currentWindowAdaptiveInfo(),
-                    verticalHingePolicy = if (uiState.avoidHinge) HingePolicy.AlwaysAvoid else HingePolicy.NeverAvoid
-                )
-            )
-        val navController = rememberNavController()
-        val currentBackStackEntry by navController.currentBackStackEntryAsState()
-        val scope = rememberCoroutineScope()
         val appBarActions by viewModel.appBarActions.collectAsState()
-        val listVisible =
-            threePaneScaffoldNavigator.scaffoldValue[ListDetailPaneScaffoldRole.List] == PaneAdaptedValue.Expanded
-        val detailVisible =
-            threePaneScaffoldNavigator.scaffoldValue[ListDetailPaneScaffoldRole.Detail] == PaneAdaptedValue.Expanded
-        var activeModuleTitleRes by remember(uiState.topLevelModuleWithArguments) {
-            mutableIntStateOf(
-                uiState.topLevelModuleWithArguments.module.titleRes
-            )
-        }
-        LaunchedEffect(currentBackStackEntry) {
-            currentBackStackEntry?.destination?.route?.let { route ->
-                TKWeekModule.entries.firstOrNull { it.name == route }?.let {
-                    activeModuleTitleRes = it.titleRes
-                }
+
+        val directive = calculatePaneScaffoldDirective(
+            windowAdaptiveInfo = currentWindowAdaptiveInfo(),
+            verticalHingePolicy = if (uiState.avoidHinge) HingePolicy.AlwaysAvoid else HingePolicy.NeverAvoid
+        )
+        val isTwoPane = directive.maxHorizontalPartitions > 1
+
+        val backStack = rememberNavBackStack(
+            *initialTKWeekBackStack().toMutableList()
+                .apply { initialNavigationRequest?.let { applyNavigation(it) } }
+                .toTypedArray()
+        )
+
+        LaunchedEffect(Unit) {
+            viewModel.navigationRequests.collect { request ->
+                backStack.applyNavigation(request)
             }
         }
+
+        val navigatedModule = (backStack.lastOrNull() as? TKWeekDestination.Detail)?.module
+        val selectedModule = navigatedModule ?: DEFAULT_MODULE.takeIf { isTwoPane }
+        val activeModuleTitleRes = selectedModule?.titleRes ?: R.string.app_name
+        val detailVisible = isDetailPaneVisible(isTwoPane, backStack.size)
+        val listVisible = isListPaneVisible(isTwoPane, backStack.size)
+        val canGoBack = canNavigateBack(isTwoPane, backStack.size)
+        val activity = LocalActivity.current
+        // PopLatest pops exactly one entry, which is correct for nesting inside the detail pane;
+        // once there's nothing left that canNavigateBack considers a real back-target (the two-pane
+        // top-level selection isn't one - see TKWeekPaneVisibility), back should exit like any
+        // single-Activity app rather than popping into an inconsistent or self-reset state.
+        val onNavigateBack: () -> Unit = {
+            if (canGoBack) {
+                backStack.removeLastOrNull()
+            } else {
+                activity?.finish()
+            }
+        }
+
         LaunchedEffect(listVisible) {
             if (!listVisible) {
                 viewModel.setListScrolled(false)
             }
         }
-        LaunchedEffect(Unit) {
-            viewModel.navigationTrigger.collect { navigationEvent ->
-                if (navigationEvent.topLevel) {
-                    threePaneScaffoldNavigator.navigateTo(
-                        ListDetailPaneScaffoldRole.Detail
-                    )
-                } else {
-                    with(navigationEvent.moduleWithArguments) {
-                        navController.currentBackStackEntry?.savedStateHandle?.set(
-                            ARGUMENTS,
-                            arguments
-                        )
-                        navController.navigate(module.name)
-                    }
-                }
-            }
-        }
+
+        val sceneStrategy = rememberListDetailSceneStrategy<NavKey>(
+            backNavigationBehavior = BackNavigationBehavior.PopLatest,
+            directive = directive,
+        )
+
         val displayCutoutInsets = WindowInsets.displayCutout
         val density = LocalDensity.current
         val layoutDirection = LocalLayoutDirection.current
@@ -158,67 +177,70 @@ fun TKWeekApp(viewModel: TKWeekViewModel = viewModel()) {
         val right = displayCutoutInsets.getRight(density, layoutDirection)
         val horizontalPadding =
             with(density) { max(left, right).toDp() }.coerceAtLeast(16.dp)
+
         Scaffold(
             contentWindowInsets = WindowInsets(),
             topBar = {
-                val hasStackedModules =
-                    currentBackStackEntry != null && navController.previousBackStackEntry != null
-                val canNavigateBack =
-                    threePaneScaffoldNavigator.canNavigateBack() || hasStackedModules
-                val onNavigateBack: () -> Unit = {
-                    if (hasStackedModules) {
-                        navController.popBackStack()
-                    } else {
-                        scope.launch {
-                            threePaneScaffoldNavigator.navigateBack()
-                        }
-                    }
-                }
                 TKWeekTopAppBar(
                     uiState = uiState,
                     detailVisible = detailVisible,
                     activeModuleTitleRes = activeModuleTitleRes,
                     appBarActions = appBarActions,
-                    canNavigateBack = canNavigateBack,
+                    canNavigateBack = canGoBack,
                     onNavigateBack = onNavigateBack
                 )
             }
         ) { paddingValues ->
-            NavigableListDetailPaneScaffold(
-                navigator = threePaneScaffoldNavigator,
+            NavDisplay(
+                backStack = backStack,
                 modifier = Modifier
                     .padding(paddingValues)
                     .padding(horizontal = horizontalPadding),
-                listPane = {
-                    TKWeekModuleSelector(
-                        currentRoute = currentBackStackEntry?.destination?.route ?: "",
-                        onModuleSelected = { module ->
-                            viewModel.selectModuleWithArguments(
-                                module = module,
-                                arguments = null,
-                                topLevel = true
-                            )
-                        },
-                        detailVisible = detailVisible,
-                        onListStateChanged = { isAtTop ->
-                            viewModel.setListScrolled(!isAtTop)
-                        }
-                    )
-                },
-                detailPane = {
-                    TKWeekDetailPane(
-                        uiState = uiState,
-                        navController = navController,
-                        detailVisible = detailVisible,
-                    )
+                onBack = onNavigateBack,
+                sceneStrategies = listOf(sceneStrategy),
+                entryProvider = entryProvider {
+                    entry<TKWeekDestination.ModuleList>(
+                        metadata = ListDetailSceneStrategy.listPane(
+                            detailPlaceholder = {
+                                ModuleDetail(
+                                    module = DEFAULT_MODULE,
+                                    date = null,
+                                    showProgressIndicator = uiState.shouldShowProgressIndicator,
+                                )
+                            }
+                        )
+                    ) {
+                        TKWeekModuleSelector(
+                            selectedModule = selectedModule,
+                            onModuleSelected = { module ->
+                                viewModel.requestNavigation(module = module, topLevel = true)
+                            },
+                            onListStateChanged = { isAtTop ->
+                                viewModel.setListScrolled(!isAtTop)
+                            }
+                        )
+                    }
+                    entry<TKWeekDestination.Detail>(
+                        metadata = ListDetailSceneStrategy.detailPane()
+                    ) { detail ->
+                        ModuleDetail(
+                            module = detail.module,
+                            date = detail.date,
+                            showProgressIndicator = uiState.shouldShowProgressIndicator,
+                        )
+                    }
                 }
             )
         }
     }
 }
 
-@Preview(showBackground = true)
 @Composable
-fun TKWeekAppPreview() {
-    TKWeekApp()
+private fun ModuleDetail(module: TKWeekModule, date: Long?, showProgressIndicator: Boolean) {
+    Box(contentAlignment = Alignment.Center) {
+        TKWeekModuleContainer(module = module, date = date)
+        if (showProgressIndicator) {
+            CircularProgressIndicator()
+        }
+    }
 }

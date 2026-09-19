@@ -1,5 +1,5 @@
 /*
- * TKWeekModuleWithArguments.kt
+ * TKWeekPaneVisibility.kt
  *
  * Copyright 2022 - 2026 Thomas Künneth
  *
@@ -20,9 +20,15 @@
  * CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package com.thomaskuenneth.tkweek.types
+package com.thomaskuenneth.tkweek.navigation
 
-import android.os.Bundle
-import com.thomaskuenneth.tkweek.TKWeekModule
+fun isDetailPaneVisible(isTwoPane: Boolean, backStackSize: Int): Boolean =
+    isTwoPane || backStackSize > 1
 
-data class TKWeekModuleWithArguments(val module: TKWeekModule, val arguments: Bundle?)
+fun isListPaneVisible(isTwoPane: Boolean, backStackSize: Int): Boolean =
+    isTwoPane || backStackSize <= 1
+
+// In two-pane, list and detail are both always visible, so the top-level Detail entry that
+// selects what the detail pane shows isn't a back-target - only genuine nesting beyond it is.
+fun canNavigateBack(isTwoPane: Boolean, backStackSize: Int): Boolean =
+    if (isTwoPane) backStackSize > 2 else backStackSize > 1

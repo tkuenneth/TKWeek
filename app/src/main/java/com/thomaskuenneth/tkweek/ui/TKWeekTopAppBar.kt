@@ -25,6 +25,7 @@ package com.thomaskuenneth.tkweek.ui
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
@@ -32,14 +33,15 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import com.thomaskuenneth.tkweek.R
 import com.thomaskuenneth.tkweek.viewmodel.AppBarAction
-import com.thomaskuenneth.tkweek.viewmodel.UiState
+import com.thomaskuenneth.tkweek.viewmodel.TKWeekUiState
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TKWeekTopAppBar(
-    uiState: UiState,
+    uiState: TKWeekUiState,
     detailVisible: Boolean,
     activeModuleTitleRes: Int,
     appBarActions: List<AppBarAction>,
@@ -82,4 +84,36 @@ fun TKWeekTopAppBar(
             containerColor = containerColor
         )
     )
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Preview(showBackground = true)
+@Composable
+private fun TKWeekTopAppBarListPreview() {
+    MaterialTheme(colorScheme = colorScheme()) {
+        TKWeekTopAppBar(
+            uiState = TKWeekUiState(),
+            detailVisible = false,
+            activeModuleTitleRes = R.string.app_name,
+            appBarActions = emptyList(),
+            canNavigateBack = false,
+            onNavigateBack = {}
+        )
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Preview(showBackground = true)
+@Composable
+private fun TKWeekTopAppBarDetailPreview() {
+    MaterialTheme(colorScheme = colorScheme()) {
+        TKWeekTopAppBar(
+            uiState = TKWeekUiState(),
+            detailVisible = true,
+            activeModuleTitleRes = R.string.calendar_activity_text1,
+            appBarActions = emptyList(),
+            canNavigateBack = true,
+            onNavigateBack = {}
+        )
+    }
 }

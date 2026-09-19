@@ -8,3 +8,10 @@
     <img src="https://fdroid.gitlab.io/artwork/badge/get-it-on.png" alt="Get it on F-Droid" height="80">
 </a>
 </p>
+
+## Gradle cheat sheet
+
+- Run tests: `./gradlew testDebugUnitTest connectedDebugAndroidTest`
+- Update store screenshots (phone): `./gradlew generateStoreScreenshots -Pdevice=phone`
+- Update store screenshots (tablet/foldable): `./gradlew generateStoreScreenshots -Pdevice=tablet`
+- Update the baseline profile: `./gradlew :app:generateBaselineProfile`

@@ -17,10 +17,10 @@ import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
-import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import org.junit.rules.ExternalResource
 import org.junit.runner.RunWith
 import java.io.File
 
@@ -42,10 +42,25 @@ private val SCREENSHOT_SEQUENCE = listOf(
 @RunWith(AndroidJUnit4::class)
 class StoreScreenshotTest {
 
+    // Must run before composeRule launches the activity, so that TKWeekCompose's
+    // one-shot enableEdgeToEdge() reads dark mode from the very first onCreate.
     @get:Rule(order = 0)
-    val hiltRule = HiltAndroidRule(this)
+    val darkModeRule = object : ExternalResource() {
+        override fun before() {
+            UiDevice.getInstance(InstrumentationRegistry.getInstrumentation())
+                .executeShellCommand("cmd uimode night yes")
+        }
+
+        override fun after() {
+            UiDevice.getInstance(InstrumentationRegistry.getInstrumentation())
+                .executeShellCommand("cmd uimode night no")
+        }
+    }
 
     @get:Rule(order = 1)
+    val hiltRule = HiltAndroidRule(this)
+
+    @get:Rule(order = 2)
     val composeRule = createAndroidComposeRule<TKWeekCompose>()
 
     private lateinit var viewModel: TKWeekViewModel
@@ -62,12 +77,6 @@ class StoreScreenshotTest {
             deleteRecursively()
             mkdirs()
         }
-        uiDevice.executeShellCommand("cmd uimode night yes")
-    }
-
-    @After
-    fun tearDown() {
-        uiDevice.executeShellCommand("cmd uimode night no")
     }
 
     @Test

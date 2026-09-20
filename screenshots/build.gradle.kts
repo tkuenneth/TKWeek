@@ -1,11 +1,17 @@
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
-import java.awt.BasicStroke
-import java.awt.Color
+import java.awt.AlphaComposite
 import java.awt.RenderingHints
-import java.awt.geom.Ellipse2D
-import java.awt.geom.RoundRectangle2D
 import java.awt.image.BufferedImage
 import javax.imageio.ImageIO
+
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.sejda.imageio:webp-imageio:0.1.6")
+    }
+}
 
 plugins {
     alias(libs.plugins.android.test)
@@ -119,7 +125,7 @@ tasks.register("generateStoreScreenshots") {
             val rawFile = rawFiles.firstOrNull { it.name.startsWith("%02d_".format(rawIndex)) }
                 ?: throw GradleException("Missing captured screenshot for '$name' (index $rawIndex)")
 
-            val framed = frameScreenshot(ImageIO.read(rawFile), deviceType)
+            val framed = frameScreenshot(ImageIO.read(rawFile), deviceType, sdkDir)
             val outputFile = File(outputDir, "%02d.png".format(position + 1))
             ImageIO.write(framed, "png", outputFile)
             logger.lifecycle("Wrote ${outputFile.relativeTo(rootDir)}")
@@ -136,59 +142,51 @@ fun runCommand(vararg command: String) {
     }
 }
 
-fun frameScreenshot(source: BufferedImage, deviceType: String): BufferedImage {
-    val w = source.width
-    val h = source.height
-    val border = (w * 0.035f).toInt()
-    val topExtra = if (deviceType == "phone") (border * 1.8f).toInt() else border
-    val outerRadius = w * 0.09f
-    val innerRadius = (outerRadius - border * 0.6f).coerceAtLeast(8f)
+data class SkinLayout(val canvasWidth: Int, val canvasHeight: Int, val deviceX: Int, val deviceY: Int)
 
-    val totalW = w + border * 2
-    val totalH = h + topExtra + border
+fun parseSkinLayout(layoutFile: File): SkinLayout {
+    val text = layoutFile.readText()
+    val layoutsIndex = text.indexOf("layouts {")
+    require(layoutsIndex >= 0) { "No 'layouts' block found in $layoutFile" }
+    val layoutsSection = text.substring(layoutsIndex)
 
-    val result = BufferedImage(totalW, totalH, BufferedImage.TYPE_INT_ARGB)
-    val g = result.createGraphics()
-    g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON)
+    val canvasWidth = Regex("width\\s+(\\d+)").find(layoutsSection)!!.groupValues[1].toInt()
+    val canvasHeight = Regex("height\\s+(\\d+)").find(layoutsSection)!!.groupValues[1].toInt()
 
-    g.color = Color(0x2b, 0x2b, 0x2f)
-    g.fill(RoundRectangle2D.Float(0f, 0f, totalW.toFloat(), totalH.toFloat(), outerRadius, outerRadius))
+    val part2Body = Regex("part2\\s*\\{([^}]*)}").find(layoutsSection)!!.groupValues[1]
+    val deviceX = Regex("x\\s+(\\d+)").find(part2Body)!!.groupValues[1].toInt()
+    val deviceY = Regex("y\\s+(\\d+)").find(part2Body)!!.groupValues[1].toInt()
 
-    g.color = Color(0x45, 0x45, 0x4a)
-    g.stroke = BasicStroke((border * 0.08f).coerceAtLeast(2f))
-    g.draw(
-        RoundRectangle2D.Float(
-            1f, 1f, totalW - 2f, totalH - 2f, outerRadius, outerRadius
-        )
-    )
+    return SkinLayout(canvasWidth, canvasHeight, deviceX, deviceY)
+}
 
-    val screenClip = RoundRectangle2D.Float(
-        border.toFloat(), topExtra.toFloat(), w.toFloat(), h.toFloat(), innerRadius, innerRadius
-    )
-    val oldClip = g.clip
-    g.clip = screenClip
-    g.drawImage(source, border, topExtra, null)
-    g.clip = oldClip
-
-    g.color = Color(0x00, 0x00, 0x00, 0x80)
-    g.stroke = BasicStroke(2f)
-    g.draw(screenClip)
-
-    if (deviceType == "phone") {
-        val camR = topExtra * 0.16f
-        val camCx = totalW / 2f
-        val camCy = topExtra / 2f
-        g.color = Color(0x10, 0x10, 0x12)
-        g.fill(Ellipse2D.Float(camCx - camR, camCy - camR, camR * 2, camR * 2))
-        g.color = Color(0x3a, 0x3a, 0x40)
-        g.stroke = BasicStroke(1.5f)
-        g.draw(Ellipse2D.Float(camCx - camR, camCy - camR, camR * 2, camR * 2))
-    } else {
-        g.color = Color(0x00, 0x00, 0x00, 0x50)
-        g.stroke = BasicStroke((border * 0.12f).coerceAtLeast(2f))
-        g.drawLine(totalW / 2, 0, totalW / 2, totalH)
+fun frameScreenshot(source: BufferedImage, deviceType: String, sdkDir: String): BufferedImage {
+    ImageIO.scanForPlugins()
+    val skinDir = when (deviceType) {
+        "phone" -> File(sdkDir, "skins/pixel_10")
+        "fold" -> File(sdkDir, "skins/pixel_fold/default")
+        else -> throw GradleException("No SDK skin configured for device class '$deviceType'")
     }
+    val layout = parseSkinLayout(File(skinDir, "layout"))
+    val back = ImageIO.read(File(skinDir, "back.webp"))
+        ?: throw GradleException("Could not decode ${File(skinDir, "back.webp")}")
+    val mask = ImageIO.read(File(skinDir, "mask.webp"))
+        ?: throw GradleException("Could not decode ${File(skinDir, "mask.webp")}")
 
+    val maskedSource = BufferedImage(source.width, source.height, BufferedImage.TYPE_INT_ARGB)
+    val sg = maskedSource.createGraphics()
+    sg.drawImage(source, 0, 0, source.width, source.height, null)
+    sg.composite = AlphaComposite.DstOut
+    sg.drawImage(mask, 0, 0, source.width, source.height, null)
+    sg.dispose()
+
+    val canvas = BufferedImage(layout.canvasWidth, layout.canvasHeight, BufferedImage.TYPE_INT_ARGB)
+    val g = canvas.createGraphics()
+    g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON)
+    g.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR)
+    g.drawImage(back, 0, 0, layout.canvasWidth, layout.canvasHeight, null)
+    g.drawImage(maskedSource, layout.deviceX, layout.deviceY, source.width, source.height, null)
     g.dispose()
-    return result
+
+    return canvas
 }

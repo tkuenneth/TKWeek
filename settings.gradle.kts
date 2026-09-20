@@ -21,3 +21,4 @@ dependencyResolutionManagement {
 rootProject.name = "TKWeek"
 include(":app")
 include(":baselineprofile")
+include(":screenshots")

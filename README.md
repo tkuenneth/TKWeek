@@ -12,6 +12,5 @@
 ## Gradle cheat sheet
 
 - Run tests: `./gradlew testDebugUnitTest connectedDebugAndroidTest`
-- Update store screenshots (phone): `./gradlew generateStoreScreenshots -Pdevice=phone`
-- Update store screenshots (tablet/foldable): `./gradlew generateStoreScreenshots -Pdevice=tablet`
+- Update store screenshots (run against a booted phone or foldable emulator/device): `./gradlew :screenshots:generateStoreScreenshots`
 - Update the baseline profile: `./gradlew :app:generateBaselineProfile`

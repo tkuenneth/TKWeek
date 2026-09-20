@@ -23,8 +23,8 @@ android {
         applicationId = "com.thomaskuenneth.tkweek"
         minSdk = 24
         targetSdk = 37
-        versionCode = 24101
-        versionName = "2.4.1"
+        versionCode = 24201
+        versionName = "2.4.2"
         testInstrumentationRunner = "com.thomaskuenneth.tkweek.HiltTestRunner"
     }
 

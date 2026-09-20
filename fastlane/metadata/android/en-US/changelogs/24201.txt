@@ -1,0 +1,3 @@
+- Improved reliability of master-detail navigation across rotation, widgets, and back navigation
+- Baseline profiles updated
+- Libraries and tools upgrades

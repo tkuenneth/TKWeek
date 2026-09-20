@@ -1,0 +1,3 @@
+- Master-Detail-Navigation bei Drehung, Widgets und Zurück-Navigation zuverlässiger gemacht
+- Baseline-Profile aktualisiert
+- Bibliotheken und Tools aktualisiert

@@ -16,7 +16,9 @@ jobs:
     # Normalise the environment so the build stays reproducible regardless of the runner's locale.
     env:
       TZ: UTC
-      LC_ALL: C.UTC
+      # C.UTC is not a locale; the Ubuntu runners provide C.UTF-8.
+      LANG: C.UTF-8
+      LC_ALL: C.UTF-8
     steps:
       - name: Checkout
         uses: actions/checkout@v4

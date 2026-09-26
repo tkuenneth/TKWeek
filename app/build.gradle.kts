@@ -12,7 +12,7 @@ plugins {
 }
 
 android {
-    compileSdk = 37
+    compileSdk = libs.versions.compileSdk.get().toInt()
 
     buildFeatures {
         viewBinding = true
@@ -21,8 +21,8 @@ android {
 
     defaultConfig {
         applicationId = "com.thomaskuenneth.tkweek"
-        minSdk = 24
-        targetSdk = 37
+        minSdk = libs.versions.minSdk.get().toInt()
+        targetSdk = libs.versions.targetSdk.get().toInt()
         versionCode = 24201
         versionName = "2.4.2"
         testInstrumentationRunner = "com.thomaskuenneth.tkweek.HiltTestRunner"
@@ -40,6 +40,17 @@ android {
             vcsInfo {
                 include = false
             }
+        }
+        // Store screenshots must show the release app - the release build type stays
+        // unsigned so its APK remains the one that gets published. This build type is a
+        // signed copy of it, used only by :screenshots. Shrinking is off because a
+        // minified app forces the instrumentation module to be minified too.
+        create("screenshots") {
+            initWith(getByName("release"))
+            signingConfig = signingConfigs.getByName("debug")
+            isMinifyEnabled = false
+            isShrinkResources = false
+            matchingFallbacks += listOf("release")
         }
     }
 

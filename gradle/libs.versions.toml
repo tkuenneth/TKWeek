@@ -1,4 +1,7 @@
 [versions]
+compileSdk = "37"
+minSdk = "24"
+targetSdk = "37"
 activityKtx = "1.13.0"
 agp = "9.4.1"
 annotation = "1.10.0"

@@ -21,8 +21,6 @@ class StartupBaselineProfileGenerator {
     fun generate() = baselineProfileRule.collect(
         packageName = TARGET_PACKAGE,
         includeInStartupProfile = true,
-        maxIterations = 12,
-        stableIterations = 3
     ) {
         val labels = targetUiLabels()
         pressHome()

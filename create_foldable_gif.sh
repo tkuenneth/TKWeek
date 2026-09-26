@@ -1,12 +1,12 @@
 #!/bin/bash
 set -euo pipefail
 
-# Same timings as mintime/tkbirthdayreminder create_gif.sh:
+# Same timings as create_gif.sh:
 # hold 1.0s (delay 100), morph 10 frames at 0.1s (delay 10), loop last -> first.
 
 ROOT="$(cd "$(dirname "$0")" && pwd)"
-SRC="$ROOT/fastlane/metadata/android/en-US/images/phoneScreenshots"
-OUT="$ROOT/docs/assets/TKWeek-animated.gif"
+SRC="$ROOT/fastlane/metadata/android/en-US/images/sevenInchScreenshots"
+OUT="$ROOT/docs/assets/tkweek_foldable.gif"
 
 files=()
 while IFS= read -r f; do

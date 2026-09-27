@@ -38,7 +38,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.adaptive.ExperimentalMaterial3AdaptiveApi
-import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
+import androidx.compose.material3.adaptive.currentWindowAdaptiveInfoV2
 import androidx.compose.material3.adaptive.layout.HingePolicy
 import androidx.compose.material3.adaptive.layout.calculatePaneScaffoldDirective
 import androidx.compose.material3.adaptive.navigation.BackNavigationBehavior
@@ -123,7 +123,7 @@ fun TKWeekApp(
         val appBarActions by viewModel.appBarActions.collectAsState()
 
         val directive = calculatePaneScaffoldDirective(
-            windowAdaptiveInfo = currentWindowAdaptiveInfo(),
+            windowAdaptiveInfo = currentWindowAdaptiveInfoV2(),
             verticalHingePolicy = if (uiState.avoidHinge) HingePolicy.AlwaysAvoid else HingePolicy.NeverAvoid
         )
         val isTwoPane = directive.maxHorizontalPartitions > 1

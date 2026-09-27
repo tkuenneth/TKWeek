@@ -100,7 +100,7 @@ fun TKWeekAppBarActions(
             ) {
                 textActions.forEach { action ->
                     DropdownMenuItem(
-                        text = { Text(text = stringResource(id = action.title!!)) },
+                        text = { Text(text = stringResource(id = action.title)) },
                         onClick = {
                             showMenu = false
                             action.onClick()

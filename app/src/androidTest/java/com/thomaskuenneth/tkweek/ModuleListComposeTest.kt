@@ -1,6 +1,5 @@
 package com.thomaskuenneth.tkweek
 
-import androidx.compose.ui.semantics.SemanticsProperties
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.assertTextEquals
 import androidx.compose.ui.test.junit4.v2.createAndroidComposeRule
@@ -12,7 +11,6 @@ import androidx.test.filters.LargeTest
 import com.thomaskuenneth.tkweek.ui.TKWeekTestTags
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
-import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -48,18 +46,9 @@ class ModuleListComposeTest {
             composeRule.activity.getString(R.string.app_name)
         }
 
-        composeRule.onNodeWithTag(TKWeekTestTags.TOP_APP_BAR_TITLE).assertIsDisplayed()
-        // Spelled out rather than left to assertTextEquals: when this breaks, the message has
-        // to say which layout was assumed, because the expectation depends on the window and
-        // the two-pane breakpoint below is a copy of a framework rule, not a shared constant.
-        val actualTitle = composeRule.onNodeWithTag(TKWeekTestTags.TOP_APP_BAR_TITLE)
-            .fetchSemanticsNode().config[SemanticsProperties.Text].joinToString { it.text }
-        assertEquals(
-            "Assumed ${if (isTwoPane()) "two panes" else "a single pane"} at " +
-                "${composeRule.activity.resources.configuration.screenWidthDp}dp wide",
-            expectedTitle,
-            actualTitle
-        )
+        composeRule.onNodeWithTag(TKWeekTestTags.TOP_APP_BAR_TITLE)
+            .assertIsDisplayed()
+            .assertTextEquals(expectedTitle)
         // By tag, not by text: in two-pane mode the module's name is also the bar's title, so
         // matching on text alone finds two nodes and the assertion becomes ambiguous.
         composeRule.onNodeWithTag(TKWeekTestTags.moduleListItem(TKWeekModule.Week.name))

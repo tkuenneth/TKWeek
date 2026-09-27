@@ -32,7 +32,6 @@ import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.viewinterop.AndroidView
-import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentContainerView
 import com.thomaskuenneth.tkweek.TKWeekModule
@@ -46,7 +45,7 @@ fun TKWeekModuleContainer(
     // LocalActivity, unlike LocalContext, survives a ContextThemeWrapper (e.g. DeviceConfigurationOverride).
     val fragmentManager = (LocalActivity.current as AppCompatActivity).supportFragmentManager
     val containerId = remember { View.generateViewId() }
-    val arguments: Bundle? = date?.let { bundleOf(Helper.DATE to it) }
+    val arguments: Bundle? = date?.let { Bundle().apply { putLong(Helper.DATE, it) } }
 
     DisposableEffect(module, date) {
         val moduleName = module.clazz.name

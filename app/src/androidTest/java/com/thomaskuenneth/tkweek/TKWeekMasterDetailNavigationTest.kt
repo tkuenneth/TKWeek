@@ -21,10 +21,13 @@ import androidx.test.espresso.NoActivityResumedException
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
 import com.thomaskuenneth.tkweek.ui.TKWeekTestTags
+import com.thomaskuenneth.tkweek.util.Helper
 import com.thomaskuenneth.tkweek.viewmodel.TKWeekViewModel
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import org.junit.After
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertThrows
 import org.junit.Before
 import org.junit.Rule
@@ -202,6 +205,28 @@ class TKWeekMasterDetailNavigationTest {
         pressSystemBack()
 
         composeRule.onNodeWithTag(TKWeekTestTags.TOP_APP_BAR_TITLE).assertTextEquals(calendarTitle)
+    }
+
+    /**
+     * Navigating with a date has to hand that date to the hosted fragment, not merely open the
+     * right module: the fragment reads it back as a long under [Helper.DATE], so a wrong key or
+     * a wrong primitive type would leave the module showing today instead of the chosen day.
+     */
+    @Test
+    fun nestedNavigationWithADate_passesItToTheFragmentAsALong() {
+        val chosenDate = 1_234_567_890_000L
+        setContentAt(EXPANDED_WINDOW)
+
+        simulateNestedNavigation(TKWeekModule.MyDay, date = chosenDate)
+
+        // Reaching for the fragment is white box - it relies on the tag TKWeekModuleContainer
+        // uses - but the alternative is asserting on a formatted date somewhere in the module's
+        // own UI, which would test the formatter and the locale rather than the hand-over.
+        val arguments = composeRule.activity.supportFragmentManager
+            .findFragmentByTag(TKWeekModule.MyDay.clazz.name)
+            ?.arguments
+        assertNotNull("MyDay fragment was never attached, or given no arguments", arguments)
+        assertEquals(chosenDate, arguments?.getLong(Helper.DATE))
     }
 
     @Test

@@ -424,5 +424,6 @@ SOFTWARE.
 	</string>
     <string name="open_source_licenses">Open source licenses</string>
     <string name="avoid_hinge">Avoid hinge</string>
+    <string name="hide_actions">Hide actions</string>
 
 </resources>

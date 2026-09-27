@@ -26,9 +26,9 @@ package com.thomaskuenneth.tkweek.ui
 object TKWeekTestTags {
     const val TOP_APP_BAR_TITLE = "tkweek_top_app_bar_title"
     const val MODULE_LIST = "tkweek_module_list"
-
-    /** The app bar's overflow indicator, shown when actions do not fit or have no icon. */
-    const val APP_BAR_OVERFLOW = "tkweek_app_bar_overflow"
+    const val FAB_MENU_TOGGLE = "tkweek_fab_menu_toggle"
+    const val FAB_MENU_NEW_EVENT = "tkweek_fab_menu_new_event"
+    const val FAB_MENU_BACKUP_RESTORE = "tkweek_fab_menu_backup_restore"
 
     /** The tag for a module's row in the master list. */
     fun moduleListItem(moduleName: String): String = "tkweek_module_list_item_$moduleName"

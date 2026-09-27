@@ -85,19 +85,10 @@ abstract class TKWeekBaseFragment<T> : TKWeekHiltBaseFragment() {
         }
     }
 
-    override fun onViewStateRestored(savedInstanceState: Bundle?) {
-        super.onViewStateRestored(savedInstanceState)
-        updateAppBarActions()
-    }
-
     override fun onDestroyView() {
         super.onDestroyView()
         viewModel.setDetailScrolled(false)
         backing = null
-    }
-
-    open fun updateAppBarActions() {
-        viewModel.setAppBarActions(emptyList())
     }
 
     fun selectModule(module: Class<*>, payload: Bundle?) {

@@ -189,14 +189,12 @@ class MyDayFragment : TKWeekBaseFragment<MydayBinding>() {
             picker.addOnPositiveButtonClickListener { selection ->
                 myDayViewModel.setCalendarTime(selection)
                 updateViews()
-                updateAppBarActions()
             }
             picker.show(parentFragmentManager, "date_picker")
         }
         binding.myDayToday.setOnClickListener {
             myDayViewModel.setCalendarTime(Date())
             updateViews()
-            updateAppBarActions()
         }
         updateViews()
         linkToSettings(binding.keyValueContainer, requireActivity(), R.string.go_to_settings)
@@ -219,10 +217,6 @@ class MyDayFragment : TKWeekBaseFragment<MydayBinding>() {
             triggerLoad()
         }
     }
-
-    // Both actions live as assist chips above the content, where their connection to the
-    // selected day is visible. Nothing is contributed to the app bar, which is the base
-    // class's behaviour already - hence no updateAppBarActions override here.
 
     private fun newAppointment() {
         val intent = Intent(Intent.ACTION_INSERT, CalendarContract.Events.CONTENT_URI)

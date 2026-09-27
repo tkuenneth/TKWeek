@@ -1,10 +1,4 @@
-<!--
-    Material Design Icons "event", Apache License 2.0.
-    https://github.com/google/material-design-icons
-
-    No android:tint here on purpose: the chip style tints its icon, which keeps the colour
-    correct in both light and dark themes.
--->
+<!-- Material Design Icons "event", Apache License 2.0. https://github.com/google/material-design-icons -->
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
     android:width="24dp"
     android:height="24dp"

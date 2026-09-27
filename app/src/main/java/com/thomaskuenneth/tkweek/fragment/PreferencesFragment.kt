@@ -76,11 +76,6 @@ class PreferencesFragment : PreferenceFragmentCompat() {
         }
     }
 
-    override fun onViewStateRestored(savedInstanceState: Bundle?) {
-        super.onViewStateRestored(savedInstanceState)
-        viewModel.setAppBarActions(emptyList())
-    }
-
     override fun onDestroyView() {
         super.onDestroyView()
         viewModel.setDetailScrolled(false)

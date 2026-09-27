@@ -35,7 +35,6 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.thomaskuenneth.tkweek.R
-import com.thomaskuenneth.tkweek.viewmodel.AppBarAction
 import com.thomaskuenneth.tkweek.viewmodel.TKWeekUiState
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -44,7 +43,6 @@ fun TKWeekTopAppBar(
     uiState: TKWeekUiState,
     detailVisible: Boolean,
     activeModuleTitleRes: Int,
-    appBarActions: List<AppBarAction>,
     canNavigateBack: Boolean,
     onNavigateBack: () -> Unit
 ) {
@@ -75,11 +73,6 @@ fun TKWeekTopAppBar(
                 BackArrow(onClick = onNavigateBack)
             }
         },
-        actions = {
-            if (detailVisible) {
-                TKWeekAppBarActions(appBarActions)
-            }
-        },
         colors = TopAppBarDefaults.topAppBarColors(
             containerColor = containerColor
         )
@@ -95,7 +88,6 @@ private fun TKWeekTopAppBarListPreview() {
             uiState = TKWeekUiState(),
             detailVisible = false,
             activeModuleTitleRes = R.string.app_name,
-            appBarActions = emptyList(),
             canNavigateBack = false,
             onNavigateBack = {}
         )
@@ -111,7 +103,6 @@ private fun TKWeekTopAppBarDetailPreview() {
             uiState = TKWeekUiState(),
             detailVisible = true,
             activeModuleTitleRes = R.string.calendar_activity_text1,
-            appBarActions = emptyList(),
             canNavigateBack = true,
             onNavigateBack = {}
         )

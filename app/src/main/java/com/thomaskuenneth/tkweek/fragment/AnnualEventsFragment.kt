@@ -44,9 +44,16 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
+import androidx.activity.OnBackPressedCallback
 import androidx.core.content.edit
+import androidx.core.view.updatePadding
+import androidx.compose.material3.MaterialTheme
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.compose.runtime.getValue
+import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.DefaultLifecycleObserver
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -62,8 +69,11 @@ import com.thomaskuenneth.tkweek.util.DateUtilities
 import com.thomaskuenneth.tkweek.util.Helper
 import com.thomaskuenneth.tkweek.util.Helper.DATE
 import com.thomaskuenneth.tkweek.util.TKWeekUtils
+import com.thomaskuenneth.tkweek.ui.AnnualEventsFabMenu
+import com.thomaskuenneth.tkweek.ui.FabMenuItem
+import com.thomaskuenneth.tkweek.ui.TKWeekTestTags
+import com.thomaskuenneth.tkweek.ui.colorScheme
 import com.thomaskuenneth.tkweek.viewmodel.AnnualEventsViewModel
-import com.thomaskuenneth.tkweek.viewmodel.AppBarAction
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.combine
@@ -94,6 +104,12 @@ class AnnualEventsFragment : TKWeekBaseFragment<EventsBinding>(), AdapterView.On
     private var loadEventsJob: Job? = null
 
     private var listAdapter: AnnualEventsListAdapter? = null
+
+    private val collapseFabMenuOnBack = object : OnBackPressedCallback(false) {
+        override fun handleOnBackPressed() {
+            annualEventsViewModel.setFabMenuExpanded(false)
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -144,12 +160,13 @@ class AnnualEventsFragment : TKWeekBaseFragment<EventsBinding>(), AdapterView.On
         loadEventsJob = null
         binding.listView.onItemClickListener = this
         binding.listView.setOnCreateContextMenuListener(this)
+        setUpFabMenu()
         binding.searchView.setupWithSearchBar(binding.searchBar)
         val lifecycleOwner = viewLifecycleOwner
         binding.searchView
             .editText
             .setOnEditorActionListener { _, _, _ ->
-                if (lifecycleOwner.lifecycle.currentState.isAtLeast(androidx.lifecycle.Lifecycle.State.RESUMED)) {
+                if (lifecycleOwner.lifecycle.currentState.isAtLeast(Lifecycle.State.RESUMED)) {
                     annualEventsViewModel.setSearchQuery(binding.searchView.text.toString())
                 }
                 false
@@ -158,7 +175,7 @@ class AnnualEventsFragment : TKWeekBaseFragment<EventsBinding>(), AdapterView.On
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                if (lifecycleOwner.lifecycle.currentState.isAtLeast(androidx.lifecycle.Lifecycle.State.RESUMED)) {
+                if (lifecycleOwner.lifecycle.currentState.isAtLeast(Lifecycle.State.RESUMED)) {
                     annualEventsViewModel.setSearchQuery(s.toString())
                 }
             }
@@ -166,7 +183,7 @@ class AnnualEventsFragment : TKWeekBaseFragment<EventsBinding>(), AdapterView.On
             override fun afterTextChanged(s: Editable?) {}
         })
         binding.searchView.addTransitionListener { _, _, newState ->
-            if (lifecycleOwner.lifecycle.currentState.isAtLeast(androidx.lifecycle.Lifecycle.State.RESUMED)) {
+            if (lifecycleOwner.lifecycle.currentState.isAtLeast(Lifecycle.State.RESUMED)) {
                 annualEventsViewModel.setSearchOpen(newState == SearchView.TransitionState.SHOWING || newState == SearchView.TransitionState.SHOWN)
             }
         }
@@ -209,7 +226,7 @@ class AnnualEventsFragment : TKWeekBaseFragment<EventsBinding>(), AdapterView.On
         updateAll()
 
         viewLifecycleOwner.lifecycleScope.launch {
-            viewLifecycleOwner.repeatOnLifecycle(androidx.lifecycle.Lifecycle.State.STARTED) {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 combine(
                     annualEventsViewModel.isSearchOpen,
                     annualEventsViewModel.searchQuery
@@ -422,26 +439,59 @@ class AnnualEventsFragment : TKWeekBaseFragment<EventsBinding>(), AdapterView.On
         }
     }
 
-    override fun updateAppBarActions() {
-        val actions = listOf(
-            AppBarAction(
-                icon = R.drawable.ic_baseline_add_24,
-                contentDescription = R.string.new_event,
-                title = R.string.new_event,
-                onClick = {
-                    showDialog(NewEventFragment())
-                }
-            ),
-            AppBarAction(
-                icon = R.drawable.ic_baseline_backup_24,
-                contentDescription = R.string.annual_event_backup_restore,
-                title = R.string.annual_event_backup_restore,
-                onClick = {
-                    showDialog(BackupRestoreDialogFragment())
-                }
-            )
+    private fun setUpFabMenu() {
+        requireActivity().onBackPressedDispatcher.addCallback(
+            viewLifecycleOwner, collapseFabMenuOnBack
         )
-        viewModel.setAppBarActions(actions)
+        val items = listOf(
+            FabMenuItem(
+                label = R.string.annual_event_backup_restore,
+                icon = R.drawable.ic_baseline_backup_24,
+                testTag = TKWeekTestTags.FAB_MENU_BACKUP_RESTORE
+            ) {
+                annualEventsViewModel.setFabMenuExpanded(false)
+                showDialog(BackupRestoreDialogFragment())
+            },
+            FabMenuItem(
+                label = R.string.new_event,
+                icon = R.drawable.ic_baseline_add_24,
+                testTag = TKWeekTestTags.FAB_MENU_NEW_EVENT
+            ) {
+                annualEventsViewModel.setFabMenuExpanded(false)
+                showDialog(NewEventFragment())
+            }
+        )
+        binding.fabMenu.setViewCompositionStrategy(
+            ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed
+        )
+        binding.fabMenu.setContent {
+            MaterialTheme(colorScheme = colorScheme()) {
+                val expanded by annualEventsViewModel.isFabMenuExpanded.collectAsStateWithLifecycle()
+                AnnualEventsFabMenu(
+                    expanded = expanded,
+                    onExpandedChange = annualEventsViewModel::setFabMenuExpanded,
+                    items = items,
+                    onClearanceChange = ::applyFabMenuClearance
+                )
+            }
+        }
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                annualEventsViewModel.isFabMenuExpanded
+                    .onEach(::applyFabMenuExpanded)
+                    .launchIn(this)
+            }
+        }
+    }
+
+    private fun applyFabMenuClearance(clearance: Int) {
+        if (binding.eventsScroll.paddingBottom != clearance) {
+            binding.eventsScroll.updatePadding(bottom = clearance)
+        }
+    }
+
+    private fun applyFabMenuExpanded(expanded: Boolean) {
+        collapseFabMenuOnBack.isEnabled = expanded
     }
 
     private fun setListAdapterLoadEvents(

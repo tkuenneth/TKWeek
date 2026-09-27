@@ -30,7 +30,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/new_appointment"
-                app:chipIcon="@drawable/ic_baseline_event_24" />
+                app:chipIcon="@drawable/ic_baseline_event_24"
+                app:chipIconTint="?attr/colorPrimary" />
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/my_day_chip_wikipedia"
@@ -38,7 +39,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/look_up_in_wikipedia"
-                app:chipIcon="@drawable/ic_baseline_search_24" />
+                app:chipIcon="@drawable/ic_baseline_search_24"
+                app:chipIconTint="?attr/colorPrimary" />
 
         </com.google.android.material.chip.ChipGroup>
 

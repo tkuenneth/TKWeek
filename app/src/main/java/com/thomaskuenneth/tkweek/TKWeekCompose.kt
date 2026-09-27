@@ -46,7 +46,7 @@ import androidx.compose.material3.adaptive.navigation3.ListDetailSceneStrategy
 import androidx.compose.material3.adaptive.navigation3.rememberListDetailSceneStrategy
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -119,8 +119,7 @@ fun TKWeekApp(
     MaterialTheme(
         colorScheme = colorScheme()
     ) {
-        val uiState by viewModel.uiState.collectAsState()
-        val appBarActions by viewModel.appBarActions.collectAsState()
+        val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
         val directive = calculatePaneScaffoldDirective(
             windowAdaptiveInfo = currentWindowAdaptiveInfoV2(),
@@ -185,7 +184,6 @@ fun TKWeekApp(
                     uiState = uiState,
                     detailVisible = detailVisible,
                     activeModuleTitleRes = activeModuleTitleRes,
-                    appBarActions = appBarActions,
                     canNavigateBack = canGoBack,
                     onNavigateBack = onNavigateBack
                 )

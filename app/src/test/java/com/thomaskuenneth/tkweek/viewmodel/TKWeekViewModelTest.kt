@@ -81,18 +81,6 @@ class TKWeekViewModelTest {
     }
 
     @Test
-    fun setAppBarActions_replacesTheActionList() = runTest {
-        viewModel.appBarActions.test {
-            assertEquals(emptyList<AppBarAction>(), awaitItem())
-
-            val action = AppBarAction(title = 1, onClick = {})
-            viewModel.setAppBarActions(listOf(action))
-
-            assertEquals(listOf(action), awaitItem())
-        }
-    }
-
-    @Test
     fun requestNavigation_topLevel_emitsMatchingRequest() = runTest {
         viewModel.navigationRequests.test {
             viewModel.requestNavigation(module = TKWeekModule.Calendar, topLevel = true)

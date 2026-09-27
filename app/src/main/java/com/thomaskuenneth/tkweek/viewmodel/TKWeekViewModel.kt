@@ -47,14 +47,6 @@ data class TKWeekUiState(
     val shouldShowProgressIndicator: Boolean = false,
 )
 
-data class AppBarAction(
-    @param:StringRes val title: Int,
-    @param:DrawableRes val icon: Int? = null,
-    @param:StringRes val contentDescription: Int = title,
-    val onClick: () -> Unit,
-    val isVisible: Boolean = true
-)
-
 // topLevel = true discards every nested screen and makes module the detail pane's root;
 // topLevel = false pushes module on top of whatever is already showing.
 data class NavigationRequest(
@@ -70,9 +62,6 @@ class TKWeekViewModel @Inject constructor(
 
     private val _uiState = MutableStateFlow(TKWeekUiState())
     val uiState = _uiState.asStateFlow()
-
-    private val _appBarActions = MutableStateFlow<List<AppBarAction>>(emptyList())
-    val appBarActions = _appBarActions.asStateFlow()
 
     // SharedFlow, not Channel: a Channel delivers to exactly one collector, which could be one
     // that's being torn down across an activity recreation, silently swallowing the request.
@@ -94,10 +83,6 @@ class TKWeekViewModel @Inject constructor(
 
     fun setDetailScrolled(isScrolled: Boolean) {
         _uiState.update { it.copy(isDetailScrolled = isScrolled) }
-    }
-
-    fun setAppBarActions(actions: List<AppBarAction>) {
-        _appBarActions.update { actions }
     }
 
     fun requestNavigation(module: TKWeekModule, date: Long? = null, topLevel: Boolean) {

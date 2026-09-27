@@ -338,5 +338,6 @@ können Sie diese in den Einstellungen ausblenden.</string>
     <string name="human_rights_day">Tag der Menschenrechte</string>
     <string name="avoid_hinge">Scharnier meiden</string>
     <string name="open_source_licenses">Open-Source-Lizenzen</string>
+    <string name="hide_actions">Aktionen ausblenden</string>
 
 </resources>

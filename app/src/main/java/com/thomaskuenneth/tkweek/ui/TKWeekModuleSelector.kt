@@ -68,7 +68,6 @@ fun TKWeekModuleSelector(
         items(TKWeekModule.entries, key = { it }) { entry ->
             val selected = entry == selectedModule
             ListItem(
-                headlineContent = { Text(text = stringResource(id = entry.titleRes)) },
                 supportingContent = { Text(text = stringResource(id = entry.descriptionRes)) },
                 modifier = Modifier
                     .testTag(TKWeekTestTags.moduleListItem(entry.name))
@@ -79,7 +78,9 @@ fun TKWeekModuleSelector(
                     headlineColor = if (selected) MaterialTheme.colorScheme.onSecondaryContainer else MaterialTheme.colorScheme.onSurface,
                     supportingColor = if (selected) MaterialTheme.colorScheme.onSecondaryContainer else MaterialTheme.colorScheme.onSurfaceVariant
                 )
-            )
+            ) {
+                Text(text = stringResource(id = entry.titleRes))
+            }
         }
         item {
             BottomSpace()

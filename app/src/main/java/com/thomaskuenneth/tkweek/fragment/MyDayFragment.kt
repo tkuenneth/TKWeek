@@ -66,7 +66,6 @@ import com.thomaskuenneth.tkweek.util.Helper
 import com.thomaskuenneth.tkweek.util.Helper.DATE
 import com.thomaskuenneth.tkweek.util.TKWeekUtils
 import com.thomaskuenneth.tkweek.util.TKWeekUtils.linkToSettings
-import com.thomaskuenneth.tkweek.viewmodel.AppBarAction
 import com.thomaskuenneth.tkweek.viewmodel.MyDayViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
@@ -140,6 +139,8 @@ class MyDayFragment : TKWeekBaseFragment<MydayBinding>() {
                 triggerLoad()
             }
         }
+        binding.myDayChipNewAppointment.setOnClickListener { newAppointment() }
+        binding.myDayChipWikipedia.setOnClickListener { lookUpInWikipedia() }
         binding.myDaySymbolNotes.setOnClickListener {
             val fragment = EditNotesFragment().also {
                 it.arguments = Bundle().also { bundle ->
@@ -219,28 +220,18 @@ class MyDayFragment : TKWeekBaseFragment<MydayBinding>() {
         }
     }
 
-    override fun updateAppBarActions() {
-        val actions = listOf(
-            AppBarAction(
-                title = R.string.look_up_in_wikipedia,
-                onClick = {
-                    lookUpInWikipedia()
-                }
-            ),
-            AppBarAction(
-                title = R.string.new_appointment,
-                onClick = {
-                    val i2 = Intent(Intent.ACTION_INSERT, CalendarContract.Events.CONTENT_URI)
-                    i2.putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, cal.timeInMillis)
-                    try {
-                        startActivity(i2)
-                    } catch (e: ActivityNotFoundException) {
-                        Log.e(TAG, "no activity found", e)
-                    }
-                }
-            )
-        )
-        viewModel.setAppBarActions(actions)
+    // Both actions live as assist chips above the content, where their connection to the
+    // selected day is visible. Nothing is contributed to the app bar, which is the base
+    // class's behaviour already - hence no updateAppBarActions override here.
+
+    private fun newAppointment() {
+        val intent = Intent(Intent.ACTION_INSERT, CalendarContract.Events.CONTENT_URI)
+        intent.putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, cal.timeInMillis)
+        try {
+            startActivity(intent)
+        } catch (e: ActivityNotFoundException) {
+            Log.e(TAG, "no activity found", e)
+        }
     }
 
     private fun triggerLoad() {

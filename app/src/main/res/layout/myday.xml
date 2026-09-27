@@ -10,6 +10,38 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
+        <!--
+            Assist chips for the actions that act on the day shown below: both hand off to
+            another app, which is what assist chips are for. They sit with the content rather
+            than in the app bar so that their connection to the selected day is visible.
+        -->
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/my_day_actions"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            app:layout_constraintEnd_toEndOf="@id/main_card"
+            app:layout_constraintStart_toStartOf="@id/main_card"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/my_day_chip_new_appointment"
+                style="@style/Widget.Material3.Chip.Assist"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/new_appointment"
+                app:chipIcon="@drawable/ic_baseline_event_24" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/my_day_chip_wikipedia"
+                style="@style/Widget.Material3.Chip.Assist"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/look_up_in_wikipedia"
+                app:chipIcon="@drawable/ic_baseline_search_24" />
+
+        </com.google.android.material.chip.ChipGroup>
+
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/main_card"
             style="?attr/materialCardViewFilledStyle"
@@ -18,7 +50,7 @@
             app:cardBackgroundColor="?attr/colorSurfaceContainer"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/my_day_actions"
             app:layout_constraintWidth_max="500dp">
 
             <androidx.constraintlayout.widget.ConstraintLayout

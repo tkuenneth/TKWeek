@@ -41,6 +41,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import com.thomaskuenneth.tkweek.R
@@ -82,7 +84,10 @@ fun TKWeekAppBarActions(
                 tooltip = { PlainTooltip { Text(stringResource(R.string.more_options)) } },
                 state = rememberTooltipState()
             ) {
-                IconButton(onClick = { showMenu = !showMenu }) {
+                IconButton(
+                    onClick = { showMenu = !showMenu },
+                    modifier = Modifier.testTag(TKWeekTestTags.APP_BAR_OVERFLOW)
+                ) {
                     Icon(
                         imageVector = Icons.Default.MoreVert,
                         contentDescription = stringResource(R.string.more_options)

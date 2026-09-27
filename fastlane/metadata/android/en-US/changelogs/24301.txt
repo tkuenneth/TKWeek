@@ -1,0 +1,3 @@
+- My Day's menu actions are now chips above the content
+- Events' menu actions moved into a floating action button menu
+- Libraries and tools upgrades

@@ -23,8 +23,8 @@ android {
         applicationId = "com.thomaskuenneth.tkweek"
         minSdk = libs.versions.minSdk.get().toInt()
         targetSdk = libs.versions.targetSdk.get().toInt()
-        versionCode = 24201
-        versionName = "2.4.2"
+        versionCode = 24301
+        versionName = "2.4.3"
         testInstrumentationRunner = "com.thomaskuenneth.tkweek.HiltTestRunner"
     }
 

@@ -1,0 +1,3 @@
+- Die Menüaktionen der Tagesübersicht sind jetzt Chips über dem Inhalt
+- Die Menüaktionen des Ereignisse Moduls sind in ein Menü mit schwebender Aktionsschaltfläche umgezogen
+- Bibliotheken und Tools aktualisiert

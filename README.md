@@ -13,4 +13,4 @@
 
 - Run tests: `./gradlew testDebugUnitTest connectedDebugAndroidTest`
 - Update store screenshots (run against a booted phone or foldable emulator/device): `./gradlew :screenshots:generateStoreScreenshots`
-- Update the baseline profile: `./gradlew :app:generateBaselineProfile`
+- Update the baseline profile: `./gradlew :app:generateReleaseBaselineProfile` (plain `generateBaselineProfile` would also build one for the screenshots variant, which does not ship)

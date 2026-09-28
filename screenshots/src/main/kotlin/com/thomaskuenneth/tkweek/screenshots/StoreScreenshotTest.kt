@@ -2,6 +2,7 @@ package com.thomaskuenneth.tkweek.screenshots
 
 import android.Manifest
 import android.os.Build
+import androidx.compose.ui.test.onAllNodesWithText
 import androidx.compose.ui.test.junit4.v2.createAndroidComposeRule
 import androidx.lifecycle.ViewModelProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -10,6 +11,7 @@ import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.uiautomator.UiDevice
 import androidx.window.layout.FoldingFeature
 import androidx.window.layout.WindowInfoTracker
+import com.thomaskuenneth.tkweek.R
 import com.thomaskuenneth.tkweek.TKWeekCompose
 import com.thomaskuenneth.tkweek.TKWeekModule
 import com.thomaskuenneth.tkweek.viewmodel.TKWeekViewModel
@@ -23,6 +25,8 @@ import org.junit.Test
 import org.junit.rules.ExternalResource
 import org.junit.runner.RunWith
 import java.io.File
+
+private const val TOOLTIP_TIMEOUT_MILLIS = 5_000L
 
 private val SCREENSHOT_SEQUENCE = listOf(
     "module_list" to null,
@@ -47,6 +51,7 @@ class StoreScreenshotTest {
     @get:Rule(order = 0)
     val darkModeRule = object : ExternalResource() {
         override fun before() {
+            InstrumentationRegistry.getInstrumentation().setInTouchMode(true)
             UiDevice.getInstance(InstrumentationRegistry.getInstrumentation())
                 .executeShellCommand("cmd uimode night yes")
         }
@@ -110,7 +115,17 @@ class StoreScreenshotTest {
     }
 
     private fun capture(fileName: String) {
+        clearFocusAndTooltips()
         uiDevice.takeScreenshot(File(outputDir, fileName))
+    }
+
+    private fun clearFocusAndTooltips() {
+        composeRule.runOnUiThread { composeRule.activity.currentFocus?.clearFocus() }
+        composeRule.waitForIdle()
+        composeRule.waitUntil(TOOLTIP_TIMEOUT_MILLIS) {
+            composeRule.onAllNodesWithText(composeRule.activity.getString(R.string.navigate_up))
+                .fetchSemanticsNodes().isEmpty()
+        }
     }
 
     private fun grantMyDayRuntimePermissions(packageName: String) {

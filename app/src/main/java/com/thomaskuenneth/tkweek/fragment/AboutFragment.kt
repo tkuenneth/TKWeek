@@ -29,12 +29,14 @@ import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
+import androidx.core.net.toUri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.thomaskuenneth.tkweek.OpenSourceLicensesActivity
 import com.thomaskuenneth.tkweek.R
 import com.thomaskuenneth.tkweek.databinding.AboutBinding
+import com.thomaskuenneth.tkweek.util.Helper
 import com.thomaskuenneth.tkweek.util.TKWeekUtils
 import java.util.Calendar
 import java.util.Date
@@ -105,6 +107,12 @@ class AboutFragment : TKWeekBaseFragment<AboutBinding>() {
         binding.aboutAndroidVersion.text = sb.toString()
         binding.aboutOpenSourceLicenses.setOnClickListener {
             startActivity(Intent(requireContext(), OpenSourceLicensesActivity::class.java))
+        }
+        binding.aboutSourceCode.setOnClickListener {
+            Helper.startActivityCatching(
+                requireContext(),
+                Intent(Intent.ACTION_VIEW, getString(R.string.source_code_url).toUri())
+            )
         }
     }
 }

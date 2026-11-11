@@ -338,6 +338,10 @@ können Sie diese in den Einstellungen ausblenden.</string>
     <string name="human_rights_day">Tag der Menschenrechte</string>
     <string name="avoid_hinge">Scharnier meiden</string>
     <string name="open_source_licenses">Open-Source-Lizenzen</string>
+    <string name="license_note">Lizenziert unter der MIT-Lizenz.</string>
+    <string name="third_party_note">Nutzt Material Symbols-Icons (Apache-Lizenz 2.0).</string>
+    <string name="source_code">Quellcode und Mitwirkende</string>
+    <string name="something_went_wrong">Etwas ist schiefgelaufen</string>
     <string name="hide_actions">Aktionen ausblenden</string>
 
 </resources>

@@ -36,6 +36,8 @@ uiautomator = "2.4.0"
 turbine = "1.2.1"
 kotlinxCoroutinesTest = "1.11.0"
 mockitoCore = "5.24.0"
+robolectric = "4.17"
+androidxTest = "1.7.0"
 mockitoKotlin = "6.4.0"
 
 [libraries]
@@ -69,6 +71,8 @@ kotlinx-serialization-core = { module = "org.jetbrains.kotlinx:kotlinx-serializa
 kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlinxCoroutinesTest" }
 turbine = { module = "app.cash.turbine:turbine", version.ref = "turbine" }
 mockito-core = { module = "org.mockito:mockito-core", version.ref = "mockitoCore" }
+robolectric = { group = "org.robolectric", name = "robolectric", version.ref = "robolectric" }
+androidx-test-core = { group = "androidx.test", name = "core", version.ref = "androidxTest" }
 mockito-kotlin = { module = "org.mockito.kotlin:mockito-kotlin", version.ref = "mockitoKotlin" }
 material = { module = "com.google.android.material:material", version.ref = "material" }
 time4j-android = { module = "net.time4j:time4j-android", version.ref = "time4jAndroid" }

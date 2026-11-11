@@ -22,12 +22,16 @@
  */
 package com.thomaskuenneth.tkweek.util
 
+import android.app.Activity
 import android.app.PendingIntent
+import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Build
 import android.util.Log
+import android.widget.Toast
+import androidx.annotation.StringRes
 import androidx.core.content.edit
 import androidx.preference.PreferenceManager
 import com.thomaskuenneth.tkweek.R
@@ -144,6 +148,24 @@ object Helper {
             Log.e(TAG, "getIntFromSharedPreferences()", tr)
         }
         return result
+    }
+
+    @JvmStatic
+    @JvmOverloads
+    fun startActivityCatching(
+        context: Context,
+        intent: Intent,
+        @StringRes message: Int = R.string.something_went_wrong,
+    ) {
+        try {
+            if (context !is Activity) {
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            }
+            context.startActivity(intent)
+        } catch (e: ActivityNotFoundException) {
+            Log.e(TAG, "startActivityCatching(): ${intent.action}", e)
+            Toast.makeText(context, message, Toast.LENGTH_LONG).show()
+        }
     }
 
     @JvmStatic

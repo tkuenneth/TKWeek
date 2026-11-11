@@ -24,7 +24,6 @@
 package com.thomaskuenneth.tkweek.fragment
 
 import android.Manifest
-import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.database.Cursor
@@ -41,7 +40,6 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.TextView
-import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.net.toUri
 import androidx.core.view.isEmpty
@@ -221,11 +219,7 @@ class MyDayFragment : TKWeekBaseFragment<MydayBinding>() {
     private fun newAppointment() {
         val intent = Intent(Intent.ACTION_INSERT, CalendarContract.Events.CONTENT_URI)
         intent.putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, cal.timeInMillis)
-        try {
-            startActivity(intent)
-        } catch (e: ActivityNotFoundException) {
-            Log.e(TAG, "no activity found", e)
-        }
+        Helper.startActivityCatching(requireContext(), intent)
     }
 
     private fun triggerLoad() {
@@ -560,15 +554,9 @@ class MyDayFragment : TKWeekBaseFragment<MydayBinding>() {
                         val intent = Intent(Intent.ACTION_VIEW).apply {
                             setDataAndType(uri, Calls.CONTENT_TYPE)
                         }
-                        try {
-                            startActivity(intent)
-                        } catch (e: ActivityNotFoundException) {
-                            Log.e(TAG, "updateMissedCalls()", e)
-                            Toast.makeText(
-                                requireContext(),
-                                R.string.error_call_log, Toast.LENGTH_LONG
-                            ).show()
-                        }
+                        Helper.startActivityCatching(
+                            requireContext(), intent, R.string.error_call_log
+                        )
                     }
                     var number = call.number
                     number = if ("-1" == number) {

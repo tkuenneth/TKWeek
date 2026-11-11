@@ -423,6 +423,11 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 	</string>
     <string name="open_source_licenses">Open source licenses</string>
+    <string name="license_note">Licensed under the MIT License.</string>
+    <string name="third_party_note">Uses Material Symbols icons (Apache License 2.0).</string>
+    <string name="source_code">Source code and contributors</string>
+    <string name="something_went_wrong">Something went wrong</string>
+    <string name="source_code_url" translatable="false">https://github.com/tkuenneth/TKWeek</string>
     <string name="avoid_hinge">Avoid hinge</string>
     <string name="hide_actions">Hide actions</string>
 

@@ -283,6 +283,40 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/about_terms" />
 
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/about_license_note"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:paddingHorizontal="16dp"
+                    android:paddingTop="16dp"
+                    android:text="@string/license_note"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/divider5" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/about_third_party_note"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:paddingHorizontal="16dp"
+                    android:text="@string/third_party_note"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/about_license_note" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/about_source_code"
+                    style="@style/Widget.Material3.Button.TextButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="@string/source_code"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/about_third_party_note" />
+
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/about_open_source_licenses"
                     style="@style/Widget.Material3.Button.OutlinedButton"
@@ -293,7 +327,7 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/divider5" />
+                    app:layout_constraintTop_toBottomOf="@id/about_source_code" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

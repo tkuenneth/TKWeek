@@ -29,10 +29,15 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.displayCutout
+import androidx.compose.foundation.layout.WindowInsetsSides
+import androidx.compose.foundation.layout.absolutePadding
+import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
@@ -51,8 +56,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.platform.LocalLayoutDirection
-import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation3.runtime.NavKey
 import androidx.navigation3.runtime.entryProvider
@@ -62,18 +67,16 @@ import com.thomaskuenneth.tkweek.navigation.DEFAULT_MODULE
 import com.thomaskuenneth.tkweek.navigation.applyNavigation
 import com.thomaskuenneth.tkweek.navigation.canNavigateBack
 import com.thomaskuenneth.tkweek.navigation.initialTKWeekBackStack
-import com.thomaskuenneth.tkweek.navigation.isDetailPaneVisible
-import com.thomaskuenneth.tkweek.navigation.isListPaneVisible
 import com.thomaskuenneth.tkweek.types.TKWeekDestination
 import com.thomaskuenneth.tkweek.ui.TKWeekModuleContainer
 import com.thomaskuenneth.tkweek.ui.TKWeekModuleSelector
 import com.thomaskuenneth.tkweek.ui.TKWeekTopAppBar
 import com.thomaskuenneth.tkweek.ui.colorScheme
+import com.thomaskuenneth.tkweek.ui.fadingEdge
 import com.thomaskuenneth.tkweek.util.Helper.CLAZZ
 import com.thomaskuenneth.tkweek.viewmodel.NavigationRequest
 import com.thomaskuenneth.tkweek.viewmodel.TKWeekViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlin.math.max
 
 @AndroidEntryPoint
 class TKWeekCompose : AppCompatActivity() {
@@ -141,9 +144,6 @@ fun TKWeekApp(
 
         val navigatedModule = (backStack.lastOrNull() as? TKWeekDestination.Detail)?.module
         val selectedModule = navigatedModule ?: DEFAULT_MODULE.takeIf { isTwoPane }
-        val activeModuleTitleRes = selectedModule?.titleRes ?: R.string.app_name
-        val detailVisible = isDetailPaneVisible(isTwoPane, backStack.size)
-        val listVisible = isListPaneVisible(isTwoPane, backStack.size)
         val canGoBack = canNavigateBack(isTwoPane, backStack.size)
         val activity = LocalActivity.current
         // PopLatest pops exactly one entry, which is correct for nesting inside the detail pane;
@@ -158,52 +158,40 @@ fun TKWeekApp(
             }
         }
 
-        LaunchedEffect(listVisible) {
-            if (!listVisible) {
-                viewModel.setListScrolled(false)
-            }
-        }
-
         val sceneStrategy = rememberListDetailSceneStrategy<NavKey>(
             backNavigationBehavior = BackNavigationBehavior.PopLatest,
             directive = directive,
         )
 
-        val displayCutoutInsets = WindowInsets.displayCutout
+        val horizontalInsets = WindowInsets.safeDrawing.only(WindowInsetsSides.Horizontal)
         val density = LocalDensity.current
         val layoutDirection = LocalLayoutDirection.current
-        val left = displayCutoutInsets.getLeft(density, layoutDirection)
-        val right = displayCutoutInsets.getRight(density, layoutDirection)
-        val horizontalPadding =
-            with(density) { max(left, right).toDp() }.coerceAtLeast(16.dp)
+        val left = horizontalInsets.getLeft(density, layoutDirection)
+        val right = horizontalInsets.getRight(density, layoutDirection)
+        val contentPadding = dimensionResource(R.dimen.content_padding)
+        val leftPadding = with(density) { left.toDp() } + contentPadding
+        val rightPadding = with(density) { right.toDp() } + contentPadding
 
         Scaffold(
             contentWindowInsets = WindowInsets(),
-            topBar = {
-                TKWeekTopAppBar(
-                    uiState = uiState,
-                    detailVisible = detailVisible,
-                    activeModuleTitleRes = activeModuleTitleRes,
-                    canNavigateBack = canGoBack,
-                    onNavigateBack = onNavigateBack
-                )
-            }
         ) { paddingValues ->
             NavDisplay(
                 backStack = backStack,
                 modifier = Modifier
                     .padding(paddingValues)
-                    .padding(horizontal = horizontalPadding),
+                    .absolutePadding(left = leftPadding, right = rightPadding),
                 onBack = onNavigateBack,
                 sceneStrategies = listOf(sceneStrategy),
                 entryProvider = entryProvider {
                     entry<TKWeekDestination.ModuleList>(
                         metadata = ListDetailSceneStrategy.listPane(
                             detailPlaceholder = {
-                                ModuleDetail(
+                                DetailPane(
                                     module = DEFAULT_MODULE,
                                     date = null,
                                     showProgressIndicator = uiState.shouldShowProgressIndicator,
+                                    canNavigateBack = canGoBack,
+                                    onNavigateBack = onNavigateBack,
                                 )
                             }
                         )
@@ -212,19 +200,18 @@ fun TKWeekApp(
                             selectedModule = selectedModule,
                             onModuleSelected = { module ->
                                 viewModel.requestNavigation(module = module, topLevel = true)
-                            },
-                            onListStateChanged = { isAtTop ->
-                                viewModel.setListScrolled(!isAtTop)
                             }
                         )
                     }
                     entry<TKWeekDestination.Detail>(
                         metadata = ListDetailSceneStrategy.detailPane()
                     ) { detail ->
-                        ModuleDetail(
+                        DetailPane(
                             module = detail.module,
                             date = detail.date,
                             showProgressIndicator = uiState.shouldShowProgressIndicator,
+                            canNavigateBack = canGoBack,
+                            onNavigateBack = onNavigateBack,
                         )
                     }
                 }
@@ -234,8 +221,34 @@ fun TKWeekApp(
 }
 
 @Composable
+private fun DetailPane(
+    module: TKWeekModule,
+    date: Long?,
+    showProgressIndicator: Boolean,
+    canNavigateBack: Boolean,
+    onNavigateBack: () -> Unit,
+) {
+    Column {
+        AnimatedVisibility(visible = canNavigateBack) {
+            TKWeekTopAppBar(
+                titleRes = module.titleRes,
+                onNavigateBack = onNavigateBack,
+            )
+        }
+        ModuleDetail(
+            module = module,
+            date = date,
+            showProgressIndicator = showProgressIndicator,
+        )
+    }
+}
+
+@Composable
 private fun ModuleDetail(module: TKWeekModule, date: Long?, showProgressIndicator: Boolean) {
-    Box(contentAlignment = Alignment.Center) {
+    Box(
+        modifier = Modifier.fadingEdge(),
+        contentAlignment = Alignment.Center
+    ) {
         TKWeekModuleContainer(module = module, date = date)
         if (showProgressIndicator) {
             CircularProgressIndicator()

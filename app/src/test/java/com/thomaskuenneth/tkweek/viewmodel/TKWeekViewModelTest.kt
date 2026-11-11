@@ -44,19 +44,6 @@ class TKWeekViewModelTest {
     }
 
     @Test
-    fun setListScrolled_updatesOnlyThatFlag() = runTest {
-        viewModel.uiState.test {
-            assertFalse(awaitItem().isListScrolled)
-
-            viewModel.setListScrolled(true)
-
-            val updated = awaitItem()
-            assertTrue(updated.isListScrolled)
-            assertFalse(updated.isDetailScrolled)
-        }
-    }
-
-    @Test
     fun setDetailScrolled_updatesOnlyThatFlag() = runTest {
         viewModel.uiState.test {
             assertFalse(awaitItem().isDetailScrolled)
@@ -65,7 +52,8 @@ class TKWeekViewModelTest {
 
             val updated = awaitItem()
             assertTrue(updated.isDetailScrolled)
-            assertFalse(updated.isListScrolled)
+            assertFalse(updated.shouldShowProgressIndicator)
+            assertFalse(updated.avoidHinge)
         }
     }
 

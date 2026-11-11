@@ -112,6 +112,17 @@ class TKWeekMasterDetailNavigationTest {
     private fun backArrowNode() =
         composeRule.onNodeWithContentDescription(composeRule.activity.getString(R.string.navigate_up))
 
+    private fun assertDetailShows(module: TKWeekModule) {
+        assertNotNull(
+            "${'$'}{module.name} is not the module in the detail pane",
+            composeRule.activity.supportFragmentManager.findFragmentByTag(module.clazz.name)
+        )
+    }
+
+    private fun assertNoAppBar() {
+        composeRule.onNodeWithTag(TKWeekTestTags.TOP_APP_BAR_TITLE).assertDoesNotExist()
+    }
+
     @Test
     fun singlePane_tappingAModule_opensDetailAndHidesList() {
         setContentAt(COMPACT_WINDOW)
@@ -141,14 +152,11 @@ class TKWeekMasterDetailNavigationTest {
     fun twoPane_showsListAndPreselectedDetailSideBySide() {
         setContentAt(EXPANDED_WINDOW)
 
-        val weekTitle = titleOf(TKWeekModule.Week)
-        val calendarTitle = titleOf(TKWeekModule.Calendar)
-
-        composeRule.onNodeWithTag(TKWeekTestTags.TOP_APP_BAR_TITLE).assertTextEquals(weekTitle)
+        assertNoAppBar()
+        assertDetailShows(TKWeekModule.Week)
         awaitModuleListItem(TKWeekModule.Calendar)
         composeRule.onNodeWithTag(TKWeekTestTags.moduleListItem(TKWeekModule.Calendar.name))
             .assertIsDisplayed()
-        composeRule.onNodeWithText(calendarTitle).assertIsDisplayed()
     }
 
     @Test
@@ -159,12 +167,12 @@ class TKWeekMasterDetailNavigationTest {
         simulateNestedNavigation(TKWeekModule.MyDay, date = System.currentTimeMillis())
 
         val myDayTitle = titleOf(TKWeekModule.MyDay)
-        val calendarTitle = titleOf(TKWeekModule.Calendar)
         composeRule.onNodeWithTag(TKWeekTestTags.TOP_APP_BAR_TITLE).assertTextEquals(myDayTitle)
 
         selectTopLevel(TKWeekModule.Calendar)
 
-        composeRule.onNodeWithTag(TKWeekTestTags.TOP_APP_BAR_TITLE).assertTextEquals(calendarTitle)
+        assertNoAppBar()
+        assertDetailShows(TKWeekModule.Calendar)
     }
 
     @Test
@@ -198,13 +206,13 @@ class TKWeekMasterDetailNavigationTest {
         selectTopLevel(TKWeekModule.Calendar)
         simulateNestedNavigation(TKWeekModule.MyDay, date = System.currentTimeMillis())
         val myDayTitle = titleOf(TKWeekModule.MyDay)
-        val calendarTitle = titleOf(TKWeekModule.Calendar)
         composeRule.onNodeWithTag(TKWeekTestTags.TOP_APP_BAR_TITLE).assertTextEquals(myDayTitle)
         backArrowNode().assertIsDisplayed()
 
         pressSystemBack()
 
-        composeRule.onNodeWithTag(TKWeekTestTags.TOP_APP_BAR_TITLE).assertTextEquals(calendarTitle)
+        assertNoAppBar()
+        assertDetailShows(TKWeekModule.Calendar)
     }
 
     /**
@@ -251,13 +259,12 @@ class TKWeekMasterDetailNavigationTest {
         composeRule.waitForIdle()
         viewModel = ViewModelProvider(composeRule.activity)[TKWeekViewModel::class.java]
 
-        val dateCalculatorTitle = titleOf(TKWeekModule.DateCalculator)
         composeRule.runOnUiThread {
             viewModel.requestNavigation(module = TKWeekModule.DateCalculator, topLevel = true)
         }
         composeRule.waitForIdle()
 
-        composeRule.onNodeWithTag(TKWeekTestTags.TOP_APP_BAR_TITLE).assertTextEquals(dateCalculatorTitle)
+        assertDetailShows(TKWeekModule.DateCalculator)
     }
 
     @Test
@@ -276,7 +283,7 @@ class TKWeekMasterDetailNavigationTest {
 
         selectTopLevel(TKWeekModule.Calendar)
 
-        val calendarTitle = titleOf(TKWeekModule.Calendar)
-        composeRule.onNodeWithTag(TKWeekTestTags.TOP_APP_BAR_TITLE).assertTextEquals(calendarTitle)
+        assertNoAppBar()
+        assertDetailShows(TKWeekModule.Calendar)
     }
 }

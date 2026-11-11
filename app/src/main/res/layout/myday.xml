@@ -10,6 +10,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
+        <com.thomaskuenneth.tkweek.util.TopSpace
+            android:id="@+id/top_space"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <!--
             Assist chips for the actions that act on the day shown below: both hand off to
             another app, which is what assist chips are for. They sit with the content rather
@@ -22,7 +29,7 @@
             android:layout_marginBottom="8dp"
             app:layout_constraintEnd_toEndOf="@id/main_card"
             app:layout_constraintStart_toStartOf="@id/main_card"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toBottomOf="@id/top_space">
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/my_day_chip_new_appointment"

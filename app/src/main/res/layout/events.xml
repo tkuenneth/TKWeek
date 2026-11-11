@@ -17,14 +17,22 @@
             android:layout_marginHorizontal="16dp"
             android:nestedScrollingEnabled="true">
 
+            <com.thomaskuenneth.tkweek.util.TopSpace
+                android:id="@+id/top_space"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
             <com.google.android.material.search.SearchBar
                 android:id="@+id/search_bar"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:hint="@string/find_an_event"
+                app:defaultMarginsEnabled="false"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toBottomOf="@id/top_space" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/header"
@@ -78,6 +86,12 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/message_notifications" />
+
+            <com.thomaskuenneth.tkweek.util.BottomSpace
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/listView" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

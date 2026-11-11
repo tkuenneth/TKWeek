@@ -40,20 +40,15 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.thomaskuenneth.tkweek.TKWeekModule
 import com.thomaskuenneth.tkweek.util.BottomSpace
+import com.thomaskuenneth.tkweek.util.TopSpace
 
 @Composable
 fun TKWeekModuleSelector(
     selectedModule: TKWeekModule?,
     onModuleSelected: (TKWeekModule) -> Unit,
-    onListStateChanged: (Boolean) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val lazyListState = rememberLazyListState()
-    val firstVisibleItemIndex = lazyListState.firstVisibleItemIndex
-    val firstVisibleItemScrollOffset = lazyListState.firstVisibleItemScrollOffset
-    LaunchedEffect(firstVisibleItemIndex, firstVisibleItemScrollOffset) {
-        onListStateChanged(firstVisibleItemIndex == 0 && firstVisibleItemScrollOffset == 0)
-    }
     LaunchedEffect(selectedModule) {
         val index = selectedModule?.let { module -> TKWeekModule.entries.indexOf(module) } ?: return@LaunchedEffect
         val isVisible = lazyListState.layoutInfo.visibleItemsInfo.any { it.index == index }
@@ -63,8 +58,13 @@ fun TKWeekModuleSelector(
     }
     LazyColumn(
         state = lazyListState,
-        modifier = modifier.testTag(TKWeekTestTags.MODULE_LIST)
+        modifier = modifier
+            .fadingEdge(lazyListState)
+            .testTag(TKWeekTestTags.MODULE_LIST)
     ) {
+        item {
+            TopSpace()
+        }
         items(TKWeekModule.entries, key = { it }) { entry ->
             val selected = entry == selectedModule
             ListItem(
@@ -94,8 +94,7 @@ private fun TKWeekModuleSelectorPreview() {
     MaterialTheme(colorScheme = colorScheme()) {
         TKWeekModuleSelector(
             selectedModule = TKWeekModule.Calendar,
-            onModuleSelected = {},
-            onListStateChanged = {}
+            onModuleSelected = {}
         )
     }
 }

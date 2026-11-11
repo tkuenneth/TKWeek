@@ -22,8 +22,6 @@
  */
 package com.thomaskuenneth.tkweek.viewmodel
 
-import androidx.annotation.DrawableRes
-import androidx.annotation.StringRes
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.thomaskuenneth.tkweek.TKWeekModule
@@ -42,7 +40,6 @@ import javax.inject.Inject
 
 data class TKWeekUiState(
     val avoidHinge: Boolean = false,
-    val isListScrolled: Boolean = false,
     val isDetailScrolled: Boolean = false,
     val shouldShowProgressIndicator: Boolean = false,
 )
@@ -75,10 +72,6 @@ class TKWeekViewModel @Inject constructor(
         preferenceManager.avoidHinge.onEach { avoidHinge ->
             _uiState.update { it.copy(avoidHinge = avoidHinge) }
         }.launchIn(viewModelScope)
-    }
-
-    fun setListScrolled(isScrolled: Boolean) {
-        _uiState.update { it.copy(isListScrolled = isScrolled) }
     }
 
     fun setDetailScrolled(isScrolled: Boolean) {

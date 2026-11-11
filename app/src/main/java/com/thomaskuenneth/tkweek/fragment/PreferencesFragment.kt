@@ -67,10 +67,18 @@ class PreferencesFragment : PreferenceFragmentCompat() {
             }
         }
         listView.apply {
+            clipToPadding = false
+            val topPadding = paddingTop
             val bottomPadding = paddingBottom
+            val contentPadding = resources.getDimensionPixelSize(R.dimen.content_padding)
             ViewCompat.setOnApplyWindowInsetsListener(this) { v, insets ->
                 val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-                v.setPadding(v.paddingLeft, v.paddingTop, v.paddingRight, bottomPadding + systemBars.bottom)
+                v.setPadding(
+                    v.paddingLeft,
+                    topPadding + maxOf(systemBars.top, contentPadding),
+                    v.paddingRight,
+                    bottomPadding + systemBars.bottom
+                )
                 insets
             }
         }

@@ -22,88 +22,50 @@
  */
 package com.thomaskuenneth.tkweek.ui
 
-import androidx.compose.animation.animateColorAsState
+import androidx.annotation.StringRes
+import androidx.compose.foundation.layout.WindowInsetsSides
+import androidx.compose.foundation.layout.only
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.thomaskuenneth.tkweek.R
-import com.thomaskuenneth.tkweek.viewmodel.TKWeekUiState
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TKWeekTopAppBar(
-    uiState: TKWeekUiState,
-    detailVisible: Boolean,
-    activeModuleTitleRes: Int,
-    canNavigateBack: Boolean,
-    onNavigateBack: () -> Unit
+    @StringRes titleRes: Int,
+    onNavigateBack: () -> Unit,
+    modifier: Modifier = Modifier
 ) {
-    val isScrolled = uiState.isListScrolled || uiState.isDetailScrolled
-    val topAppBarColors = TopAppBarDefaults.topAppBarColors()
-    val containerColor by animateColorAsState(
-        targetValue = if (isScrolled)
-            topAppBarColors.scrolledContainerColor
-        else
-            topAppBarColors.containerColor,
-        label = "containerColor"
-    )
     CenterAlignedTopAppBar(
+        modifier = modifier,
+        windowInsets = TopAppBarDefaults.windowInsets.only(WindowInsetsSides.Top),
         title = {
             Text(
-                text = stringResource(
-                    if (!detailVisible) {
-                        R.string.app_name
-                    } else {
-                        activeModuleTitleRes
-                    }
-                ),
+                text = stringResource(titleRes),
                 modifier = Modifier.testTag(TKWeekTestTags.TOP_APP_BAR_TITLE)
             )
         },
         navigationIcon = {
-            if (canNavigateBack) {
-                BackArrow(onClick = onNavigateBack)
-            }
-        },
-        colors = TopAppBarDefaults.topAppBarColors(
-            containerColor = containerColor
-        )
+            BackArrow(onClick = onNavigateBack)
+        }
     )
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Preview(showBackground = true)
 @Composable
-private fun TKWeekTopAppBarListPreview() {
+private fun TKWeekTopAppBarPreview() {
     MaterialTheme(colorScheme = colorScheme()) {
         TKWeekTopAppBar(
-            uiState = TKWeekUiState(),
-            detailVisible = false,
-            activeModuleTitleRes = R.string.app_name,
-            canNavigateBack = false,
-            onNavigateBack = {}
-        )
-    }
-}
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Preview(showBackground = true)
-@Composable
-private fun TKWeekTopAppBarDetailPreview() {
-    MaterialTheme(colorScheme = colorScheme()) {
-        TKWeekTopAppBar(
-            uiState = TKWeekUiState(),
-            detailVisible = true,
-            activeModuleTitleRes = R.string.calendar_activity_text1,
-            canNavigateBack = true,
+            titleRes = R.string.calendar_activity_text1,
             onNavigateBack = {}
         )
     }

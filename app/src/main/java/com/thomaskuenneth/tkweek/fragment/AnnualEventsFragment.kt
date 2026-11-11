@@ -46,6 +46,9 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import androidx.activity.OnBackPressedCallback
 import androidx.core.content.edit
+import androidx.core.graphics.Insets
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updatePadding
 import androidx.compose.material3.MaterialTheme
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -157,6 +160,17 @@ class AnnualEventsFragment : TKWeekBaseFragment<EventsBinding>(), AdapterView.On
     @SuppressLint("InflateParams")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val contentPadding = resources.getDimensionPixelSize(R.dimen.content_padding)
+        ViewCompat.setOnApplyWindowInsetsListener(binding.searchView) { v, insets ->
+            val statusBars = insets.getInsets(WindowInsetsCompat.Type.statusBars())
+            v.updatePadding(top = maxOf(statusBars.top, contentPadding))
+            ViewCompat.onApplyWindowInsets(
+                v,
+                WindowInsetsCompat.Builder(insets)
+                    .setInsets(WindowInsetsCompat.Type.statusBars(), Insets.NONE)
+                    .build()
+            )
+        }
         loadEventsJob = null
         binding.listView.onItemClickListener = this
         binding.listView.setOnCreateContextMenuListener(this)

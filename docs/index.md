@@ -3,7 +3,7 @@ layout: home
 ---
 
 <div style="display: flex; align-items: flex-start; gap: 1.5em;">
-  <img style="width: 40%; max-width: 40%; flex-shrink: 0;" src="./assets/TKWeek-animated.gif" width="40%" alt="TKWeek app screenshots">
+  <img style="width: 40%; max-width: 40%; flex-shrink: 0;" src="./assets/screenshots.gif" width="40%" alt="TKWeek app screenshots">
   <div style="flex: 1; min-width: 0;">
     <p>Do you need to convert between a <strong>week number</strong> and a date or require some information about a date? Find out if a year is a <strong>leap year</strong>, calculate the number of days, business days, weeks, weekends, month turns and years <strong>between two dates</strong>? Want to add or subtract days, weeks or months to a given date?</p>
     <p>With <strong>TKWeek</strong>, it‘s no hassle. Even a basic calendar view is at your fingertips. You can use it to flag days off. Just tap and hold until the color changes. And with <strong>My Day</strong> you see what is up on a particular day.</p>

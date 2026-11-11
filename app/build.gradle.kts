@@ -82,6 +82,10 @@ tasks.withType<AbstractArchiveTask>().configureEach {
 }
 
 kotlin {
+    // F-Droid: Reproducible Builds
+    // Pins javac/kotlinc to 21 so the dex no longer depends on whichever JVM runs the Gradle
+    // daemon - fdroidserver deletes gradle/gradle-daemon-jvm.properties before building.
+    jvmToolchain(21)
     compilerOptions {
         jvmTarget.set(JvmTarget.JVM_21)
     }

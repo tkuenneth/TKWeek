@@ -12,5 +12,5 @@
 ## Gradle cheat sheet
 
 - Run tests: `./gradlew testDebugUnitTest connectedDebugAndroidTest`
-- Update store screenshots (run against a booted phone or foldable emulator/device): `./gradlew :screenshots:generateStoreScreenshots`
+- Update store screenshots for every device class: `./gradlew :screenshots:generateStoreScreenshots` (starts `Pixel_10`, `Pixel_10_Pro_Fold` and `Pixel_Tablet` in turn, so none of them may already be running)
 - Update the baseline profile: `./gradlew :app:generateReleaseBaselineProfile` (plain `generateBaselineProfile` would also build one for the screenshots variant, which does not ship)

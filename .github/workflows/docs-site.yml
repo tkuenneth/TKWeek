@@ -28,8 +28,10 @@ jobs:
 
       - name: Create animated GIF
         run: |
-          chmod +x create_gif.sh
-          ./create_gif.sh
+          chmod +x scripts/create_gif.sh
+          scripts/create_gif.sh \
+            fastlane/metadata/android/en-US/images/phoneScreenshots \
+            docs/assets/screenshots.gif
 
       - name: Build Jekyll site
         run: bundle exec jekyll build

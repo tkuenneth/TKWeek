@@ -4,15 +4,6 @@ import java.awt.RenderingHints
 import java.awt.image.BufferedImage
 import javax.imageio.ImageIO
 
-buildscript {
-    repositories {
-        mavenCentral()
-    }
-    dependencies {
-        classpath("org.sejda.imageio:webp-imageio:0.1.6")
-    }
-}
-
 plugins {
     alias(libs.plugins.android.test)
     alias(libs.plugins.compose.compiler)
@@ -82,10 +73,86 @@ val storeScreenshotSequence = listOf(
     "events", "about_a_year", "calendar", "settings", "about",
 )
 
+val storeScreenshotAvds = listOf("Pixel_10", "Pixel_10_Pro_Fold", "Pixel_Tablet")
+
+val storeGifNames = mapOf(
+    "phone" to "screenshots.gif",
+    "fold" to "screenshots_foldable.gif",
+    "tablet" to "screenshots_tablet.gif"
+)
+
+val isWindows = org.gradle.internal.os.OperatingSystem.current().isWindows
+
+val bashExecutable: String? by lazy {
+    if (!isWindows) {
+        "bash"
+    } else {
+        // "bash" on the Windows PATH is the WSL stub, which cannot see the Windows paths
+        // these scripts build. Use Git for Windows' bash, which sits next to git.exe.
+        val gitDirectory = System.getenv("PATH").orEmpty().split(File.pathSeparator)
+            .map { File(it, "git.exe") }.firstOrNull { it.isFile }?.parentFile?.parentFile
+        listOfNotNull(
+            gitDirectory?.resolve("bin/bash.exe"),
+            File("C:/Program Files/Git/bin/bash.exe")
+        ).firstOrNull { it.isFile }?.absolutePath
+    }
+}
+
+val missingBash = "Git Bash was not found; it runs the helper scripts."
+
 tasks.register("generateStoreScreenshots") {
     group = "screenshots"
-    description = "Captures and frames F-Droid/Play store screenshots from the currently " +
-        "running emulator/device. Phone vs. foldable is detected from the device's own screen."
+    description = "Starts each of the AVDs ${storeScreenshotAvds.joinToString()} in turn, " +
+        "captures and frames the store screenshots and rebuilds the docs GIF for every " +
+        "device class."
+
+    val rootDirectory = project.rootDir
+    val buildDirectory = layout.buildDirectory.dir("store-screenshots").get().asFile
+    val avds = storeScreenshotAvds
+    val resolvedBash = bashExecutable
+    val bashMissing = missingBash
+    val bootAttempts = 3
+
+    doLast {
+        val bash = resolvedBash ?: throw GradleException(bashMissing)
+        val withAvd = File(rootDirectory, "scripts/with_avd.sh").absolutePath.replace('\\', '/')
+        val gradlew = File(rootDirectory, "gradlew").absolutePath.replace('\\', '/')
+        check(File(withAvd).isFile) { "Missing scripts/with_avd.sh in ${rootDirectory.name}" }
+        buildDirectory.mkdirs()
+        val blankCaptures = File(buildDirectory, "blank-captures.txt")
+
+        avds.forEach { avd ->
+            var exitCode = -1
+            for (attempt in 1..bootAttempts) {
+                logger.lifecycle("Capturing on $avd")
+                blankCaptures.delete()
+                val process = ProcessBuilder(
+                    bash, withAvd, avd, gradlew, "--console=plain",
+                    ":screenshots:captureStoreScreenshots"
+                ).directory(rootDirectory).redirectErrorStream(true).apply {
+                    environment().entries.removeIf { it.value.isEmpty() }
+                }.start()
+                process.inputStream.bufferedReader().forEachLine { logger.lifecycle(it) }
+                exitCode = process.waitFor()
+                if (exitCode == 0 || !blankCaptures.isFile) break
+                if (attempt < bootAttempts) {
+                    logger.lifecycle("Captures came back blank, booting $avd again")
+                }
+            }
+            if (exitCode != 0) {
+                throw GradleException(
+                    "Capturing the store screenshots on $avd failed (exit $exitCode)"
+                )
+            }
+        }
+    }
+}
+
+tasks.register("captureStoreScreenshots") {
+    group = "screenshots"
+    description = "Captures and frames the store screenshots on the emulator ANDROID_SERIAL " +
+        "names (generateStoreScreenshots starts the emulators). The device class is detected " +
+        "from the device's own screen."
     // The screenshots build type is a signed copy of release, so the captures show the app
     // as it ships rather than a debug build.
     dependsOn(":app:installScreenshots", "installScreenshots")
@@ -95,8 +162,12 @@ tasks.register("generateStoreScreenshots") {
     // referenced from doLast - hence the local helpers below.
     val rootDirectory = project.rootDir
     val rawDirectory = layout.buildDirectory.dir("store-screenshots/raw").get().asFile
-    val isWindows = org.gradle.internal.os.OperatingSystem.current().isWindows
+    val buildDirectory = layout.buildDirectory.dir("store-screenshots").get().asFile
+    val onWindows = isWindows
     val sequence = storeScreenshotSequence
+    val gifNames = storeGifNames
+    val resolvedBash = bashExecutable
+    val bashMissing = missingBash
 
     doLast {
         fun runCommand(vararg command: String): String {
@@ -157,12 +228,20 @@ tasks.register("generateStoreScreenshots") {
             return intArrayOf(canvasWidth, canvasHeight, deviceX, deviceY)
         }
 
+        // Emulator skins are .webp, which ImageIO cannot read on its own; ImageMagick is
+        // already required for the GIFs, so it converts them too.
+        fun readSkinImage(skinDir: File, name: String, bash: String): BufferedImage {
+            val converted = File(rawDirectory.parentFile, "skin-${skinDir.name}-$name.png")
+            runCommand(bash, "-lc", "magick '${File(skinDir, "$name.webp")}' '$converted'")
+            return ImageIO.read(converted) ?: throw GradleException("Could not read $converted")
+        }
+
         fun frameScreenshot(
             source: BufferedImage,
             sdkDirectory: String,
-            avdName: String
+            avdName: String,
+            bash: String
         ): BufferedImage {
-            ImageIO.scanForPlugins()
             val skinDir = skinFor(source.width, source.height, sdkDirectory, avdName)
             val layoutValues = parseSkinLayout(File(skinDir, "layout"))
             val canvasWidth = layoutValues[0]
@@ -170,10 +249,8 @@ tasks.register("generateStoreScreenshots") {
             val deviceX = layoutValues[2]
             val deviceY = layoutValues[3]
 
-            val back = ImageIO.read(File(skinDir, "back.webp"))
-                ?: throw GradleException("Could not decode ${File(skinDir, "back.webp")}")
-            val mask = ImageIO.read(File(skinDir, "mask.webp"))
-                ?: throw GradleException("Could not decode ${File(skinDir, "mask.webp")}")
+            val back = readSkinImage(skinDir, "back", bash)
+            val mask = readSkinImage(skinDir, "mask", bash)
 
             val maskedSource = BufferedImage(source.width, source.height, BufferedImage.TYPE_INT_ARGB)
             val sg = maskedSource.createGraphics()
@@ -219,7 +296,7 @@ tasks.register("generateStoreScreenshots") {
 
         val sdkDir = System.getenv("ANDROID_HOME") ?: System.getenv("ANDROID_SDK_ROOT")
             ?: throw GradleException("Set ANDROID_HOME (or ANDROID_SDK_ROOT) to your Android SDK location")
-        val adbName = if (isWindows) "adb.exe" else "adb"
+        val adbName = if (onWindows) "adb.exe" else "adb"
         val adb = File(sdkDir, "platform-tools/$adbName").absolutePath
         val appId = "com.thomaskuenneth.tkweek"
         val testAppId = "com.thomaskuenneth.tkweek.screenshots"
@@ -227,17 +304,11 @@ tasks.register("generateStoreScreenshots") {
 
         // The GIF script runs at the very end, but what it needs is checked now: finding out
         // about a missing tool after the capture run has already happened wastes minutes.
-        val bash = if (!isWindows) "bash" else {
-            // "bash" on the Windows PATH is the WSL stub, which cannot see the Windows paths
-            // these scripts build. Use Git for Windows' bash, which sits next to git.exe.
-            val gitDirectory = System.getenv("PATH").orEmpty().split(File.pathSeparator)
-                .map { File(it, "git.exe") }.firstOrNull { it.isFile }?.parentFile?.parentFile
-            listOfNotNull(
-                gitDirectory?.resolve("bin/bash.exe"),
-                File("C:/Program Files/Git/bin/bash.exe")
-            ).firstOrNull { it.isFile }?.absolutePath
-                ?: throw GradleException("Git Bash was not found; it runs the GIF scripts.")
-        }
+        val bash = resolvedBash ?: throw GradleException(bashMissing)
+        val gifScript = File(rootDirectory, "scripts/create_gif.sh")
+        val foldableScript = File(rootDirectory, "scripts/open_foldable.sh")
+        check(gifScript.isFile) { "Missing scripts/create_gif.sh in ${rootDirectory.name}" }
+        check(foldableScript.isFile) { "Missing scripts/open_foldable.sh in ${rootDirectory.name}" }
         val magickProbe = ProcessBuilder(bash, "-lc", "command -v magick")
             .redirectErrorStream(true).start()
         check(magickProbe.waitFor() == 0) {
@@ -245,15 +316,22 @@ tasks.register("generateStoreScreenshots") {
                 "install it (winget install ImageMagick.ImageMagick) and run this task again."
         }
 
+        runCommand(bash, foldableScript.absolutePath.replace('\\', '/'))
+
         // Emulators report the AVD they were started from; used only to pick between skins
         // that share a display resolution.
         val avdName = runCommand(adb, "shell", "getprop", "ro.boot.qemu.avd_name")
 
-        runCommand(
+        // am instrument exits 0 even when the test fails, so the output has to be checked -
+        // otherwise the next step just reports a missing directory.
+        val instrumentOutput = runCommand(
             adb, "shell", "am", "instrument", "-w",
             "-e", "class", "com.thomaskuenneth.tkweek.screenshots.StoreScreenshotTest",
             "$testAppId/$runner"
         )
+        if (!instrumentOutput.contains("OK (")) {
+            throw GradleException("StoreScreenshotTest did not pass:\n$instrumentOutput")
+        }
 
         rawDirectory.deleteRecursively()
         rawDirectory.mkdirs()
@@ -267,11 +345,14 @@ tasks.register("generateStoreScreenshots") {
         check(rawFiles.isNotEmpty()) {
             "No screenshots found under ${rawDirectory.relativeTo(rootDirectory)} - did StoreScreenshotTest run?"
         }
-        rawFiles.filter { it.extension == "png" }.firstOrNull { isBlank(it) }?.let {
+        val blankCaptures = rawFiles.filter { it.extension == "png" && isBlank(it) }
+        if (blankCaptures.isNotEmpty()) {
+            File(buildDirectory, "blank-captures.txt")
+                .writeText(blankCaptures.joinToString("\n") { it.name })
             throw GradleException(
-                "The capture ${it.name} is blank, so the committed store screenshots were left " +
+                "The captures came back blank, so the committed store screenshots were left " +
                     "alone. The emulator's graphics service most likely died - check " +
-                    "'adb logcat' for android.hardware crashes, then cold boot the AVD."
+                    "'adb logcat' for android.hardware crashes."
             )
         }
 
@@ -282,6 +363,7 @@ tasks.register("generateStoreScreenshots") {
         val outputDirName = when (deviceType) {
             "phone" -> "phoneScreenshots"
             "fold" -> "sevenInchScreenshots"
+            "tablet" -> "tenInchScreenshots"
             else -> throw GradleException(
                 "No output folder configured for device class '$deviceType' yet"
             )
@@ -297,23 +379,26 @@ tasks.register("generateStoreScreenshots") {
             val rawFile = rawFiles.firstOrNull { it.name.startsWith("%02d_".format(rawIndex)) }
                 ?: throw GradleException("Missing captured screenshot for '$name' (index $rawIndex)")
 
-            val framed = frameScreenshot(ImageIO.read(rawFile), sdkDir, avdName)
+            val framed = frameScreenshot(ImageIO.read(rawFile), sdkDir, avdName, bash)
             val outputFile = File(outputDir, "%02d.png".format(position + 1))
             ImageIO.write(framed, "png", outputFile)
             logger.lifecycle("Wrote ${outputFile.relativeTo(rootDirectory)}")
         }
 
         // Rebuild the animated GIF for this form factor - only the one that reads the
-        // directory this run just wrote. The other is built from screenshots that did not
-        // change, so rebuilding it would be pointless work and would leave a modified file
-        // with no actual difference in it.
-        val gifScript = if (deviceType == "fold") "create_foldable_gif.sh" else "create_gif.sh"
-        File(rootDirectory, gifScript).let { script ->
-            check(script.isFile) { "Missing $gifScript in ${rootDirectory.name}" }
-            logger.lifecycle("Running $gifScript")
+        // directory this run just wrote. The others are built from screenshots that did not
+        // change, so rebuilding them would be pointless work and would leave modified files
+        // with no actual difference in them.
+        gifNames[deviceType]?.let { gifName ->
+            val gifFile = File(rootDirectory, "docs/assets/$gifName")
             // Forward slashes: Git Bash resolves "C:/..." reliably, a backslash path not.
             // On macOS this is already the path's own form, so the same call works there.
-            runCommand(bash, script.absolutePath.replace('\\', '/'))
+            runCommand(
+                bash, gifScript.absolutePath.replace('\\', '/'),
+                outputDir.absolutePath.replace('\\', '/'),
+                gifFile.absolutePath.replace('\\', '/')
+            )
+            logger.lifecycle("Wrote ${gifFile.relativeTo(rootDirectory)}")
         }
     }
 }

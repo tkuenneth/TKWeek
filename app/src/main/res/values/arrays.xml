@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string-array name="values_012">
+    <string-array name="values_012" translatable="false">
         <item>0</item>
         <item>1</item>
         <item>2</item>
@@ -18,7 +18,7 @@
         <item>None</item>
     </string-array>
 
-    <string-array name="values_recent_events">
+    <string-array name="values_recent_events" translatable="false">
         <item>-7</item>
         <item>-1</item>
         <item>0</item>
@@ -30,7 +30,7 @@
         <item>Orthodox Churches</item>
     </string-array>
 
-    <string-array name="values_annual_events_preference">
+    <string-array name="values_annual_events_preference" translatable="false">
         <item>0</item>
         <item>1</item>
         <item>2</item>
@@ -55,7 +55,7 @@
         <item>@string/montag</item>
     </string-array>
     
-    <string-array name="werte_wochenanfang">
+    <string-array name="werte_wochenanfang" translatable="false">
         <item>-1</item>
         <item>7</item>
         <item>1</item>

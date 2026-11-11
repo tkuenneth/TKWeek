@@ -32,6 +32,32 @@ jobs:
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v4
 
+      - name: Read build-tools version for signing
+        id: bt
+        run: |
+          VERSION=$(grep -E '^[[:space:]]*release\.buildToolsVersion[[:space:]]*=' gradle.properties | tail -n 1 | cut -d= -f2- | tr -d '[:space:]' || true)
+          if ! [[ "$VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+(-rc[0-9]+)?$ ]]; then
+            echo "Error: release.buildToolsVersion '$VERSION' is missing or malformed."
+            exit 1
+          fi
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+
+      - name: Install the build-tools used for signing
+        env:
+          SIGNING_BUILD_TOOLS: ${{ steps.bt.outputs.version }}
+        run: |
+          if [ -z "$ANDROID_HOME" ]; then
+            echo "Error: ANDROID_HOME is not set."
+            exit 1
+          fi
+          SDKMANAGER="$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager"
+          if [ ! -x "$SDKMANAGER" ]; then
+            echo "Error: no sdkmanager at $SDKMANAGER"
+            exit 1
+          fi
+          yes | "$SDKMANAGER" --licenses > /dev/null || true
+          "$SDKMANAGER" "build-tools;${SIGNING_BUILD_TOOLS}"
+
       - name: Grant rights
         run: chmod +x gradlew
 
@@ -40,14 +66,24 @@ jobs:
 
       - name: Sign APK
         id: sign
+        env:
+          SIGNING_KEY: ${{ secrets.SIGNING_KEY }}
+          KEY_STORE_PASSWORD: ${{ secrets.KEY_STORE_PASSWORD }}
+          KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+          ALIAS: ${{ secrets.ALIAS }}
         run: |
           # Decode the Keystore
           KEYSTORE="$RUNNER_TEMP/release.keystore"
           trap 'rm -f "$KEYSTORE"' EXIT
-          printf '%s' "${{ secrets.SIGNING_KEY }}" | base64 -d > "$KEYSTORE"
+          ( umask 077; printf '%s' "$SIGNING_KEY" | base64 -d > "$KEYSTORE" )
 
-          # Find the latest build-tools version
-          BUILD_TOOLS_VERSION=$(ls "$ANDROID_HOME/build-tools/" | sort -V | tail -n 1)
+          # The version pinned in gradle.properties, so this path and a teleporter release
+          # sign with the same apksigner.
+          BUILD_TOOLS_VERSION="${{ steps.bt.outputs.version }}"
+          if [ ! -d "$ANDROID_HOME/build-tools/$BUILD_TOOLS_VERSION" ]; then
+            echo "Error: build-tools '$BUILD_TOOLS_VERSION' (release.buildToolsVersion) is not installed."
+            exit 1
+          fi
           ANDROID_BUILD_TOOLS="$ANDROID_HOME/build-tools/$BUILD_TOOLS_VERSION"
 
           # Define paths
@@ -60,11 +96,12 @@ jobs:
 
           # Sign the APK
           # v2 and v3 signing is enabled by default in newer apksigner versions, but explicit flags ensure it.
+          # env: keeps passwords out of the process list.
           "$ANDROID_BUILD_TOOLS/apksigner" sign \
             --ks "$KEYSTORE" \
-            --ks-pass pass:${{ secrets.KEY_STORE_PASSWORD }} \
-            --key-pass pass:${{ secrets.KEY_PASSWORD }} \
-            --ks-key-alias ${{ secrets.ALIAS }} \
+            --ks-pass env:KEY_STORE_PASSWORD \
+            --key-pass env:KEY_PASSWORD \
+            --ks-key-alias "$ALIAS" \
             --v2-signing-enabled true \
             --v3-signing-enabled false \
             --out "$SIGNED_APK" \
@@ -76,8 +113,12 @@ jobs:
       - name: Get Version Info
         id: version_info
         run: |
-          VERSION_CODE=$(grep -oP 'versionCode\s*=\s*\K\d+' app/build.gradle.kts)
-          VERSION_NAME=$(grep -oP 'versionName\s*=\s*"\K[^"]+' app/build.gradle.kts)
+          VERSION_CODE=$(grep -E '^\s*versionCode\s*=' app/build.gradle.kts | head -n 1 | grep -oE '[0-9]+')
+          VERSION_NAME=$(grep -E '^\s*versionName\s*=' app/build.gradle.kts | head -n 1 | sed -E 's/.*"([^"]+)".*/\1/')
+          if [ -z "$VERSION_CODE" ] || [ -z "$VERSION_NAME" ]; then
+            echo "Failed to parse version from app/build.gradle.kts (code='$VERSION_CODE' name='$VERSION_NAME')"
+            exit 1
+          fi
           echo "VERSION_CODE=$VERSION_CODE" >> $GITHUB_ENV
           echo "VERSION_NAME=$VERSION_NAME" >> $GITHUB_ENV
 
@@ -85,16 +126,24 @@ jobs:
         id: changelog
         run: |
             CHANGELOG_FILE="fastlane/metadata/android/en-US/changelogs/${{ env.VERSION_CODE }}.txt"
-            if [ -f "$CHANGELOG_FILE" ]; then
-              cat "$CHANGELOG_FILE" > release_notes.txt
-            else
-              echo "Release ${{ env.VERSION_NAME }}" > release_notes.txt
+            # No silent fallback: a missing changelog must stop the release, not ship a generic body.
+            if [ ! -f "$CHANGELOG_FILE" ]; then
+              echo "Error: $CHANGELOG_FILE is missing. Write the release notes before releasing."
+              exit 1
             fi
+            cat "$CHANGELOG_FILE" > release_notes.txt
 
       - name: Create Release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
+          TAG="${{ env.VERSION_NAME }}"
+          # A published tag must stay immutable: F-Droid rebuilds exactly this commit and
+          # compares it with the released APK, so the tag may never be moved.
+          if git ls-remote --exit-code --tags origin "refs/tags/$TAG" >/dev/null 2>&1; then
+            echo "Error: tag $TAG already exists. Bump versionName before releasing."
+            exit 1
+          fi
           gh release create "${{ env.VERSION_NAME }}" \
             --title "Release ${{ env.VERSION_NAME }}" \
             --notes-file release_notes.txt \

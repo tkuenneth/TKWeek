@@ -24,15 +24,40 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <com.google.android.material.search.SearchBar
-                android:id="@+id/search_bar"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/search_field_layout"
+                style="@style/Widget.Material3.TextInputLayout.FilledBox"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:hint="@string/find_an_event"
-                app:defaultMarginsEnabled="false"
+                android:layout_height="56dp"
+                app:boxBackgroundColor="?attr/colorSurfaceContainerHigh"
+                app:boxCornerRadiusBottomEnd="28dp"
+                app:boxCornerRadiusBottomStart="28dp"
+                app:boxCornerRadiusTopEnd="28dp"
+                app:boxCornerRadiusTopStart="28dp"
+                app:boxStrokeWidth="0dp"
+                app:boxStrokeWidthFocused="0dp"
+                app:endIconMode="clear_text"
+                app:hintEnabled="false"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/top_space" />
+                app:layout_constraintTop_toBottomOf="@id/top_space"
+                app:startIconDrawable="@drawable/ic_baseline_search_24"
+                app:startIconMinSize="56dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/search_field"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:hint="@string/find_an_event"
+                    android:imeOptions="actionDone"
+                    android:inputType="text"
+                    android:maxLines="1"
+                    android:paddingBottom="0dp"
+                    android:paddingTop="0dp"
+                    android:textColorHint="?attr/colorOnSurfaceVariant" />
+
+            </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/header"
@@ -44,7 +69,7 @@
                 android:textColor="?attr/colorAccent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/search_bar" />
+                app:layout_constraintTop_toBottomOf="@id/search_field_layout" />
 
             <include
                 android:id="@+id/message_link_to_settings_contacts"
@@ -101,49 +126,5 @@
         android:id="@+id/fab_menu"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
-
-    <com.google.android.material.search.SearchView
-        android:id="@+id/search_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:hint="@string/find_an_event"
-        app:layout_anchor="@id/search_bar">
-
-        <androidx.core.widget.NestedScrollView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:fillViewport="true">
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <com.thomaskuenneth.tkweek.util.FixedHeightGridView
-                    android:id="@+id/search_list_view"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:divider="@android:color/transparent"
-                    android:dividerHeight="8dp"
-                    android:listSelector="?android:attr/activatedBackgroundIndicator"
-                    app:layout_constraintBaseline_toTopOf="@id/search_bottom_space"
-                    app:layout_constraintBottom_toTopOf="@id/search_bottom_space"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <com.thomaskuenneth.tkweek.util.BottomSpace
-                    android:id="@+id/search_bottom_space"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/search_list_view" />
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-        </androidx.core.widget.NestedScrollView>
-
-    </com.google.android.material.search.SearchView>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

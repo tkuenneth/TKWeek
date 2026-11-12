@@ -35,8 +35,6 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.ContactsContract
-import android.text.Editable
-import android.text.TextWatcher
 import android.view.ContextMenu
 import android.view.LayoutInflater
 import android.view.Menu
@@ -46,10 +44,10 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import androidx.activity.OnBackPressedCallback
 import androidx.core.content.edit
-import androidx.core.graphics.Insets
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updatePadding
+import androidx.core.widget.doOnTextChanged
 import androidx.compose.material3.MaterialTheme
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.compose.runtime.getValue
@@ -60,7 +58,6 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import com.google.android.material.search.SearchView
 import com.thomaskuenneth.tkweek.AlarmReceiver
 import com.thomaskuenneth.tkweek.R
 import com.thomaskuenneth.tkweek.adapter.AnnualEventsListAdapter
@@ -79,7 +76,6 @@ import com.thomaskuenneth.tkweek.ui.colorScheme
 import com.thomaskuenneth.tkweek.viewmodel.AnnualEventsViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -138,7 +134,7 @@ class AnnualEventsFragment : TKWeekBaseFragment<EventsBinding>(), AdapterView.On
             val event = Event(description, date as Date, annuallyRepeating)
             lifecycleScope.launch {
                 val context = requireContext()
-                val adapter = listAdapter ?: withContext(Dispatchers.IO) {
+                val adapter = withContext(Dispatchers.IO) {
                     AnnualEventsListAdapter.create(context, null)
                 }
                 adapter.addEventNoCheck(event)
@@ -160,48 +156,31 @@ class AnnualEventsFragment : TKWeekBaseFragment<EventsBinding>(), AdapterView.On
     @SuppressLint("InflateParams")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val contentPadding = resources.getDimensionPixelSize(R.dimen.content_padding)
-        ViewCompat.setOnApplyWindowInsetsListener(binding.searchView) { v, insets ->
-            val statusBars = insets.getInsets(WindowInsetsCompat.Type.statusBars())
-            v.updatePadding(top = maxOf(statusBars.top, contentPadding))
-            ViewCompat.onApplyWindowInsets(
-                v,
-                WindowInsetsCompat.Builder(insets)
-                    .setInsets(WindowInsetsCompat.Type.statusBars(), Insets.NONE)
-                    .build()
-            )
-        }
         loadEventsJob = null
         binding.listView.onItemClickListener = this
         binding.listView.setOnCreateContextMenuListener(this)
         setUpFabMenu()
-        binding.searchView.setupWithSearchBar(binding.searchBar)
         val lifecycleOwner = viewLifecycleOwner
-        binding.searchView
-            .editText
-            .setOnEditorActionListener { _, _, _ ->
-                if (lifecycleOwner.lifecycle.currentState.isAtLeast(Lifecycle.State.RESUMED)) {
-                    annualEventsViewModel.setSearchQuery(binding.searchView.text.toString())
-                }
-                false
-            }
-        binding.searchView.editText.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                if (lifecycleOwner.lifecycle.currentState.isAtLeast(Lifecycle.State.RESUMED)) {
-                    annualEventsViewModel.setSearchQuery(s.toString())
-                }
-            }
-
-            override fun afterTextChanged(s: Editable?) {}
-        })
-        binding.searchView.addTransitionListener { _, _, newState ->
-            if (lifecycleOwner.lifecycle.currentState.isAtLeast(Lifecycle.State.RESUMED)) {
-                annualEventsViewModel.setSearchOpen(newState == SearchView.TransitionState.SHOWING || newState == SearchView.TransitionState.SHOWN)
+        binding.searchField.setOnEditorActionListener { _, _, _ ->
+            leaveSearchField()
+            true
+        }
+        binding.searchFieldLayout.setStartIconOnClickListener {
+            if (hasSearchQuery()) {
+                annualEventsViewModel.setSearchQuery(null)
+                leaveSearchField()
+            } else {
+                binding.searchField.requestFocus()
+                ViewCompat.getWindowInsetsController(binding.searchField)
+                    ?.show(WindowInsetsCompat.Type.ime())
             }
         }
-        binding.searchListView.onItemClickListener = this
+        binding.searchField.doOnTextChanged { text, _, _, _ ->
+            updateSearchFieldStartIcon()
+            if (lifecycleOwner.lifecycle.currentState.isAtLeast(Lifecycle.State.RESUMED)) {
+                annualEventsViewModel.setSearchQuery(text.toString())
+            }
+        }
         val permissions = ArrayList<String>()
         binding.messageNotifications.message.setText(R.string.str_permission_post_notifications)
         binding.messageNotifications.button.setOnClickListener {
@@ -237,30 +216,17 @@ class AnnualEventsFragment : TKWeekBaseFragment<EventsBinding>(), AdapterView.On
             permissions.toArray(l)
             requestMultiplePermissions(l.requireNoNulls())
         }
-        updateAll()
+        updatePermissionInfo()
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                combine(
-                    annualEventsViewModel.isSearchOpen,
-                    annualEventsViewModel.searchQuery
-                ) { isOpen, query ->
-                    isOpen to query
-                }
-                    .onEach { (isOpen, query) ->
-                        if (isOpen) {
-                            binding.searchView.show()
-                        } else {
-                            binding.searchView.hide()
+                annualEventsViewModel.searchQuery
+                    .onEach { query ->
+                        if (binding.searchField.text.toString() != query.orEmpty()) {
+                            binding.searchField.setText(query)
+                            binding.searchField.setSelection(query?.length ?: 0)
                         }
-                        val currentText = binding.searchView.text.toString()
-                        if (currentText != query) {
-                            binding.searchView.setText(query)
-                            if (query != null) {
-                                binding.searchView.editText.setSelection(query.length)
-                            }
-                        }
-                        setListAdapterLoadEvents(false, if (isOpen) query else null, isOpen)
+                        setListAdapterLoadEvents(false, query)
                     }.launchIn(this)
             }
         }
@@ -298,7 +264,7 @@ class AnnualEventsFragment : TKWeekBaseFragment<EventsBinding>(), AdapterView.On
                 when (requestCode) {
                     BACKUP -> {
                         data?.data?.also { uri ->
-                            val adapter = listAdapter ?: withContext(Dispatchers.IO) {
+                            val adapter = withContext(Dispatchers.IO) {
                                 AnnualEventsListAdapter.create(context, null)
                             }
                             success = withContext(Dispatchers.IO) {
@@ -336,7 +302,8 @@ class AnnualEventsFragment : TKWeekBaseFragment<EventsBinding>(), AdapterView.On
                                     false
                                 }
                             }
-                            setListAdapterLoadEvents(true, annualEventsViewModel.searchQuery.value)
+                            annualEventsViewModel.setSearchQuery(null)
+                            setListAdapterLoadEvents(true, null)
                         }
                     }
                 }
@@ -391,9 +358,16 @@ class AnnualEventsFragment : TKWeekBaseFragment<EventsBinding>(), AdapterView.On
         val date = DateUtilities.getCalendar(event).time
         return when (item.itemId) {
             MENU_DELETE -> {
-                val adapter = listAdapter as AnnualEventsListAdapter
-                adapter.deleteSimilar(event)
-                adapter.save(requireContext())
+                viewLifecycleOwner.lifecycleScope.launch {
+                    val context = requireContext()
+                    withContext(Dispatchers.IO) {
+                        AnnualEventsListAdapter.create(context, null).apply {
+                            deleteSimilar(event)
+                            save(context)
+                        }
+                    }
+                    setListAdapterLoadEvents(false, annualEventsViewModel.searchQuery.value)
+                }
                 true
             }
 
@@ -433,12 +407,7 @@ class AnnualEventsFragment : TKWeekBaseFragment<EventsBinding>(), AdapterView.On
     }
 
     override fun onItemClick(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-        val adapter = if (parent == binding.searchListView) {
-            binding.searchListView.adapter as AnnualEventsListAdapter
-        } else {
-            listAdapter
-        }
-        val o = adapter?.getItem(position)
+        val o = listAdapter?.getItem(position)
         if (o as? IContactId? != null && o.contactId != null) {
             val intent = Intent(
                 Intent.ACTION_VIEW, Uri.withAppendedPath(
@@ -508,9 +477,25 @@ class AnnualEventsFragment : TKWeekBaseFragment<EventsBinding>(), AdapterView.On
         collapseFabMenuOnBack.isEnabled = expanded
     }
 
-    private fun setListAdapterLoadEvents(
-        restore: Boolean, search: String?, isSearch: Boolean = false
-    ) {
+    private fun hasSearchQuery() = !binding.searchField.text.isNullOrEmpty()
+
+    private fun updateSearchFieldStartIcon() {
+        binding.searchFieldLayout.setStartIconDrawable(
+            if (hasSearchQuery()) {
+                R.drawable.ic_baseline_arrow_back_24
+            } else {
+                R.drawable.ic_baseline_search_24
+            }
+        )
+    }
+
+    private fun leaveSearchField() {
+        ViewCompat.getWindowInsetsController(binding.searchField)
+            ?.hide(WindowInsetsCompat.Type.ime())
+        binding.searchField.clearFocus()
+    }
+
+    private fun setListAdapterLoadEvents(restore: Boolean, search: String?) {
         loadEventsJob?.cancel()
         viewModel.setShouldShowProgressIndicator(true)
         loadEventsJob = viewLifecycleOwner.lifecycleScope.launch {
@@ -520,21 +505,17 @@ class AnnualEventsFragment : TKWeekBaseFragment<EventsBinding>(), AdapterView.On
                 )
             }
             if (backing != null) {
-                if (isSearch) {
-                    binding.searchListView.adapter = result
-                } else {
-                    binding.listView.adapter = result.also { listAdapter = it }
-                    if (restore) {
-                        listAdapter?.save(requireContext())
-                    } else {
-                        listAdapter?.updateEventsListWidgets(requireContext())
-                    }
-                    binding.header.text = getString(
-                        R.string.string1_dash_string2,
-                        Helper.FORMAT_DEFAULT.format(listAdapter?.from?.time ?: Date()),
-                        Helper.FORMAT_DEFAULT.format(listAdapter?.to?.time ?: Date())
-                    )
+                binding.listView.adapter = result.also { listAdapter = it }
+                if (restore) {
+                    listAdapter?.save(requireContext())
+                } else if (search.isNullOrEmpty()) {
+                    listAdapter?.updateEventsListWidgets(requireContext())
                 }
+                binding.header.text = getString(
+                    R.string.string1_dash_string2,
+                    Helper.FORMAT_DEFAULT.format(listAdapter?.from?.time ?: Date()),
+                    Helper.FORMAT_DEFAULT.format(listAdapter?.to?.time ?: Date())
+                )
             }
             viewModel.setShouldShowProgressIndicator(false)
         }
@@ -558,11 +539,6 @@ class AnnualEventsFragment : TKWeekBaseFragment<EventsBinding>(), AdapterView.On
             )
         }
         startActivityForResult(intent, BACKUP)
-    }
-
-    private fun updateAll() {
-        setListAdapterLoadEvents(false, annualEventsViewModel.searchQuery.value)
-        updatePermissionInfo()
     }
 
     private fun updateItemAtPosition(position: Int) {

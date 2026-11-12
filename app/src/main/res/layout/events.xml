@@ -1,130 +1,118 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/events_scroll"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:clipToPadding="false"
+    android:fillViewport="true">
 
-    <androidx.core.widget.NestedScrollView
-        android:id="@+id/events_scroll"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:clipToPadding="false"
-        android:fillViewport="true">
+        android:layout_height="wrap_content"
+        android:nestedScrollingEnabled="true">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
+        <com.thomaskuenneth.tkweek.util.TopSpace
+            android:id="@+id/top_space"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="16dp"
-            android:nestedScrollingEnabled="true">
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-            <com.thomaskuenneth.tkweek.util.TopSpace
-                android:id="@+id/top_space"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/search_field_layout"
+            style="@style/Widget.Material3.TextInputLayout.FilledBox"
+            android:layout_width="0dp"
+            android:layout_height="56dp"
+            app:boxBackgroundColor="?attr/colorSurfaceContainerHigh"
+            app:boxCornerRadiusBottomEnd="28dp"
+            app:boxCornerRadiusBottomStart="28dp"
+            app:boxCornerRadiusTopEnd="28dp"
+            app:boxCornerRadiusTopStart="28dp"
+            app:boxStrokeWidth="0dp"
+            app:boxStrokeWidthFocused="0dp"
+            app:endIconMode="clear_text"
+            app:hintEnabled="false"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/top_space"
+            app:startIconDrawable="@drawable/ic_baseline_search_24"
+            app:startIconMinSize="56dp">
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/search_field_layout"
-                style="@style/Widget.Material3.TextInputLayout.FilledBox"
-                android:layout_width="0dp"
-                android:layout_height="56dp"
-                app:boxBackgroundColor="?attr/colorSurfaceContainerHigh"
-                app:boxCornerRadiusBottomEnd="28dp"
-                app:boxCornerRadiusBottomStart="28dp"
-                app:boxCornerRadiusTopEnd="28dp"
-                app:boxCornerRadiusTopStart="28dp"
-                app:boxStrokeWidth="0dp"
-                app:boxStrokeWidthFocused="0dp"
-                app:endIconMode="clear_text"
-                app:hintEnabled="false"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/top_space"
-                app:startIconDrawable="@drawable/ic_baseline_search_24"
-                app:startIconMinSize="56dp">
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/search_field"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:hint="@string/find_an_event"
+                android:imeOptions="actionDone"
+                android:inputType="text"
+                android:maxLines="1"
+                android:paddingBottom="0dp"
+                android:paddingTop="0dp"
+                android:textColorHint="?attr/colorOnSurfaceVariant" />
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/search_field"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:gravity="center_vertical"
-                    android:hint="@string/find_an_event"
-                    android:imeOptions="actionDone"
-                    android:inputType="text"
-                    android:maxLines="1"
-                    android:paddingBottom="0dp"
-                    android:paddingTop="0dp"
-                    android:textColorHint="?attr/colorOnSurfaceVariant" />
+        </com.google.android.material.textfield.TextInputLayout>
 
-            </com.google.android.material.textfield.TextInputLayout>
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/header"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:gravity="center_horizontal"
+            android:textAppearance="?attr/textAppearanceBodyLarge"
+            android:textColor="?attr/colorAccent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/search_field_layout" />
 
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/header"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_margin="8dp"
-                android:gravity="center_horizontal"
-                android:textAppearance="?attr/textAppearanceBodyLarge"
-                android:textColor="?attr/colorAccent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/search_field_layout" />
+        <include
+            android:id="@+id/message_link_to_settings_contacts"
+            layout="@layout/message_link_to_settings"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/header" />
 
-            <include
-                android:id="@+id/message_link_to_settings_contacts"
-                layout="@layout/message_link_to_settings"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="8dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/header" />
+        <include
+            android:id="@+id/message_link_to_settings_calendar"
+            layout="@layout/message_link_to_settings"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/message_link_to_settings_contacts" />
 
-            <include
-                android:id="@+id/message_link_to_settings_calendar"
-                layout="@layout/message_link_to_settings"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="8dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/message_link_to_settings_contacts" />
+        <include
+            android:id="@+id/message_notifications"
+            layout="@layout/message_link_to_settings"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/message_link_to_settings_calendar" />
 
-            <include
-                android:id="@+id/message_notifications"
-                layout="@layout/message_link_to_settings"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="8dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/message_link_to_settings_calendar" />
+        <com.thomaskuenneth.tkweek.util.FixedHeightGridView
+            android:id="@+id/listView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:divider="@android:color/transparent"
+            android:dividerHeight="8dp"
+            android:listSelector="?android:attr/activatedBackgroundIndicator"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/message_notifications" />
 
-            <com.thomaskuenneth.tkweek.util.FixedHeightGridView
-                android:id="@+id/listView"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:divider="@android:color/transparent"
-                android:dividerHeight="8dp"
-                android:listSelector="?android:attr/activatedBackgroundIndicator"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/message_notifications" />
+        <com.thomaskuenneth.tkweek.util.BottomSpace
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/listView" />
 
-            <com.thomaskuenneth.tkweek.util.BottomSpace
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/listView" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-    </androidx.core.widget.NestedScrollView>
-
-    <androidx.compose.ui.platform.ComposeView
-        android:id="@+id/fab_menu"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+</androidx.core.widget.NestedScrollView>

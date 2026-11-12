@@ -37,6 +37,7 @@ import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.WindowInsetsSides
 import androidx.compose.foundation.layout.absolutePadding
 import androidx.compose.foundation.layout.consumeWindowInsets
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawing
@@ -71,6 +72,7 @@ import com.thomaskuenneth.tkweek.navigation.applyNavigation
 import com.thomaskuenneth.tkweek.navigation.canNavigateBack
 import com.thomaskuenneth.tkweek.navigation.initialTKWeekBackStack
 import com.thomaskuenneth.tkweek.types.TKWeekDestination
+import com.thomaskuenneth.tkweek.ui.AnnualEventsFabMenu
 import com.thomaskuenneth.tkweek.ui.BackArrow
 import com.thomaskuenneth.tkweek.ui.TKWeekModuleContainer
 import com.thomaskuenneth.tkweek.ui.TKWeekModuleSelector
@@ -179,52 +181,63 @@ fun TKWeekApp(
         Scaffold(
             contentWindowInsets = WindowInsets(),
         ) { paddingValues ->
-            NavDisplay(
-                backStack = backStack,
+            Box(
                 modifier = Modifier
+                    .fillMaxSize()
                     .padding(paddingValues)
-                    .absolutePadding(left = leftPadding, right = rightPadding),
-                onBack = onNavigateBack,
-                sceneStrategies = listOf(sceneStrategy),
-                entryProvider = entryProvider {
-                    entry<TKWeekDestination.ModuleList>(
-                        metadata = ListDetailSceneStrategy.listPane(
-                            detailPlaceholder = {
-                                DetailPane(
-                                    module = DEFAULT_MODULE,
-                                    date = null,
-                                    showProgressIndicator = uiState.shouldShowProgressIndicator,
-                                    canNavigateBack = canGoBack,
-                                    onNavigateBack = onNavigateBack,
+            ) {
+                NavDisplay(
+                    backStack = backStack,
+                    modifier = Modifier
+                        .absolutePadding(left = leftPadding, right = rightPadding),
+                    onBack = onNavigateBack,
+                    sceneStrategies = listOf(sceneStrategy),
+                    entryProvider = entryProvider {
+                        entry<TKWeekDestination.ModuleList>(
+                            metadata = ListDetailSceneStrategy.listPane(
+                                detailPlaceholder = {
+                                    DetailPane(
+                                        module = DEFAULT_MODULE,
+                                        date = null,
+                                        showProgressIndicator = uiState.shouldShowProgressIndicator,
+                                        canNavigateBack = canGoBack,
+                                        onNavigateBack = onNavigateBack,
+                                    )
+                                }
+                            )
+                        ) {
+                            TKWeekScreen(
+                                titleRes = R.string.app_name,
+                                showAppBar = !isTwoPane,
+                            ) {
+                                TKWeekModuleSelector(
+                                    selectedModule = selectedModule,
+                                    onModuleSelected = { module ->
+                                        viewModel.requestNavigation(
+                                            module = module,
+                                            topLevel = true
+                                        )
+                                    }
                                 )
                             }
-                        )
-                    ) {
-                        TKWeekScreen(
-                            titleRes = R.string.app_name,
-                            showAppBar = !isTwoPane,
-                        ) {
-                            TKWeekModuleSelector(
-                                selectedModule = selectedModule,
-                                onModuleSelected = { module ->
-                                    viewModel.requestNavigation(module = module, topLevel = true)
-                                }
+                        }
+                        entry<TKWeekDestination.Detail>(
+                            metadata = ListDetailSceneStrategy.detailPane()
+                        ) { detail ->
+                            DetailPane(
+                                module = detail.module,
+                                date = detail.date,
+                                showProgressIndicator = uiState.shouldShowProgressIndicator,
+                                canNavigateBack = canGoBack,
+                                onNavigateBack = onNavigateBack,
                             )
                         }
                     }
-                    entry<TKWeekDestination.Detail>(
-                        metadata = ListDetailSceneStrategy.detailPane()
-                    ) { detail ->
-                        DetailPane(
-                            module = detail.module,
-                            date = detail.date,
-                            showProgressIndicator = uiState.shouldShowProgressIndicator,
-                            canNavigateBack = canGoBack,
-                            onNavigateBack = onNavigateBack,
-                        )
-                    }
+                )
+                if (selectedModule == TKWeekModule.AnnualEvents) {
+                    AnnualEventsFabMenu()
                 }
-            )
+            }
         }
     }
 }

@@ -48,10 +48,6 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updatePadding
 import androidx.core.widget.doOnTextChanged
-import androidx.compose.material3.MaterialTheme
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.compose.runtime.getValue
-import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.Lifecycle
@@ -69,10 +65,7 @@ import com.thomaskuenneth.tkweek.util.DateUtilities
 import com.thomaskuenneth.tkweek.util.Helper
 import com.thomaskuenneth.tkweek.util.Helper.DATE
 import com.thomaskuenneth.tkweek.util.TKWeekUtils
-import com.thomaskuenneth.tkweek.ui.AnnualEventsFabMenu
-import com.thomaskuenneth.tkweek.ui.FabMenuItem
-import com.thomaskuenneth.tkweek.ui.TKWeekTestTags
-import com.thomaskuenneth.tkweek.ui.colorScheme
+import com.thomaskuenneth.tkweek.viewmodel.AnnualEventsDialog
 import com.thomaskuenneth.tkweek.viewmodel.AnnualEventsViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -159,7 +152,7 @@ class AnnualEventsFragment : TKWeekBaseFragment<EventsBinding>(), AdapterView.On
         loadEventsJob = null
         binding.listView.onItemClickListener = this
         binding.listView.setOnCreateContextMenuListener(this)
-        setUpFabMenu()
+        observeFabMenu()
         val lifecycleOwner = viewLifecycleOwner
         binding.searchField.setOnEditorActionListener { _, _, _ ->
             leaveSearchField()
@@ -422,49 +415,32 @@ class AnnualEventsFragment : TKWeekBaseFragment<EventsBinding>(), AdapterView.On
         }
     }
 
-    private fun setUpFabMenu() {
+    private fun observeFabMenu() {
         requireActivity().onBackPressedDispatcher.addCallback(
             viewLifecycleOwner, collapseFabMenuOnBack
         )
-        val items = listOf(
-            FabMenuItem(
-                label = R.string.annual_event_backup_restore,
-                icon = R.drawable.ic_baseline_backup_24,
-                testTag = TKWeekTestTags.FAB_MENU_BACKUP_RESTORE
-            ) {
-                annualEventsViewModel.setFabMenuExpanded(false)
-                showDialog(BackupRestoreDialogFragment())
-            },
-            FabMenuItem(
-                label = R.string.new_event,
-                icon = R.drawable.ic_baseline_add_24,
-                testTag = TKWeekTestTags.FAB_MENU_NEW_EVENT
-            ) {
-                annualEventsViewModel.setFabMenuExpanded(false)
-                showDialog(NewEventFragment())
-            }
-        )
-        binding.fabMenu.setViewCompositionStrategy(
-            ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed
-        )
-        binding.fabMenu.setContent {
-            MaterialTheme(colorScheme = colorScheme()) {
-                val expanded by annualEventsViewModel.isFabMenuExpanded.collectAsStateWithLifecycle()
-                AnnualEventsFabMenu(
-                    expanded = expanded,
-                    onExpandedChange = annualEventsViewModel::setFabMenuExpanded,
-                    items = items,
-                    onClearanceChange = ::applyFabMenuClearance
-                )
-            }
-        }
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 annualEventsViewModel.isFabMenuExpanded
                     .onEach(::applyFabMenuExpanded)
                     .launchIn(this)
+                annualEventsViewModel.fabMenuClearance
+                    .onEach(::applyFabMenuClearance)
+                    .launchIn(this)
+                annualEventsViewModel.pendingDialog
+                    .onEach(::showRequestedDialog)
+                    .launchIn(this)
             }
         }
+    }
+
+    private fun showRequestedDialog(dialog: AnnualEventsDialog?) {
+        when (dialog) {
+            AnnualEventsDialog.NEW_EVENT -> showDialog(NewEventFragment())
+            AnnualEventsDialog.BACKUP_RESTORE -> showDialog(BackupRestoreDialogFragment())
+            null -> return
+        }
+        annualEventsViewModel.clearPendingDialog()
     }
 
     private fun applyFabMenuClearance(clearance: Int) {

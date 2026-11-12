@@ -29,6 +29,8 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import javax.inject.Inject
 
+enum class AnnualEventsDialog { NEW_EVENT, BACKUP_RESTORE }
+
 @HiltViewModel
 class AnnualEventsViewModel @Inject constructor() : ViewModel() {
 
@@ -38,11 +40,30 @@ class AnnualEventsViewModel @Inject constructor() : ViewModel() {
     private val _isFabMenuExpanded = MutableStateFlow(false)
     val isFabMenuExpanded: StateFlow<Boolean> = _isFabMenuExpanded.asStateFlow()
 
+    private val _fabMenuClearance = MutableStateFlow(0)
+    val fabMenuClearance: StateFlow<Int> = _fabMenuClearance.asStateFlow()
+
+    private val _pendingDialog = MutableStateFlow<AnnualEventsDialog?>(null)
+    val pendingDialog: StateFlow<AnnualEventsDialog?> = _pendingDialog.asStateFlow()
+
     fun setSearchQuery(query: String?) {
         _searchQuery.value = query
     }
 
     fun setFabMenuExpanded(isExpanded: Boolean) {
         _isFabMenuExpanded.value = isExpanded
+    }
+
+    fun setFabMenuClearance(clearance: Int) {
+        _fabMenuClearance.value = clearance
+    }
+
+    fun requestDialog(dialog: AnnualEventsDialog) {
+        _isFabMenuExpanded.value = false
+        _pendingDialog.value = dialog
+    }
+
+    fun clearPendingDialog() {
+        _pendingDialog.value = null
     }
 }

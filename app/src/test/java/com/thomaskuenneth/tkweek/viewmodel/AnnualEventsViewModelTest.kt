@@ -30,6 +30,33 @@ class AnnualEventsViewModelTest {
     }
 
     @Test
+    fun requestDialog_collapsesTheMenuAndPublishesTheRequestUntilItIsCleared() = runTest {
+        viewModel.setFabMenuExpanded(true)
+
+        viewModel.requestDialog(AnnualEventsDialog.NEW_EVENT)
+
+        viewModel.isFabMenuExpanded.test {
+            assertEquals(false, awaitItem())
+        }
+        viewModel.pendingDialog.test {
+            assertEquals(AnnualEventsDialog.NEW_EVENT, awaitItem())
+
+            viewModel.clearPendingDialog()
+            assertNull(awaitItem())
+        }
+    }
+
+    @Test
+    fun fabMenuClearance_startsAtZeroAndFollowsTheMenu() = runTest {
+        viewModel.fabMenuClearance.test {
+            assertEquals(0, awaitItem())
+
+            viewModel.setFabMenuClearance(420)
+            assertEquals(420, awaitItem())
+        }
+    }
+
+    @Test
     fun setSearchQuery_leavesTheFabMenuAlone() = runTest {
         viewModel.setFabMenuExpanded(true)
 

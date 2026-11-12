@@ -124,6 +124,15 @@ class TKWeekMasterDetailNavigationTest {
     }
 
     @Test
+    fun singlePane_moduleList_showsTheAppNameWithoutABackArrow() {
+        setContentAt(COMPACT_WINDOW)
+
+        composeRule.onNodeWithTag(TKWeekTestTags.TOP_APP_BAR_TITLE)
+            .assertTextEquals(composeRule.activity.getString(R.string.app_name))
+        backArrowNode().assertDoesNotExist()
+    }
+
+    @Test
     fun singlePane_tappingAModule_opensDetailAndHidesList() {
         setContentAt(COMPACT_WINDOW)
 

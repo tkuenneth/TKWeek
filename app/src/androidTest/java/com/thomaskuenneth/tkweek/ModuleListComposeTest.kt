@@ -33,9 +33,7 @@ class ModuleListComposeTest {
     }
 
     @Test
-    fun launch_showsNoAppBarAndThePrimaryModules() {
-        composeRule.onNodeWithTag(TKWeekTestTags.TOP_APP_BAR_TITLE).assertDoesNotExist()
-
+    fun launch_showsThePrimaryModules() {
         composeRule.onNodeWithTag(TKWeekTestTags.moduleListItem(TKWeekModule.Week.name))
             .assertIsDisplayed()
         composeRule.onNodeWithTag(TKWeekTestTags.moduleListItem(TKWeekModule.MyDay.name))

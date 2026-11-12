@@ -41,8 +41,8 @@ import com.thomaskuenneth.tkweek.R
 @Composable
 fun TKWeekTopAppBar(
     @StringRes titleRes: Int,
-    onNavigateBack: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    navigationIcon: @Composable () -> Unit = {}
 ) {
     CenterAlignedTopAppBar(
         modifier = modifier,
@@ -53,9 +53,7 @@ fun TKWeekTopAppBar(
                 modifier = Modifier.testTag(TKWeekTestTags.TOP_APP_BAR_TITLE)
             )
         },
-        navigationIcon = {
-            BackArrow(onClick = onNavigateBack)
-        }
+        navigationIcon = navigationIcon
     )
 }
 
@@ -66,7 +64,7 @@ private fun TKWeekTopAppBarPreview() {
     MaterialTheme(colorScheme = colorScheme()) {
         TKWeekTopAppBar(
             titleRes = R.string.calendar_activity_text1,
-            onNavigateBack = {}
+            navigationIcon = { BackArrow(onClick = {}) }
         )
     }
 }

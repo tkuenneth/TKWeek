@@ -28,6 +28,7 @@ import androidx.activity.compose.LocalActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
+import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Box
@@ -35,9 +36,11 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.WindowInsetsSides
 import androidx.compose.foundation.layout.absolutePadding
+import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawing
+import androidx.compose.foundation.layout.statusBars
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
@@ -68,6 +71,7 @@ import com.thomaskuenneth.tkweek.navigation.applyNavigation
 import com.thomaskuenneth.tkweek.navigation.canNavigateBack
 import com.thomaskuenneth.tkweek.navigation.initialTKWeekBackStack
 import com.thomaskuenneth.tkweek.types.TKWeekDestination
+import com.thomaskuenneth.tkweek.ui.BackArrow
 import com.thomaskuenneth.tkweek.ui.TKWeekModuleContainer
 import com.thomaskuenneth.tkweek.ui.TKWeekModuleSelector
 import com.thomaskuenneth.tkweek.ui.TKWeekTopAppBar
@@ -196,12 +200,17 @@ fun TKWeekApp(
                             }
                         )
                     ) {
-                        TKWeekModuleSelector(
-                            selectedModule = selectedModule,
-                            onModuleSelected = { module ->
-                                viewModel.requestNavigation(module = module, topLevel = true)
-                            }
-                        )
+                        TKWeekScreen(
+                            titleRes = R.string.app_name,
+                            showAppBar = !isTwoPane,
+                        ) {
+                            TKWeekModuleSelector(
+                                selectedModule = selectedModule,
+                                onModuleSelected = { module ->
+                                    viewModel.requestNavigation(module = module, topLevel = true)
+                                }
+                            )
+                        }
                     }
                     entry<TKWeekDestination.Detail>(
                         metadata = ListDetailSceneStrategy.detailPane()
@@ -221,6 +230,29 @@ fun TKWeekApp(
 }
 
 @Composable
+private fun TKWeekScreen(
+    @StringRes titleRes: Int,
+    showAppBar: Boolean,
+    navigationIcon: @Composable () -> Unit = {},
+    content: @Composable () -> Unit,
+) {
+    Column {
+        AnimatedVisibility(visible = showAppBar) {
+            TKWeekTopAppBar(titleRes = titleRes, navigationIcon = navigationIcon)
+        }
+        Box(
+            modifier = if (showAppBar) {
+                Modifier.consumeWindowInsets(WindowInsets.statusBars)
+            } else {
+                Modifier
+            }
+        ) {
+            content()
+        }
+    }
+}
+
+@Composable
 private fun DetailPane(
     module: TKWeekModule,
     date: Long?,
@@ -228,13 +260,11 @@ private fun DetailPane(
     canNavigateBack: Boolean,
     onNavigateBack: () -> Unit,
 ) {
-    Column {
-        AnimatedVisibility(visible = canNavigateBack) {
-            TKWeekTopAppBar(
-                titleRes = module.titleRes,
-                onNavigateBack = onNavigateBack,
-            )
-        }
+    TKWeekScreen(
+        titleRes = module.titleRes,
+        showAppBar = canNavigateBack,
+        navigationIcon = { BackArrow(onClick = onNavigateBack) },
+    ) {
         ModuleDetail(
             module = module,
             date = date,

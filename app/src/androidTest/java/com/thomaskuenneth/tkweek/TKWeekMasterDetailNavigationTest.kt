@@ -35,6 +35,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 
 private val COMPACT_WINDOW = DpSize(400.dp, 900.dp)
+private val MEDIUM_WINDOW = DpSize(720.dp, 540.dp)
 private val EXPANDED_WINDOW = DpSize(1000.dp, 500.dp)
 
 @LargeTest
@@ -157,15 +158,26 @@ class TKWeekMasterDetailNavigationTest {
             .assertIsDisplayed()
     }
 
-    @Test
-    fun twoPane_showsListAndPreselectedDetailSideBySide() {
-        setContentAt(EXPANDED_WINDOW)
-
+    private fun assertListAndPreselectedDetailSideBySide() {
         assertNoAppBar()
         assertDetailShows(TKWeekModule.Week)
         awaitModuleListItem(TKWeekModule.Calendar)
         composeRule.onNodeWithTag(TKWeekTestTags.moduleListItem(TKWeekModule.Calendar.name))
             .assertIsDisplayed()
+    }
+
+    @Test
+    fun twoPane_atMediumWidth_showsListAndPreselectedDetailSideBySide() {
+        setContentAt(MEDIUM_WINDOW)
+
+        assertListAndPreselectedDetailSideBySide()
+    }
+
+    @Test
+    fun twoPane_showsListAndPreselectedDetailSideBySide() {
+        setContentAt(EXPANDED_WINDOW)
+
+        assertListAndPreselectedDetailSideBySide()
     }
 
     @Test

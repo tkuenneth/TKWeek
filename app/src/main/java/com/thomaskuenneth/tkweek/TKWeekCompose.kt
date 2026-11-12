@@ -49,7 +49,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.adaptive.ExperimentalMaterial3AdaptiveApi
 import androidx.compose.material3.adaptive.currentWindowAdaptiveInfoV2
 import androidx.compose.material3.adaptive.layout.HingePolicy
-import androidx.compose.material3.adaptive.layout.calculatePaneScaffoldDirective
+import androidx.compose.material3.adaptive.layout.calculatePaneScaffoldDirectiveWithTwoPanesOnMediumWidth
 import androidx.compose.material3.adaptive.navigation.BackNavigationBehavior
 import androidx.compose.material3.adaptive.navigation3.ListDetailSceneStrategy
 import androidx.compose.material3.adaptive.navigation3.rememberListDetailSceneStrategy
@@ -130,7 +130,7 @@ fun TKWeekApp(
     ) {
         val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
-        val directive = calculatePaneScaffoldDirective(
+        val directive = calculatePaneScaffoldDirectiveWithTwoPanesOnMediumWidth(
             windowAdaptiveInfo = currentWindowAdaptiveInfoV2(),
             verticalHingePolicy = if (uiState.avoidHinge) HingePolicy.AlwaysAvoid else HingePolicy.NeverAvoid
         )

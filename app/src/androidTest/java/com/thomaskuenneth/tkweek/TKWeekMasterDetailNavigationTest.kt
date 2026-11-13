@@ -124,6 +124,12 @@ class TKWeekMasterDetailNavigationTest {
         composeRule.onNodeWithTag(TKWeekTestTags.TOP_APP_BAR_TITLE).assertDoesNotExist()
     }
 
+    private fun assertNestedDetailWithoutTitle(module: TKWeekModule) {
+        assertNoAppBar()
+        assertDetailShows(module)
+        backArrowNode().assertIsDisplayed()
+    }
+
     @Test
     fun singlePane_moduleList_showsTheAppNameWithoutABackArrow() {
         setContentAt(COMPACT_WINDOW)
@@ -187,8 +193,7 @@ class TKWeekMasterDetailNavigationTest {
         selectTopLevel(TKWeekModule.Calendar)
         simulateNestedNavigation(TKWeekModule.MyDay, date = System.currentTimeMillis())
 
-        val myDayTitle = titleOf(TKWeekModule.MyDay)
-        composeRule.onNodeWithTag(TKWeekTestTags.TOP_APP_BAR_TITLE).assertTextEquals(myDayTitle)
+        assertNestedDetailWithoutTitle(TKWeekModule.MyDay)
 
         selectTopLevel(TKWeekModule.Calendar)
 
@@ -226,9 +231,7 @@ class TKWeekMasterDetailNavigationTest {
 
         selectTopLevel(TKWeekModule.Calendar)
         simulateNestedNavigation(TKWeekModule.MyDay, date = System.currentTimeMillis())
-        val myDayTitle = titleOf(TKWeekModule.MyDay)
-        composeRule.onNodeWithTag(TKWeekTestTags.TOP_APP_BAR_TITLE).assertTextEquals(myDayTitle)
-        backArrowNode().assertIsDisplayed()
+        assertNestedDetailWithoutTitle(TKWeekModule.MyDay)
 
         pressSystemBack()
 
@@ -294,13 +297,12 @@ class TKWeekMasterDetailNavigationTest {
 
         selectTopLevel(TKWeekModule.Calendar)
         simulateNestedNavigation(TKWeekModule.MyDay, date = System.currentTimeMillis())
-        val myDayTitle = titleOf(TKWeekModule.MyDay)
-        composeRule.onNodeWithTag(TKWeekTestTags.TOP_APP_BAR_TITLE).assertTextEquals(myDayTitle)
+        assertNestedDetailWithoutTitle(TKWeekModule.MyDay)
 
         composeRule.activityRule.scenario.recreate()
         composeRule.waitForIdle()
 
-        composeRule.onNodeWithTag(TKWeekTestTags.TOP_APP_BAR_TITLE).assertTextEquals(myDayTitle)
+        assertNestedDetailWithoutTitle(TKWeekModule.MyDay)
 
         selectTopLevel(TKWeekModule.Calendar)
 

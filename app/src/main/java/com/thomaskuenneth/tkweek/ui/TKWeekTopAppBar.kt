@@ -32,6 +32,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -53,6 +54,24 @@ fun TKWeekTopAppBar(
                 modifier = Modifier.testTag(TKWeekTestTags.TOP_APP_BAR_TITLE)
             )
         },
+        navigationIcon = navigationIcon
+    )
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun TKWeekBackAppBar(
+    modifier: Modifier = Modifier,
+    navigationIcon: @Composable () -> Unit = {}
+) {
+    CenterAlignedTopAppBar(
+        modifier = modifier,
+        windowInsets = TopAppBarDefaults.windowInsets.only(WindowInsetsSides.Top),
+        colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
+            containerColor = Color.Transparent,
+            scrolledContainerColor = Color.Transparent
+        ),
+        title = {},
         navigationIcon = navigationIcon
     )
 }

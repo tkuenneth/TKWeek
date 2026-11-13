@@ -43,7 +43,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.layout.statusBars
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.adaptive.ExperimentalMaterial3AdaptiveApi
@@ -55,13 +54,13 @@ import androidx.compose.material3.adaptive.navigation3.ListDetailSceneStrategy
 import androidx.compose.material3.adaptive.navigation3.rememberListDetailSceneStrategy
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.platform.LocalLayoutDirection
+import androidx.compose.ui.res.dimensionResource
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation3.runtime.NavKey
 import androidx.navigation3.runtime.entryProvider
@@ -74,6 +73,7 @@ import com.thomaskuenneth.tkweek.navigation.initialTKWeekBackStack
 import com.thomaskuenneth.tkweek.types.TKWeekDestination
 import com.thomaskuenneth.tkweek.ui.AnnualEventsFabMenu
 import com.thomaskuenneth.tkweek.ui.BackArrow
+import com.thomaskuenneth.tkweek.ui.TKWeekBackAppBar
 import com.thomaskuenneth.tkweek.ui.TKWeekModuleContainer
 import com.thomaskuenneth.tkweek.ui.TKWeekModuleSelector
 import com.thomaskuenneth.tkweek.ui.TKWeekTopAppBar
@@ -117,7 +117,6 @@ class TKWeekCompose : AppCompatActivity() {
 }
 
 @OptIn(
-    ExperimentalMaterial3Api::class,
     ExperimentalMaterial3AdaptiveApi::class,
 )
 @Composable
@@ -151,6 +150,10 @@ fun TKWeekApp(
         val navigatedModule = (backStack.lastOrNull() as? TKWeekDestination.Detail)?.module
         val selectedModule = navigatedModule ?: DEFAULT_MODULE.takeIf { isTwoPane }
         val canGoBack = canNavigateBack(isTwoPane, backStack.size)
+        val showsFloatingBack = isTwoPane && canGoBack
+        LaunchedEffect(showsFloatingBack) {
+            viewModel.setShowsFloatingBack(showsFloatingBack)
+        }
         val activity = LocalActivity.current
         // PopLatest pops exactly one entry, which is correct for nesting inside the detail pane;
         // once there's nothing left that canNavigateBack considers a real back-target (the two-pane
@@ -201,6 +204,8 @@ fun TKWeekApp(
                                         date = null,
                                         showProgressIndicator = uiState.shouldShowProgressIndicator,
                                         canNavigateBack = canGoBack,
+                                        isTwoPane = isTwoPane,
+                                        isDetailScrolled = uiState.isDetailScrolled,
                                         onNavigateBack = onNavigateBack,
                                     )
                                 }
@@ -230,6 +235,8 @@ fun TKWeekApp(
                                 date = detail.date,
                                 showProgressIndicator = uiState.shouldShowProgressIndicator,
                                 canNavigateBack = canGoBack,
+                                isTwoPane = isTwoPane,
+                                isDetailScrolled = uiState.isDetailScrolled,
                                 onNavigateBack = onNavigateBack,
                             )
                         }
@@ -247,21 +254,48 @@ fun TKWeekApp(
 private fun TKWeekScreen(
     @StringRes titleRes: Int,
     showAppBar: Boolean,
+    showHeadline: Boolean = true,
+    isDetailScrolled: Boolean = false,
     navigationIcon: @Composable () -> Unit = {},
+    onNavigateBack: (() -> Unit)? = null,
     content: @Composable () -> Unit,
 ) {
+    val showBar = showAppBar && showHeadline
+    val showBackButton =
+        showAppBar && !showHeadline && onNavigateBack != null && !isDetailScrolled
     Column {
-        AnimatedVisibility(visible = showAppBar) {
+        AnimatedVisibility(visible = showBar) {
             TKWeekTopAppBar(titleRes = titleRes, navigationIcon = navigationIcon)
         }
-        Box(
-            modifier = if (showAppBar) {
+        PaneBody(
+            showBackButton = showBackButton,
+            onNavigateBack = onNavigateBack,
+            modifier = if (showBar) {
                 Modifier.consumeWindowInsets(WindowInsets.statusBars)
             } else {
                 Modifier
-            }
+            },
+            content = content
+        )
+    }
+}
+
+@Composable
+private fun PaneBody(
+    showBackButton: Boolean,
+    onNavigateBack: (() -> Unit)?,
+    modifier: Modifier = Modifier,
+    content: @Composable () -> Unit,
+) {
+    Box(modifier = modifier) {
+        content()
+        AnimatedVisibility(
+            visible = showBackButton,
+            modifier = Modifier.align(Alignment.TopStart)
         ) {
-            content()
+            TKWeekBackAppBar(
+                navigationIcon = { BackArrow(onClick = { onNavigateBack?.invoke() }) }
+            )
         }
     }
 }
@@ -272,12 +306,17 @@ private fun DetailPane(
     date: Long?,
     showProgressIndicator: Boolean,
     canNavigateBack: Boolean,
+    isTwoPane: Boolean,
+    isDetailScrolled: Boolean,
     onNavigateBack: () -> Unit,
 ) {
     TKWeekScreen(
         titleRes = module.titleRes,
         showAppBar = canNavigateBack,
+        showHeadline = !isTwoPane,
+        isDetailScrolled = isDetailScrolled,
         navigationIcon = { BackArrow(onClick = onNavigateBack) },
+        onNavigateBack = onNavigateBack,
     ) {
         ModuleDetail(
             module = module,

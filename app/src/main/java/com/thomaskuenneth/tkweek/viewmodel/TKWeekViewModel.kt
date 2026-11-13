@@ -41,6 +41,7 @@ import javax.inject.Inject
 data class TKWeekUiState(
     val avoidHinge: Boolean = false,
     val isDetailScrolled: Boolean = false,
+    val showsFloatingBack: Boolean = false,
     val shouldShowProgressIndicator: Boolean = false,
 )
 
@@ -76,6 +77,10 @@ class TKWeekViewModel @Inject constructor(
 
     fun setDetailScrolled(isScrolled: Boolean) {
         _uiState.update { it.copy(isDetailScrolled = isScrolled) }
+    }
+
+    fun setShowsFloatingBack(showsFloatingBack: Boolean) {
+        _uiState.update { it.copy(showsFloatingBack = showsFloatingBack) }
     }
 
     fun requestNavigation(module: TKWeekModule, date: Long? = null, topLevel: Boolean) {

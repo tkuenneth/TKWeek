@@ -29,16 +29,24 @@ import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.view.updatePadding
 import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.preference.PreferenceManager
+import com.thomaskuenneth.tkweek.R
 import com.thomaskuenneth.tkweek.TKWeekModule
 import com.thomaskuenneth.tkweek.util.Helper
 import com.thomaskuenneth.tkweek.util.TKWeekUtils
 import com.thomaskuenneth.tkweek.viewmodel.TKWeekViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 abstract class TKWeekHiltBaseFragment : Fragment() {
@@ -82,6 +90,25 @@ abstract class TKWeekBaseFragment<T> : TKWeekHiltBaseFragment() {
                     viewModel.setDetailScrolled(scrollY > 0)
                 })
             viewModel.setDetailScrolled(scrollable.scrollY > 0)
+            scrollable.clipToPadding = false
+            viewLifecycleOwner.lifecycleScope.launch {
+                viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                    viewModel.uiState
+                        .map { it.showsFloatingBack }
+                        .distinctUntilChanged()
+                        .collect { showsFloatingBack ->
+                            scrollable.updatePadding(
+                                top = if (showsFloatingBack) {
+                                    resources.getDimensionPixelSize(
+                                        com.google.android.material.R.dimen.m3_appbar_size_compact
+                                    )
+                                } else {
+                                    0
+                                }
+                            )
+                        }
+                }
+            }
         }
     }
 

@@ -42,6 +42,8 @@ import com.thomaskuenneth.tkweek.R
 import com.thomaskuenneth.tkweek.preference.PreferenceManager
 import com.thomaskuenneth.tkweek.viewmodel.TKWeekViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -71,15 +73,28 @@ class PreferencesFragment : PreferenceFragmentCompat() {
             val topPadding = paddingTop
             val bottomPadding = paddingBottom
             val contentPadding = resources.getDimensionPixelSize(R.dimen.content_padding)
+            val appBarHeight = resources.getDimensionPixelSize(
+                com.google.android.material.R.dimen.m3_appbar_size_compact
+            )
             ViewCompat.setOnApplyWindowInsetsListener(this) { v, insets ->
                 val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+                val floatingBack =
+                    if (viewModel.uiState.value.showsFloatingBack) appBarHeight else 0
                 v.setPadding(
                     v.paddingLeft,
-                    topPadding + maxOf(systemBars.top, contentPadding),
+                    topPadding + systemBars.top + contentPadding + floatingBack,
                     v.paddingRight,
                     bottomPadding + systemBars.bottom
                 )
                 insets
+            }
+        }
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.uiState
+                    .map { it.showsFloatingBack }
+                    .distinctUntilChanged()
+                    .collect { ViewCompat.requestApplyInsets(listView) }
             }
         }
     }

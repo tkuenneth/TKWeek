@@ -37,9 +37,7 @@ public class TopSpace extends InsetSpace {
 
     @Override
     protected int getSpaceHeight(WindowInsetsCompat insets) {
-        return Math.max(
-                insets.getInsets(WindowInsetsCompat.Type.statusBars()).top,
-                getResources().getDimensionPixelSize(R.dimen.content_padding)
-        );
+        return insets.getInsets(WindowInsetsCompat.Type.statusBars()).top
+                + getResources().getDimensionPixelSize(R.dimen.content_padding);
     }
 }

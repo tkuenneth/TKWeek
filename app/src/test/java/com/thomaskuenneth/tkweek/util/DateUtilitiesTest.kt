@@ -67,4 +67,111 @@ class DateUtilitiesTest {
         assertEquals(10, mothersDay.get(Calendar.DAY_OF_MONTH))
         assertEquals(Calendar.SUNDAY, mothersDay.get(Calendar.DAY_OF_WEEK))
     }
+
+    private val workingWeek = setOf(
+        Calendar.MONDAY, Calendar.TUESDAY, Calendar.WEDNESDAY, Calendar.THURSDAY, Calendar.FRIDAY
+    )
+
+    private fun friday() = GregorianCalendar(2026, Calendar.NOVEMBER, 13)
+
+    private fun firstOfNovember2026() = GregorianCalendar(2026, Calendar.NOVEMBER, 1)
+
+    private fun lastOfNovember2026() = GregorianCalendar(2026, Calendar.NOVEMBER, 30)
+
+    @Test
+    fun countBusinessDays_countsTheWeekdaysOfAMonth() {
+        val count = DateUtilities.countBusinessDays(
+            firstOfNovember2026(), lastOfNovember2026(), workingWeek
+        )
+
+        assertEquals(21, count)
+    }
+
+    @Test
+    fun countBusinessDays_withoutASingleBusinessDay_countsNothing() {
+        val count = DateUtilities.countBusinessDays(
+            firstOfNovember2026(), lastOfNovember2026(), emptySet()
+        )
+
+        assertEquals(0, count)
+    }
+
+    @Test
+    fun countBusinessDays_followsAnUnusualWorkingWeek() {
+        val count = DateUtilities.countBusinessDays(
+            firstOfNovember2026(), lastOfNovember2026(),
+            setOf(Calendar.SATURDAY, Calendar.SUNDAY)
+        )
+
+        assertEquals(9, count)
+    }
+
+    @Test
+    fun countBusinessDays_includesBothEnds() {
+        val friday = GregorianCalendar(2026, Calendar.NOVEMBER, 13)
+
+        assertEquals(1, DateUtilities.countBusinessDays(friday, friday, workingWeek))
+    }
+
+    @Test
+    fun countBusinessDays_leavesItsArgumentsAlone() {
+        val from = firstOfNovember2026()
+        val to = lastOfNovember2026()
+
+        DateUtilities.countBusinessDays(from, to, workingWeek)
+
+        assertEquals(1, from.get(Calendar.DAY_OF_MONTH))
+        assertEquals(30, to.get(Calendar.DAY_OF_MONTH))
+    }
+
+    @Test
+    fun addBusinessDays_skipsTheWeekend() {
+        val result = DateUtilities.addBusinessDays(friday(), 1, false, workingWeek)
+
+        assertEquals(16, result.get(Calendar.DAY_OF_MONTH))
+        assertEquals(Calendar.MONDAY, result.get(Calendar.DAY_OF_WEEK))
+    }
+
+    @Test
+    fun addBusinessDays_countsOnlyTheDaysThatWereSelected() {
+        val result = DateUtilities.addBusinessDays(friday(), 5, false, workingWeek)
+
+        assertEquals(20, result.get(Calendar.DAY_OF_MONTH))
+        assertEquals(Calendar.FRIDAY, result.get(Calendar.DAY_OF_WEEK))
+    }
+
+    @Test
+    fun addBusinessDays_walksBackwardsWhenSubtracting() {
+        val monday = GregorianCalendar(2026, Calendar.NOVEMBER, 16)
+
+        val result = DateUtilities.addBusinessDays(monday, 1, true, workingWeek)
+
+        assertEquals(13, result.get(Calendar.DAY_OF_MONTH))
+        assertEquals(Calendar.FRIDAY, result.get(Calendar.DAY_OF_WEEK))
+    }
+
+    @Test
+    fun addBusinessDays_followsAnUnusualWorkingWeek() {
+        val result = DateUtilities.addBusinessDays(
+            friday(), 2, false, setOf(Calendar.SATURDAY, Calendar.SUNDAY)
+        )
+
+        assertEquals(15, result.get(Calendar.DAY_OF_MONTH))
+        assertEquals(Calendar.SUNDAY, result.get(Calendar.DAY_OF_WEEK))
+    }
+
+    @Test
+    fun addBusinessDays_withoutASingleBusinessDay_leavesTheDateAlone() {
+        val result = DateUtilities.addBusinessDays(friday(), 5, false, emptySet())
+
+        assertEquals(13, result.get(Calendar.DAY_OF_MONTH))
+        assertEquals(Calendar.NOVEMBER, result.get(Calendar.MONTH))
+    }
+
+    @Test
+    fun addBusinessDays_withoutDays_leavesTheDateAlone() {
+        val result = DateUtilities.addBusinessDays(friday(), 0, false, workingWeek)
+
+        assertEquals(13, result.get(Calendar.DAY_OF_MONTH))
+    }
 }

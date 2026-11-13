@@ -18,6 +18,7 @@ import com.thomaskuenneth.tkweek.util.CalendarCondition.CONDITION;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Set;
 import java.util.TimeZone;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -418,6 +419,32 @@ public class DateUtilities {
         cal.set(Calendar.MINUTE, 0);
         cal.set(Calendar.SECOND, 0);
         cal.set(Calendar.MILLISECOND, 0);
+        return cal;
+    }
+
+    public static int countBusinessDays(Calendar from, Calendar to, Set<Integer> businessDays) {
+        Calendar day = clearTimeRelatedFields((Calendar) from.clone());
+        Calendar last = clearTimeRelatedFields((Calendar) to.clone());
+        int count = 0;
+        while (!day.after(last)) {
+            if (businessDays.contains(day.get(Calendar.DAY_OF_WEEK))) {
+                count += 1;
+            }
+            day.add(Calendar.DAY_OF_MONTH, 1);
+        }
+        return count;
+    }
+
+    public static Calendar addBusinessDays(Calendar cal, int numberOfDays, boolean subtract,
+                                           Set<Integer> businessDays) {
+        if (!businessDays.isEmpty()) {
+            int offset = subtract ? -1 : 1;
+            for (int day = 0; day < numberOfDays; day++) {
+                do {
+                    cal.add(Calendar.DAY_OF_MONTH, offset);
+                } while (!businessDays.contains(cal.get(Calendar.DAY_OF_WEEK)));
+            }
+        }
         return cal;
     }
 

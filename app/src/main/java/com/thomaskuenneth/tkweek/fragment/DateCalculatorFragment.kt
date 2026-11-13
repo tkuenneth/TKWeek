@@ -82,19 +82,13 @@ class DateCalculatorFragment : TKWeekBaseFragment<DateCalculatorBinding>() {
         temp.add(Calendar.WEEK_OF_YEAR, getInt(binding.weeks, subtract))
         temp.add(Calendar.MONTH, getInt(binding.months, subtract))
         temp.add(Calendar.YEAR, getInt(binding.years, subtract))
-        val businessDaysOfWeek = if (binding.dateCalculatorCountBusinessDaysOnly.isChecked) {
-            PickBusinessDaysPreference.getBusinessDays(requireContext())
-        } else {
-            emptySet()
-        }
-        if (businessDaysOfWeek.isNotEmpty()) {
-            val numberOfDays = getInt(binding.days, false)
-            val offset = if (subtract) -1 else 1
-            (0 until numberOfDays).forEach { _ ->
-                do {
-                    temp.add(Calendar.DAY_OF_MONTH, offset)
-                } while (!businessDaysOfWeek.contains(temp[Calendar.DAY_OF_WEEK]))
-            }
+        if (binding.dateCalculatorCountBusinessDaysOnly.isChecked) {
+            DateUtilities.addBusinessDays(
+                temp,
+                getInt(binding.days, false),
+                subtract,
+                PickBusinessDaysPreference.getBusinessDays(requireContext())
+            )
         } else {
             temp.add(Calendar.DAY_OF_MONTH, getInt(binding.days, subtract))
         }

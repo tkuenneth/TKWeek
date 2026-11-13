@@ -267,19 +267,23 @@ class CalendarFragment : TKWeekBaseFragment<CalendarBinding>(), View.OnClickList
         val accentColor = MaterialColors.getColor(
             requireContext(), com.google.android.material.R.attr.colorSecondary, Color.GREEN
         )
-        var businessDays = 0
+        val businessDays = DateUtilities.countBusinessDays(
+            DateUtilities.getCalendar(cal[Calendar.YEAR], cal[Calendar.MONTH], 1),
+            DateUtilities.getCalendar(
+                cal[Calendar.YEAR], cal[Calendar.MONTH],
+                cal.getActualMaximum(Calendar.DAY_OF_MONTH)
+            ),
+            PickBusinessDaysPreference.getBusinessDays(requireContext())
+        )
         var daysOff = 0
-        val businessDaysOfWeek = PickBusinessDaysPreference.getBusinessDays(requireContext())
         val temp = DateUtilities.getCalendar(
             cal[Calendar.YEAR], cal[Calendar.MONTH], 1
         )
         prepareCalendar(temp, requireContext())
         DateUtilities.clearTimeRelatedFields(temp)
-        // back to the beginning of the week
         while (temp[Calendar.DAY_OF_WEEK] != temp.firstDayOfWeek) {
             temp.add(Calendar.DAY_OF_MONTH, -1)
         }
-        // go back 7 days to set the weekdays
         temp.add(Calendar.DAY_OF_MONTH, -7)
         for (i in 1..7) {
             days[i].tag = null
@@ -307,11 +311,6 @@ class CalendarFragment : TKWeekBaseFragment<CalendarBinding>(), View.OnClickList
                 days[pos].tag = temp.time
                 var dayOff: Boolean
                 if (temp[Calendar.MONTH] == month) {
-                    // business day?
-                    if (businessDaysOfWeek.contains(temp[Calendar.DAY_OF_WEEK])) {
-                        businessDays += 1
-                    }
-                    // day off?
                     dayOff = isDayOff(requireContext(), temp.time)
                     if (dayOff) {
                         daysOff += 1

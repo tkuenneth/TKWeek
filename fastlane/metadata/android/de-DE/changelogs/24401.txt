@@ -1,0 +1,7 @@
+- Zwei Bereiche gibt es jetzt schon bei mittleren Fenstern, etwa einem hochkant gehaltenen Tablet
+- Eine neue Einstellung hält die beiden Bereiche vom Scharnier frei
+- Der Kalender passt in schmale Bereiche, ohne Tageszahlen umzubrechen
+- Ereignisse öffnet ohne Tastatur, die Suche sitzt jetzt in der Liste
+- Werktage lassen sich wieder in den Einstellungen auswählen
+- Die Info-Seite nennt die Lizenz und verlinkt den Quellcode
+- Bibliotheken und Tools aktualisiert

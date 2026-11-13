@@ -1,0 +1,7 @@
+- Two panes now start on medium windows, such as a tablet held upright
+- A new setting keeps the two panes clear of a foldable's hinge
+- The calendar fits narrow panes without wrapping day numbers
+- Events opens without the keyboard, and its search field now sits in the list
+- Business days can be picked again in the settings
+- The About page names the licence and links to the source code
+- Libraries and tools upgrades

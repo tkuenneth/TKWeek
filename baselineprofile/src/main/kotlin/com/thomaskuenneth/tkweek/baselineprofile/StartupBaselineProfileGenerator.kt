@@ -30,6 +30,9 @@ class StartupBaselineProfileGenerator {
         openModule(labels.calendarTitle)
         awaitText(labels.calendarTitle)
         device.pressBack()
+        if (!device.wait(Until.hasObject(By.pkg(TARGET_PACKAGE).depth(0)), 2_000)) {
+            startActivityAndWait()
+        }
         awaitAnyText(labels.primaryModuleTitle, labels.calendarTitle)
         device.waitForIdle()
     }

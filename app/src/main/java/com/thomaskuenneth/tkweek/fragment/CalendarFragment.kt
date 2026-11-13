@@ -334,11 +334,11 @@ class CalendarFragment : TKWeekBaseFragment<CalendarBinding>(), View.OnClickList
                 temp.add(Calendar.DAY_OF_MONTH, 1)
             }
         }
-        binding.calendarNumberOfBusinessDays.text = getString(
-            R.string.calendar_number_of_business_days, businessDays
+        binding.calendarNumberOfBusinessDays.text = resources.getQuantityString(
+            R.plurals.calendar_number_of_business_days, businessDays, businessDays
         )
-        binding.calendarNumberDaysOff.text = getString(
-            R.string.calendar_number_days_off, daysOff
+        binding.calendarNumberDaysOff.text = resources.getQuantityString(
+            R.plurals.calendar_number_days_off, daysOff, daysOff
         )
         load(cal[Calendar.YEAR])
     }

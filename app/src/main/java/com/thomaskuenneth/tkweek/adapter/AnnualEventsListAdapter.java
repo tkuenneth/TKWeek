@@ -194,7 +194,7 @@ public class AnnualEventsListAdapter extends BaseAdapter implements Comparator<E
         this.calFrom = DateUtilities.clearTimeRelatedFields(calFrom);
         this.calTo = DateUtilities.clearTimeRelatedFields(calTo);
         if (search != null) {
-            search = search.toLowerCase();
+            search = search.toLowerCase(Locale.getDefault());
         }
         this.search = search;
         data = new ArrayList<>();
@@ -344,9 +344,11 @@ public class AnnualEventsListAdapter extends BaseAdapter implements Comparator<E
         } else if (days == -1) {
             return mInflater.getContext().getString(R.string.yesterday);
         } else if (days < 0) {
-            return mInflater.getContext().getString(R.string.x_days_ago, -days);
+            return mInflater.getContext().getResources()
+                    .getQuantityString(R.plurals.x_days_ago, (int) -days, -days);
         } else {
-            return mInflater.getContext().getString(R.string.in_x_days, days);
+            return mInflater.getContext().getResources()
+                    .getQuantityString(R.plurals.in_x_days, (int) days, days);
         }
     }
 
@@ -359,7 +361,7 @@ public class AnnualEventsListAdapter extends BaseAdapter implements Comparator<E
                 long diffDays = DateUtilities.diffDayPeriods(today_cal, cal);
                 return context.getString(diffDays < 0 ? R.string.birthday_past : R.string.birthday_future, event.occurrences, Helper.FORMAT_DAY_OF_WEEK.format(calTime), Helper.FORMAT_MONTH.format(calTime), event.getDay(), event.getYear() - event.occurrences);
             } else if (event instanceof Anniversary) {
-                return context.getString(R.string.template_anniversary, event.occurrences, Helper.FORMAT_DAY_OF_WEEK.format(calTime), Helper.FORMAT_MONTH.format(calTime), event.getDay(), event.getYear() - event.occurrences);
+                return context.getResources().getQuantityString(R.plurals.template_anniversary, event.occurrences, event.occurrences, Helper.FORMAT_DAY_OF_WEEK.format(calTime), Helper.FORMAT_MONTH.format(calTime), event.getDay(), event.getYear() - event.occurrences);
             }
         }
         return dateAsString;
@@ -622,7 +624,7 @@ public class AnnualEventsListAdapter extends BaseAdapter implements Comparator<E
                 return;
             }
         }
-        if ((search == null) || e.descr.toLowerCase().contains(search)) {
+        if ((search == null) || e.descr.toLowerCase(Locale.getDefault()).contains(search)) {
             data.add(e);
         }
     }

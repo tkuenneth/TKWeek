@@ -104,7 +104,8 @@ public class AlarmReceiver extends BroadcastReceiver {
                 NotificationCompat.Builder summary = createBuilder(context,
                         when,
                         R.drawable.ic_tkweek_one_sheet_no_gradients);
-                String mContentTitle = context.getString(R.string.number_of_events, numEvents);
+                String mContentTitle = context.getResources()
+                        .getQuantityString(R.plurals.number_of_events, numEvents, numEvents);
                 summary.setGroup("tkweek");
                 summary.setContentTitle(mContentTitle);
                 summary.setGroupSummary(true);

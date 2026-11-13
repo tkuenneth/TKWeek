@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <string name="made_with_love" translatable="false">Made with \u2764 by Thomas Künneth</string>
     <string name="not_successful">%1$s was not successful.</string>
@@ -15,8 +15,14 @@
     <string name="today">Today</string>
     <string name="tomorrow">Tomorrow</string>
     <string name="yesterday">Yesterday</string>
-    <string name="in_x_days">%1$d days</string>
-    <string name="x_days_ago">%1$d days ago</string>
+    <plurals name="in_x_days">
+        <item quantity="one">%1$d day</item>
+        <item quantity="other">%1$d days</item>
+    </plurals>
+    <plurals name="x_days_ago">
+        <item quantity="one">%1$d day ago</item>
+        <item quantity="other">%1$d days ago</item>
+    </plurals>
     <string name="dialog_title_error">An error occurred</string>
     <string name="menu_delete">Delete</string>
     <string name="settings">Settings</string>
@@ -45,7 +51,10 @@
     <string name="close">Close</string>
     <string name="notes">Notes</string>
     <string name="edit">Edit</string>
-    <string name="number_of_events">%1$d events</string>
+    <plurals name="number_of_events">
+        <item quantity="one">%1$d event</item>
+        <item quantity="other">%1$d events</item>
+    </plurals>
     <string name="next_year">Next year</string>
     <string name="previous_year">Previous year</string>
 
@@ -149,7 +158,7 @@ access your contacts data to display birthdays and anniversaries. You can deacti
 
     <!-- DateInfoActivity -->
     <string name="label_day_of_year">Day of year:</string>
-    <string name="day_of_year">%1$d of %2$d (%3$d left)</string>
+    <string name="day_of_year" tools:ignore="PluralsCandidate">%1$d of %2$d (%3$d left)</string>
     <string name="is_leap_year">Leap year:</string>
     <string name="astrological_sign">Sign of the Zodiac:</string>
     <string name="look_up_in_wikipedia">Look up in Wikipedia</string>
@@ -157,13 +166,31 @@ access your contacts data to display birthdays and anniversaries. You can deacti
     <!-- DaysBetweenDatesActivity -->
     <string name="first_date">Start date</string>
     <string name="second_date">End date</string>
-    <string name="days_between_dates_weekends">%1$d weekend(s)</string>
-    <string name="days_between_dates_weeks">approx. %1$d week(s)</string>
-    <string name="days_between_dates_month_turns">%1$d month turns</string>
-    <string name="days_between_dates_year_turns">%1$d year turns</string>
+    <plurals name="days_between_dates_weekends">
+        <item quantity="one">%1$d weekend</item>
+        <item quantity="other">%1$d weekends</item>
+    </plurals>
+    <plurals name="days_between_dates_weeks">
+        <item quantity="one">approx. %1$d week</item>
+        <item quantity="other">approx. %1$d weeks</item>
+    </plurals>
+    <plurals name="days_between_dates_month_turns">
+        <item quantity="one">%1$d month turn</item>
+        <item quantity="other">%1$d month turns</item>
+    </plurals>
+    <plurals name="days_between_dates_year_turns">
+        <item quantity="one">%1$d year turn</item>
+        <item quantity="other">%1$d year turns</item>
+    </plurals>
     <string name="include_first_date">Include first day</string>
-    <string name="days_between_dates_days">%1$d day(s)</string>
-    <string name="days_between_dates_business_days">%1$d business day(s)</string>
+    <plurals name="days_between_dates_days">
+        <item quantity="one">%1$d day</item>
+        <item quantity="other">%1$d days</item>
+    </plurals>
+    <plurals name="days_between_dates_business_days">
+        <item quantity="one">%1$d business day</item>
+        <item quantity="other">%1$d business days</item>
+    </plurals>
     <string name="less_than_a_week">less than a week</string>
     <string name="hint_today_start">Set start date to today</string>
     <string name="hint_today_end">Set end date to today</string>
@@ -184,7 +211,10 @@ access your contacts data to display birthdays and anniversaries. You can deacti
 
     <!-- AnnualEventsActivity -->
     <string name="national_doughnut_day">National Doughnut Day</string>
-    <string name="template_anniversary">%1$d times since %5$d on %2$s, %3$s %4$d</string>
+    <plurals name="template_anniversary">
+        <item quantity="one">%1$d time since %5$d on %2$s, %3$s %4$d</item>
+        <item quantity="other">%1$d times since %5$d on %2$s, %3$s %4$d</item>
+    </plurals>
     <string name="australia_day" translatable="false">Australia Day</string>
     <string name="gustav_adolf_tag" translatable="false">Gustaf Adolfsdagen</string>
     <string name="midsommar" translatable="false">Midsommar</string>
@@ -284,8 +314,14 @@ access your contacts data to display birthdays and anniversaries. You can deacti
     <string name="about_android_version">Android version:</string>
 
     <!-- CalendarActivity -->
-    <string name="calendar_number_of_business_days">%1$d business days</string>
-    <string name="calendar_number_days_off">%1$d days off</string>
+    <plurals name="calendar_number_of_business_days">
+        <item quantity="one">%1$d business day</item>
+        <item quantity="other">%1$d business days</item>
+    </plurals>
+    <plurals name="calendar_number_days_off">
+        <item quantity="one">%1$d day off</item>
+        <item quantity="other">%1$d days off</item>
+    </plurals>
     <string name="calendar_recently_clicked">Recently clicked</string>
 
     <!-- MyDayActivity -->

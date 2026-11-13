@@ -89,8 +89,8 @@ private val FAB_MENU_ITEMS = listOf(
 @OptIn(ExperimentalMaterial3ExpressiveApi::class, ExperimentalMaterial3AdaptiveApi::class)
 @Composable
 fun AnnualEventsFabMenu(
-    viewModel: AnnualEventsViewModel = viewModel(),
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    viewModel: AnnualEventsViewModel = viewModel()
 ) {
     val expanded by viewModel.isFabMenuExpanded.collectAsStateWithLifecycle()
     val gap = with(LocalDensity.current) { LIST_FAB_GAP.roundToPx() }

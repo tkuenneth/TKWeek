@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <string name="not_successful">%1$s war nicht erfolgreich.</string>
     <string name="contacts">Kontakte</string>
@@ -8,8 +8,14 @@
     <string name="today">Heute</string>
     <string name="tomorrow">Morgen</string>
     <string name="yesterday">Gestern</string>
-    <string name="in_x_days">%1$d Tage</string>
-    <string name="x_days_ago">vor %1$d Tagen</string>
+    <plurals name="in_x_days">
+        <item quantity="one">%1$d Tag</item>
+        <item quantity="other">%1$d Tage</item>
+    </plurals>
+    <plurals name="x_days_ago">
+        <item quantity="one">vor %1$d Tag</item>
+        <item quantity="other">vor %1$d Tagen</item>
+    </plurals>
     <!-- number_0 -->
     <string name="dialog_title_error">Es ist ein Fehler aufgetreten</string>
     <string name="menu_delete">Löschen</string>
@@ -115,7 +121,7 @@
 
     <!-- DateInfoActivity -->
     <string name="label_day_of_year">Nr. des Tags:</string>
-    <string name="day_of_year">%1$d von %2$d (%3$d verbleibend)</string>
+    <string name="day_of_year" tools:ignore="PluralsCandidate">%1$d von %2$d (%3$d verbleibend)</string>
     <string name="is_leap_year">Schaltjahr:</string>
     <string name="astrological_sign">Tierkreiszeichen:</string>
     <string name="look_up_in_wikipedia">In Wikipedia nachschlagen</string>
@@ -123,13 +129,31 @@
     <!-- DaysBetweenDatesActivity -->
     <string name="first_date">Startdatum</string>
     <string name="second_date">Enddatum</string>
-    <string name="days_between_dates_weekends">%1$d Wochenende(n)</string>
-    <string name="days_between_dates_weeks">ca. %1$d Woche(n)</string>
-    <string name="days_between_dates_month_turns">%1$d Monatswechsel</string>
-    <string name="days_between_dates_year_turns">%1$d Jahreswechsel</string>
+    <plurals name="days_between_dates_weekends">
+        <item quantity="one">%1$d Wochenende</item>
+        <item quantity="other">%1$d Wochenenden</item>
+    </plurals>
+    <plurals name="days_between_dates_weeks">
+        <item quantity="one">ca. %1$d Woche</item>
+        <item quantity="other">ca. %1$d Wochen</item>
+    </plurals>
+    <plurals name="days_between_dates_month_turns">
+        <item quantity="one">%1$d Monatswechsel</item>
+        <item quantity="other">%1$d Monatswechsel</item>
+    </plurals>
+    <plurals name="days_between_dates_year_turns">
+        <item quantity="one">%1$d Jahreswechsel</item>
+        <item quantity="other">%1$d Jahreswechsel</item>
+    </plurals>
     <string name="include_first_date">Ersten Tag einbeziehen</string>
-    <string name="days_between_dates_days">%1$d Tag(e)</string>
-    <string name="days_between_dates_business_days">%1$d Werktag(e)</string>
+    <plurals name="days_between_dates_days">
+        <item quantity="one">%1$d Tag</item>
+        <item quantity="other">%1$d Tage</item>
+    </plurals>
+    <plurals name="days_between_dates_business_days">
+        <item quantity="one">%1$d Werktag</item>
+        <item quantity="other">%1$d Werktage</item>
+    </plurals>
     <string name="less_than_a_week">weniger als eine Woche</string>
     <string name="hint_today_start">Startdatum auf heute setzen</string>
     <string name="hint_today_end">Enddatum auf heute setzen</string>
@@ -147,7 +171,10 @@
     <string name="count_business_days_only">Nur Werktage zählen</string>
 
     <!-- AnnualEventsActivity -->
-    <string name="template_anniversary">%1$d mal seit %5$d am %2$s, %4$d %3$s</string>
+    <plurals name="template_anniversary">
+        <item quantity="one">%1$d mal seit %5$d am %2$s, %4$d %3$s</item>
+        <item quantity="other">%1$d mal seit %5$d am %2$s, %4$d %3$s</item>
+    </plurals>
     <string name="fathersday">Vatertag</string>
     <string name="nationalfeiertag_se">Schwedischer Nationalfeiertag</string>
     <string name="ostermontag">Ostermontag</string>
@@ -224,8 +251,14 @@
     <string name="about_android_version">Android Version:</string>
 
     <!-- CalendarActivity -->
-    <string name="calendar_number_of_business_days">%1$d Werktage</string>
-    <string name="calendar_number_days_off">%1$d Ruhetage</string>
+    <plurals name="calendar_number_of_business_days">
+        <item quantity="one">%1$d Werktag</item>
+        <item quantity="other">%1$d Werktage</item>
+    </plurals>
+    <plurals name="calendar_number_days_off">
+        <item quantity="one">%1$d Ruhetag</item>
+        <item quantity="other">%1$d Ruhetage</item>
+    </plurals>
     <string name="calendar_recently_clicked">Zuletzt angeklickt</string>
 
     <!-- MyDayActivity -->
@@ -294,7 +327,10 @@ können Sie diese in den Einstellungen ausblenden.</string>
     <string name="leap_year">Schaltjahr</string>
     <string name="previous_leap_year">Vorheriges Schaltjahr</string>
     <string name="next_leap_year">Nächstes Schaltjahr</string>
-    <string name="number_of_events">%1$d Ereignisse</string>
+    <plurals name="number_of_events">
+        <item quantity="one">%1$d Ereignis</item>
+        <item quantity="other">%1$d Ereignisse</item>
+    </plurals>
     <string name="delete">Löschen</string>
     <string name="national_doughnut_day">Tag des Donuts</string>
     <string name="thanksgiving">Erntedankfest</string>

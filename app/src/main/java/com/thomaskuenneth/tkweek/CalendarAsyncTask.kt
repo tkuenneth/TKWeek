@@ -135,24 +135,31 @@ class CalendarAsyncTask(
         binding.firstDate.isEnabled = true
         binding.secondDate.isEnabled = true
         val days = b.getInt(DAYS)
-        binding.daysBetweenDatesTotal1.text = context.getString(
-            R.string.days_between_dates_days, days
+        val businessDays = b.getInt(BUSINESS_DAYS)
+        val weekends = b.getInt(WEEKENDS)
+        val weeks = b.getInt(WEEKS)
+        val months = b.getInt(MONTHS)
+        val years = b.getInt(YEARS)
+        binding.daysBetweenDatesTotal1.text = context.resources.getQuantityString(
+            R.plurals.days_between_dates_days, days, days
         )
-        binding.daysBetweenDatesTotal2.text = context.getString(
-            R.string.days_between_dates_business_days, b.getInt(BUSINESS_DAYS)
+        binding.daysBetweenDatesTotal2.text = context.resources.getQuantityString(
+            R.plurals.days_between_dates_business_days, businessDays, businessDays
         )
-        binding.daysBetweenDatesWeekends.text = context.getString(
-            R.string.days_between_dates_weekends, b.getInt(WEEKENDS)
+        binding.daysBetweenDatesWeekends.text = context.resources.getQuantityString(
+            R.plurals.days_between_dates_weekends, weekends, weekends
         )
         binding.daysBetweenDatesWeeks.text = if (days >= 7)
-            context.getString(R.string.days_between_dates_weeks, b.getInt(WEEKS))
+            context.resources.getQuantityString(
+                R.plurals.days_between_dates_weeks, weeks, weeks
+            )
         else
             context.getString(R.string.less_than_a_week)
-        binding.daysBetweenDatesMonthTurns.text = context.getString(
-            R.string.days_between_dates_month_turns, b.getInt(MONTHS)
+        binding.daysBetweenDatesMonthTurns.text = context.resources.getQuantityString(
+            R.plurals.days_between_dates_month_turns, months, months
         )
-        binding.daysBetweenDatesYearTurns.text = context.getString(
-            R.string.days_between_dates_year_turns, b.getInt(YEARS)
+        binding.daysBetweenDatesYearTurns.text = context.resources.getQuantityString(
+            R.plurals.days_between_dates_year_turns, years, years
         )
     }
 }

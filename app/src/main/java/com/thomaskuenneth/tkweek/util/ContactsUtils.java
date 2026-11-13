@@ -59,9 +59,9 @@ public class ContactsUtils {
         if (mainQueryCursor != null) {
             while (mainQueryCursor.moveToNext()) {
                 String contactId = mainQueryCursor.getString(mainQueryCursor
-                        .getColumnIndex(ContactsContract.Contacts._ID));
+                        .getColumnIndexOrThrow(ContactsContract.Contacts._ID));
                 String displayName = mainQueryCursor.getString(mainQueryCursor
-                        .getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
+                        .getColumnIndexOrThrow(ContactsContract.Contacts.DISPLAY_NAME));
                 String[] dataQueryProjection = new String[]{
                         ContactsContract.CommonDataKinds.Event.TYPE,
                         ContactsContract.CommonDataKinds.Event.START_DATE,

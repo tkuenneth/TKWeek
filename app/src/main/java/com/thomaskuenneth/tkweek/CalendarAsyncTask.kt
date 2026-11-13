@@ -60,27 +60,16 @@ class CalendarAsyncTask(
         var yearTurns = 0
         var lastYear = c1[Calendar.YEAR]
         var temp: Int
-        val prefs = context.getSharedPreferences(
-            PickBusinessDaysPreference.getTag(), Context.MODE_PRIVATE
-        )
+        val businessDaysOfWeek = PickBusinessDaysPreference.getBusinessDays(context)
         if (binding.checkboxIncludeFirstDate.isChecked) {
             days += 1
-            val weekday = c1[Calendar.DAY_OF_WEEK]
-            if (prefs.getBoolean(
-                    weekday.toString(),
-                    PickBusinessDaysPreference.getDefault(weekday)
-                )
-            ) {
+            if (businessDaysOfWeek.contains(c1[Calendar.DAY_OF_WEEK])) {
                 businessDays += 1
             }
         }
         while (c2.after(c1)) {
             val weekday = c1[Calendar.DAY_OF_WEEK]
-            if (prefs.getBoolean(
-                    weekday.toString(),
-                    PickBusinessDaysPreference.getDefault(weekday)
-                )
-            ) {
+            if (businessDaysOfWeek.contains(weekday)) {
                 businessDays += 1
             }
             if (weekday == Calendar.SATURDAY) {

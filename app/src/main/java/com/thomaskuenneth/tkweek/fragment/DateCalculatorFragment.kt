@@ -23,8 +23,6 @@
  */
 package com.thomaskuenneth.tkweek.fragment
 
-import android.content.Context
-import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -84,21 +82,18 @@ class DateCalculatorFragment : TKWeekBaseFragment<DateCalculatorBinding>() {
         temp.add(Calendar.WEEK_OF_YEAR, getInt(binding.weeks, subtract))
         temp.add(Calendar.MONTH, getInt(binding.months, subtract))
         temp.add(Calendar.YEAR, getInt(binding.years, subtract))
-        if (binding.dateCalculatorCountBusinessDaysOnly.isChecked) {
-            val prefs: SharedPreferences = requireContext().getSharedPreferences(
-                PickBusinessDaysPreference.getTag(), Context.MODE_PRIVATE
-            )
+        val businessDaysOfWeek = if (binding.dateCalculatorCountBusinessDaysOnly.isChecked) {
+            PickBusinessDaysPreference.getBusinessDays(requireContext())
+        } else {
+            emptySet()
+        }
+        if (businessDaysOfWeek.isNotEmpty()) {
             val numberOfDays = getInt(binding.days, false)
             val offset = if (subtract) -1 else 1
-            var weekday: Int
             (0 until numberOfDays).forEach { _ ->
                 do {
                     temp.add(Calendar.DAY_OF_MONTH, offset)
-                    weekday = temp[Calendar.DAY_OF_WEEK]
-                } while (!prefs.getBoolean(
-                        weekday.toString(), PickBusinessDaysPreference.getDefault(weekday)
-                    )
-                )
+                } while (!businessDaysOfWeek.contains(temp[Calendar.DAY_OF_WEEK]))
             }
         } else {
             temp.add(Calendar.DAY_OF_MONTH, getInt(binding.days, subtract))

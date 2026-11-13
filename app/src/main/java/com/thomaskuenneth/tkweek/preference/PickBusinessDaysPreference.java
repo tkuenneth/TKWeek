@@ -8,83 +8,84 @@ package com.thomaskuenneth.tkweek.preference;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
-import android.preference.DialogPreference;
 import android.util.AttributeSet;
-import android.view.View;
-import android.widget.CheckBox;
-import android.widget.LinearLayout;
-import android.widget.ScrollView;
+
+import androidx.preference.MultiSelectListPreference;
+import androidx.preference.PreferenceDataStore;
 
 import com.thomaskuenneth.tkweek.util.Helper;
 
+import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Enumeration;
-import java.util.Hashtable;
-import java.util.Objects;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
- * This class implements a {@link DialogPreference} to choose business days
+ * This class implements a {@link androidx.preference.DialogPreference} to choose business days
  *
  * @author Thomas Künneth
  */
-public class PickBusinessDaysPreference extends DialogPreference {
+public class PickBusinessDaysPreference extends MultiSelectListPreference {
 
     private static final String TAG = PickBusinessDaysPreference.class
             .getSimpleName();
 
-    private SharedPreferences prefs;
-
-    private final Hashtable<String, CheckBox> ht;
-
     public PickBusinessDaysPreference(Context context, AttributeSet attrs) {
         super(context, attrs);
-        ht = new Hashtable<>();
-    }
-
-    public static String getTag() {
-        return TAG;
-    }
-
-    public static boolean getDefault(int weekday) {
-        return !((weekday == Calendar.SATURDAY) || (weekday == Calendar.SUNDAY));
-    }
-
-    @Override
-    protected View onCreateDialogView() {
-        Context context = getContext();
-        prefs = context.getSharedPreferences(TAG, Context.MODE_PRIVATE);
-        ScrollView v = new ScrollView(context);
-        LinearLayout layout = new LinearLayout(context);
-        layout.setOrientation(LinearLayout.VERTICAL);
-        v.addView(layout);
+        List<CharSequence> entries = new ArrayList<>();
+        List<CharSequence> weekdays = new ArrayList<>();
         Calendar cal = Calendar.getInstance();
         cal.set(Calendar.DAY_OF_WEEK, cal.getFirstDayOfWeek());
         for (int days = 0; days < 7; days++) {
-            layout.addView(getCheckbox(context, cal.get(Calendar.DAY_OF_WEEK),
-                    Helper.FORMAT_DAY_OF_WEEK.format(cal.getTime())));
+            entries.add(Helper.FORMAT_DAY_OF_WEEK.format(cal.getTime()));
+            weekdays.add(Integer.toString(cal.get(Calendar.DAY_OF_WEEK)));
             cal.add(Calendar.DAY_OF_WEEK, 1);
         }
-        return v;
+        setEntries(entries.toArray(new CharSequence[0]));
+        setEntryValues(weekdays.toArray(new CharSequence[0]));
+        setPreferenceDataStore(new BusinessDaysDataStore(context));
     }
 
-    private View getCheckbox(Context context, int weekday, String weekdayName) {
-        CheckBox cb = new CheckBox(context);
-        String key = Integer.toString(weekday);
-        ht.put(key, cb);
-        cb.setText(weekdayName);
-        cb.setChecked(prefs.getBoolean(key, getDefault(weekday)));
-        return cb;
+    public static Set<Integer> getBusinessDays(Context context) {
+        SharedPreferences prefs = context.getSharedPreferences(TAG, Context.MODE_PRIVATE);
+        Set<Integer> businessDays = new HashSet<>();
+        for (int weekday = Calendar.SUNDAY; weekday <= Calendar.SATURDAY; weekday++) {
+            if (prefs.getBoolean(Integer.toString(weekday), getDefault(weekday))) {
+                businessDays.add(weekday);
+            }
+        }
+        return businessDays;
     }
 
-    @Override
-    protected void onDialogClosed(boolean positiveResult) {
-        if (positiveResult) {
-            Editor editor = prefs.edit();
-            Enumeration<String> e = ht.keys();
-            while (e.hasMoreElements()) {
-                String key = e.nextElement();
-                editor.putBoolean(key, Objects.requireNonNull(ht.get(key)).isChecked());
+    private static boolean getDefault(int weekday) {
+        return !((weekday == Calendar.SATURDAY) || (weekday == Calendar.SUNDAY));
+    }
+
+    private static class BusinessDaysDataStore extends PreferenceDataStore {
+
+        private final Context context;
+
+        BusinessDaysDataStore(Context context) {
+            this.context = context;
+        }
+
+        @Override
+        public Set<String> getStringSet(String key, Set<String> defValues) {
+            Set<String> selected = new HashSet<>();
+            for (int weekday : getBusinessDays(context)) {
+                selected.add(Integer.toString(weekday));
+            }
+            return selected;
+        }
+
+        @Override
+        public void putStringSet(String key, Set<String> values) {
+            SharedPreferences.Editor editor = context
+                    .getSharedPreferences(TAG, Context.MODE_PRIVATE).edit();
+            for (int weekday = Calendar.SUNDAY; weekday <= Calendar.SATURDAY; weekday++) {
+                editor.putBoolean(Integer.toString(weekday),
+                        values != null && values.contains(Integer.toString(weekday)));
             }
             editor.apply();
         }

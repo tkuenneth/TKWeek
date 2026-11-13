@@ -269,9 +269,7 @@ class CalendarFragment : TKWeekBaseFragment<CalendarBinding>(), View.OnClickList
         )
         var businessDays = 0
         var daysOff = 0
-        val prefs = requireContext().getSharedPreferences(
-            PickBusinessDaysPreference.getTag(), Context.MODE_PRIVATE
-        )
+        val businessDaysOfWeek = PickBusinessDaysPreference.getBusinessDays(requireContext())
         val temp = DateUtilities.getCalendar(
             cal[Calendar.YEAR], cal[Calendar.MONTH], 1
         )
@@ -310,11 +308,7 @@ class CalendarFragment : TKWeekBaseFragment<CalendarBinding>(), View.OnClickList
                 var dayOff: Boolean
                 if (temp[Calendar.MONTH] == month) {
                     // business day?
-                    val weekday = temp[Calendar.DAY_OF_WEEK]
-                    if (prefs.getBoolean(
-                            weekday.toString(), PickBusinessDaysPreference.getDefault(weekday)
-                        )
-                    ) {
+                    if (businessDaysOfWeek.contains(temp[Calendar.DAY_OF_WEEK])) {
                         businessDays += 1
                     }
                     // day off?

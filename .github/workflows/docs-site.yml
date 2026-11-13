@@ -11,13 +11,10 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Install ImageMagick and sshpass
+      - name: Install sshpass
         run: |
           sudo apt-get update
-          sudo apt-get install -y imagemagick sshpass
-          if ! command -v magick >/dev/null 2>&1; then
-            sudo ln -sf "$(command -v convert)" /usr/local/bin/magick
-          fi
+          sudo apt-get install -y sshpass
 
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
@@ -25,13 +22,6 @@ jobs:
           ruby-version: '3.3'
           bundler-cache: true
           working-directory: docs
-
-      - name: Create animated GIF
-        run: |
-          chmod +x scripts/create_gif.sh
-          scripts/create_gif.sh \
-            fastlane/metadata/android/en-US/images/phoneScreenshots \
-            docs/assets/screenshots.gif
 
       - name: Build Jekyll site
         run: bundle exec jekyll build

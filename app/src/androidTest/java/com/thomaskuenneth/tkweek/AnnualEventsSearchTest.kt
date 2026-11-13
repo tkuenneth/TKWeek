@@ -3,6 +3,7 @@ package com.thomaskuenneth.tkweek
 import android.content.Context
 import android.content.Intent
 import android.graphics.Canvas
+import android.view.WindowManager
 import android.widget.AdapterView
 import android.widget.EditText
 import androidx.compose.ui.test.junit4.v2.createEmptyComposeRule
@@ -197,6 +198,22 @@ class AnnualEventsSearchTest {
 
             awaitEventCount(scenario, all.size)
             assertEquals(all, descriptions(scenario))
+        }
+    }
+
+    @Test
+    fun openingTheScreen_leavesTheKeyboardToTheUser() {
+        launchAnnualEvents().use { scenario ->
+            composeRule.waitForIdle()
+
+            scenario.onActivity { activity ->
+                assertEquals(
+                    "The window no longer keeps the keyboard hidden on entry",
+                    WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN,
+                    activity.window.attributes.softInputMode and
+                        WindowManager.LayoutParams.SOFT_INPUT_MASK_STATE
+                )
+            }
         }
     }
 }

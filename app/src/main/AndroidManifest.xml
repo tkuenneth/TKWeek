@@ -29,7 +29,7 @@
             android:exported="true"
             android:launchMode="singleTop"
             android:theme="@style/Theme.Material3.DayNight.NoActionBar"
-            android:windowSoftInputMode="adjustResize">
+            android:windowSoftInputMode="adjustResize|stateHidden">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />

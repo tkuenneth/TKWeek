@@ -113,7 +113,9 @@
             android:title="@string/wochenanfang" />
 
         <CheckBoxPreference
+            android:defaultValue="true"
             android:key="avoid_hinge"
+            android:summary="@string/avoid_hinge_summary"
             android:title="@string/avoid_hinge" />
 
     </PreferenceCategory>

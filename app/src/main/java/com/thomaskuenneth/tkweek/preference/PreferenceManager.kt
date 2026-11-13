@@ -40,15 +40,16 @@ class PreferenceManager @Inject constructor(@ApplicationContext context: Context
     val avoidHinge: Flow<Boolean> = callbackFlow {
         val listener = SharedPreferences.OnSharedPreferenceChangeListener { prefs, key ->
             if (key == AVOID_HINGE) {
-                trySend(prefs.getBoolean(AVOID_HINGE, false))
+                trySend(prefs.getBoolean(AVOID_HINGE, AVOID_HINGE_DEFAULT))
             }
         }
         sharedPreferences.registerOnSharedPreferenceChangeListener(listener)
-        trySend(sharedPreferences.getBoolean(AVOID_HINGE, false))
+        trySend(sharedPreferences.getBoolean(AVOID_HINGE, AVOID_HINGE_DEFAULT))
         awaitClose { sharedPreferences.unregisterOnSharedPreferenceChangeListener(listener) }
     }
 
     companion object {
         const val AVOID_HINGE = "avoid_hinge"
+        const val AVOID_HINGE_DEFAULT = true
     }
 }

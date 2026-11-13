@@ -429,6 +429,7 @@ SOFTWARE.
     <string name="something_went_wrong">Something went wrong</string>
     <string name="source_code_url" translatable="false">https://github.com/tkuenneth/TKWeek</string>
     <string name="avoid_hinge">Avoid hinge</string>
+    <string name="avoid_hinge_summary">Split the two columns at the hinge</string>
     <string name="hide_actions">Hide actions</string>
 
 </resources>

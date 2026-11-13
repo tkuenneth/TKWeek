@@ -99,9 +99,7 @@ abstract class TKWeekBaseFragment<T> : TKWeekHiltBaseFragment() {
                         .collect { showsFloatingBack ->
                             scrollable.updatePadding(
                                 top = if (showsFloatingBack) {
-                                    resources.getDimensionPixelSize(
-                                        com.google.android.material.R.dimen.m3_appbar_size_compact
-                                    )
+                                    Helper.appBarHeight(requireContext())
                                 } else {
                                     0
                                 }

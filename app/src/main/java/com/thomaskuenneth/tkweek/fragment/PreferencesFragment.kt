@@ -40,6 +40,7 @@ import androidx.window.layout.FoldingFeature
 import androidx.window.layout.WindowInfoTracker
 import com.thomaskuenneth.tkweek.R
 import com.thomaskuenneth.tkweek.preference.PreferenceManager
+import com.thomaskuenneth.tkweek.util.Helper
 import com.thomaskuenneth.tkweek.viewmodel.TKWeekViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.distinctUntilChanged
@@ -73,9 +74,7 @@ class PreferencesFragment : PreferenceFragmentCompat() {
             val topPadding = paddingTop
             val bottomPadding = paddingBottom
             val contentPadding = resources.getDimensionPixelSize(R.dimen.content_padding)
-            val appBarHeight = resources.getDimensionPixelSize(
-                com.google.android.material.R.dimen.m3_appbar_size_compact
-            )
+            val appBarHeight = Helper.appBarHeight(requireContext())
             ViewCompat.setOnApplyWindowInsetsListener(this) { v, insets ->
                 val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
                 val floatingBack =

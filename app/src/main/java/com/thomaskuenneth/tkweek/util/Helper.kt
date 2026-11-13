@@ -30,8 +30,10 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Build
 import android.util.Log
+import android.util.TypedValue
 import android.widget.Toast
 import androidx.annotation.StringRes
+import androidx.appcompat.R as appcompatR
 import androidx.core.content.edit
 import androidx.preference.PreferenceManager
 import com.thomaskuenneth.tkweek.R
@@ -165,6 +167,17 @@ object Helper {
         } catch (e: ActivityNotFoundException) {
             Log.e(TAG, "startActivityCatching(): ${intent.action}", e)
             Toast.makeText(context, message, Toast.LENGTH_LONG).show()
+        }
+    }
+
+    fun appBarHeight(context: Context): Int {
+        val value = TypedValue()
+        val resolved =
+            context.theme.resolveAttribute(appcompatR.attr.actionBarSize, value, true)
+        return if (resolved) {
+            TypedValue.complexToDimensionPixelSize(value.data, context.resources.displayMetrics)
+        } else {
+            0
         }
     }
 

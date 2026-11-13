@@ -217,7 +217,8 @@ fun TKWeekApp(
                                             module = module,
                                             topLevel = true
                                         )
-                                    }
+                                    },
+                                    belowTheStatusBar = isTwoPane
                                 )
                             }
                         }

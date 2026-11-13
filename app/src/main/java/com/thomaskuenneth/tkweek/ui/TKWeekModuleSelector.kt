@@ -23,6 +23,8 @@
 package com.thomaskuenneth.tkweek.ui
 
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
@@ -36,8 +38,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import com.thomaskuenneth.tkweek.R
 import com.thomaskuenneth.tkweek.TKWeekModule
 import com.thomaskuenneth.tkweek.util.BottomSpace
 import com.thomaskuenneth.tkweek.util.TopSpace
@@ -46,6 +50,7 @@ import com.thomaskuenneth.tkweek.util.TopSpace
 fun TKWeekModuleSelector(
     selectedModule: TKWeekModule?,
     onModuleSelected: (TKWeekModule) -> Unit,
+    belowTheStatusBar: Boolean,
     modifier: Modifier = Modifier,
 ) {
     val lazyListState = rememberLazyListState()
@@ -64,6 +69,9 @@ fun TKWeekModuleSelector(
     ) {
         item {
             TopSpace()
+            if (belowTheStatusBar) {
+                Spacer(modifier = Modifier.height(dimensionResource(R.dimen.content_padding)))
+            }
         }
         items(TKWeekModule.entries, key = { it }) { entry ->
             val selected = entry == selectedModule
@@ -94,7 +102,8 @@ private fun TKWeekModuleSelectorPreview() {
     MaterialTheme(colorScheme = colorScheme()) {
         TKWeekModuleSelector(
             selectedModule = TKWeekModule.Calendar,
-            onModuleSelected = {}
+            onModuleSelected = {},
+            belowTheStatusBar = true
         )
     }
 }

@@ -3,7 +3,6 @@
 
     <string name="not_successful">%1$s war nicht erfolgreich.</string>
     <string name="contacts">Kontakte</string>
-    <string name="pick_a_date">Datum auswählen</string>
     <string name="yes">Ja</string>
     <string name="no">Nein</string>
     <string name="today">Heute</string>
@@ -11,18 +10,15 @@
     <string name="yesterday">Gestern</string>
     <string name="in_x_days">%1$d Tage</string>
     <string name="x_days_ago">vor %1$d Tagen</string>
-    <string name="pick">Wählen</string>
     <!-- number_0 -->
     <string name="dialog_title_error">Es ist ein Fehler aufgetreten</string>
     <string name="menu_delete">Löschen</string>
     <string name="settings">Einstellungen</string>
     <string name="unknown">unbekannt</string>
     <string name="loading_data">Daten werden geladen</string>
-    <string name="main">Modulauswahl</string>
     <string name="begin">Erster Tag von %1$s</string>
     <string name="end">Letzter Tag von %1$s</string>
     <string name="day_x_of_y">Tag %1$d von %2$d %3$s</string>
-    <string name="action_could_not_be_completed">Die Aktion konnte nicht ausgeführt werden.</string>
     <string name="pixel">Pixel</string>
     <string name="none">Keine</string>
     <string name="spring">Frühlingsanfang</string>
@@ -33,8 +29,6 @@
     <string name="grant">Gestatten</string>
     <string name="close">Schließen</string>
     <string name="notes">Notizen</string>
-    <string name="saved">%1$s gespeichert</string>
-    <string name="year">Jahr</string>
     <string name="next_year">Nächstes Jahr</string>
     <string name="previous_year">Vorheriges Jahr</string>
 
@@ -93,7 +87,6 @@
     <string name="week_activity_hide_birthdays">Geburtstage und Jahrestage ausblenden</string>
     <string name="recent_events_title">Kürzliche Ereignisse</string>
     <string name="recent_events_summary">Anzahl Tage am Anfang der Liste</string>
-    <string name="widget_appearance">Widget-Aussehen</string>
     <string name="hide_seasons">Jahreszeiten ausblenden</string>
     <string name="hide_astrological_sign">Tierkreiszeichen ausblenden</string>
     <string name="third_sunday_of_june">3. Sonntag im Juni</string>
@@ -108,7 +101,6 @@
     <string name="standard">Standard</string>
 
     <!-- WeekActivity -->
-    <string name="date_within_week">Datum innerhalb einer Woche</string>
     <string name="week_number">Wochennr.</string>
     <string name="week_number_iso">Wochennummer (ISO)</string>
     <string name="week_calculation_message">Sie können die Berechnung der Wochennummer in den Einstellungen ändern.</string>
@@ -122,7 +114,6 @@
     <string name="no_daylight_savings">Keine Sommerzeit</string>
 
     <!-- DateInfoActivity -->
-    <string name="day_of_week">Wochentag:</string>
     <string name="label_day_of_year">Nr. des Tags:</string>
     <string name="day_of_year">%1$d von %2$d (%3$d verbleibend)</string>
     <string name="is_leap_year">Schaltjahr:</string>
@@ -132,7 +123,6 @@
     <!-- DaysBetweenDatesActivity -->
     <string name="first_date">Startdatum</string>
     <string name="second_date">Enddatum</string>
-    <string name="days_from_to">Tage (Werktage) zwischen %1$s und %2$s</string>
     <string name="days_between_dates_weekends">%1$d Wochenende(n)</string>
     <string name="days_between_dates_weeks">ca. %1$d Woche(n)</string>
     <string name="days_between_dates_month_turns">%1$d Monatswechsel</string>
@@ -217,7 +207,6 @@
     <string name="channel_events">Ereignisse</string>
     <string name="more_options">Weitere Optionen</string>
     <string name="navigate_up">Nach oben navigieren</string>
-    <string name="close_search">Suche schließen</string>
     <string name="find_an_event">Finde ein Ereignis</string>
 
     <!-- PickADateActivity -->
@@ -250,9 +239,6 @@
     <string name="day_off">Ruhetag</string>
     <string name="tasks">Aufgaben</string>
     <string name="events">Ereignisse</string>
-    <string name="toast_task_completed">Aufgabe abgeschlossen.</string>
-	<string name="missing_permission_create_task">Um Aufgaben anlegen zu können, müssen
-Sie TKWeek in den Systemeinstellungen den Zugriff auf Kontakte gewähren.</string>
     <string name="no_title">(kein Titel)</string>
     <string name="new_appointment">Neuer Termin</string>
     <string name="no_notes">keine Notizen</string>
@@ -299,12 +285,8 @@ können Sie diese in den Einstellungen ausblenden.</string>
 
     <string name="buss_und_bettag_de">Buß- und Bettag</string>
     <string name="weltkindertag">Weltkindertag</string>
-    <string name="schulferien_bundesland">Schulferien</string>
     <string name="weiberfastnacht">Weiberfastnacht</string>
     <string name="sg_national_day">Nationaltag (Singapur)</string>
-    <string name="widget_retired">Dieses TKWeek widget wird nicht länger unterstützt. Bitte entfernen Sie es.</string>
-    <string name="show_school_holidays">Bundesland auswählen</string>
-    <string name="set_alarm">Kürzliche Ereignisse als Benachrichtigungen anzeigen</string>
     <string name="set_alarm_description">Benachrichtigungseinstellungen</string>
     <string name="show_moon_phases">Mondphasen anzeigen</string>
     <string name="edit">Bearbeiten</string>
@@ -313,7 +295,6 @@ können Sie diese in den Einstellungen ausblenden.</string>
     <string name="previous_leap_year">Vorheriges Schaltjahr</string>
     <string name="next_leap_year">Nächstes Schaltjahr</string>
     <string name="number_of_events">%1$d Ereignisse</string>
-    <string name="goto_date">Gehe zu Datum</string>
     <string name="delete">Löschen</string>
     <string name="national_doughnut_day">Tag des Donuts</string>
     <string name="thanksgiving">Erntedankfest</string>

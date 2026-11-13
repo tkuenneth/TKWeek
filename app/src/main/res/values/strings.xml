@@ -4,11 +4,8 @@
     <string name="made_with_love" translatable="false">Made with \u2764 by Thomas Künneth</string>
     <string name="not_successful">%1$s was not successful.</string>
     <string name="contacts">Contacts</string>
-    <string name="pick_a_date">Pick a date</string>
     <string name="four_strings_two_lines" translatable="false">%1$s %2$s (%3$s %4$s)</string>
     <string name="template_string_string" translatable="false">%1$s %2$s</string>
-    <string name="tag_module_selection" translatable="false">module_selection</string>
-    <string name="tag_module_fragment" translatable="false">moduleFragment</string>
     <string name="leap_year">Leap Year</string>
     <string name="minus" translatable="false">-</string>
     <string name="plus" translatable="false">+</string>
@@ -16,19 +13,15 @@
     <string name="yes">Yes</string>
     <string name="no">No</string>
     <string name="today">Today</string>
-    <string name="goto_date">Goto date</string>
     <string name="tomorrow">Tomorrow</string>
     <string name="yesterday">Yesterday</string>
     <string name="in_x_days">%1$d days</string>
     <string name="x_days_ago">%1$d days ago</string>
-    <string name="pick">Pick</string>
-    <string name="number_0" translatable="false">0</string>
     <string name="dialog_title_error">An error occurred</string>
     <string name="menu_delete">Delete</string>
     <string name="settings">Settings</string>
     <string name="unknown">unknown</string>
     <string name="loading_data">loading data</string>
-    <string name="main">Main Activity</string>
     <string name="infinity" translatable="false">\u221e</string>
     <string name="string1_string2" translatable="false">%1$s (%2$s)</string>
     <string name="begin">First day of %1$s</string>
@@ -37,8 +30,6 @@
     <string name="string1_dash_string2" translatable="false">%1$s - %2$s</string>
     <string name="previous_leap_year">Previous Leap Year</string>
     <string name="next_leap_year">Next Leap Year</string>
-    <string name="int_slash_int" translatable="false">%1$d / %2$d</string>
-    <string name="action_could_not_be_completed">The action could not be completed.</string>
     <string name="dpi" translatable="false">dpi</string>
     <string name="times_symbol" translatable="false">\ud7</string>
     <string name="pixel">pixel</string>
@@ -54,10 +45,7 @@
     <string name="close">Close</string>
     <string name="notes">Notes</string>
     <string name="edit">Edit</string>
-    <string name="saved">%1$s saved</string>
-    <string name="widget_retired">This TKWeek widget is no longer supported. Please remove.</string>
     <string name="number_of_events">%1$d events</string>
-    <string name="year">year</string>
     <string name="next_year">Next year</string>
     <string name="previous_year">Previous year</string>
 
@@ -130,12 +118,10 @@ access your contacts data to display birthdays and anniversaries. You can deacti
     <string name="week_activity_hide_birthdays">Hide birthdays and anniversaries</string>
     <string name="recent_events_title">Recent Events</string>
     <string name="recent_events_summary">Days displayed at top of events list</string>
-    <string name="widget_appearance">Widget appearance</string>
     <string name="hide_seasons">Hide seasons</string>
     <string name="hide_astrological_sign">Hide Sign of the Zodiac</string>
     <string name="third_sunday_of_june">Third Sunday of June</string>
     <string name="first_sunday_of_september">First Sunday of September</string>
-    <string name="set_alarm">Show upcoming events as notifications</string>
     <string name="set_alarm_description">Configure notification delivery</string>
     <string name="show_moon_phases">Show Moon phases</string>
     <string name="myday_activity_hide_appointments">Hide appointments</string>
@@ -148,7 +134,6 @@ access your contacts data to display birthdays and anniversaries. You can deacti
     <string name="standard">default</string>
 
     <!-- WeekActivity -->
-    <string name="date_within_week">Date within week</string>
     <string name="week_number">Week number</string>
     <string name="week_number_iso">ISO week number</string>
     <string name="first_and_last_day_of_week" translatable="false">%1$s %2$s - %3$s %4$s</string>
@@ -163,7 +148,6 @@ access your contacts data to display birthdays and anniversaries. You can deacti
     <string name="no_daylight_savings">No daylight savings</string>
 
     <!-- DateInfoActivity -->
-    <string name="day_of_week">Day of week:</string>
     <string name="label_day_of_year">Day of year:</string>
     <string name="day_of_year">%1$d of %2$d (%3$d left)</string>
     <string name="is_leap_year">Leap year:</string>
@@ -173,7 +157,6 @@ access your contacts data to display birthdays and anniversaries. You can deacti
     <!-- DaysBetweenDatesActivity -->
     <string name="first_date">Start date</string>
     <string name="second_date">End date</string>
-    <string name="days_from_to">Days (business days) between %1$s and %2$s</string>
     <string name="days_between_dates_weekends">%1$d weekend(s)</string>
     <string name="days_between_dates_weeks">approx. %1$d week(s)</string>
     <string name="days_between_dates_month_turns">%1$d month turns</string>
@@ -284,7 +267,6 @@ access your contacts data to display birthdays and anniversaries. You can deacti
     <string name="channel_events">Events</string>
     <string name="more_options">More options</string>
     <string name="navigate_up">Navigate up</string>
-    <string name="close_search">Close search</string>
     <string name="find_an_event">Find an event</string>
 
     <!-- PickADateActivity -->
@@ -317,9 +299,6 @@ access your contacts data to display birthdays and anniversaries. You can deacti
     <string name="day_off">day off</string>
     <string name="tasks">tasks</string>
     <string name="events">events</string>
-    <string name="toast_task_completed">Task completed.</string>
-    <string name="missing_permission_create_task">To create tasks,
-you need to grant access to contacts in system settings.</string>
     <string name="no_title">(no title)</string>
     <string name="new_appointment">New appointment</string>
     <string name="no_notes">no notes</string>
@@ -361,14 +340,9 @@ missed calls, you can hide them in Settings.</string>
 
     <!-- DayOfYearWidget -->
     <string name="day_of_year_widget_name">Day of year</string>
-    <string name="day_of_year_widget_text1" translatable="false">365</string>
-    <string name="day_of_year_widget_text2" translatable="false">166</string>
-    <string name="day_of_year_widget_text3" translatable="false">2025</string>
 
     <string name="buss_und_bettag_de">day of repentance and prayer</string>
     <string name="weltkindertag">Universal Children\'s Day</string>
-    <string name="schulferien_bundesland">School holidays</string>
-    <string name="show_school_holidays">Pick state</string>
     <string name="load_all_user_events">Load all user events</string>
     <string name="delete">Delete</string>
     <string name="thanksgiving">Thanksgiving</string>

@@ -12,25 +12,13 @@
         <item name="android:textColor">@android:color/white</item>
     </style>
 
-    <style name="Text.4pt">
-        <item name="android:textSize">4pt</item>
-    </style>
 
-    <style name="Text.6pt">
-        <item name="android:textSize">12sp</item>
-    </style>
 
-    <style name="Text.8pt">
-        <item name="android:textSize">20sp</item>
-    </style>
 
     <style name="Text.Bold">
         <item name="android:textStyle">bold</item>
     </style>
 
-    <style name="Text.Bold.10pt">
-        <item name="android:textSize">26sp</item>
-    </style>
 
     <style name="Calendar">
         <item name="android:textAppearance">?android:attr/textAppearanceMedium</item>

@@ -3,6 +3,20 @@ name: Build and Release APK
 on:
   workflow_dispatch:
 
+permissions:
+  contents: read
+
+# Normalise the environment so the build stays reproducible regardless of the runner's locale.
+env:
+  TZ: UTC
+  # C.UTC is not a locale; the Ubuntu runners provide C.UTF-8.
+  LANG: C.UTF-8
+  LC_ALL: C.UTF-8
+
+concurrency:
+  group: release-apk
+  cancel-in-progress: false
+
 jobs:
   docs:
     uses: ./.github/workflows/docs-site.yml
@@ -12,25 +26,30 @@ jobs:
     needs: docs
     runs-on: ubuntu-latest
     permissions:
-      contents: write
-    # Normalise the environment so the build stays reproducible regardless of the runner's locale.
-    env:
-      TZ: UTC
-      # C.UTC is not a locale; the Ubuntu runners provide C.UTF-8.
-      LANG: C.UTF-8
-      LC_ALL: C.UTF-8
+      contents: read
+    outputs:
+      version_name: ${{ steps.version_info.outputs.version_name }}
+      signing_build_tools: ${{ steps.bt.outputs.version }}
+      artifact_id: ${{ steps.upload.outputs.artifact-id }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      # Fails unless gradle/wrapper/gradle-wrapper.jar matches the checksum of an
+      # official Gradle release, before ./gradlew runs.
+      - name: Validate Gradle wrapper
+        uses: gradle/actions/wrapper-validation@3f5f9adaf7d9fecd50b5935e54106014257a94e6 # v6.4.0
 
       - name: Set up JDK 21
-        uses: actions/setup-java@v4
+        uses: actions/setup-java@de7274f081f381c8f8158605e0321c36c376e2e6 # v6.0.1
         with:
           java-version: '21'
           distribution: 'temurin'
 
       - name: Setup Gradle
-        uses: gradle/actions/setup-gradle@v4
+        uses: gradle/actions/setup-gradle@3f5f9adaf7d9fecd50b5935e54106014257a94e6 # v6.4.0
 
       - name: Read build-tools version for signing
         id: bt
@@ -58,11 +77,91 @@ jobs:
           yes | "$SDKMANAGER" --licenses > /dev/null || true
           "$SDKMANAGER" "build-tools;${SIGNING_BUILD_TOOLS}"
 
+      - name: Ensure local.properties is not used in CI
+        run: rm -f local.properties
+
       - name: Grant rights
         run: chmod +x gradlew
 
       - name: Build Release APK
         run: ./gradlew assembleRelease
+
+      - name: Get Version Info
+        id: version_info
+        run: |
+          VERSION_CODE=$(grep -E '^\s*versionCode\s*=' app/build.gradle.kts | head -n 1 | grep -oE '[0-9]+')
+          VERSION_NAME=$(grep -E '^\s*versionName\s*=' app/build.gradle.kts | head -n 1 | sed -E 's/.*"([^"]+)".*/\1/')
+          if ! [[ "$VERSION_CODE" =~ ^[0-9]+$ ]]; then
+            echo "Error: could not read a numeric versionCode from app/build.gradle.kts (got '$VERSION_CODE')"
+            exit 1
+          fi
+          # The version name becomes a git tag; allow only characters that are safe there.
+          if ! [[ "$VERSION_NAME" =~ ^[0-9A-Za-z][0-9A-Za-z._+-]*$ ]]; then
+            echo "Error: unexpected versionName '$VERSION_NAME'"
+            exit 1
+          fi
+          echo "version_code=$VERSION_CODE" >> "$GITHUB_OUTPUT"
+          echo "version_name=$VERSION_NAME" >> "$GITHUB_OUTPUT"
+
+      - name: Collect aligned APK and release notes
+        env:
+          VERSION_CODE: ${{ steps.version_info.outputs.version_code }}
+          SIGNING_BUILD_TOOLS: ${{ steps.bt.outputs.version }}
+          OUT: ${{ runner.temp }}/out
+        run: |
+          mkdir -p "$OUT"
+          # Aligned here, not in the publish job, so the native zipalign never
+          # processes build output in a job that has secrets.
+          "$ANDROID_HOME/build-tools/$SIGNING_BUILD_TOOLS/zipalign" -v -p 4 \
+            app/build/outputs/apk/release/app-release-unsigned.apk \
+            "$OUT/app-release-aligned.apk"
+          CHANGELOG_FILE="fastlane/metadata/android/en-US/changelogs/${VERSION_CODE}.txt"
+          # No silent fallback: a missing changelog must stop the release, not ship a generic body.
+          if [ ! -f "$CHANGELOG_FILE" ]; then
+            echo "Error: $CHANGELOG_FILE is missing. Write the release notes before releasing."
+            exit 1
+          fi
+          cp "$CHANGELOG_FILE" "$OUT/release_notes.txt"
+
+      - name: Store aligned, unsigned APK for the publish job
+        id: upload
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: unsigned-apk
+          path: ${{ runner.temp }}/out/
+          if-no-files-found: error
+          retention-days: 1
+          # A re-run of this job replaces the artifact of the earlier attempt.
+          overwrite: true
+
+  # The build job runs project code and gets no secrets; this job holds the secrets
+  # and runs no project code. The aligned, unsigned APK travels between them as a
+  # one-day artifact, deleted by the cleanup job.
+  publish:
+    needs: build
+    if: ${{ !cancelled() && needs.build.result == 'success' }}
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Fetch aligned, unsigned APK
+        uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+        with:
+          name: unsigned-apk
+          path: ${{ runner.temp }}/in
+
+      - name: Install Android build-tools (apksigner)
+        env:
+          SIGNING_BUILD_TOOLS: ${{ needs.build.outputs.signing_build_tools }}
+        run: |
+          # Check again here: the build job ran project code, so its checks can't be trusted.
+          if ! [[ "$SIGNING_BUILD_TOOLS" =~ ^[0-9]+\.[0-9]+\.[0-9]+(-rc[0-9]+)?$ ]]; then
+            echo "Error: unexpected build-tools version '$SIGNING_BUILD_TOOLS'"
+            exit 1
+          fi
+          SDKMANAGER="$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager"
+          yes | "$SDKMANAGER" --licenses > /dev/null || true
+          "$SDKMANAGER" "build-tools;${SIGNING_BUILD_TOOLS}"
 
       - name: Sign APK
         id: sign
@@ -71,28 +170,21 @@ jobs:
           KEY_STORE_PASSWORD: ${{ secrets.KEY_STORE_PASSWORD }}
           KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
           ALIAS: ${{ secrets.ALIAS }}
+          SIGNING_BUILD_TOOLS: ${{ needs.build.outputs.signing_build_tools }}
         run: |
           # Decode the Keystore
           KEYSTORE="$RUNNER_TEMP/release.keystore"
           trap 'rm -f "$KEYSTORE"' EXIT
           ( umask 077; printf '%s' "$SIGNING_KEY" | base64 -d > "$KEYSTORE" )
 
-          # The version pinned in gradle.properties, so this path and a teleporter release
-          # sign with the same apksigner.
-          BUILD_TOOLS_VERSION="${{ steps.bt.outputs.version }}"
-          if [ ! -d "$ANDROID_HOME/build-tools/$BUILD_TOOLS_VERSION" ]; then
-            echo "Error: build-tools '$BUILD_TOOLS_VERSION' (release.buildToolsVersion) is not installed."
+          ANDROID_BUILD_TOOLS="$ANDROID_HOME/build-tools/$SIGNING_BUILD_TOOLS"
+          if [ ! -d "$ANDROID_BUILD_TOOLS" ]; then
+            echo "Error: build-tools '$SIGNING_BUILD_TOOLS' (release.buildToolsVersion) is not installed."
             exit 1
           fi
-          ANDROID_BUILD_TOOLS="$ANDROID_HOME/build-tools/$BUILD_TOOLS_VERSION"
 
-          # Define paths
-          UNSIGNED_APK="app/build/outputs/apk/release/app-release-unsigned.apk"
-          ALIGNED_APK="app/build/outputs/apk/release/app-release-aligned.apk"
-          SIGNED_APK="app/build/outputs/apk/release/app-release.apk"
-
-          # Align the APK
-          "$ANDROID_BUILD_TOOLS/zipalign" -v -p 4 "$UNSIGNED_APK" "$ALIGNED_APK"
+          ALIGNED_APK="$RUNNER_TEMP/in/app-release-aligned.apk"
+          SIGNED_APK="$RUNNER_TEMP/app-release.apk"
 
           # Sign the APK
           # v2 and v3 signing is enabled by default in newer apksigner versions, but explicit flags ensure it.
@@ -108,43 +200,76 @@ jobs:
             "$ALIGNED_APK"
 
           # Output the path for the next step
-          echo "signedReleaseFile=$SIGNED_APK" >> $GITHUB_OUTPUT
-
-      - name: Get Version Info
-        id: version_info
-        run: |
-          VERSION_CODE=$(grep -E '^\s*versionCode\s*=' app/build.gradle.kts | head -n 1 | grep -oE '[0-9]+')
-          VERSION_NAME=$(grep -E '^\s*versionName\s*=' app/build.gradle.kts | head -n 1 | sed -E 's/.*"([^"]+)".*/\1/')
-          if [ -z "$VERSION_CODE" ] || [ -z "$VERSION_NAME" ]; then
-            echo "Failed to parse version from app/build.gradle.kts (code='$VERSION_CODE' name='$VERSION_NAME')"
-            exit 1
-          fi
-          echo "VERSION_CODE=$VERSION_CODE" >> $GITHUB_ENV
-          echo "VERSION_NAME=$VERSION_NAME" >> $GITHUB_ENV
-
-      - name: Read Changelog
-        id: changelog
-        run: |
-            CHANGELOG_FILE="fastlane/metadata/android/en-US/changelogs/${{ env.VERSION_CODE }}.txt"
-            # No silent fallback: a missing changelog must stop the release, not ship a generic body.
-            if [ ! -f "$CHANGELOG_FILE" ]; then
-              echo "Error: $CHANGELOG_FILE is missing. Write the release notes before releasing."
-              exit 1
-            fi
-            cat "$CHANGELOG_FILE" > release_notes.txt
+          echo "signedReleaseFile=$SIGNED_APK" >> "$GITHUB_OUTPUT"
 
       - name: Create Release
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPO: ${{ github.repository }}
+          TAG: ${{ needs.build.outputs.version_name }}
+          APK: ${{ steps.sign.outputs.signedReleaseFile }}
+          NOTES: ${{ runner.temp }}/in/release_notes.txt
         run: |
-          TAG="${{ env.VERSION_NAME }}"
-          # A published tag must stay immutable: F-Droid rebuilds exactly this commit and
-          # compares it with the released APK, so the tag may never be moved.
-          if git ls-remote --exit-code --tags origin "refs/tags/$TAG" >/dev/null 2>&1; then
-            echo "Error: tag $TAG already exists. Bump versionName before releasing."
+          # Check again here: the build job ran project code, so its checks can't be trusted.
+          if ! [[ "$TAG" =~ ^[0-9A-Za-z][0-9A-Za-z._+-]*$ ]] || ! git check-ref-format "refs/tags/$TAG"; then
+            echo "Error: unexpected versionName '$TAG'"
             exit 1
           fi
-          gh release create "${{ env.VERSION_NAME }}" \
-            --title "Release ${{ env.VERSION_NAME }}" \
-            --notes-file release_notes.txt \
-            "${{ steps.sign.outputs.signedReleaseFile }}"
+
+          # A published tag must stay immutable: F-Droid rebuilds exactly this commit and
+          # compares it with the released APK, so the tag may never be moved.
+          # Exit code 2 means "no such tag"; anything else (exists, or an error) stops here.
+          set +e
+          git ls-remote --exit-code --tags "https://github.com/${REPO}.git" "refs/tags/$TAG" >/dev/null 2>&1
+          LS_REMOTE=$?
+          set -e
+          if [ "$LS_REMOTE" -eq 0 ]; then
+            echo "Error: tag $TAG already exists. Bump versionName before releasing."
+            exit 1
+          elif [ "$LS_REMOTE" -ne 2 ]; then
+            echo "Error: could not check tags (git ls-remote exit code $LS_REMOTE)."
+            exit 1
+          fi
+
+          # If the release is created but the asset upload fails, remove both, so the
+          # immutable-tag check above does not block the next run.
+          rollback() {
+            echo "Release failed, rolling back."
+            gh release delete "$TAG" --repo "$REPO" --yes --cleanup-tag || true
+            gh api -X DELETE "repos/${REPO}/git/refs/tags/${TAG}" || true
+          }
+          trap 'rollback' ERR
+          trap 'rollback; exit 1' INT TERM
+
+          gh release create "$TAG" \
+            --repo "$REPO" \
+            --target "$GITHUB_SHA" \
+            --title "Release $TAG" \
+            --notes-file "$NOTES" \
+            "$APK"
+
+          trap - ERR INT TERM
+          echo "Created https://github.com/${REPO}/releases/tag/${TAG}"
+
+  cleanup:
+    needs: [build, publish]
+    # Only after success: if a later job fails, the artifact stays (it expires after
+    # one day), so "Re-run failed jobs" can reuse the build instead of starting over.
+    if: ${{ !cancelled() && needs.publish.result == 'success' && needs.build.outputs.artifact_id != '' }}
+    runs-on: ubuntu-latest
+    permissions:
+      actions: write
+    steps:
+      - name: Delete unsigned APK artifact
+        env:
+          GH_TOKEN: ${{ github.token }}
+          ARTIFACT_ID: ${{ needs.build.outputs.artifact_id }}
+        # Artifacts expire after a day anyway; a failed delete shouldn't fail the run.
+        continue-on-error: true
+        run: |
+          # The ID comes from the build job, which ran project code.
+          if ! [[ "$ARTIFACT_ID" =~ ^[0-9]+$ ]]; then
+            echo "Error: unexpected artifact id '$ARTIFACT_ID'"
+            exit 1
+          fi
+          gh api -X DELETE "repos/${GITHUB_REPOSITORY}/actions/artifacts/${ARTIFACT_ID}"

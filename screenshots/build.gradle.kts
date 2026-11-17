@@ -211,21 +211,18 @@ tasks.register("captureStoreScreenshots") {
             } ?: fitting.first()).parentFile
         }
 
-        // canvasWidth, canvasHeight, deviceX, deviceY
+        // deviceX, deviceY
         fun parseSkinLayout(layoutFile: File): IntArray {
             val text = layoutFile.readText()
             val layoutsIndex = text.indexOf("layouts {")
             require(layoutsIndex >= 0) { "No 'layouts' block found in $layoutFile" }
             val layoutsSection = text.substring(layoutsIndex)
 
-            val canvasWidth = Regex("width\\s+(\\d+)").find(layoutsSection)!!.groupValues[1].toInt()
-            val canvasHeight = Regex("height\\s+(\\d+)").find(layoutsSection)!!.groupValues[1].toInt()
-
             val part2Body = Regex("part2\\s*\\{([^}]*)}").find(layoutsSection)!!.groupValues[1]
             val deviceX = Regex("x\\s+(\\d+)").find(part2Body)!!.groupValues[1].toInt()
             val deviceY = Regex("y\\s+(\\d+)").find(part2Body)!!.groupValues[1].toInt()
 
-            return intArrayOf(canvasWidth, canvasHeight, deviceX, deviceY)
+            return intArrayOf(deviceX, deviceY)
         }
 
         // Emulator skins are .webp, which ImageIO cannot read on its own; ImageMagick is
@@ -244,10 +241,8 @@ tasks.register("captureStoreScreenshots") {
         ): BufferedImage {
             val skinDir = skinFor(source.width, source.height, sdkDirectory, avdName)
             val layoutValues = parseSkinLayout(File(skinDir, "layout"))
-            val canvasWidth = layoutValues[0]
-            val canvasHeight = layoutValues[1]
-            val deviceX = layoutValues[2]
-            val deviceY = layoutValues[3]
+            val deviceX = layoutValues[0]
+            val deviceY = layoutValues[1]
 
             val back = readSkinImage(skinDir, "back", bash)
             val mask = readSkinImage(skinDir, "mask", bash)
@@ -259,15 +254,11 @@ tasks.register("captureStoreScreenshots") {
             sg.drawImage(mask, 0, 0, source.width, source.height, null)
             sg.dispose()
 
-            val canvas = BufferedImage(canvasWidth, canvasHeight, BufferedImage.TYPE_INT_ARGB)
+            val canvas = BufferedImage(back.width, back.height, BufferedImage.TYPE_INT_ARGB)
             val g = canvas.createGraphics()
             g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON)
-            g.setRenderingHint(
-                RenderingHints.KEY_INTERPOLATION,
-                RenderingHints.VALUE_INTERPOLATION_BILINEAR
-            )
-            g.drawImage(back, 0, 0, canvasWidth, canvasHeight, null)
-            g.drawImage(maskedSource, deviceX, deviceY, source.width, source.height, null)
+            g.drawImage(back, 0, 0, null)
+            g.drawImage(maskedSource, deviceX, deviceY, null)
             g.dispose()
 
             return canvas

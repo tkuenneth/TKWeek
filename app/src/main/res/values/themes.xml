@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="AppTheme" parent="Theme.Material3.DayNight.NoActionBar">
+    <style name="AppTheme" parent="Theme.Material3Expressive.DayNight.NoActionBar">
         <item name="android:activatedBackgroundIndicator">@drawable/list_activated_background</item>
         <item name="android:navigationBarColor">@android:color/transparent</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
@@ -36,7 +36,7 @@
         <item name="android:paddingBottom">4dp</item>
     </style>
 
-    <style name="TKWeekWidgetTheme" parent="Theme.Material3.DynamicColors.DayNight">
+    <style name="TKWeekWidgetTheme" parent="Theme.Material3Expressive.DynamicColors.DayNight">
     </style>
 
 </resources>

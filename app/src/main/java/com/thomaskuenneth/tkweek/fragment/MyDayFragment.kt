@@ -451,7 +451,7 @@ class MyDayFragment : TKWeekBaseFragment<MydayBinding>() {
             "android.intent.action.VIEW",
             url.toUri()
         )
-        startActivity(viewIntent)
+        Helper.startActivityCatching(requireContext(), viewIntent)
     }
 
     private fun maybeAddNone(inflater: LayoutInflater, layout: LinearLayout) {

@@ -407,7 +407,7 @@ class AnnualEventsFragment : TKWeekBaseFragment<EventsBinding>(), AdapterView.On
                     ContactsContract.Contacts.CONTENT_URI, o.contactId
                 )
             )
-            startActivity(intent)
+            Helper.startActivityCatching(requireContext(), intent)
         } else if (o as? Event? != null) {
             val payload = Bundle()
             payload.putLong(DATE, DateUtilities.getCalendar(o).time.time)
@@ -502,7 +502,7 @@ class AnnualEventsFragment : TKWeekBaseFragment<EventsBinding>(), AdapterView.On
             addCategory(Intent.CATEGORY_OPENABLE)
             type = "text/plain"
         }
-        startActivityForResult(intent, RESTORE)
+        Helper.startActivityForResultCatching(this, intent, RESTORE)
     }
 
     private fun backup() {
@@ -514,7 +514,7 @@ class AnnualEventsFragment : TKWeekBaseFragment<EventsBinding>(), AdapterView.On
                 "AnnualEvents_${Helper.FORMAT_YYYY_MM_DD.format(Date())}.txt"
             )
         }
-        startActivityForResult(intent, BACKUP)
+        Helper.startActivityForResultCatching(this, intent, BACKUP)
     }
 
     private fun updateItemAtPosition(position: Int) {

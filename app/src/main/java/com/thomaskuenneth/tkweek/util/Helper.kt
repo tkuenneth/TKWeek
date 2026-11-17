@@ -35,6 +35,7 @@ import android.widget.Toast
 import androidx.annotation.StringRes
 import androidx.appcompat.R as appcompatR
 import androidx.core.content.edit
+import androidx.fragment.app.Fragment
 import androidx.preference.PreferenceManager
 import com.thomaskuenneth.tkweek.R
 import com.thomaskuenneth.tkweek.TKWeekCompose
@@ -197,5 +198,19 @@ object Helper {
             context, requestCode,
             intent, PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
         )
+    }
+
+    fun startActivityForResultCatching(fragment: Fragment, intent: Intent, requestCode: Int) {
+        try {
+            @Suppress("DEPRECATION")
+            fragment.startActivityForResult(intent, requestCode)
+        } catch (e: ActivityNotFoundException) {
+            Log.e(TAG, "startActivityForResultCatching(): ${intent.action}", e)
+            Toast.makeText(
+                fragment.requireContext(),
+                R.string.something_went_wrong,
+                Toast.LENGTH_LONG,
+            ).show()
+        }
     }
 }
